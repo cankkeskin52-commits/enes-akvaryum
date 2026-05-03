@@ -151,9 +151,11 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
    REVIEWS
 ══════════════════════════════════════ */
 .reviews-wrap{width:100%;overflow:hidden;position:relative;}
-.reviews-track{display:flex;gap:14px;animation:scrollReviews 30s linear infinite;}
+.reviews-track{display:flex;gap:14px;animation:scrollReviews 40s linear infinite;}
+@media(max-width:639px){.reviews-track{animation-duration:25s;}}
 .reviews-track:hover{animation-play-state:paused;}
-.review-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;padding:18px 20px;min-width:280px;max-width:280px;flex-shrink:0;backdrop-filter:blur(12px);transition:border-color 0.3s;}
+.review-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;padding:16px 18px;min-width:260px;max-width:260px;flex-shrink:0;backdrop-filter:blur(12px);transition:border-color 0.3s;}
+@media(max-width:639px){.review-card{min-width:220px;max-width:220px;padding:14px 16px;}}
 .review-card:hover{border-color:rgba(45,224,204,0.3);}
 @keyframes scrollReviews{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .review-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -973,7 +975,10 @@ function renderReviews(){
   // Duplicate for infinite scroll
   const cards = reviewList.map(r => buildReviewCard(r)).join('');
   track.innerHTML = cards + cards;
-  track.style.animation = `scrollReviews ${Math.max(20, reviewList.length * 8)}s linear infinite`;
+  const dur = Math.max(25, reviewList.length * 7);
+  const mobileDur = Math.max(18, reviewList.length * 5);
+  const isMob = window.innerWidth < 640;
+  track.style.animation = `scrollReviews ${isMob?mobileDur:dur}s linear infinite`;
 }
 
 function buildReviewCard(r){
@@ -1455,22 +1460,50 @@ function renderCart(){
   const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
   if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
   sum.classList.add('visible');fl.classList.add('visible');
-  let total=0,html='',msg='Merhaba! Şu balıkları sipariş etmek istiyorum:%0A%0A';
-  keys.forEach(i=>{
-    let f;
-    if(typeof i==='string'&&i.startsWith('pl_')){
-      f=plantList[parseInt(i.replace('pl_',''))];
-    }else if(typeof i==='string'&&i.startsWith('aq_')){
-      f=aqList[parseInt(i.replace('aq_',''))];
-    }else{
-      f=fishList[i];
-    }
-    if(!f)return;
-    const q=cart[i],sub=f.price*q;total+=sub;
-    html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
-    msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
-  });
-  msg+=`%0AToplam: ${total.toLocaleString('tr-TR')}₺`;
+  let total=0,html='',msg='Merhaba! Enes Akvaryum sipariş vermek istiyorum 🐠%0A%0A';
+  // Group by category
+  const fishItems=keys.filter(i=>!String(i).startsWith('pl_')&&!String(i).startsWith('aq_'));
+  const plantItems=keys.filter(i=>String(i).startsWith('pl_'));
+  const aqItems=keys.filter(i=>String(i).startsWith('aq_'));
+
+  function getItem(i){
+    if(String(i).startsWith('pl_'))return plantList[parseInt(String(i).replace('pl_',''))];
+    if(String(i).startsWith('aq_'))return aqList[parseInt(String(i).replace('aq_',''))];
+    return fishList[i];
+  }
+
+  // Build HTML and WA message by category
+  if(fishItems.length){
+    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);opacity:0.7;padding:8px 0 4px;">🐠 Balıklar</div>`;
+    msg+=`🐠 *BALIKLAR*%0A`;
+    fishItems.forEach(i=>{
+      const f=getItem(i);if(!f)return;
+      const q=cart[i],sub=f.price*q;total+=sub;
+      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+    });
+  }
+  if(plantItems.length){
+    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4caf7d;opacity:0.7;padding:8px 0 4px;">🌿 Bitkiler</div>`;
+    msg+=`%0A🌿 *BİTKİLER*%0A`;
+    plantItems.forEach(i=>{
+      const f=getItem(i);if(!f)return;
+      const q=cart[i],sub=f.price*q;total+=sub;
+      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+    });
+  }
+  if(aqItems.length){
+    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);opacity:0.7;padding:8px 0 4px;">🐟 Akvaryumlar</div>`;
+    msg+=`%0A🐟 *AKVARYUMLAR*%0A`;
+    aqItems.forEach(i=>{
+      const f=getItem(i);if(!f)return;
+      const q=cart[i],sub=f.price*q;total+=sub;
+      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+    });
+  }
+  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler, siparişimi onaylayabilir misiniz?`;
   document.getElementById('cartItems').innerHTML=html;
   document.getElementById('cartCount').textContent=`${keys.length} ürün`;
   document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
