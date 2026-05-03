@@ -557,6 +557,26 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
     </div>
   </div>
 
+
+  <!-- SUBSCRIBE -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secSub">Yeni Balık Bildirimi</div><div class="sec-line-r"></div></div>
+  <div class="reveal" style="width:100%;background:rgba(6,14,28,0.75);border:0.5px solid rgba(45,224,204,0.2);border-radius:16px;padding:2rem;backdrop-filter:blur(16px);text-align:center;">
+    <div style="font-size:32px;margin-bottom:14px;">🐠</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#ffffff;margin-bottom:10px;" id="subTitle">Yeni balıkları ilk sen gör</div>
+    <div style="font-size:13px;color:var(--text-mid);margin-bottom:1rem;line-height:1.7;max-width:320px;margin-left:auto;margin-right:auto;" id="subDesc">Nadir ve egzotik balıklar mağazamıza geldiğinde sana <strong style="color:var(--teal);">WhatsApp</strong>'tan haber veriyoruz. Stok bitmeden önce fırsatı kaçırma!</div>
+    <div style="display:flex;justify-content:center;gap:20px;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);"><span style="color:var(--teal);">✓</span> Ücretsiz</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);"><span style="color:var(--teal);">✓</span> İstediğin zaman çık</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);"><span style="color:var(--teal);">✓</span> Sadece yeni balık haberi</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto;">
+      <input type="text" id="subName" placeholder="Adınız" style="width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:11px 16px;border-radius:10px;outline:none;"/>
+      <input type="tel" id="subPhone" placeholder="WhatsApp numaranız (05xx...)" style="width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:11px 16px;border-radius:10px;outline:none;"/>
+      <button onclick="subscribe()" id="subBtn" style="background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;padding:13px;border-radius:10px;cursor:pointer;">🔔 Abone Ol</button>
+      <div id="subMsg" style="font-size:12px;color:var(--teal);display:none;padding:8px;background:rgba(45,224,204,0.06);border-radius:8px;">✓ Abone oldunuz! Yeni balık gelince WhatsApp'tan haber vereceğiz.</div>
+    </div>
+  </div>
+
   <div class="site-footer reveal">
     <div class="footer-brand">Enes Akvaryum</div>
     <div class="footer-copy">© 2025 · Tüm hakları saklıdır</div>
@@ -703,6 +723,18 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
       </div>
       <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);opacity:0.65;margin-bottom:10px;">Mevcut Akvaryumlar</div>
       <div class="admin-fish-list" id="adminAqList"></div>
+
+
+      <!-- ABONE YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">🔔 Abone Yönetimi</div>
+      <div class="add-form">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h3 style="margin:0;">Abone Listesi</h3>
+          <button onclick="notifyAll()" style="background:linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.08));border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 14px;border-radius:8px;cursor:pointer;">📢 Hepsine Bildir</button>
+        </div>
+        <div id="adminSubList"><div class="empty-admin">Henüz abone yok.</div></div>
+      </div>
 
       <!-- YORUM YÖNETİMİ -->
       <div style="height:1.5rem;"></div>
@@ -1009,6 +1041,86 @@ const observer=new IntersectionObserver(entries=>{
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 
+
+
+/* ══ SUBSCRIBER SYSTEM ══ */
+let subList = [];
+
+async function fetchSubscribers(){
+  try{
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const d=await r.json();
+    subList=d.record.subscribers||[];
+  }catch(e){}
+}
+
+async function saveSubscribers(){
+  const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList})});
+  return r.ok;
+}
+
+async function subscribe(){
+  const name=document.getElementById('subName').value.trim();
+  const phone=document.getElementById('subPhone').value.trim();
+  if(!name||!phone){alert('İsim ve telefon numarası zorunludur.');return;}
+  // Check duplicate
+  if(subList.find(s=>s.phone===phone)){
+    document.getElementById('subMsg').textContent='✓ Bu numara zaten kayıtlı!';
+    document.getElementById('subMsg').style.display='block';
+    return;
+  }
+  const btn=document.getElementById('subBtn');
+  btn.textContent='Kaydediliyor...';btn.disabled=true;
+  subList.push({name,phone,date:new Date().toLocaleDateString('tr-TR')});
+  const ok=await saveSubscribers();
+  if(ok){
+    document.getElementById('subMsg').style.display='block';
+    document.getElementById('subName').value='';
+    document.getElementById('subPhone').value='';
+  }else{
+    subList.pop();
+    alert('Kayıt başarısız, tekrar dene.');
+  }
+  btn.textContent='🔔 Abone Ol';btn.disabled=false;
+}
+
+function renderAdminSubList(){
+  const el=document.getElementById('adminSubList');
+  if(!subList.length){el.innerHTML='<div class="empty-admin">Henüz abone yok.</div>';return;}
+  el.innerHTML=`<div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;">${subList.length} abone kayıtlı</div>`+
+  subList.map((s,i)=>`
+    <div class="admin-fish-item">
+      <div style="flex:1;">
+        <div class="afi-name">${s.name}</div>
+        <div class="afi-meta">${s.phone} · ${s.date||''}</div>
+      </div>
+      <div class="afi-right">
+        <a href="https://wa.me/${s.phone.replace(/\D/g,'').replace(/^0/,'90')}" target="_blank" style="background:rgba(37,211,102,0.1);border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:6px;text-decoration:none;font-family:'Jost',sans-serif;">WA</a>
+        <button class="del-btn" onclick="deleteSub(${i})">Sil</button>
+      </div>
+    </div>`).join('');
+}
+
+async function deleteSub(i){
+  subList.splice(i,1);
+  if(await saveSubscribers()){renderAdminSubList();}
+}
+
+function notifyAll(){
+  if(!subList.length){alert('Henüz abone yok.');return;}
+  const msg=encodeURIComponent("Merhaba! Enes Akvaryum'da yeni baliklar geldi! Hemen goz atin: https://enes-akvaryum-2.pages.dev");
+  // Open WhatsApp for each subscriber one by one
+  let i=0;
+  function sendNext(){
+    if(i>=subList.length)return;
+    const phone=subList[i].phone.replace(/\D/g,'').replace(/^0/,'90');
+    window.open(`https://wa.me/${phone}?text=${msg}`,'_blank');
+    i++;
+    if(i<subList.length) setTimeout(sendNext,1500);
+  }
+  if(confirm(`${subList.length} abonenin hepsine WhatsApp mesajı gönderilecek. Devam et?`))sendNext();
+}
 
 /* ══ REVIEWS ══ */
 let reviewList = [];
@@ -1435,6 +1547,7 @@ async function fetchFish(){
     aqList=d.record.aquariums||[];
     reviewList=d.record.reviews||[];
     plantList=d.record.plants||[];
+    subList=d.record.subscribers||[];
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
     renderAqGrid();
@@ -1628,6 +1741,7 @@ function doLogin(){
     renderAdminPlList();
     renderAdminAqList();
     renderAdminRvList();
+    renderAdminSubList();
   }else document.getElementById('loginErr').style.display='block';
 }
 
