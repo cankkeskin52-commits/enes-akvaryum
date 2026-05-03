@@ -188,6 +188,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .aq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .aq-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;}
 .aq-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1);}
+.aq-card.in-cart{border-color:rgba(45,224,204,0.5);box-shadow:0 0 20px rgba(45,224,204,0.15);}
 .aq-img-wrap{position:relative;width:100%;height:150px;overflow:hidden;}
 .aq-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
 .aq-card:hover .aq-img{transform:scale(1.06);}
@@ -1100,8 +1101,9 @@ function renderAqGrid(){
   const g=document.getElementById('aqGrid');
   let html='';
   if(aqList.length){
-    html+=aqList.map((a,i)=>`
-      <div class="aq-card">
+    html+=aqList.map((a,i)=>{
+      const qty=cart['aq_'+i]||0,inCart=qty>0;
+      return`<div class="aq-card ${inCart?'in-cart':''}">
         <div class="aq-img-wrap">
           ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🐟</div>`}
         </div>
@@ -1113,14 +1115,21 @@ function renderAqGrid(){
             ${a.note?`<div class="aq-size">${a.note}</div>`:''}
           </div>
           <div class="aq-footer">
-            ${a.price?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
-            <a class="aq-wa-btn" href="https://wa.me/905383279980?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
-              Sor
-            </a>
+            ${a.price
+              ?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`
+              :`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
+            ${a.price
+              ?(inCart
+                ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('aq_${i}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('aq_${i}',1)">+</button></div>`
+                :`<button class="add-cart-btn" onclick="addToCart('aq_${i}','${a.name}',${a.price})">+ Sepete Ekle</button>`)
+              :`<a class="aq-wa-btn" href="https://wa.me/905383279980?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+                Sor
+              </a>`}
           </div>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
   // Always show custom design card
   html+=`
@@ -1346,11 +1355,15 @@ function addToCart(i,name,price){
   if(typeof i==='string'&&i.startsWith('pl_')){
     cart[i]=(cart[i]||0)+1;renderPlantGrid();renderCart();return;
   }
+  if(typeof i==='string'&&i.startsWith('aq_')){
+    cart[i]=(cart[i]||0)+1;renderAqGrid();renderCart();return;
+  }
   cart[i]=(cart[i]||0)+1;renderFishGrid();renderCart();
 }
 function removeFromCart(i){
   delete cart[i];
   if(typeof i==='string'&&i.startsWith('pl_'))renderPlantGrid();
+  else if(typeof i==='string'&&i.startsWith('aq_'))renderAqGrid();
   else renderFishGrid();
   renderCart();
 }
@@ -1358,6 +1371,7 @@ function changeQty(i,d){
   cart[i]=(cart[i]||0)+d;
   if(cart[i]<=0)delete cart[i];
   if(typeof i==='string'&&i.startsWith('pl_'))renderPlantGrid();
+  else if(typeof i==='string'&&i.startsWith('aq_'))renderAqGrid();
   else renderFishGrid();
   renderCart();
 }
@@ -1372,6 +1386,8 @@ function renderCart(){
     let f;
     if(typeof i==='string'&&i.startsWith('pl_')){
       f=plantList[parseInt(i.replace('pl_',''))];
+    }else if(typeof i==='string'&&i.startsWith('aq_')){
+      f=aqList[parseInt(i.replace('aq_',''))];
     }else{
       f=fishList[i];
     }
