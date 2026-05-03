@@ -1377,7 +1377,7 @@ function changeQty(i,d){
 }
 
 function renderCart(){
-  const keys=Object.keys(cart).map(Number);
+  const keys=Object.keys(cart);
   const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
   if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
   sum.classList.add('visible');fl.classList.add('visible');
