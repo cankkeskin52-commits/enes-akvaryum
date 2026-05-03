@@ -61,7 +61,17 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .brand-wrap{position:relative;margin-bottom:0.4rem;animation:scaleIn 1.2s cubic-bezier(0.16,1,0.3,1) 0.4s both;}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
 
-.brand-main{font-family:'Jost',sans-serif;font-weight:200;letter-spacing:0.45em;color:#c8e8f8;text-transform:uppercase;line-height:1;position:relative;}
+.brand-main{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  letter-spacing:0.12em;
+  color:#ffffff;
+  line-height:1;
+  position:relative;
+  text-shadow:0 0 20px rgba(255,255,255,0.4),0 0 60px rgba(45,224,204,0.2);
+  filter:none;
+}
 /* shimmer removed */
 
 .brand-wave{display:block;margin:10px auto 14px;animation:waveAnim 3s ease-in-out infinite;}
@@ -72,7 +82,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 
 /* LETTER ANIMATION */
 .brand-letter{display:inline-block;opacity:0;animation:letterPop 0.6s ease forwards;}
-@keyframes letterPop{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes letterPop{0%{opacity:0;transform:translateY(20px);text-shadow:none;filter:none;}70%{opacity:1;transform:translateY(-3px);}100%{opacity:1;transform:translateY(0);}}
 
 
 .hero-divider{width:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--teal),transparent);margin:1.4rem auto;animation:divGrow 1.5s ease 0.9s forwards;}
@@ -338,7 +348,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 ══════════════════════════════════════ */
 @media(max-width:639px){
   .hero{height:90vh;min-height:500px;}
-  .brand-main{font-size:44px;}
+  .brand-main{font-size:58px;}
   .brand-sub{font-size:18px;}
   .hero-tagline{font-size:14px;}
   .content{padding:0 1rem 4rem;}
@@ -359,7 +369,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .whatsapp-btn{justify-content:center;}
 }
 @media(min-width:640px) and (max-width:1023px){
-  .brand-main{font-size:64px;}
+  .brand-main{font-size:88px;}
   .brand-sub{font-size:24px;}
   .link-btn{padding:18px 20px 18px 0;}
   .btn-icon{width:64px;height:64px;}
@@ -371,7 +381,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .info-card{padding:18px 22px;}
 }
 @media(min-width:1024px){
-  .brand-main{font-size:86px;}
+  .brand-main{font-size:120px;}
   .brand-sub{font-size:30px;}
   .hero-tagline{font-size:18px;}
   .link-btn{padding:22px 26px 22px 0;}
