@@ -50,8 +50,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 
 /* HERO FISH SVG */
 .hero-fish-wrap{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
-.hf{position:absolute;filter:drop-shadow(0 0 8px rgba(45,224,204,0.4));animation:fishSwim linear infinite;}
-@keyframes fishSwim{0%{transform:translateX(-200px) translateY(0) scaleX(1);}48%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(1);}50%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(1);}51%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(-1);}98%{transform:translateX(-200px) translateY(0) scaleX(-1);}99%{transform:translateX(-200px) translateY(0) scaleX(-1);}100%{transform:translateX(-200px) translateY(0) scaleX(1);}}
+
 
 /* HERO CONTENT */
 .hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem;perspective:1000px;}
@@ -403,7 +402,6 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
     </path>
   </svg>
   <div class="hero-bubs" id="heroBubs"></div>
-  <div class="hero-fish-wrap" id="heroFishWrap"></div>
   <div class="hero-content">
     <div class="brand-wrap">
       <div class="brand-main" data-text="ENES">ENES</div>
@@ -472,16 +470,6 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   </div>
 
 
-  <!-- REVIEWS -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Müşteri Yorumları</div><div class="sec-line-r"></div></div>
-  <div class="reviews-wrap reveal">
-    <div class="reviews-fade-l"></div>
-    <div class="reviews-fade-r"></div>
-    <div class="reviews-track" id="reviewsTrack">
-      <div class="no-reviews">Henüz yorum eklenmemiş.</div>
-    </div>
-  </div>
-
   <!-- CART -->
   <div class="cart-summary reveal" id="cartSummary" style="margin-top:16px;">
     <div class="cart-header">
@@ -495,6 +483,16 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z" stroke-width="0"/></svg>
         Sipariş Ver
       </a>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Müşteri Yorumları</div><div class="sec-line-r"></div></div>
+  <div class="reviews-wrap reveal">
+    <div class="reviews-fade-l"></div>
+    <div class="reviews-fade-r"></div>
+    <div class="reviews-track" id="reviewsTrack">
+      <div class="no-reviews">Henüz yorum eklenmemiş.</div>
     </div>
   </div>
 
@@ -743,57 +741,160 @@ class Particle{
 const isMobile=window.innerWidth<640;
 for(let i=0;i<(isMobile?40:80);i++) particles.push(new Particle());
 
-// Fish particles
-class FishDot{
-  constructor(){this.reset(true);}
-  reset(init=false){
-    this.x = init ? Math.random()*W : -60;
-    this.y=Math.random()*H;
-    this.speed=Math.random()*0.8+0.3;
-    this.opacity=Math.random()*0.06+0.02;
-    this.size=Math.random()*4+2;
-    this.wy=Math.random()*2;
-    this.wfreq=Math.random()*0.02+0.01;
+// Mouse/touch tracking for flee effect
+let mouseX=-999,mouseY=-999;
+window.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;});
+window.addEventListener('touchmove',e=>{if(e.touches[0]){mouseX=e.touches[0].clientX;mouseY=e.touches[0].clientY;}},{passive:true});
+window.addEventListener('touchstart',e=>{if(e.touches[0]){mouseX=e.touches[0].clientX;mouseY=e.touches[0].clientY;}},{passive:true});
+window.addEventListener('touchend',()=>{setTimeout(()=>{mouseX=-999;mouseY=-999;},800);});
+
+const PALETTES=[
+  {r:45,g:224,b:204},{r:58,g:159,b:212},{r:0,g:210,b:255},{r:80,g:180,b:220},{r:120,g:200,b:180}
+];
+
+class RealisticFish{
+  constructor(){
+    this.pal=PALETTES[Math.floor(Math.random()*PALETTES.length)];
+    this.size=isMobile?(12+Math.random()*14):(16+Math.random()*24);
+    this.baseOpacity=0.07+Math.random()*0.08;
+    this.opacity=this.baseOpacity;
     this.t=Math.random()*100;
+    this.tailT=Math.random()*Math.PI*2;
+    this.tailSpd=0.07+Math.random()*0.05;
+    this.facing=1;
+    this.reset(true);
+  }
+  reset(init=false){
+    this.facing=Math.random()>0.5?1:-1;
+    this.x=init?Math.random()*W:(this.facing===1?-80:W+80);
+    this.y=50+Math.random()*(H-100);
+    this.baseSpd=0.3+Math.random()*0.6;
+    this.vx=this.baseSpd*this.facing;
+    this.vy=0;
+    this.fleeTimer=0;
   }
   update(){
-    this.x+=this.speed;
-    this.t+=this.wfreq;
-    this.y+=Math.sin(this.t)*this.wy*0.1;
-    if(this.x>W+80)this.reset(false);
+    this.t+=0.01;
+    this.tailT+=this.tailSpd;
+    // flee logic
+    const dx=this.x-mouseX,dy=this.y-mouseY;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const R=isMobile?130:180;
+    if(dist<R&&dist>0){
+      this.fleeTimer=90;
+      const f=(R-dist)/R*2.5;
+      this.vx+=dx/dist*f;
+      this.vy+=dy/dist*f;
+    }
+    if(this.fleeTimer>0)this.fleeTimer--;
+    const fleeing=this.fleeTimer>0;
+    // target velocity
+    const tvx=this.baseSpd*(fleeing?3:1)*this.facing;
+    this.vx+=(tvx-this.vx)*0.05;
+    this.vy+=(-this.vy)*0.06+Math.sin(this.t)*0.12;
+    // clamp speed
+    const spd=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+    const maxSpd=this.baseSpd*(fleeing?5:1.5);
+    if(spd>maxSpd){this.vx=this.vx/spd*maxSpd;this.vy=this.vy/spd*maxSpd;}
+    // update facing
+    if(this.vx>0.1)this.facing=1;
+    else if(this.vx<-0.1)this.facing=-1;
+    this.x+=this.vx;this.y+=this.vy;
+    // bounce
+    if(this.y<30){this.y=30;this.vy=Math.abs(this.vy)*0.5;}
+    if(this.y>H-30){this.y=H-30;this.vy=-Math.abs(this.vy)*0.5;}
+    this.opacity=fleeing?this.baseOpacity*1.5:this.baseOpacity;
+    if(this.x>W+120||this.x<-120)this.reset(false);
   }
   draw(){
+    const s=this.size;
+    const {r,g,b}=this.pal;
+    const col=(a)=>`rgba(${r},${g},${b},${a})`;
+    const angle=Math.atan2(this.vy,this.vx*this.facing)*0.3;
     ctx.save();
     ctx.globalAlpha=this.opacity;
     ctx.translate(this.x,this.y);
-    // body
+    ctx.rotate(angle);
+    if(this.facing===-1)ctx.scale(-1,1);
+
+    // TAIL animated
+    const tw=Math.sin(this.tailT)*0.4;
     ctx.beginPath();
-    ctx.ellipse(0,0,this.size*2.2,this.size,0,0,Math.PI*2);
-    ctx.fillStyle='rgba(45,224,204,1)';
+    ctx.moveTo(-s*1.5,0);
+    ctx.lineTo(-s*2.9,(-s*1.0)+tw*s*1.2);
+    ctx.lineTo(-s*3.3,0);
+    ctx.lineTo(-s*2.9,(s*1.0)+tw*s*1.2);
+    ctx.closePath();
+    ctx.fillStyle=col(0.65);
     ctx.fill();
-    // tail (behind, to the left for right-swimming fish)
+
+    // BODY gradient
+    const bg=ctx.createLinearGradient(-s*1.5,0,s*1.4,0);
+    bg.addColorStop(0,col(0.4));
+    bg.addColorStop(0.25,col(0.9));
+    bg.addColorStop(0.65,col(0.85));
+    bg.addColorStop(1,col(0.35));
     ctx.beginPath();
-    ctx.moveTo(-this.size*2.2,0);
-    ctx.lineTo(-this.size*3.5,-this.size*1.3);
-    ctx.lineTo(-this.size*3.5,this.size*1.3);
-    ctx.fillStyle='rgba(45,224,204,0.7)';
+    ctx.ellipse(0,0,s*1.5,s*0.6,0,0,Math.PI*2);
+    ctx.fillStyle=bg;
     ctx.fill();
-    // eye
+
+    // SHINE
+    const sg=ctx.createLinearGradient(0,-s*0.6,0,s*0.6);
+    sg.addColorStop(0,'rgba(255,255,255,0.2)');
+    sg.addColorStop(0.4,'rgba(255,255,255,0.05)');
+    sg.addColorStop(1,'rgba(0,0,0,0.08)');
     ctx.beginPath();
-    ctx.arc(this.size*1.2,-this.size*0.2,this.size*0.35,0,Math.PI*2);
-    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.ellipse(0,0,s*1.5,s*0.6,0,0,Math.PI*2);
+    ctx.fillStyle=sg;
     ctx.fill();
+
+    // SCALES
+    ctx.strokeStyle='rgba(255,255,255,0.1)';
+    ctx.lineWidth=0.7;
+    [-s*0.6,-s*0.05,s*0.5].forEach(sx=>{
+      ctx.beginPath();
+      ctx.arc(sx,0,s*0.36,Math.PI*0.15,Math.PI*0.85);
+      ctx.stroke();
+    });
+
+    // DORSAL FIN
+    ctx.beginPath();
+    ctx.moveTo(-s*0.4,-s*0.6);
+    ctx.quadraticCurveTo(s*0.1,-s*1.25,s*0.75,-s*0.6);
+    ctx.closePath();
+    ctx.fillStyle=col(0.4);
+    ctx.fill();
+
+    // PECTORAL FIN
+    ctx.beginPath();
+    ctx.moveTo(s*0.2,s*0.3);
+    ctx.quadraticCurveTo(s*0.75,s*0.85,s*0.05,s*0.6);
+    ctx.closePath();
+    ctx.fillStyle=col(0.3);
+    ctx.fill();
+
+    // EYE
+    ctx.beginPath();
+    ctx.arc(s*0.9,-s*0.08,s*0.2,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.95)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(s*0.93,-s*0.08,s*0.12,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,5,20,0.95)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(s*0.97,-s*0.13,s*0.045,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.85)';
+    ctx.fill();
+
     ctx.restore();
   }
 }
 
 const fishDots=[];
-for(let i=0;i<(isMobile?3:6);i++){
-  const fd=new FishDot();
-  fd.x=Math.random()*W; // start scattered but moving
-  fd.t=Math.random()*100;
-  fishDots.push(fd);
-}
+const fishCount=isMobile?6:12;
+for(let i=0;i<fishCount;i++) fishDots.push(new RealisticFish());
 
 function animateCanvas(){
   ctx.clearRect(0,0,W,H);
@@ -844,33 +945,7 @@ for(let i=0;i<35;i++){
 }
 
 // Hero SVG fish
-function makeFishSVG(w,h,color,opacity){
-  return `<svg width="${w}" height="${h}" viewBox="0 0 80 36" xmlns="http://www.w3.org/2000/svg" opacity="${opacity}">
-    <ellipse cx="48" cy="18" rx="26" ry="13" fill="${color}"/>
-    <path d="M24,18 L8,8 L8,28 Z" fill="${color}" opacity="0.85"/>
-    <ellipse cx="48" cy="18" rx="26" ry="13" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    <circle cx="66" cy="14" r="3.5" fill="rgba(255,255,255,0.35)"/>
-    <circle cx="67" cy="13" r="1.5" fill="rgba(0,0,0,0.4)"/>
-    <path d="M36,13 Q44,10 52,13" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
-    <path d="M36,18 Q44,22 52,18" stroke="rgba(255,255,255,0.1)" stroke-width="0.8" fill="none"/>
-  </svg>`;
-}
-
-const heroFishWrap=document.getElementById('heroFishWrap');
-const hFishData=[
-  {y:'18%',w:90,h:40,color:'rgba(45,224,204,0.5)',op:1,dur:20,delay:0,fy:'-15px'},
-  {y:'42%',w:60,h:27,color:'rgba(58,159,212,0.45)',op:1,dur:28,delay:7,fy:'20px'},
-  {y:'65%',w:110,h:50,color:'rgba(45,224,204,0.35)',op:1,dur:35,delay:14,fy:'-8px'},
-  {y:'30%',w:44,h:20,color:'rgba(0,245,255,0.4)',op:1,dur:22,delay:3,fy:'12px'},
-  {y:'75%',w:70,h:32,color:'rgba(58,159,212,0.4)',op:1,dur:30,delay:18,fy:'-18px'},
-];
-hFishData.forEach(f=>{
-  const d=document.createElement('div');
-  d.className='hf';
-  d.style.cssText=`top:${f.y};--fy:${f.fy};animation-duration:${f.dur}s;animation-delay:${f.delay}s;filter:drop-shadow(0 0 10px ${f.color});`;
-  d.innerHTML=makeFishSVG(f.w,f.h,f.color,f.op);
-  heroFishWrap.appendChild(d);
-});
+// Hero fish now rendered on canvas with same RealisticFish class
 
 /* ══ SCROLL REVEAL ══ */
 const observer=new IntersectionObserver(entries=>{
