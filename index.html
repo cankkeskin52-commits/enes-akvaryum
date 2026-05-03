@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enes Akvaryum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#020810;--bg2:#040f1c;--card:#060e1c;--card2:#081526;
+  --border:#0a1e35;--border2:#102840;--border3:#1a3f60;
+  --teal:#2de0cc;--teal2:#1ab8a8;--blue:#3a9fd4;--blue2:#2280b8;
+  --cyan:#00f5ff;--text:#cce8f8;--text-mid:#6aaec8;--text-dim:#1e4060;
+  --green:#20c45a;--gold:#f0c060;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;width:100%;overflow-x:hidden;}
+
+/* ══════════════════════════════════════
+   CANVAS & BACKGROUND
+══════════════════════════════════════ */
+#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero{position:relative;width:100%;height:100vh;min-height:500px;max-height:900px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:1;}
+
+/* WATER DISTORTION */
+.water-distort{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,20,50,0.6) 0%,rgba(0,10,30,0.3) 50%,rgba(0,20,50,0.7) 100%);animation:waterBreath 8s ease-in-out infinite;}
+@keyframes waterBreath{0%,100%{opacity:0.8;}50%{opacity:1;}}
+
+/* CAUSTIC LIGHT */
+.caustic{position:absolute;inset:-20%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='4' seed='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23f)' opacity='0.4'/%3E%3C/svg%3E");filter:contrast(3) brightness(0.4);mix-blend-mode:overlay;opacity:0.3;animation:causticShift 12s ease-in-out infinite alternate;}
+@keyframes causticShift{0%{transform:scale(1) rotate(0deg) translate(0,0);}100%{transform:scale(1.3) rotate(8deg) translate(3%,2%);}}
+
+/* LIGHT BEAMS */
+.beams{position:absolute;top:-10%;left:0;right:0;height:120%;overflow:hidden;pointer-events:none;}
+.beam{position:absolute;top:0;width:60px;background:linear-gradient(180deg,rgba(0,245,255,0.06) 0%,rgba(58,159,212,0.03) 60%,transparent 100%);transform-origin:top center;animation:beamSway ease-in-out infinite alternate;}
+@keyframes beamSway{0%{transform:skewX(-3deg) scaleX(1);}100%{transform:skewX(3deg) scaleX(1.4);}}
+
+/* SURFACE WAVE */
+.surface{position:absolute;top:0;left:-10%;width:120%;height:80px;pointer-events:none;z-index:2;}
+
+/* BUBBLES */
+.hero-bubs{position:absolute;inset:0;pointer-events:none;z-index:2;}
+.bub{position:absolute;border-radius:50%;animation:bubRise linear infinite;}
+@keyframes bubRise{0%{transform:translateY(100vh) translateX(0) scale(1);opacity:0;}5%{opacity:1;}90%{opacity:0.3;}100%{transform:translateY(-60px) translateX(var(--dx,10px)) scale(var(--ds,0.9));opacity:0;}}
+
+/* HERO FISH SVG */
+.hero-fish-wrap{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
+.hf{position:absolute;filter:drop-shadow(0 0 8px rgba(45,224,204,0.4));animation:fishSwim linear infinite;}
+@keyframes fishSwim{0%{transform:translateX(-200px) translateY(0) scaleX(1);}48%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(1);}50%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(1);}51%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(-1);}98%{transform:translateX(-200px) translateY(0) scaleX(-1);}99%{transform:translateX(-200px) translateY(0) scaleX(-1);}100%{transform:translateX(-200px) translateY(0) scaleX(1);}}
+
+/* HERO CONTENT */
+.hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem;perspective:1000px;}
+
+.hero-badge{font-size:9px;letter-spacing:0.5em;text-transform:uppercase;color:var(--teal);border:0.5px solid rgba(45,224,204,0.3);padding:6px 18px;border-radius:20px;margin-bottom:1.8rem;backdrop-filter:blur(10px);background:rgba(45,224,204,0.05);animation:fadeDown 1s ease 0.2s both;}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+
+.brand-wrap{position:relative;margin-bottom:0.4rem;animation:scaleIn 1.2s cubic-bezier(0.16,1,0.3,1) 0.4s both;}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
+
+.brand-main{font-family:'Jost',sans-serif;font-weight:200;letter-spacing:0.45em;color:transparent;background:linear-gradient(135deg,#a0d8f0 0%,#2de0cc 40%,#ffffff 60%,#3a9fd4 100%);-webkit-background-clip:text;background-clip:text;text-transform:uppercase;line-height:1;position:relative;}
+.brand-main::after{content:attr(data-text);position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.3) 50%,transparent 70%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;animation:textShimmer 4s ease-in-out infinite;}
+@keyframes textShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+.brand-wave{display:block;margin:10px auto 14px;animation:waveAnim 3s ease-in-out infinite;}
+@keyframes waveAnim{0%,100%{d:path("M0,8 C15,2 30,14 45,8 C60,2 75,14 90,8 C105,2 115,10 120,8");}50%{d:path("M0,8 C15,14 30,2 45,8 C60,14 75,2 90,8 C105,14 115,6 120,8");}}
+
+.brand-sub{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;letter-spacing:0.2em;color:var(--blue);animation:fadeUp 1s ease 0.7s both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-divider{width:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--teal),transparent);margin:1.4rem auto;animation:divGrow 1.5s ease 0.9s forwards;}
+@keyframes divGrow{to{width:120px;height:0.5px;}}
+
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);letter-spacing:0.06em;animation:fadeUp 1s ease 1s both;}
+
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeUp 1s ease 1.5s both;z-index:5;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--teal),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);}100%{transform:scaleY(0);transform-origin:bottom;}}
+.scroll-text{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);}
+
+/* ══════════════════════════════════════
+   PAGE WRAPPER
+══════════════════════════════════════ */
+.page{position:relative;z-index:2;}
+.content{width:100%;max-width:900px;margin:0 auto;padding:0 1.5rem 6rem;}
+
+/* SECTION HEADER */
+.sec-header{display:flex;align-items:center;gap:16px;margin:3rem 0 1.5rem;}
+.sec-line{flex:1;height:0.5px;background:linear-gradient(90deg,var(--border2),transparent);}
+.sec-label{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--teal);opacity:0.8;white-space:nowrap;}
+.sec-line-r{flex:1;height:0.5px;background:linear-gradient(90deg,transparent,var(--border2));}
+
+/* ══════════════════════════════════════
+   GLASS CARDS — LINK BUTTONS
+══════════════════════════════════════ */
+.links{display:flex;flex-direction:column;gap:10px;}
+.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);border-radius:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;transform-style:preserve-3d;}
+.link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(45,224,204,0.05) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;}
+.link-btn:hover{transform:translateY(-2px);border-color:rgba(45,224,204,0.4);box-shadow:0 8px 30px rgba(45,224,204,0.1),0 0 0 0.5px rgba(45,224,204,0.15);}
+.link-btn:hover::before{opacity:1;}
+.btn-inner{display:flex;align-items:center;gap:1rem;}
+.btn-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(45,224,204,0.08);border-right:0.5px solid var(--border2);}
+.btn-icon svg{fill:none;stroke:var(--teal);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.btn-label{font-family:'Jost',sans-serif;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);}
+.btn-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);margin-top:2px;}
+.btn-arrow{color:var(--text-dim);flex-shrink:0;transition:color 0.3s,transform 0.3s;font-size:1.1rem;}
+.link-btn:hover .btn-arrow{color:var(--teal);transform:translateX(5px);}
+
+/* ══════════════════════════════════════
+   INFO CARDS
+══════════════════════════════════════ */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.info-card{background:rgba(6,14,28,0.6);border:0.5px solid var(--border2);border-radius:12px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:border-color 0.3s,transform 0.3s;}
+.info-card:hover{border-color:var(--border3);transform:translateY(-2px);}
+.info-lbl{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--teal);opacity:0.7;margin-bottom:8px;}
+.info-val{font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--text-mid);line-height:1.7;}
+
+/* ══════════════════════════════════════
+   FISH CATALOG
+══════════════════════════════════════ */
+.fish-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fish-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;transform-style:preserve-3d;cursor:default;}
+.fish-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1),inset 0 0 30px rgba(45,224,204,0.03);}
+.fish-card.in-cart{border-color:rgba(45,224,204,0.5);box-shadow:0 0 20px rgba(45,224,204,0.15);}
+.fish-img-wrap{position:relative;width:100%;height:150px;overflow:hidden;}
+.fish-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;filter:saturate(1.1);}
+.fish-card:hover .fish-img{transform:scale(1.06);}
+.fish-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(4,12,26,0.85) 100%);}
+.fish-img-placeholder{width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#060e1c,#0a1e35);font-size:40px;}
+.fish-body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.fish-info-row{display:flex;justify-content:space-between;align-items:flex-start;}
+.fish-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;color:var(--text);}
+.fish-type-badge{display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.2);padding:2px 8px;border-radius:20px;margin-top:4px;}
+.fish-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--teal);white-space:nowrap;text-shadow:0 0 20px rgba(45,224,204,0.3);}
+.fish-price span{font-size:11px;color:var(--text-dim);}
+.cart-controls{display:flex;align-items:center;justify-content:space-between;}
+.qty-wrap{display:flex;align-items:center;gap:10px;}
+.qty-btn{background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.2);color:var(--teal);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.qty-btn:hover{background:rgba(45,224,204,0.18);border-color:var(--teal);}
+.qty-num{font-family:'Jost',sans-serif;font-size:14px;font-weight:400;color:var(--text);min-width:18px;text-align:center;}
+.add-cart-btn{background:linear-gradient(135deg,rgba(45,224,204,0.12),rgba(58,159,212,0.08));border:0.5px solid rgba(45,224,204,0.25);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer;transition:all 0.3s;}
+.add-cart-btn:hover{background:rgba(45,224,204,0.2);border-color:var(--teal);box-shadow:0 0 15px rgba(45,224,204,0.15);}
+.remove-cart-btn{background:rgba(220,50,50,0.08);border:0.5px solid rgba(220,50,50,0.2);color:#e05555;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.remove-cart-btn:hover{background:rgba(220,50,50,0.15);}
+
+
+/* ══════════════════════════════════════
+   REVIEWS
+══════════════════════════════════════ */
+.reviews-wrap{width:100%;overflow:hidden;position:relative;}
+.reviews-track{display:flex;gap:14px;animation:scrollReviews 30s linear infinite;}
+.reviews-track:hover{animation-play-state:paused;}
+.review-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;padding:18px 20px;min-width:280px;max-width:280px;flex-shrink:0;backdrop-filter:blur(12px);transition:border-color 0.3s;}
+.review-card:hover{border-color:rgba(45,224,204,0.3);}
+@keyframes scrollReviews{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.review-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.review-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1.5px solid var(--border2);flex-shrink:0;background:var(--border);}
+.review-avatar-placeholder{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--teal2),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;color:var(--bg);flex-shrink:0;}
+.review-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;color:var(--text);}
+.review-date{font-size:10px;color:var(--text-dim);margin-top:1px;}
+.review-stars{display:flex;gap:2px;margin-bottom:8px;}
+.star{color:#f0c060;font-size:13px;}
+.star.empty{color:var(--border2);}
+.review-text{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--text-mid);line-height:1.65;font-style:italic;}
+.review-google{display:flex;align-items:center;gap:4px;margin-top:10px;}
+.google-logo{width:14px;height:14px;}
+.review-google span{font-size:10px;color:var(--text-dim);letter-spacing:0.05em;}
+.reviews-fade-l{position:absolute;left:0;top:0;bottom:0;width:60px;background:linear-gradient(to right,var(--bg),transparent);z-index:2;pointer-events:none;}
+.reviews-fade-r{position:absolute;right:0;top:0;bottom:0;width:60px;background:linear-gradient(to left,var(--bg),transparent);z-index:2;pointer-events:none;}
+.no-reviews{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:2rem;font-size:15px;width:100%;}
+
+/* ══════════════════════════════════════
+   STOCK BADGES
+══════════════════════════════════════ */
+.stock-badge{display:inline-flex;align-items:center;gap:4px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-top:4px;}
+.stock-low{background:rgba(240,192,96,0.12);border:0.5px solid rgba(240,192,96,0.3);color:#f0c060;}
+.stock-critical{background:rgba(220,50,50,0.12);border:0.5px solid rgba(220,50,50,0.3);color:#e05555;animation:stockPulse 2s ease-in-out infinite;}
+@keyframes stockPulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+.stock-ok{display:none;}
+
+/* ══════════════════════════════════════
+   AQUARIUM SECTION
+══════════════════════════════════════ */
+.aq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.aq-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;}
+.aq-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1);}
+.aq-img-wrap{position:relative;width:100%;height:150px;overflow:hidden;}
+.aq-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
+.aq-card:hover .aq-img{transform:scale(1.06);}
+.aq-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(4,12,26,0.85) 100%);}
+.aq-img-placeholder{width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#060e1c,#0a1e35);font-size:40px;}
+.aq-body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.aq-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;color:var(--text);}
+.aq-badge{display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);background:rgba(58,159,212,0.08);border:0.5px solid rgba(58,159,212,0.2);padding:2px 8px;border-radius:20px;margin-top:4px;}
+.aq-size{font-size:11px;color:var(--text-dim);margin-top:2px;font-style:italic;}
+.aq-footer{display:flex;justify-content:space-between;align-items:center;}
+.aq-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--teal);text-shadow:0 0 20px rgba(45,224,204,0.3);}
+.aq-price span{font-size:11px;color:var(--text-dim);}
+.aq-wa-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(32,196,90,0.15),rgba(24,160,72,0.1));border:0.5px solid rgba(32,196,90,0.3);color:#20c45a;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+.aq-wa-btn:hover{background:rgba(32,196,90,0.2);box-shadow:0 0 15px rgba(32,196,90,0.15);}
+.aq-custom-card{background:linear-gradient(135deg,rgba(6,14,28,0.9),rgba(8,21,38,0.9));border:0.5px solid rgba(45,224,204,0.2);border-radius:16px;padding:2rem;text-align:center;grid-column:1/-1;position:relative;overflow:hidden;}
+.aq-custom-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(45,224,204,0.06),transparent 70%);}
+.aq-custom-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--text);margin-bottom:8px;}
+.aq-custom-desc{font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;}
+.aq-custom-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+.aq-custom-btn:hover{background:rgba(45,224,204,0.2);box-shadow:0 0 20px rgba(45,224,204,0.15);}
+@media(max-width:639px){.aq-grid{grid-template-columns:1fr;}.aq-img-wrap,.aq-img-placeholder{height:200px;}}
+@media(min-width:1024px){.aq-img-wrap,.aq-img-placeholder{height:170px;}}
+
+.no-fish{width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:3rem;font-size:16px;grid-column:1/-1;}
+
+/* ══════════════════════════════════════
+   CART
+══════════════════════════════════════ */
+.cart-summary{width:100%;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);border-radius:16px;overflow:hidden;display:none;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 0 40px rgba(45,224,204,0.08);}
+.cart-summary.visible{display:block;animation:cartAppear 0.4s cubic-bezier(0.16,1,0.3,1);}
+@keyframes cartAppear{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.cart-header{padding:16px 20px;border-bottom:0.5px solid var(--border2);display:flex;justify-content:space-between;align-items:center;background:rgba(45,224,204,0.04);}
+.cart-title{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);}
+.cart-count{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--text-dim);}
+.cart-items{padding:12px 20px;}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.cart-item:last-child{border-bottom:none;}
+.cart-item-name{font-size:13px;color:var(--text);font-weight:400;}
+.cart-item-qty{font-size:12px;color:var(--text-dim);margin-left:6px;}
+.cart-item-price{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--teal);}
+.cart-footer{padding:16px 20px;border-top:0.5px solid var(--border2);display:flex;justify-content:space-between;align-items:center;gap:14px;background:rgba(45,224,204,0.03);}
+.cart-total{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);}
+.whatsapp-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 20px rgba(32,196,90,0.25);flex-shrink:0;}
+.whatsapp-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(32,196,90,0.35);}
+.whatsapp-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
+
+/* ══════════════════════════════════════
+   SERVICES
+══════════════════════════════════════ */
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.svc-card{background:rgba(6,14,28,0.6);border:0.5px solid var(--border);border-radius:12px;padding:16px 18px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
+.svc-card:hover{border-color:var(--border3);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,10,30,0.4);}
+.svc-icon{font-size:18px;margin-bottom:8px;}
+.svc-name{font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mid);}
+.svc-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--text-dim);line-height:1.5;margin-top:4px;}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.site-footer{text-align:center;padding:3rem 0 2rem;border-top:0.5px solid var(--border);}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--text-mid);margin-bottom:8px;}
+.footer-copy{font-size:11px;color:var(--text-dim);letter-spacing:0.1em;}
+
+/* ══════════════════════════════════════
+   FLOAT BUTTONS
+══════════════════════════════════════ */
+.cart-float{position:fixed;bottom:2rem;left:2rem;background:linear-gradient(135deg,var(--teal2),var(--blue2));color:var(--bg);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 18px;border-radius:12px;cursor:pointer;z-index:50;border:none;display:none;gap:10px;align-items:center;box-shadow:0 4px 20px rgba(45,224,204,0.3);transition:transform 0.2s,box-shadow 0.2s;}
+.cart-float.visible{display:flex;}
+.cart-float:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(45,224,204,0.4);}
+.cart-float-count{background:var(--bg);color:var(--teal);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;}
+.admin-trigger{position:fixed;bottom:2rem;right:2rem;background:rgba(6,14,28,0.9);border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:10px 16px;border-radius:10px;cursor:pointer;z-index:50;backdrop-filter:blur(12px);transition:border-color 0.2s,color 0.2s;}
+.admin-trigger:hover{border-color:var(--teal);color:var(--teal);}
+
+/* ══════════════════════════════════════
+   ADMIN OVERLAY
+══════════════════════════════════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(2,8,16,0.96);z-index:100;overflow-y:auto;padding:2rem 1.5rem;backdrop-filter:blur(10px);}
+.overlay.active{display:block;}
+.admin-wrap{max-width:580px;margin:0 auto;}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border2);}
+.admin-title{font-family:'Jost',sans-serif;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);font-size:13px;}
+.close-btn{background:none;border:0.5px solid var(--border2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;padding:8px 18px;border-radius:8px;cursor:pointer;transition:border-color 0.2s;}
+.close-btn:hover{border-color:var(--teal);color:var(--teal);}
+.login-box{background:rgba(6,14,28,0.9);border:0.5px solid var(--border2);border-radius:16px;padding:2.5rem;max-width:360px;margin:4rem auto;backdrop-filter:blur(20px);}
+.login-box h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:var(--text);margin-bottom:1.8rem;text-align:center;}
+.field label{display:block;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;}
+.field input{width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;padding:11px 16px;border-radius:10px;outline:none;transition:border-color 0.2s;}
+.field input:focus{border-color:var(--teal);}
+.login-err{color:#e05555;font-size:12px;text-align:center;margin:0.75rem 0;display:none;}
+.admin-btn{width:100%;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;padding:13px;border-radius:10px;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+.admin-btn:hover{background:rgba(45,224,204,0.2);}
+.add-form{background:rgba(6,14,28,0.8);border:0.5px solid var(--border2);border-radius:16px;padding:1.8rem;margin-bottom:1.5rem;}
+.add-form h3{font-family:'Jost',sans-serif;font-weight:300;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);margin-bottom:1.2rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.field-sm label{display:block;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;}
+.field-sm input,.field-sm select{width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:9px 13px;border-radius:8px;outline:none;transition:border-color 0.2s;}
+.field-sm input:focus,.field-sm select:focus{border-color:var(--teal);}
+.field-sm select option{background:#040f1c;}
+.photo-upload-area{border:1px dashed var(--border2);border-radius:10px;padding:20px;text-align:center;cursor:pointer;margin-bottom:10px;position:relative;transition:border-color 0.2s;}
+.photo-upload-area:hover{border-color:var(--teal);}
+.photo-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-text{font-size:11px;color:var(--text-dim);}
+.upload-text strong{color:var(--teal);}
+.img-preview-admin{width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:10px;display:none;border:0.5px solid var(--border2);}
+.img-note{font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:10px;}
+.action-row{display:flex;gap:10px;margin-top:10px;}
+.add-btn{flex:1;background:linear-gradient(135deg,rgba(45,224,204,0.12),rgba(58,159,212,0.08));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;padding:11px;border-radius:10px;cursor:pointer;transition:all 0.2s;}
+.add-btn:hover{background:rgba(45,224,204,0.2);}
+.add-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.search-btn{flex:1;background:rgba(58,159,212,0.08);border:0.5px solid rgba(58,159,212,0.25);color:var(--blue);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:11px;border-radius:10px;cursor:pointer;transition:all 0.2s;}
+.search-btn:hover{background:rgba(58,159,212,0.15);}
+.cancel-img-btn{display:none;background:none;border:0.5px solid rgba(220,50,50,0.3);color:#e05555;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer;margin-bottom:10px;width:100%;}
+.admin-fish-list{display:flex;flex-direction:column;gap:10px;}
+.admin-fish-item{background:rgba(6,14,28,0.8);border:0.5px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px;}
+.afi-img{width:54px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0;}
+.afi-placeholder{width:54px;height:54px;display:flex;align-items:center;justify-content:center;background:var(--border);border-radius:8px;font-size:22px;flex-shrink:0;}
+.afi-name{font-size:14px;color:var(--text);font-weight:400;}
+.afi-meta{font-size:12px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:3px;}
+.afi-right{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.afi-price{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--teal);}
+.del-btn{background:none;border:0.5px solid rgba(220,50,50,0.2);color:#e05555;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;transition:border-color 0.2s;}
+.del-btn:hover{border-color:#e05555;}
+.empty-admin{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);text-align:center;padding:2rem;font-size:15px;}
+.sync-status{font-size:11px;letter-spacing:0.1em;text-align:center;padding:10px;margin-bottom:1rem;border-radius:8px;}
+.sync-ok{color:var(--teal);background:rgba(45,224,204,0.06);}
+.sync-err{color:#e05555;background:rgba(220,50,50,0.06);}
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:639px){
+  .hero{height:90vh;min-height:500px;}
+  .brand-main{font-size:44px;}
+  .brand-sub{font-size:18px;}
+  .hero-tagline{font-size:14px;}
+  .content{padding:0 1rem 4rem;}
+  .link-btn{padding:14px 14px 14px 0;}
+  .btn-icon{width:54px;height:54px;}
+  .btn-icon svg{width:18px;height:18px;}
+  .btn-label{font-size:11px;}
+  .btn-sub{font-size:12px;}
+  .btn-arrow{margin-right:14px;}
+  .info-grid{grid-template-columns:1fr;}
+  .info-card{padding:16px 18px;}
+  .info-val{font-size:16px;}
+  .fish-grid{grid-template-columns:1fr;}
+  .fish-img-wrap,.fish-img-placeholder{height:200px;}
+  .services-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .cart-footer{flex-direction:column;align-items:stretch;}
+  .whatsapp-btn{justify-content:center;}
+}
+@media(min-width:640px) and (max-width:1023px){
+  .brand-main{font-size:64px;}
+  .brand-sub{font-size:24px;}
+  .link-btn{padding:18px 20px 18px 0;}
+  .btn-icon{width:64px;height:64px;}
+  .btn-icon svg{width:21px;height:21px;}
+  .btn-label{font-size:13px;}
+  .btn-sub{font-size:13px;}
+  .btn-arrow{margin-right:20px;}
+  .info-grid{grid-template-columns:1fr 1fr;}
+  .info-card{padding:18px 22px;}
+}
+@media(min-width:1024px){
+  .brand-main{font-size:86px;}
+  .brand-sub{font-size:30px;}
+  .hero-tagline{font-size:18px;}
+  .link-btn{padding:22px 26px 22px 0;}
+  .btn-icon{width:74px;height:74px;}
+  .btn-icon svg{width:24px;height:24px;}
+  .btn-label{font-size:14px;}
+  .btn-sub{font-size:14px;}
+  .btn-arrow{margin-right:26px;}
+  .info-grid{grid-template-columns:1fr 1fr;}
+  .info-card{padding:22px 26px;}
+  .info-val{font-size:18px;}
+  .fish-img-wrap,.fish-img-placeholder{height:170px;}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- CANVAS BACKGROUND -->
+<canvas id="bgCanvas"></canvas>
+
+<div class="page">
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="water-distort"></div>
+  <div class="caustic"></div>
+  <div class="beams" id="beams"></div>
+  <svg class="surface" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#020810" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#020810" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path id="wavePath" d="M0,30 C200,60 400,10 600,35 C800,60 1000,10 1200,35 C1300,45 1380,28 1440,32 L1440,0 L0,0 Z" fill="url(#wg)">
+      <animate attributeName="d" dur="6s" repeatCount="indefinite"
+        values="M0,30 C200,60 400,10 600,35 C800,60 1000,10 1200,35 C1300,45 1380,28 1440,32 L1440,0 L0,0 Z;
+                M0,35 C200,10 400,55 600,30 C800,10 1000,55 1200,30 C1300,20 1380,40 1440,28 L1440,0 L0,0 Z;
+                M0,30 C200,60 400,10 600,35 C800,60 1000,10 1200,35 C1300,45 1380,28 1440,32 L1440,0 L0,0 Z"/>
+    </path>
+  </svg>
+  <div class="hero-bubs" id="heroBubs"></div>
+  <div class="hero-fish-wrap" id="heroFishWrap"></div>
+  <div class="hero-content">
+    <div class="brand-wrap">
+      <div class="brand-main" data-text="ENES">ENES</div>
+    </div>
+    <svg class="brand-wave" width="110" height="18" viewBox="0 0 110 18">
+      <path d="M5,9 C18,3 30,15 43,9 C56,3 68,15 81,9 C90,4 100,12 105,9" stroke="#2de0cc" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+    </svg>
+    <div class="brand-sub">Akvaryum</div>
+    <div class="hero-divider"></div>
+    <div class="hero-tagline">Balık &amp; akvaryum dünyasına hoş geldiniz</div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Keşfet</div>
+  </div>
+</div>
+
+<!-- ══ CONTENT ══ -->
+<div class="content">
+
+  <!-- LINKS -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">İletişim & Konum</div><div class="sec-line-r"></div></div>
+  <div class="links reveal">
+    <a class="link-btn" href="https://maps.app.goo.gl/WfZ8XVNFPm5z6PX2A" target="_blank">
+      <div class="btn-inner">
+        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+        <div><div class="btn-label">Konum</div><div class="btn-sub">Mağazamızı bulun</div></div>
+      </div><div class="btn-arrow">→</div>
+    </a>
+    <a class="link-btn" href="https://wa.me/905383279980" target="_blank">
+      <div class="btn-inner">
+        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+        <div><div class="btn-label">WhatsApp</div><div class="btn-sub">Hızlı iletişim</div></div>
+      </div><div class="btn-arrow">→</div>
+    </a>
+    <a class="link-btn" href="tel:+905383279980">
+      <div class="btn-inner">
+        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
+        <div><div class="btn-label">Bizi Arayın</div><div class="btn-sub">0538 327 99 80</div></div>
+      </div><div class="btn-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-grid reveal" style="margin-top:10px;">
+    <div class="info-card" style="padding:18px 20px;"><div class="info-lbl">Çalışma Saatleri</div><div class="info-val">Her gün<br>09:00 – 20:30</div></div>
+    <div class="info-card" style="padding:18px 20px;"><div class="info-lbl">İletişim</div><div class="info-val">0538 327 99 80</div></div>
+  </div>
+
+  <!-- FISH CATALOG -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut Balıklar</div><div class="sec-line-r"></div></div>
+  <div class="fish-grid reveal" id="fishGrid">
+    <div class="no-fish">Yükleniyor...</div>
+  </div>
+
+  <!-- CART -->
+  <div class="cart-summary reveal" id="cartSummary" style="margin-top:16px;">
+    <div class="cart-header">
+      <div class="cart-title">🛒 Sepetim</div>
+      <div class="cart-count" id="cartCount"></div>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total" id="cartTotal"></div>
+      <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z" stroke-width="0"/></svg>
+        Sipariş Ver
+      </a>
+    </div>
+  </div>
+
+
+
+  <!-- PLANTS -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Canlı Bitkiler</div><div class="sec-line-r"></div></div>
+  <div class="fish-grid reveal" id="plantGrid">
+    <div class="no-fish">Yükleniyor...</div>
+  </div>
+
+  <!-- AQUARIUM -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Akvaryumlar</div><div class="sec-line-r"></div></div>
+  <div class="aq-grid reveal" id="aqGrid">
+    <div class="no-fish">Yükleniyor...</div>
+  </div>
+
+
+  <!-- REVIEWS -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Müşteri Yorumları</div><div class="sec-line-r"></div></div>
+  <div class="reviews-wrap reveal">
+    <div class="reviews-fade-l"></div>
+    <div class="reviews-fade-r"></div>
+    <div class="reviews-track" id="reviewsTrack">
+      <div class="no-reviews">Henüz yorum eklenmemiş.</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Hizmetlerimiz</div><div class="sec-line-r"></div></div>
+  <div class="services-grid reveal">
+    <div class="svc-card"><div class="svc-icon">🐠</div><div class="svc-name">Tatlı Su Balıkları</div><div class="svc-desc">Japon, akvaryum balığı ve daha fazlası</div></div>
+    <div class="svc-card"><div class="svc-icon">🌊</div><div class="svc-name">Tuzlu Su Balıkları</div><div class="svc-desc">Mercan, palyaço &amp; egzotik türler</div></div>
+    <div class="svc-card"><div class="svc-icon">🌿</div><div class="svc-name">Canlı Bitkiler</div><div class="svc-desc">Aquascape &amp; su altı bitkileri</div></div>
+    <div class="svc-card"><div class="svc-icon">⚙️</div><div class="svc-name">Filtreler</div><div class="svc-desc">İç, dış &amp; biyolojik filtreler</div></div>
+    <div class="svc-card"><div class="svc-icon">🔲</div><div class="svc-name">Akvaryumlar</div><div class="svc-desc">Özel ölçü &amp; hazır akvaryumlar</div></div>
+    <div class="svc-card"><div class="svc-icon">🍃</div><div class="svc-name">Yem &amp; Besin</div><div class="svc-desc">Canlı, dondurulmuş &amp; kuru yemler</div></div>
+    <div class="svc-card"><div class="svc-icon">💡</div><div class="svc-name">Işıklandırma</div><div class="svc-desc">LED &amp; özel akvaryum lambaları</div></div>
+    <div class="svc-card"><div class="svc-icon">🧪</div><div class="svc-name">Su Kimyası</div><div class="svc-desc">Test kitleri, tuz &amp; kondisyonerler</div></div>
+    <div class="svc-card"><div class="svc-icon">🪨</div><div class="svc-name">Dekorasyon</div><div class="svc-desc">Kaya, kum, driftwood &amp; figürler</div></div>
+    <div class="svc-card"><div class="svc-icon">🛠️</div><div class="svc-name">Bakım &amp; Servis</div><div class="svc-desc">Akvaryum kurulum &amp; bakım hizmeti</div></div>
+  </div>
+
+  <div class="site-footer reveal">
+    <div class="footer-brand">Enes Akvaryum</div>
+    <div class="footer-copy">© 2025 · Tüm hakları saklıdır</div>
+  </div>
+</div>
+</div>
+
+<!-- FLOAT BUTTONS -->
+<button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
+<button class="admin-trigger" onclick="openAdmin()">⚙ Yönetim</button>
+
+<!-- ADMIN -->
+<div class="overlay" id="adminOverlay">
+  <div class="admin-wrap">
+    <div id="loginScreen">
+      <div class="login-box">
+        <h2>Yönetim Paneli</h2>
+        <div class="field" style="margin-bottom:1.2rem;">
+          <label>Şifre</label>
+          <input type="password" id="pwInput" placeholder="Şifrenizi girin" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <div class="login-err" id="loginErr">Hatalı şifre.</div>
+        <button class="admin-btn" onclick="doLogin()">Giriş Yap</button>
+        <div style="text-align:center;margin-top:1rem;"><button onclick="closeAdmin()" style="background:none;border:none;color:var(--text-dim);font-family:'Jost',sans-serif;font-size:12px;cursor:pointer;letter-spacing:0.1em;">İptal</button></div>
+      </div>
+    </div>
+    <div id="adminPanel" style="display:none;">
+      <div class="admin-header">
+        <div class="admin-title">Balık Yönetimi</div>
+        <button class="close-btn" onclick="closeAdmin()">Kapat</button>
+      </div>
+      <div id="syncStatus" class="sync-status" style="display:none;"></div>
+      <div class="add-form">
+        <h3>Yeni Balık Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>Balık Adı</label><input type="text" id="fName" placeholder="örn. Japon Balığı"></div>
+          <div class="field-sm"><label>Tür</label>
+            <select id="fType">
+              <option value="Tatlı Su">Tatlı Su</option>
+              <option value="Tuzlu Su">Tuzlu Su</option>
+              <option value="Canlı Bitki">Canlı Bitki</option>
+              <option value="Aksesuar">Aksesuar</option>
+              <option value="Diğer">Diğer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Fiyat (₺)</label><input type="number" id="fPrice" placeholder="örn. 150"></div>
+          <div class="field-sm"><label>Not (isteğe bağlı)</label><input type="text" id="fNote" placeholder="örn. adet / çift"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Stok Adedi (boş = sınırsız)</label><input type="number" id="fStock" placeholder="örn. 10" min="0"></div>
+          <div class="field-sm" style="display:flex;align-items:flex-end;padding-bottom:2px;"><span style="font-size:10px;color:var(--text-dim);font-style:italic;">5 altı sarı, 2 altı kırmızı uyarı çıkar</span></div>
+        </div>
+        <div class="field-sm" style="margin-bottom:12px;">
+          <label>Fotoğraf</label>
+          <div class="img-note">Kendi fotoğrafını yükle (Cloudinary) veya otomatik ara</div>
+          <div class="photo-upload-area">
+            <input type="file" accept="image/*" id="fPhoto" onchange="handlePhoto(this)">
+            <div class="upload-text">📷 <strong>Fotoğraf seç</strong> veya sürükle bırak<br><span style="font-size:10px;opacity:0.6;">Her boyut desteklenir</span></div>
+          </div>
+          <img id="imgPreviewAdmin" class="img-preview-admin" alt="Önizleme">
+          <button class="cancel-img-btn" id="cancelImgBtn" onclick="cancelImg()">✕ Fotoğrafı Kaldır</button>
+        </div>
+        <div class="action-row">
+          <button class="search-btn" onclick="autoSearchImg()">🔍 Otomatik Ara</button>
+          <button class="add-btn" id="addBtn" onclick="addFish()">+ Ekle</button>
+        </div>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);opacity:0.65;margin-bottom:10px;">Mevcut Liste</div>
+      <div class="admin-fish-list" id="adminFishList"></div>
+
+
+      <!-- BİTKİ YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#4caf7d;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Bitki Yönetimi</div>
+      <div class="add-form">
+        <h3>Yeni Bitki Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>Bitki Adı</label><input type="text" id="plName" placeholder="örn. Anubias Nana"></div>
+          <div class="field-sm"><label>Tür</label>
+            <select id="plType">
+              <option value="Ön Plan">Ön Plan</option>
+              <option value="Arka Plan">Arka Plan</option>
+              <option value="Orta Plan">Orta Plan</option>
+              <option value="Yüzen">Yüzen</option>
+              <option value="Moss">Moss</option>
+              <option value="Diğer">Diğer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Fiyat (₺)</label><input type="number" id="plPrice" placeholder="örn. 50"></div>
+          <div class="field-sm"><label>Not (isteğe bağlı)</label><input type="text" id="plNote" placeholder="örn. saksıda / dal"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Stok Adedi (boş = sınırsız)</label><input type="number" id="plStock" placeholder="örn. 5" min="0"></div>
+          <div class="field-sm"></div>
+        </div>
+        <div class="field-sm" style="margin-bottom:12px;">
+          <label>Fotoğraf</label>
+          <div class="photo-upload-area">
+            <input type="file" accept="image/*" id="plPhoto" onchange="handlePlPhoto(this)">
+            <div class="upload-text">📷 <strong>Fotoğraf seç</strong> veya sürükle bırak</div>
+          </div>
+          <img id="plImgPreview" class="img-preview-admin" alt="Önizleme">
+          <button class="cancel-img-btn" id="plCancelBtn" onclick="cancelPlImg()">✕ Fotoğrafı Kaldır</button>
+        </div>
+        <div class="action-row">
+          <button class="search-btn" onclick="autoSearchPlImg()">🔍 Otomatik Ara</button>
+          <button class="add-btn" id="plAddBtn" onclick="addPlant()">+ Bitki Ekle</button>
+        </div>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#4caf7d;opacity:0.65;margin-bottom:10px;">Mevcut Bitkiler</div>
+      <div class="admin-fish-list" id="adminPlList"></div>
+
+      <!-- AKVARYUM YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Akvaryum Yönetimi</div>
+      <div class="add-form">
+        <h3>Yeni Akvaryum Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>Akvaryum Adı</label><input type="text" id="aqName" placeholder="örn. Başlangıç Seti 60L"></div>
+          <div class="field-sm"><label>Boyut / Hacim</label><input type="text" id="aqSize" placeholder="örn. 60x30x36 cm · 60L"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Fiyat (₺) — boş = fiyatsız</label><input type="number" id="aqPrice" placeholder="örn. 2500"></div>
+          <div class="field-sm"><label>Not (isteğe bağlı)</label><input type="text" id="aqNote" placeholder="örn. filtre dahil"></div>
+        </div>
+        <div class="field-sm" style="margin-bottom:12px;">
+          <label>Fotoğraf</label>
+          <div class="photo-upload-area">
+            <input type="file" accept="image/*" id="aqPhoto" onchange="handleAqPhoto(this)">
+            <div class="upload-text">📷 <strong>Fotoğraf seç</strong> veya sürükle bırak</div>
+          </div>
+          <img id="aqImgPreview" class="img-preview-admin" alt="Önizleme">
+          <button class="cancel-img-btn" id="aqCancelBtn" onclick="cancelAqImg()">✕ Fotoğrafı Kaldır</button>
+        </div>
+        <button class="add-btn" id="aqAddBtn" onclick="addAquarium()">+ Akvaryum Ekle</button>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);opacity:0.65;margin-bottom:10px;">Mevcut Akvaryumlar</div>
+      <div class="admin-fish-list" id="adminAqList"></div>
+
+      <!-- YORUM YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Yorum Yönetimi</div>
+      <div class="add-form">
+        <h3>Yeni Yorum Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>İsim</label><input type="text" id="rvName" placeholder="örn. Ahmet K."></div>
+          <div class="field-sm"><label>Yıldız (1-5)</label>
+            <select id="rvStars">
+              <option value="5">⭐⭐⭐⭐⭐ — 5</option>
+              <option value="4">⭐⭐⭐⭐ — 4</option>
+              <option value="3">⭐⭐⭐ — 3</option>
+              <option value="2">⭐⭐ — 2</option>
+              <option value="1">⭐ — 1</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr;">
+          <div class="field-sm"><label>Yorum</label><input type="text" id="rvText" placeholder="örn. Harika bir mağaza, balıklar çok sağlıklı!"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Tarih</label><input type="text" id="rvDate" placeholder="örn. 1 ay önce"></div>
+          <div class="field-sm"><label>Profil Fotoğrafı URL (isteğe bağlı)</label><input type="text" id="rvAvatar" placeholder="https://..."></div>
+        </div>
+        <button class="add-btn" id="rvAddBtn" onclick="addReview()" style="margin-top:8px;">+ Yorum Ekle</button>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.65;margin-bottom:10px;">Mevcut Yorumlar</div>
+      <div class="admin-fish-list" id="adminRvList"></div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══ CONFIG ══ */
+const PASS='Enesakvaryum2024';
+const BIN_ID='69f61406aaba88219762a326';
+const BIN_KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
+const CLOUD_NAME='dhxxsm5ec';
+const UPLOAD_PRESET='enes_akvaryum';
+const WA='905383279980';
+const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
+
+let fishList=[],cart={},currentImgUrl='',selectedFile=null;
+
+/* ══ CANVAS BACKGROUND ══ */
+const canvas=document.getElementById('bgCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();
+window.addEventListener('resize',resize);
+
+class Particle{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*W;
+    this.y=H+Math.random()*100;
+    this.r=Math.random()*3+0.5;
+    this.speed=Math.random()*0.4+0.1;
+    this.dx=(Math.random()-0.5)*0.3;
+    this.opacity=Math.random()*0.5+0.1;
+    this.color=Math.random()>0.5?'45,224,204':'58,159,212';
+  }
+  update(){
+    this.y-=this.speed;
+    this.x+=this.dx;
+    this.opacity-=0.0008;
+    if(this.y<-10||this.opacity<=0)this.reset();
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${this.color},${this.opacity})`;
+    ctx.fill();
+    // glow
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r*2.5,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${this.color},${this.opacity*0.15})`;
+    ctx.fill();
+  }
+}
+
+const isMobile=window.innerWidth<640;
+for(let i=0;i<(isMobile?40:80);i++) particles.push(new Particle());
+
+// Fish particles
+class FishDot{
+  constructor(){this.reset(true);}
+  reset(init=false){
+    this.x = init ? Math.random()*W : -60;
+    this.y=Math.random()*H;
+    this.speed=Math.random()*0.8+0.3;
+    this.opacity=Math.random()*0.06+0.02;
+    this.size=Math.random()*4+2;
+    this.wy=Math.random()*2;
+    this.wfreq=Math.random()*0.02+0.01;
+    this.t=Math.random()*100;
+  }
+  update(){
+    this.x+=this.speed;
+    this.t+=this.wfreq;
+    this.y+=Math.sin(this.t)*this.wy*0.1;
+    if(this.x>W+80)this.reset(false);
+  }
+  draw(){
+    ctx.save();
+    ctx.globalAlpha=this.opacity;
+    ctx.translate(this.x,this.y);
+    // body
+    ctx.beginPath();
+    ctx.ellipse(0,0,this.size*2.2,this.size,0,0,Math.PI*2);
+    ctx.fillStyle='rgba(45,224,204,1)';
+    ctx.fill();
+    // tail (behind, to the left for right-swimming fish)
+    ctx.beginPath();
+    ctx.moveTo(-this.size*2.2,0);
+    ctx.lineTo(-this.size*3.5,-this.size*1.3);
+    ctx.lineTo(-this.size*3.5,this.size*1.3);
+    ctx.fillStyle='rgba(45,224,204,0.7)';
+    ctx.fill();
+    // eye
+    ctx.beginPath();
+    ctx.arc(this.size*1.2,-this.size*0.2,this.size*0.35,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+const fishDots=[];
+for(let i=0;i<(isMobile?3:6);i++){
+  const fd=new FishDot();
+  fd.x=Math.random()*W; // start scattered but moving
+  fd.t=Math.random()*100;
+  fishDots.push(fd);
+}
+
+function animateCanvas(){
+  ctx.clearRect(0,0,W,H);
+  // deep ocean gradient
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'#020810');
+  grad.addColorStop(0.4,'#030c1a');
+  grad.addColorStop(1,'#020810');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,W,H);
+
+  // radial glow
+  const rg=ctx.createRadialGradient(W*0.3,H*0.4,0,W*0.3,H*0.4,W*0.5);
+  rg.addColorStop(0,'rgba(10,30,70,0.4)');
+  rg.addColorStop(1,'transparent');
+  ctx.fillStyle=rg;
+  ctx.fillRect(0,0,W,H);
+
+  particles.forEach(p=>{p.update();p.draw();});
+  fishDots.forEach(f=>{f.update();f.draw();});
+
+  requestAnimationFrame(animateCanvas);
+}
+animateCanvas();
+
+/* ══ HERO ELEMENTS ══ */
+// Light beams
+const beamsEl=document.getElementById('beams');
+for(let i=0;i<8;i++){
+  const b=document.createElement('div');
+  b.className='beam';
+  const w=40+Math.random()*80;
+  const left=5+i*12+Math.random()*5;
+  const h=30+Math.random()*50;
+  b.style.cssText=`left:${left}%;width:${w}px;height:${h}%;animation-duration:${4+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
+  beamsEl.appendChild(b);
+}
+
+// Hero bubbles
+const heroBubs=document.getElementById('heroBubs');
+for(let i=0;i<35;i++){
+  const d=document.createElement('div');
+  const s=Math.random()*16+3;
+  const isGlow=s>12;
+  d.style.cssText=`position:absolute;width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${-s}px;border-radius:50%;border:${isGlow?'1px':'0.5px'} solid rgba(45,224,204,${isGlow?0.2:0.3});background:rgba(45,224,204,${isGlow?0.03:0.06});--dx:${(Math.random()-0.5)*30}px;--ds:${0.8+Math.random()*0.4};animation:bubRise ${6+Math.random()*10}s linear ${Math.random()*8}s infinite;`;
+  if(isGlow) d.style.boxShadow='0 0 6px rgba(45,224,204,0.15)';
+  heroBubs.appendChild(d);
+}
+
+// Hero SVG fish
+function makeFishSVG(w,h,color,opacity){
+  return `<svg width="${w}" height="${h}" viewBox="0 0 80 36" xmlns="http://www.w3.org/2000/svg" opacity="${opacity}">
+    <ellipse cx="48" cy="18" rx="26" ry="13" fill="${color}"/>
+    <path d="M24,18 L8,8 L8,28 Z" fill="${color}" opacity="0.85"/>
+    <ellipse cx="48" cy="18" rx="26" ry="13" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    <circle cx="66" cy="14" r="3.5" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="67" cy="13" r="1.5" fill="rgba(0,0,0,0.4)"/>
+    <path d="M36,13 Q44,10 52,13" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
+    <path d="M36,18 Q44,22 52,18" stroke="rgba(255,255,255,0.1)" stroke-width="0.8" fill="none"/>
+  </svg>`;
+}
+
+const heroFishWrap=document.getElementById('heroFishWrap');
+const hFishData=[
+  {y:'18%',w:90,h:40,color:'rgba(45,224,204,0.5)',op:1,dur:20,delay:0,fy:'-15px'},
+  {y:'42%',w:60,h:27,color:'rgba(58,159,212,0.45)',op:1,dur:28,delay:7,fy:'20px'},
+  {y:'65%',w:110,h:50,color:'rgba(45,224,204,0.35)',op:1,dur:35,delay:14,fy:'-8px'},
+  {y:'30%',w:44,h:20,color:'rgba(0,245,255,0.4)',op:1,dur:22,delay:3,fy:'12px'},
+  {y:'75%',w:70,h:32,color:'rgba(58,159,212,0.4)',op:1,dur:30,delay:18,fy:'-18px'},
+];
+hFishData.forEach(f=>{
+  const d=document.createElement('div');
+  d.className='hf';
+  d.style.cssText=`top:${f.y};--fy:${f.fy};animation-duration:${f.dur}s;animation-delay:${f.delay}s;filter:drop-shadow(0 0 10px ${f.color});`;
+  d.innerHTML=makeFishSVG(f.w,f.h,f.color,f.op);
+  heroFishWrap.appendChild(d);
+});
+
+/* ══ SCROLL REVEAL ══ */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*60);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+
+
+/* ══ REVIEWS ══ */
+let reviewList = [];
+
+function renderReviews(){
+  const track = document.getElementById('reviewsTrack');
+  if(!reviewList.length){
+    track.innerHTML='<div class="no-reviews">Henüz yorum eklenmemiş.</div>';
+    track.style.animation='none';
+    return;
+  }
+  // Duplicate for infinite scroll
+  const cards = reviewList.map(r => buildReviewCard(r)).join('');
+  track.innerHTML = cards + cards;
+  track.style.animation = `scrollReviews ${Math.max(20, reviewList.length * 8)}s linear infinite`;
+}
+
+function buildReviewCard(r){
+  const stars = Array.from({length:5},(_,i)=>`<span class="star${i>=r.stars?' empty':''}">${i<r.stars?'★':'★'}</span>`).join('');
+  const avatar = r.avatar
+    ? `<img class="review-avatar" src="${r.avatar}" alt="${r.name}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
+    : '';
+  const initials = r.name.charAt(0).toUpperCase();
+  return `<div class="review-card">
+    <div class="review-header">
+      ${avatar}
+      <div class="review-avatar-placeholder" ${r.avatar?'style="display:none"':''}>${initials}</div>
+      <div>
+        <div class="review-name">${r.name}</div>
+        <div class="review-date">${r.date||''}</div>
+      </div>
+    </div>
+    <div class="review-stars">${stars}</div>
+    <div class="review-text">"${r.text}"</div>
+    <div class="review-google">
+      <svg class="google-logo" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      <span>Google Yorumu</span>
+    </div>
+  </div>`;
+}
+
+function renderAdminRvList(){
+  const el = document.getElementById('adminRvList');
+  if(!reviewList.length){el.innerHTML='<div class="empty-admin">Henüz yorum eklenmemiş.</div>';return;}
+  el.innerHTML = reviewList.map((r,i)=>`
+    <div class="admin-fish-item">
+      <div class="review-avatar-placeholder" style="font-size:14px;">${r.name.charAt(0)}</div>
+      <div style="flex:1;">
+        <div class="afi-name">${r.name} ${'★'.repeat(r.stars)}</div>
+        <div class="afi-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${r.text}</div>
+      </div>
+      <div class="afi-right"><button class="del-btn" onclick="deleteReview(${i})">Sil</button></div>
+    </div>`).join('');
+}
+
+async function addReview(){
+  const name=document.getElementById('rvName').value.trim();
+  const stars=parseInt(document.getElementById('rvStars').value);
+  const text=document.getElementById('rvText').value.trim();
+  const date=document.getElementById('rvDate').value.trim();
+  const avatar=document.getElementById('rvAvatar').value.trim();
+  if(!name||!text){alert('İsim ve yorum zorunludur.');return;}
+  const btn=document.getElementById('rvAddBtn');
+  btn.disabled=true;btn.textContent='Kaydediliyor...';
+  reviewList.push({name,stars,text,date,avatar});
+  const ok=await saveAll();
+  if(ok){
+    setStatus('✓ Yorum eklendi',true);
+    document.getElementById('rvName').value='';
+    document.getElementById('rvText').value='';
+    document.getElementById('rvDate').value='';
+    document.getElementById('rvAvatar').value='';
+    renderReviews();
+    renderPlantGrid();renderAdminRvList();
+  }else{
+    reviewList.pop();setStatus('✗ Kayıt hatası',false);
+  }
+  btn.disabled=false;btn.textContent='+ Yorum Ekle';
+}
+
+async function deleteReview(i){
+  reviewList.splice(i,1);
+  if(await saveAll()){setStatus('✓ Silindi',true);renderReviews();
+    renderPlantGrid();renderAdminRvList();}
+  else setStatus('✗ Silinemedi',false);
+}
+
+
+/* ══ PLANT DATA ══ */
+let plantList=[], selectedPlFile=null, currentPlImgUrl='';
+
+function renderPlantGrid(){
+  const g=document.getElementById('plantGrid');
+  if(!plantList.length){g.innerHTML='<div class="no-fish">Henüz bitki eklenmemiş.</div>';return;}
+  g.innerHTML=plantList.map((f,i)=>{
+    const qty=cart['pl_'+i]||0,inCart=qty>0;
+    const stockBadge = f.stock!==null&&f.stock!==undefined
+      ? (f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`
+        :f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:'')
+      : '';
+    return`<div class="fish-card ${inCart?'in-cart':''}">
+      <div class="fish-img-wrap">
+        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
+      </div>
+      <div class="fish-body">
+        <div class="fish-info-row">
+          <div>
+            <div class="fish-name">${f.name}</div>
+            <div class="fish-type-badge" style="color:#4caf7d;background:rgba(76,175,125,0.08);border-color:rgba(76,175,125,0.2);">${f.type}</div>
+            ${stockBadge}
+            ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
+          </div>
+          <div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+        </div>
+        <div class="cart-controls">
+          ${inCart
+            ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('pl_${i}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('pl_${i}',1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart('pl_${i}')">Çıkar</button>`
+            :`<div></div><button class="add-cart-btn" onclick="addToCart('pl_${i}','${f.name}',${f.price})">+ Sepete Ekle</button>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderAdminPlList(){
+  const el=document.getElementById('adminPlList');
+  if(!plantList.length){el.innerHTML='<div class="empty-admin">Henüz bitki eklenmemiş.</div>';return;}
+  el.innerHTML=plantList.map((f,i)=>`
+    <div class="admin-fish-item">
+      ${f.img?`<img class="afi-img" src="${f.img}" alt="${f.name}">`:`<div class="afi-placeholder">🌿</div>`}
+      <div style="flex:1;"><div class="afi-name">${f.name}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
+      <div class="afi-right"><div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div><button class="del-btn" onclick="deletePlant(${i})">Sil</button></div>
+    </div>`).join('');
+}
+
+function handlePlPhoto(input){
+  const file=input.files[0];if(!file)return;
+  selectedPlFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const p=document.getElementById('plImgPreview');
+    p.src=e.target.result;p.style.display='block';
+    document.getElementById('plCancelBtn').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function cancelPlImg(){
+  selectedPlFile=null;currentPlImgUrl='';
+  const p=document.getElementById('plImgPreview');
+  p.src='';p.style.display='none';
+  document.getElementById('plCancelBtn').style.display='none';
+  document.getElementById('plPhoto').value='';
+}
+
+async function autoSearchPlImg(){
+  const name=document.getElementById('plName').value.trim();
+  if(!name){alert('Önce bitki adını yaz!');return;}
+  setStatus('🔍 Görsel aranıyor...',true);
+  const url=await fetchPexels(name+' aquarium plant');
+  if(url){currentPlImgUrl=url;const p=document.getElementById('plImgPreview');p.src=url;p.style.display='block';document.getElementById('plCancelBtn').style.display='block';setStatus('✓ Görsel bulundu',true);}
+  else setStatus('Görsel bulunamadı',false);
+}
+
+async function addPlant(){
+  const name=document.getElementById('plName').value.trim();
+  const type=document.getElementById('plType').value;
+  const price=document.getElementById('plPrice').value.trim();
+  const note=document.getElementById('plNote').value.trim();
+  const stock=document.getElementById('plStock').value.trim();
+  if(!name||!price){alert('Bitki adı ve fiyat zorunludur.');return;}
+  const btn=document.getElementById('plAddBtn');
+  btn.disabled=true;btn.textContent='Kaydediliyor...';
+  let img=currentPlImgUrl;
+  if(selectedPlFile){setStatus('📤 Fotoğraf yükleniyor...',true);img=await uploadCloudinary(selectedPlFile);}
+  if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(name+' aquarium plant');}
+  plantList.push({name,type,price:parseFloat(price),note,stock:stock!==''?parseInt(stock):null,img});
+  const ok=await saveAll();
+  if(ok){
+    setStatus('✓ Bitki eklendi',true);
+    document.getElementById('plName').value='';document.getElementById('plPrice').value='';
+    document.getElementById('plNote').value='';document.getElementById('plStock').value='';
+    cancelPlImg();renderPlantGrid();renderAdminPlList();
+  }else{plantList.pop();setStatus('✗ Kayıt hatası',false);}
+  btn.disabled=false;btn.textContent='+ Bitki Ekle';
+}
+
+async function deletePlant(i){
+  plantList.splice(i,1);
+  if(await saveAll()){setStatus('✓ Silindi',true);renderPlantGrid();renderAdminPlList();}
+  else setStatus('✗ Silinemedi',false);
+}
+
+/* ══ AQUARIUM DATA ══ */
+let aqList=[], selectedAqFile=null, currentAqImgUrl='';
+
+async function fetchAquariums(){
+  // use same bin, different key
+  try{
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const d=await r.json();
+    aqList=d.record.aquariums||[];
+    renderAqGrid();
+  }catch(e){document.getElementById('aqGrid').innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
+}
+
+async function saveAll(){
+  const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+    body:JSON.stringify({fish:fishList, aquariums:aqList, reviews:reviewList, plants:plantList})});
+  return r.ok;
+}
+
+function renderAqGrid(){
+  const g=document.getElementById('aqGrid');
+  let html='';
+  if(aqList.length){
+    html+=aqList.map((a,i)=>`
+      <div class="aq-card">
+        <div class="aq-img-wrap">
+          ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🐟</div>`}
+        </div>
+        <div class="aq-body">
+          <div>
+            <div class="aq-name">${a.name}</div>
+            <div class="aq-badge">Hazır Akvaryum</div>
+            ${a.size?`<div class="aq-size">${a.size}</div>`:''}
+            ${a.note?`<div class="aq-size">${a.note}</div>`:''}
+          </div>
+          <div class="aq-footer">
+            ${a.price?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
+            <a class="aq-wa-btn" href="https://wa.me/905383279980?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+              Sor
+            </a>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  // Always show custom design card
+  html+=`
+    <div class="aq-custom-card">
+      <div style="font-size:32px;margin-bottom:12px;">✨</div>
+      <div class="aq-custom-title">Özel Tasarım Akvaryum</div>
+      <div class="aq-custom-desc">İstediğiniz boyut, şekil ve dekorasyona göre size özel akvaryum tasarlıyoruz. Fiyat için bizimle iletişime geçin.</div>
+      <a class="aq-custom-btn" href="https://wa.me/905383279980?text=${encodeURIComponent('Özel tasarım akvaryum hakkında bilgi almak istiyorum.')}" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+        WhatsApp'tan Sor
+      </a>
+    </div>`;
+  g.innerHTML=html;
+}
+
+function renderAdminAqList(){
+  const el=document.getElementById('adminAqList');
+  if(!aqList.length){el.innerHTML='<div class="empty-admin">Henüz akvaryum eklenmemiş.</div>';return;}
+  el.innerHTML=aqList.map((a,i)=>`
+    <div class="admin-fish-item">
+      ${a.img?`<img class="afi-img" src="${a.img}" alt="${a.name}">`:`<div class="afi-placeholder">🐟</div>`}
+      <div style="flex:1;"><div class="afi-name">${a.name}</div><div class="afi-meta">${a.size||''}${a.note?' · '+a.note:''}</div></div>
+      <div class="afi-right">
+        <div class="afi-price">${a.price?Number(a.price).toLocaleString('tr-TR')+' ₺':'—'}</div>
+        <button class="del-btn" onclick="deleteAquarium(${i})">Sil</button>
+      </div>
+    </div>`).join('');
+}
+
+function handleAqPhoto(input){
+  const file=input.files[0];if(!file)return;
+  selectedAqFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const p=document.getElementById('aqImgPreview');
+    p.src=e.target.result;p.style.display='block';
+    document.getElementById('aqCancelBtn').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function cancelAqImg(){
+  selectedAqFile=null;currentAqImgUrl='';
+  const p=document.getElementById('aqImgPreview');
+  p.src='';p.style.display='none';
+  document.getElementById('aqCancelBtn').style.display='none';
+  document.getElementById('aqPhoto').value='';
+}
+
+async function addAquarium(){
+  const name=document.getElementById('aqName').value.trim();
+  const size=document.getElementById('aqSize').value.trim();
+  const price=document.getElementById('aqPrice').value.trim();
+  const note=document.getElementById('aqNote').value.trim();
+  if(!name){alert('Akvaryum adı zorunludur.');return;}
+  const btn=document.getElementById('aqAddBtn');
+  btn.disabled=true;btn.textContent='Kaydediliyor...';
+  let img=currentAqImgUrl;
+  if(selectedAqFile){
+    setStatus('📤 Fotoğraf yükleniyor...',true);
+    img=await uploadCloudinary(selectedAqFile);
+  }
+  aqList.push({name,size,price:price?parseFloat(price):null,note,img});
+  const ok=await saveAll();
+  if(ok){
+    setStatus('✓ Akvaryum eklendi',true);
+    document.getElementById('aqName').value='';document.getElementById('aqSize').value='';
+    document.getElementById('aqPrice').value='';document.getElementById('aqNote').value='';
+    cancelAqImg();renderAqGrid();renderAdminAqList();
+  }else{
+    aqList.pop();setStatus('✗ Kayıt hatası',false);
+  }
+  btn.disabled=false;btn.textContent='+ Akvaryum Ekle';
+}
+
+async function deleteAquarium(i){
+  aqList.splice(i,1);
+  if(await saveAll()){setStatus('✓ Silindi',true);renderAqGrid();renderAdminAqList();}
+  else setStatus('✗ Silinemedi',false);
+}
+
+/* ══ DATA LAYER ══ */
+const fishDict={'japon':'goldfish aquarium','betta':'betta fish aquarium','beta':'betta fish aquarium','guppy':'guppy fish aquarium','gupi':'guppy fish aquarium','neon':'neon tetra fish','tetra':'tetra fish aquarium','palyaço':'clownfish aquarium','mercan':'coral reef aquarium fish','oscar':'oscar fish aquarium','diskus':'discus fish aquarium','koi':'koi fish pond','melek':'angelfish aquarium','zebra':'zebrafish aquarium','plati':'platy fish aquarium','molly':'molly fish aquarium','canlı bitki':'aquatic plants aquarium','bitki':'aquatic plants aquarium','kılıç':'swordtail fish'};
+
+function getImgQuery(n){const l=n.toLowerCase();for(const[k,v]of Object.entries(fishDict))if(l.includes(k))return v;return n+' aquarium fish';}
+
+async function fetchPexels(q){
+  try{
+    const r=await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=1&orientation=landscape`,{headers:{Authorization:'563492ad6f9170000100000109eb34c65f6c43edba49b9ca11e5fc2c'}});
+    const d=await r.json();
+    return d.photos?.[0]?.src?.medium||'';
+  }catch(e){return '';}
+}
+
+async function autoSearchImg(){
+  const name=document.getElementById('fName').value.trim();
+  if(!name){alert('Önce balık adını yaz!');return;}
+  setStatus('🔍 Görsel aranıyor...',true);
+  const url=await fetchPexels(getImgQuery(name));
+  if(url){
+    currentImgUrl=url;selectedFile=null;
+    showPreview(url);
+    setStatus('✓ Görsel bulundu',true);
+  }else{setStatus('Görsel bulunamadı — kendi fotoğrafını yükle',false);}
+}
+
+function showPreview(src){
+  const p=document.getElementById('imgPreviewAdmin');
+  p.src=src;p.style.display='block';
+  document.getElementById('cancelImgBtn').style.display='block';
+}
+
+function handlePhoto(input){
+  const file=input.files[0];if(!file)return;
+  selectedFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{showPreview(e.target.result);setStatus('✓ Fotoğraf hazır — ekle butonuna bas',true);};
+  reader.readAsDataURL(file);
+}
+
+function cancelImg(){
+  currentImgUrl='';selectedFile=null;
+  const p=document.getElementById('imgPreviewAdmin');
+  p.src='';p.style.display='none';
+  document.getElementById('cancelImgBtn').style.display='none';
+  document.getElementById('fPhoto').value='';
+  const s=document.getElementById('syncStatus');s.style.display='none';
+}
+
+async function compressImage(file, maxW=800, quality=0.75){
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const scale=img.width>maxW?maxW/img.width:1;
+        const c=document.createElement('canvas');
+        c.width=img.width*scale;c.height=img.height*scale;
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        c.toBlob(blob=>resolve(blob),'image/jpeg',quality);
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadCloudinary(file){
+  const compressed=await compressImage(file);
+  const fd=new FormData();
+  fd.append('file',compressed,'photo.jpg');
+  fd.append('upload_preset',UPLOAD_PRESET);
+  fd.append('folder','enes-akvaryum');
+  try{
+    const r=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:'POST',body:fd});
+    const d=await r.json();
+    return d.secure_url||'';
+  }catch(e){return '';}
+}
+
+async function fetchFish(){
+  // Show cache instantly
+  try{
+    const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');
+    if(cached.fish){fishList=cached.fish;renderFishGrid();}
+    if(cached.aquariums){aqList=cached.aquariums;renderAqGrid();}
+    if(cached.reviews){reviewList=cached.reviews;renderReviews();
+    renderPlantGrid();}
+    if(cached.plants){plantList=cached.plants;renderPlantGrid();}
+  }catch(e){}
+  // Then fetch fresh data
+  try{
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const d=await r.json();
+    fishList=d.record.fish||[];
+    aqList=d.record.aquariums||[];
+    reviewList=d.record.reviews||[];
+    plantList=d.record.plants||[];
+    localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
+    renderFishGrid();
+    renderAqGrid();
+    renderReviews();
+    renderPlantGrid();
+  }catch(e){
+    if(!fishList.length) document.getElementById('fishGrid').innerHTML='<div class="no-fish">Yüklenemedi, sayfayı yenile.</div>';
+  }
+}
+
+async function saveFish(){
+  return await saveAll();
+}
+
+function renderFishGrid(){
+  const g=document.getElementById('fishGrid');
+  if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
+  g.innerHTML=fishList.map((f,i)=>{
+    const qty=cart[i]||0,inCart=qty>0;
+    return`<div class="fish-card ${inCart?'in-cart':''}">
+      <div class="fish-img-wrap">
+        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
+      </div>
+      <div class="fish-body">
+        <div class="fish-info-row">
+          <div>
+            <div class="fish-name">${f.name}</div>
+            <div class="fish-type-badge">${f.type}</div>
+            ${f.stock!==null&&f.stock!==undefined?(f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`:f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:''):''}
+            ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
+          </div>
+          <div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+        </div>
+        <div class="cart-controls">
+          ${inCart
+            ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">Çıkar</button>`
+            :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name}',${f.price})">+ Sepete Ekle</button>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addToCart(i,name,price){
+  if(typeof i==='string'&&i.startsWith('pl_')){
+    cart[i]=(cart[i]||0)+1;renderPlantGrid();renderCart();return;
+  }
+  cart[i]=(cart[i]||0)+1;renderFishGrid();renderCart();
+}
+function removeFromCart(i){
+  delete cart[i];
+  if(typeof i==='string'&&i.startsWith('pl_'))renderPlantGrid();
+  else renderFishGrid();
+  renderCart();
+}
+function changeQty(i,d){
+  cart[i]=(cart[i]||0)+d;
+  if(cart[i]<=0)delete cart[i];
+  if(typeof i==='string'&&i.startsWith('pl_'))renderPlantGrid();
+  else renderFishGrid();
+  renderCart();
+}
+
+function renderCart(){
+  const keys=Object.keys(cart).map(Number);
+  const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
+  if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  sum.classList.add('visible');fl.classList.add('visible');
+  let total=0,html='',msg='Merhaba! Şu balıkları sipariş etmek istiyorum:%0A%0A';
+  keys.forEach(i=>{
+    let f;
+    if(typeof i==='string'&&i.startsWith('pl_')){
+      f=plantList[parseInt(i.replace('pl_',''))];
+    }else{
+      f=fishList[i];
+    }
+    if(!f)return;
+    const q=cart[i],sub=f.price*q;total+=sub;
+    html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  });
+  msg+=`%0AToplam: ${total.toLocaleString('tr-TR')}₺`;
+  document.getElementById('cartItems').innerHTML=html;
+  document.getElementById('cartCount').textContent=`${keys.length} ürün`;
+  document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
+  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+  document.getElementById('cartFloatCount').textContent=keys.length;
+}
+
+function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
+
+function renderAdminList(){
+  const el=document.getElementById('adminFishList');
+  if(!fishList.length){el.innerHTML='<div class="empty-admin">Henüz balık eklenmemiş.</div>';return;}
+  el.innerHTML=fishList.map((f,i)=>`
+    <div class="admin-fish-item">
+      ${f.img?`<img class="afi-img" src="${f.img}" alt="${f.name}">`:`<div class="afi-placeholder">🐠</div>`}
+      <div style="flex:1;"><div class="afi-name">${f.name}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
+      <div class="afi-right"><div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div><button class="del-btn" onclick="deleteFish(${i})">Sil</button></div>
+    </div>`).join('');
+}
+
+function setStatus(msg,ok){
+  const el=document.getElementById('syncStatus');
+  el.textContent=msg;el.style.display='block';
+  el.className='sync-status '+(ok?'sync-ok':'sync-err');
+}
+
+async function addFish(){
+  const name=document.getElementById('fName').value.trim();
+  const type=document.getElementById('fType').value;
+  const price=document.getElementById('fPrice').value.trim();
+  const note=document.getElementById('fNote').value.trim();
+  if(!name||!price){alert('Balık adı ve fiyat zorunludur.');return;}
+  const btn=document.getElementById('addBtn');
+  btn.disabled=true;btn.textContent='Kaydediliyor...';
+  let img=currentImgUrl;
+  if(selectedFile){
+    setStatus('📤 Fotoğraf Cloudinary\'e yükleniyor...',true);
+    img=await uploadCloudinary(selectedFile);
+    if(!img){setStatus('✗ Fotoğraf yüklenemedi. Upload Preset ayarını kontrol et.',false);btn.disabled=false;btn.textContent='+ Ekle';return;}
+  }
+  if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(getImgQuery(name));}
+  const stock=document.getElementById('fStock').value.trim();
+  fishList.push({name,type,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null});
+  const ok=await saveFish();
+  if(ok){
+    setStatus('✓ Kaydedildi — tüm cihazlarda görünecek',true);
+    document.getElementById('fName').value='';document.getElementById('fPrice').value='';document.getElementById('fNote').value='';document.getElementById('fStock').value='';
+    cancelImg();renderAdminList();renderFishGrid();
+  }else{
+    fishList.pop();setStatus('✗ Kayıt hatası, tekrar dene',false);
+  }
+  btn.disabled=false;btn.textContent='+ Ekle';
+}
+
+async function deleteFish(i){
+  fishList.splice(i,1);cart={};
+  if(await saveFish()){setStatus('✓ Silindi',true);renderAdminList();renderFishGrid();renderCart();}
+  else setStatus('✗ Silinemedi',false);
+}
+
+function openAdmin(){
+  document.getElementById('adminOverlay').classList.add('active');
+  document.getElementById('loginScreen').style.display='block';
+  document.getElementById('adminPanel').style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('loginErr').style.display='none';
+}
+function closeAdmin(){document.getElementById('adminOverlay').classList.remove('active');}
+function doLogin(){
+  if(document.getElementById('pwInput').value===PASS){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminPanel').style.display='block';
+    renderAdminList();
+    renderAdminPlList();
+    renderAdminAqList();
+    renderAdminRvList();
+  }else document.getElementById('loginErr').style.display='block';
+}
+
+fetchFish();
+</script>
+</body>
+</html>
