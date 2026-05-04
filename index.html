@@ -139,6 +139,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .fish-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;transform-style:preserve-3d;cursor:default;}
 .fish-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1),inset 0 0 30px rgba(45,224,204,0.03);}
 .fish-card.in-cart{border-color:rgba(45,224,204,0.5);box-shadow:0 0 20px rgba(45,224,204,0.15);}
+.fish-card.out-of-stock{opacity:0.7;}
 .fish-img-wrap{position:relative;width:100%;height:150px;overflow:hidden;}
 .fish-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;filter:saturate(1.1);}
 .fish-card:hover .fish-img{transform:scale(1.06);}
@@ -164,7 +165,8 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    REVIEWS
 ══════════════════════════════════════ */
-.reviews-wrap{width:100%;overflow:hidden;position:relative;}
+.reviews-wrap{width:100%;overflow:hidden;position:relative;cursor:grab;}
+.reviews-wrap.dragging{cursor:grabbing;}
 .reviews-track{display:flex;gap:14px;animation:scrollReviews 40s linear infinite;}
 @media(max-width:639px){.reviews-track{animation-duration:25s;}}
 .reviews-track:hover{animation-play-state:paused;}
@@ -1109,17 +1111,71 @@ async function deleteSub(i){
 
 function notifyAll(){
   if(!subList.length){alert('Henüz abone yok.');return;}
-  const msg=encodeURIComponent("Merhaba! Enes Akvaryum'da yeni baliklar geldi! Hemen goz atin: https://enes-akvaryum-2.pages.dev");
-  // Open WhatsApp for each subscriber one by one
-  let i=0;
-  function sendNext(){
-    if(i>=subList.length)return;
-    const phone=subList[i].phone.replace(/\D/g,'').replace(/^0/,'90');
-    window.open(`https://wa.me/${phone}?text=${msg}`,'_blank');
-    i++;
-    if(i<subList.length) setTimeout(sendNext,1500);
-  }
-  if(confirm(`${subList.length} abonenin hepsine WhatsApp mesajı gönderilecek. Devam et?`))sendNext();
+
+  // Build numbers list and message
+  const numbers = subList.map(s=>{
+    let p=s.phone.replace(/[^0-9]/g,'');
+    if(p.startsWith('0'))p='90'+p.slice(1);
+    if(!p.startsWith('90'))p='90'+p;
+    return p;
+  });
+
+  const message = `Merhaba! Enes Akvaryum'da yeni baliklar geldi! Stok bitmeden goz atin: https://enes-akvaryum-2.pages.dev`;
+
+  // Copy numbers to clipboard
+  const numbersText = numbers.join('\n');
+  navigator.clipboard.writeText(numbersText).then(()=>{
+    showNotifyModal(numbers.length, message);
+  }).catch(()=>{
+    showNotifyModal(numbers.length, message);
+  });
+}
+
+function showNotifyModal(count, message){
+  // Create modal
+  const modal = document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(2,8,16,0.95);z-index:200;display:flex;align-items:center;justify-content:center;padding:2rem;';
+  modal.innerHTML=`
+    <div style="background:rgba(6,14,28,0.95);border:0.5px solid rgba(45,224,204,0.3);border-radius:16px;padding:2rem;max-width:480px;width:100%;backdrop-filter:blur(20px);">
+      <div style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;">📢 Toplu Bildirim</div>
+
+      <div style="background:rgba(45,224,204,0.06);border:0.5px solid rgba(45,224,204,0.2);border-radius:10px;padding:14px;margin-bottom:1rem;">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.1em;">ADIM 1 — Numaraları kopyala</div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:10px;">${count} abonenin numarası panoya kopyalandı ✓</div>
+        <div style="font-size:11px;color:var(--text-dim);">WhatsApp → Yeni Yayın → Kişilere yapıştır</div>
+      </div>
+
+      <div style="background:rgba(45,224,204,0.06);border:0.5px solid rgba(45,224,204,0.2);border-radius:10px;padding:14px;margin-bottom:1rem;">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.1em;">ADIM 2 — Mesajı kopyala</div>
+        <div style="font-family:'Jost',sans-serif;font-size:12px;color:var(--text);background:rgba(0,0,0,0.3);border-radius:8px;padding:10px;margin-bottom:10px;line-height:1.6;" id="notifyMsg">${message}</div>
+        <button onclick="copyMsg()" style="background:none;border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer;" id="copyMsgBtn">📋 Mesajı Kopyala</button>
+      </div>
+
+      <div style="background:rgba(37,211,102,0.06);border:0.5px solid rgba(37,211,102,0.2);border-radius:10px;padding:14px;margin-bottom:1.5rem;">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.1em;">ADIM 3 — WhatsApp'ı aç</div>
+        <div style="font-size:12px;color:var(--text-mid);">Yayın listeni oluştur → mesajı yapıştır → gönder 🎉</div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <a href="whatsapp://app" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1));border:0.5px solid rgba(37,211,102,0.4);color:#25d366;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px;border-radius:10px;text-decoration:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+          WhatsApp Aç
+        </a>
+        <button onclick="this.closest('div[style]').remove()" style="flex:1;background:none;border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:12px;border-radius:10px;cursor:pointer;">Kapat</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
+
+function copyMsg(){
+  const msg=document.getElementById('notifyMsg').textContent;
+  navigator.clipboard.writeText(msg).then(()=>{
+    const btn=document.getElementById('copyMsgBtn');
+    btn.textContent='✓ Kopyalandı!';
+    btn.style.color='var(--teal)';
+  });
 }
 
 /* ══ REVIEWS ══ */
@@ -1139,6 +1195,56 @@ function renderReviews(){
   const mobileDur = Math.max(18, reviewList.length * 5);
   const isMob = window.innerWidth < 640;
   track.style.animation = `scrollReviews ${isMob?mobileDur:dur}s linear infinite`;
+  initReviewDrag();
+}
+
+function initReviewDrag(){
+  const wrap=document.querySelector('.reviews-wrap');
+  const track=document.getElementById('reviewsTrack');
+  if(!wrap||!track)return;
+  let startX=0,scrollStart=0,isDragging=false,animPaused=false;
+  let currentX=0;
+
+  function pause(){track.style.animationPlayState='paused';animPaused=true;}
+  function resume(){track.style.animationPlayState='running';animPaused=false;}
+
+  function onStart(x){
+    isDragging=true;startX=x;
+    // Get current position
+    const style=window.getComputedStyle(track);
+    const matrix=new DOMMatrix(style.transform);
+    currentX=matrix.m41;
+    scrollStart=currentX;
+    pause();
+    wrap.classList.add('dragging');
+  }
+  function onMove(x){
+    if(!isDragging)return;
+    const diff=x-startX;
+    currentX=scrollStart+diff;
+    track.style.transform=`translateX(${currentX}px)`;
+  }
+  function onEnd(){
+    isDragging=false;
+    wrap.classList.remove('dragging');
+    // Resume animation after 2s of no interaction
+    setTimeout(()=>{
+      if(!isDragging){
+        track.style.transform='';
+        resume();
+      }
+    },2000);
+  }
+
+  // Mouse
+  wrap.addEventListener('mousedown',e=>{onStart(e.clientX);e.preventDefault();});
+  window.addEventListener('mousemove',e=>{if(isDragging)onMove(e.clientX);});
+  window.addEventListener('mouseup',onEnd);
+
+  // Touch
+  wrap.addEventListener('touchstart',e=>{onStart(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchmove',e=>{if(isDragging)onMove(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchend',onEnd);
 }
 
 function buildReviewCard(r){
@@ -1252,10 +1358,14 @@ function renderAdminPlList(){
   const el=document.getElementById('adminPlList');
   if(!plantList.length){el.innerHTML='<div class="empty-admin">Henüz bitki eklenmemiş.</div>';return;}
   el.innerHTML=plantList.map((f,i)=>`
-    <div class="admin-fish-item">
+    <div class="admin-fish-item" style="${f.outOfStock?'opacity:0.5':''}">
       ${f.img?`<img class="afi-img" src="${f.img}" alt="${f.name}">`:`<div class="afi-placeholder">🌿</div>`}
-      <div style="flex:1;"><div class="afi-name">${f.name}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
-      <div class="afi-right"><div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div><button class="del-btn" onclick="deletePlant(${i})">Sil</button></div>
+      <div style="flex:1;"><div class="afi-name">${f.name}${f.outOfStock?' <span style="color:#e05555;font-size:10px;">[Stokta Yok]</span>':''}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
+      <div class="afi-right">
+        <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
+        <button onclick="togglePlantStock(${i})" style="background:none;border:0.5px solid ${f.outOfStock?'rgba(45,224,204,0.3)':'rgba(220,50,50,0.3)'};color:${f.outOfStock?'var(--teal)':'#e05555'};font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;">${f.outOfStock?'Stokta Var':'Stokta Yok'}</button>
+        <button class="del-btn" onclick="deletePlant(${i})">Sil</button>
+      </div>
     </div>`).join('');
 }
 
@@ -1567,24 +1677,27 @@ function renderFishGrid(){
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
   g.innerHTML=fishList.map((f,i)=>{
     const qty=cart[i]||0,inCart=qty>0;
-    return`<div class="fish-card ${inCart?'in-cart':''}">
+    return`<div class="fish-card ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
       <div class="fish-img-wrap">
-        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
+        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy" style="${f.outOfStock?'filter:grayscale(0.6)':''}}"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
+        ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-family:'Jost',sans-serif;backdrop-filter:blur(4px);">Stokta Yok</div>`:''}
       </div>
       <div class="fish-body">
         <div class="fish-info-row">
           <div>
             <div class="fish-name">${f.name}</div>
             <div class="fish-type-badge">${f.type}</div>
-            ${f.stock!==null&&f.stock!==undefined?(f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`:f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:''):''}
+            ${!f.outOfStock&&f.stock!==null&&f.stock!==undefined?(f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`:f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:''):''}
             ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
           </div>
-          <div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+          <div class="fish-price" style="${f.outOfStock?'color:var(--text-dim)':'}'}">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
         </div>
         <div class="cart-controls">
-          ${inCart
-            ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">${_removeText()}</button>`
-            :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name}',${f.price})">${_addCartText()}</button>`}
+          ${f.outOfStock
+            ?`<div></div><div style="font-size:10px;color:#e05555;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;">Stokta Yok</div>`
+            :inCart
+              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">${_removeText()}</button>`
+              :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name}',${f.price})">${_addCartText()}</button>`}
         </div>
       </div>
     </div>`;
@@ -1678,10 +1791,14 @@ function renderAdminList(){
   const el=document.getElementById('adminFishList');
   if(!fishList.length){el.innerHTML='<div class="empty-admin">Henüz balık eklenmemiş.</div>';return;}
   el.innerHTML=fishList.map((f,i)=>`
-    <div class="admin-fish-item">
+    <div class="admin-fish-item" style="${f.outOfStock?'opacity:0.5':''}">
       ${f.img?`<img class="afi-img" src="${f.img}" alt="${f.name}">`:`<div class="afi-placeholder">🐠</div>`}
-      <div style="flex:1;"><div class="afi-name">${f.name}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
-      <div class="afi-right"><div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div><button class="del-btn" onclick="deleteFish(${i})">Sil</button></div>
+      <div style="flex:1;"><div class="afi-name">${f.name}${f.outOfStock?' <span style="color:#e05555;font-size:10px;">[Stokta Yok]</span>':''}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
+      <div class="afi-right">
+        <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
+        <button onclick="toggleStock(${i})" style="background:none;border:0.5px solid ${f.outOfStock?'rgba(45,224,204,0.3)':'rgba(220,50,50,0.3)'};color:${f.outOfStock?'var(--teal)':'#e05555'};font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;">${f.outOfStock?'Stokta Var':'Stokta Yok'}</button>
+        <button class="del-btn" onclick="deleteFish(${i})">Sil</button>
+      </div>
     </div>`).join('');
 }
 
@@ -1760,26 +1877,47 @@ function doLogin(){
 
 /* ══ VISITOR COUNTER ══ */
 (function(){
-  const key='enes_visits_total';
-  let count=parseInt(localStorage.getItem(key)||'0');
-  // Only count unique visits (once per session)
-  if(!sessionStorage.getItem('visited')){
-    count++;
-    localStorage.setItem(key,count);
-    sessionStorage.setItem('visited','1');
-  }
-  // Animate count
-  const el=document.getElementById('visitorCount');
-  if(el){
+  const BIN='69f61406aaba88219762a326';
+  const KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
+  const BASE2='https://api.jsonbin.io/v3/b/'+BIN;
+
+  function animateCount(target){
+    const el=document.getElementById('visitorCount');
+    if(!el)return;
     let current=0;
-    const target=count;
-    const step=Math.ceil(target/30);
+    const step=Math.max(1,Math.ceil(target/40));
     const timer=setInterval(()=>{
       current=Math.min(current+step,target);
       el.textContent=current.toLocaleString('tr-TR');
       if(current>=target)clearInterval(timer);
-    },40);
+    },30);
   }
+
+  async function trackVisit(){
+    try{
+      const r=await fetch(BASE2+'/latest',{headers:{'X-Master-Key':KEY}});
+      const d=await r.json();
+      let visits=d.record.visits||0;
+      // Count once per session
+      if(!sessionStorage.getItem('v_counted')){
+        visits++;
+        sessionStorage.setItem('v_counted','1');
+        // Save back
+        await fetch(BASE2,{method:'PUT',
+          headers:{'Content-Type':'application/json','X-Master-Key':KEY},
+          body:JSON.stringify({...d.record,visits})
+        });
+      }
+      animateCount(visits);
+    }catch(e){
+      // Fallback to localStorage
+      const lk='enes_v2';
+      let c=parseInt(localStorage.getItem(lk)||'0');
+      if(!sessionStorage.getItem('v_counted')){c++;localStorage.setItem(lk,c);sessionStorage.setItem('v_counted','1');}
+      animateCount(c);
+    }
+  }
+  trackVisit();
 })();
 
 /* ══ WATER RIPPLE on fish/plant/aq cards ══ */
