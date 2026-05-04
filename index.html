@@ -1120,7 +1120,7 @@ function notifyAll(){
     return p;
   });
 
-  const message = `Merhaba! Enes Akvaryum'da yeni baliklar geldi! Stok bitmeden goz atin: https://enes-akvaryum-2.pages.dev`;
+  const message = `Merhaba! Enes Akvaryum'da yeni baliklar geldi! Stok bitmeden goz atin: https://cankkeskin52-commits.github.io/enes-akvaryum/`;
 
   // Copy numbers to clipboard
   const numbersText = numbers.join('\n');
@@ -1202,48 +1202,61 @@ function initReviewDrag(){
   const wrap=document.querySelector('.reviews-wrap');
   const track=document.getElementById('reviewsTrack');
   if(!wrap||!track)return;
-  let startX=0,scrollStart=0,isDragging=false,animPaused=false;
-  let currentX=0;
 
-  function pause(){track.style.animationPlayState='paused';animPaused=true;}
-  function resume(){track.style.animationPlayState='running';animPaused=false;}
+  let startX=0, offsetX=0, isDragging=false, resumeTimer=null;
+
+  function getTranslateX(){
+    const st=window.getComputedStyle(track);
+    const mat=new WebKitCSSMatrix(st.transform);
+    return mat.m41;
+  }
+
+  function pause(){
+    track.style.animationPlayState='paused';
+    offsetX=getTranslateX();
+    track.style.animation='none';
+    track.style.transform=`translateX(${offsetX}px)`;
+  }
+
+  function resume(){
+    track.style.transform='';
+    track.style.animation='';
+    const isMob=window.innerWidth<640;
+    const dur=Math.max(isMob?18:25, (reviewList.length||3)*7);
+    track.style.animation=`scrollReviews ${isMob?Math.max(18,reviewList.length*5):dur}s linear infinite`;
+  }
 
   function onStart(x){
-    isDragging=true;startX=x;
-    // Get current position
-    const style=window.getComputedStyle(track);
-    const matrix=new DOMMatrix(style.transform);
-    currentX=matrix.m41;
-    scrollStart=currentX;
+    isDragging=true;
+    startX=x;
     pause();
     wrap.classList.add('dragging');
+    if(resumeTimer)clearTimeout(resumeTimer);
   }
+
   function onMove(x){
     if(!isDragging)return;
     const diff=x-startX;
-    currentX=scrollStart+diff;
-    track.style.transform=`translateX(${currentX}px)`;
+    track.style.transform=`translateX(${offsetX+diff}px)`;
   }
+
   function onEnd(){
+    if(!isDragging)return;
     isDragging=false;
     wrap.classList.remove('dragging');
-    // Resume animation after 2s of no interaction
-    setTimeout(()=>{
-      if(!isDragging){
-        track.style.transform='';
-        resume();
-      }
-    },2000);
+    resumeTimer=setTimeout(resume, 2500);
   }
 
-  // Mouse
+  // Mouse events
   wrap.addEventListener('mousedown',e=>{onStart(e.clientX);e.preventDefault();});
-  window.addEventListener('mousemove',e=>{if(isDragging)onMove(e.clientX);});
+  window.addEventListener('mousemove',e=>{onMove(e.clientX);});
   window.addEventListener('mouseup',onEnd);
 
-  // Touch
+  // Touch events
   wrap.addEventListener('touchstart',e=>{onStart(e.touches[0].clientX);},{passive:true});
-  wrap.addEventListener('touchmove',e=>{if(isDragging)onMove(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchmove',e=>{
+    if(isDragging){onMove(e.touches[0].clientX);e.preventDefault();}
+  },{passive:false});
   wrap.addEventListener('touchend',onEnd);
 }
 
