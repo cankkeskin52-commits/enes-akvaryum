@@ -123,10 +123,19 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
    GLASS CARDS — LINK BUTTONS
 ══════════════════════════════════════ */
 .links{display:flex;flex-direction:column;gap:10px;}
-.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);border-radius:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;transform-style:preserve-3d;}
-.link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(45,224,204,0.05) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;}
-.link-btn:hover{transform:translateY(-2px);border-color:rgba(45,224,204,0.4);box-shadow:0 8px 30px rgba(45,224,204,0.1),0 0 0 0.5px rgba(45,224,204,0.15);}
-.link-btn:hover::before{opacity:1;}
+.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);border-radius:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:border-color 0.4s,box-shadow 0.4s,background 0.4s;}
+/* Soldan sağa ışık tarama efekti */
+.link-btn::before{
+  content:'';position:absolute;top:0;left:-80%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(45,224,204,0.09),transparent);
+  transform:skewX(-18deg);transition:left 0.55s ease;pointer-events:none;
+}
+.link-btn:hover::before{left:140%;}
+.link-btn:hover{
+  border-color:rgba(45,224,204,0.5);
+  box-shadow:0 0 0 0.5px rgba(45,224,204,0.15),0 4px 30px rgba(45,224,204,0.1),inset 0 0 40px rgba(45,224,204,0.03);
+  background:rgba(6,20,38,0.85);
+}
 .btn-inner{display:flex;align-items:center;gap:1rem;}
 .btn-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(45,224,204,0.08);border-right:0.5px solid var(--border2);}
 .btn-icon svg{fill:none;stroke:var(--teal);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
@@ -396,7 +405,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   filter:drop-shadow(0 0 8px rgba(var(--sc-rgb),0.3));
   transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), filter 0.4s;
 }
-.svc-card:hover .svc-icon{transform:scale(1.2) translateY(-2px);filter:drop-shadow(0 0 14px rgba(var(--sc-rgb),0.6));}
+.svc-card:hover .svc-icon{filter:drop-shadow(0 0 14px rgba(var(--sc-rgb),0.6));}
 .svc-name{
   font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
   letter-spacing:0.12em;text-transform:uppercase;
@@ -663,37 +672,6 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 }
 #loaderPct{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.25em;color:var(--text-dim);}
 
-/* ══════════════════════════════════════
-   CUSTOM CURSOR
-══════════════════════════════════════ */
-#cursorDot{
-  position:fixed;top:0;left:0;width:5px;height:5px;
-  background:#fff;border-radius:50%;
-  pointer-events:none;z-index:9999;will-change:transform;
-  transform:translate(-50%,-50%);
-  mix-blend-mode:difference;
-  transition:opacity 0.3s, transform 0.1s;
-}
-#cursorRing{
-  position:fixed;top:0;left:0;width:32px;height:32px;
-  border:1.5px solid rgba(255,255,255,0.35);border-radius:50%;
-  pointer-events:none;z-index:9998;will-change:transform;
-  transform:translate(-50%,-50%);
-  mix-blend-mode:difference;
-  transition:width 0.4s cubic-bezier(0.16,1,0.3,1),
-             height 0.4s cubic-bezier(0.16,1,0.3,1),
-             border-color 0.3s, background 0.3s;
-}
-#cursorRing.hover{
-  width:52px;height:52px;
-  border-color:rgba(255,255,255,0.7);
-  background:rgba(255,255,255,0.04);
-}
-#cursorRing.clicking{
-  width:22px;height:22px;
-  background:rgba(255,255,255,0.12);
-}
-@media(hover:none){#cursorDot,#cursorRing{display:none;}}
 
 /* ══════════════════════════════════════
    SES TOGGLE
@@ -809,10 +787,6 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
   <div id="loaderPct">0%</div>
 </div>
 
-<!-- CUSTOM CURSOR -->
-<div id="cursorDot"></div>
-<div id="cursorRing"></div>
-
 <!-- SES TOGGLE -->
 <button id="soundBtn" onclick="toggleSound()" title="Ses Aç/Kapat">🔊</button>
 
@@ -823,6 +797,7 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 <div id="stickyNav">
   <div class="snav-logo">Enes Akvaryum</div>
   <div class="snav-link" onclick="document.getElementById('fishGrid').scrollIntoView({behavior:'smooth',block:'start'})">Balıklar</div>
+  <div class="snav-link" onclick="document.getElementById('plantGrid').scrollIntoView({behavior:'smooth',block:'start'})">Bitkiler</div>
   <div class="snav-link" onclick="document.getElementById('aqGrid').scrollIntoView({behavior:'smooth',block:'start'})">Akvaryum</div>
   <div class="snav-link" onclick="document.getElementById('reviewsTrack').closest('.reveal').scrollIntoView({behavior:'smooth',block:'start'})">Yorumlar</div>
   <div class="snav-link" onclick="document.querySelector('.ig-card').scrollIntoView({behavior:'smooth',block:'center'})">Instagram</div>
@@ -2668,58 +2643,40 @@ fetchFish();
     pctEl.textContent=Math.floor(p)+'%';
     if(p===100){
       setTimeout(()=>{
-        playSound('chime');
         loader.style.transition='transform 1s cubic-bezier(0.76,0,0.24,1),opacity 0.4s ease 0.5s';
         loader.style.transform='scaleY(0)';
         loader.style.opacity='0';
         setTimeout(()=>loader.style.display='none',1100);
+        // Açılış sesi — AudioContext hazırsa hemen çal, değilse ilk gesture'da çal
+        if(_actx&&_actx.state==='running'){
+          playOpeningSound();
+        } else {
+          _openingPending=true;
+        }
       },320);
     }
   },55);
 })();
 
-/* ══ CUSTOM CURSOR ══ */
-(function(){
-  const dot=document.getElementById('cursorDot');
-  const ring=document.getElementById('cursorRing');
-  if(!dot||!ring) return;
-  let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
-
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    dot.style.transform=`translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
-  });
-
-  (function loop(){
-    rx+=(mx-rx)*0.11; ry+=(my-ry)*0.11;
-    ring.style.transform=`translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
-    requestAnimationFrame(loop);
-  })();
-
-  // Hover büyümesi — tüm interaktif elementler
-  function bindCursor(){
-    document.querySelectorAll('a,button,.fish-card,.aq-card,.link-btn,.ig-card,.svc-card,.review-card').forEach(el=>{
-      el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
-      el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
-    });
-  }
-  bindCursor();
-  window._rebindCursor=bindCursor;
-
-  document.addEventListener('mousedown',()=>ring.classList.add('clicking'));
-  document.addEventListener('mouseup',()=>ring.classList.remove('clicking'));
-  document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0';});
-  document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1';});
-})();
 
 /* ══ SES SİSTEMİ (Web Audio API) ══ */
-let _actx=null, _soundOn=true;
+let _actx=null, _soundOn=true, _openingPending=false;
 
-function _initAudio(){
-  if(_actx) return;
-  try{_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+// AudioContext'i hemen oluştur (suspended başlar, gesture'da resume olur)
+try{_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+
+function _resumeAudio(){
+  if(!_actx) return;
+  if(_actx.state==='suspended'){
+    _actx.resume().then(()=>{
+      if(_openingPending){_openingPending=false;playOpeningSound();}
+    });
+  }
 }
-['click','touchstart','keydown'].forEach(ev=>document.addEventListener(ev,_initAudio,{once:true}));
+// İlk etkileşimde resume et
+['click','touchstart','scroll'].forEach(ev=>
+  document.addEventListener(ev,_resumeAudio,{passive:true})
+);
 
 function playSound(type){
   if(!_actx||!_soundOn) return;
@@ -2785,6 +2742,62 @@ function playSound(type){
     g.gain.exponentialRampToValueAtTime(0.001,t+0.09);
     o.start(t);o.stop(t+0.1);
   }
+
+  if(type==='cartAdd'){
+    // Pop + yükselen iki nota — "sepete eklendi" hissi
+    [0,0.12].forEach((delay,i)=>{
+      const o=_actx.createOscillator(),g=_actx.createGain();
+      o.connect(g);g.connect(master);
+      o.type='sine';
+      o.frequency.setValueAtTime(i===0?520:780,t+delay);
+      g.gain.setValueAtTime(0,t+delay);
+      g.gain.linearRampToValueAtTime(0.14,t+delay+0.03);
+      g.gain.exponentialRampToValueAtTime(0.001,t+delay+0.25);
+      o.start(t+delay);o.stop(t+delay+0.28);
+    });
+    // Kısa bubble tık
+    const o2=_actx.createOscillator(),g2=_actx.createGain();
+    o2.connect(g2);g2.connect(master);
+    o2.type='triangle';
+    o2.frequency.setValueAtTime(300,t);
+    o2.frequency.exponentialRampToValueAtTime(80,t+0.07);
+    g2.gain.setValueAtTime(0.2,t);
+    g2.gain.exponentialRampToValueAtTime(0.001,t+0.07);
+    o2.start(t);o2.stop(t+0.08);
+  }
+}
+
+function playOpeningSound(){
+  if(!_actx||!_soundOn) return;
+  const t=_actx.currentTime;
+
+  // Su sesi — filtrelenmiş beyaz gürültü sweep
+  const bufLen=_actx.sampleRate*2;
+  const buf=_actx.createBuffer(1,bufLen,_actx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<bufLen;i++) d[i]=(Math.random()*2-1)*Math.sin(i/bufLen*Math.PI);
+  const src=_actx.createBufferSource(); src.buffer=buf;
+  const filt=_actx.createBiquadFilter(); filt.type='lowpass';
+  filt.frequency.setValueAtTime(180,t);
+  filt.frequency.linearRampToValueAtTime(900,t+1.4);
+  const gNoise=_actx.createGain();
+  gNoise.gain.setValueAtTime(0,t);
+  gNoise.gain.linearRampToValueAtTime(0.18,t+0.25);
+  gNoise.gain.linearRampToValueAtTime(0,t+2);
+  src.connect(filt); filt.connect(gNoise); gNoise.connect(_actx.destination);
+  src.start(t);
+
+  // Tiz zil notaları — yükselen melodi
+  [330,415,523,659,784,1046].forEach((freq,i)=>{
+    const o=_actx.createOscillator(), g=_actx.createGain();
+    o.connect(g); g.connect(_actx.destination);
+    o.type='sine'; o.frequency.value=freq;
+    const st=t+0.35+i*0.16;
+    g.gain.setValueAtTime(0,st);
+    g.gain.linearRampToValueAtTime(0.08,st+0.06);
+    g.gain.exponentialRampToValueAtTime(0.001,st+1.1);
+    o.start(st); o.stop(st+1.15);
+  });
 }
 
 function toggleSound(){
@@ -2794,32 +2807,19 @@ function toggleSound(){
   if(_soundOn){_initAudio();setTimeout(()=>playSound('drop'),50);}
 }
 
-// Ses bağlantıları — sadece anlamlı etkileşimler
+// Ses bağlantıları
 document.addEventListener('click',e=>{
-  if(e.target.closest('.add-cart-btn')) playSound('pop');
+  _resumeAudio();
+  if(e.target.closest('.add-cart-btn')){
+    // Önce resume et, sonra sesi çal
+    const doPlay=()=>playSound('cartAdd');
+    if(_actx&&_actx.state==='running') doPlay();
+    else if(_actx) _actx.resume().then(doPlay);
+  }
   else if(e.target.closest('.whatsapp-btn,.aq-wa-btn')) playSound('chime');
   else if(e.target.closest('.link-btn,.snav-link')) playSound('drop');
 });
 
-/* ══ MANYETİK BUTONLAR ══ */
-(function(){
-  function bindMagnetic(){
-    document.querySelectorAll('.link-btn,.ig-card,.aq-custom-btn,.whatsapp-btn,.snav-link').forEach(btn=>{
-      btn.addEventListener('mousemove',e=>{
-        const r=btn.getBoundingClientRect();
-        const x=(e.clientX-r.left-r.width/2)*0.2;
-        const y=(e.clientY-r.top-r.height/2)*0.2;
-        btn.style.transition='transform 0.1s ease';
-        btn.style.transform=`translate(${x}px,${y}px)`;
-      });
-      btn.addEventListener('mouseleave',()=>{
-        btn.style.transition='transform 0.6s cubic-bezier(0.34,1.56,0.64,1)';
-        btn.style.transform='';
-      });
-    });
-  }
-  bindMagnetic();
-})();
 
 /* ══ LENIS SMOOTH SCROLL ══ */
 (function(){
