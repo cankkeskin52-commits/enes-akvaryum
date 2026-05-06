@@ -1158,8 +1158,16 @@ function animateCanvas(){
   particles.forEach(p=>{p.update();p.draw();});
   fishDots.forEach(f=>{f.update();f.draw();});
 
-  requestAnimationFrame(animateCanvas);
+  if(canvasVisible) requestAnimationFrame(animateCanvas);
 }
+
+let canvasVisible=true;
+let animFrameId=null;
+const canvasObserver=new IntersectionObserver(entries=>{
+  canvasVisible=entries[0].isIntersecting;
+  if(canvasVisible){animateCanvas();}
+},{threshold:0});
+canvasObserver.observe(document.querySelector('.hero'));
 animateCanvas();
 
 /* ══ HERO ELEMENTS ══ */
@@ -1202,13 +1210,19 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 /* ══ 3D KART TILT ══ */
 function addCardTilt(){
   document.querySelectorAll('.fish-card,.aq-card').forEach(card=>{
+    let tiltRaf=null;
     card.addEventListener('mousemove',e=>{
-      const r=card.getBoundingClientRect();
-      const x=(e.clientX-r.left)/r.width-0.5;
-      const y=(e.clientY-r.top)/r.height-0.5;
-      card.style.transform=`perspective(900px) rotateX(${-y*10}deg) rotateY(${x*10}deg) translateY(-8px) scale(1.02)`;
+      if(tiltRaf) return;
+      tiltRaf=requestAnimationFrame(()=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-0.5;
+        const y=(e.clientY-r.top)/r.height-0.5;
+        card.style.transform=`perspective(900px) rotateX(${-y*10}deg) rotateY(${x*10}deg) translateY(-8px) scale(1.02)`;
+        tiltRaf=null;
+      });
     });
     card.addEventListener('mouseleave',()=>{
+      if(tiltRaf){cancelAnimationFrame(tiltRaf);tiltRaf=null;}
       card.style.transform='';
     });
   });
