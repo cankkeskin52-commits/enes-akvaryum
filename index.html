@@ -390,6 +390,37 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .ig-card:hover .ig-follow-btn{opacity:0.9;transform:translateX(3px);}
 
 /* ══════════════════════════════════════
+   INSTAGRAM GÖNDERİ GRID
+══════════════════════════════════════ */
+.ig-posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;}
+@media(max-width:639px){.ig-posts-grid{grid-template-columns:1fr;}}
+.ig-post-card{
+  border-radius:14px;overflow:hidden;
+  border:0.5px solid rgba(131,58,180,0.2);
+  background:rgba(6,14,28,0.85);
+  position:relative;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+  cursor:pointer;
+}
+.ig-post-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(131,58,180,0.5);
+  box-shadow:0 12px 40px rgba(131,58,180,0.15);
+}
+.ig-post-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform 0.5s ease;}
+.ig-post-card:hover .ig-post-img{transform:scale(1.06);}
+.ig-post-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.75) 100%);
+  opacity:0;transition:opacity 0.3s;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;gap:4px;
+}
+.ig-post-card:hover .ig-post-overlay{opacity:1;}
+.ig-post-caption{font-size:11px;color:#fff;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ig-post-link-label{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);}
+.ig-post-placeholder{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(131,58,180,0.15),rgba(253,29,29,0.1));}
+
+/* ══════════════════════════════════════
    FOOTER
 ══════════════════════════════════════ */
 .site-footer{text-align:center;padding:3rem 0 2rem;border-top:0.5px solid var(--border);}
@@ -467,6 +498,22 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .reveal.visible{opacity:1;transform:translateY(0);}
 
 /* ══════════════════════════════════════
+   BALIK YÜZME ANİMASYONU (hover)
+══════════════════════════════════════ */
+@keyframes fishSwim{
+  0%,100%{transform:scale(1.08) translateX(0)   rotate(0deg)    translateY(0);}
+  20%    {transform:scale(1.09) translateX(7px)  rotate(2.5deg)  translateY(-5px);}
+  40%    {transform:scale(1.08) translateX(2px)  rotate(0.5deg)  translateY(3px);}
+  60%    {transform:scale(1.09) translateX(-6px) rotate(-2deg)   translateY(-3px);}
+  80%    {transform:scale(1.08) translateX(-2px) rotate(-0.5deg) translateY(2px);}
+}
+.fish-card:hover .fish-img{
+  animation:fishSwim 2s ease-in-out infinite;
+  filter:saturate(1.35) brightness(1.08);
+  transition:none;
+}
+
+/* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
 @media(max-width:639px){
@@ -528,12 +575,119 @@ body.day-theme{
 body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ══════════════════════════════════════
+   SCROLL PROGRESS BAR
+══════════════════════════════════════ */
+#scrollBar{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--teal),var(--blue),var(--cyan));
+  z-index:200;transition:width 0.05s linear;
+  box-shadow:0 0 8px rgba(45,224,204,0.6);
+}
+
+/* ══════════════════════════════════════
+   STICKY NAV
+══════════════════════════════════════ */
+#stickyNav{
+  position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);
+  z-index:100;
+  display:flex;align-items:center;gap:0;
+  background:rgba(2,8,16,0.85);
+  border:0.5px solid rgba(45,224,204,0.2);
+  border-radius:0 0 16px 16px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:0 4px 4px;
+  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 0.5px rgba(45,224,204,0.08);
+}
+#stickyNav.show{transform:translateX(-50%) translateY(0);}
+.snav-logo{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:var(--teal);letter-spacing:0.12em;
+  padding:10px 16px 6px;border-right:0.5px solid rgba(45,224,204,0.12);
+  white-space:nowrap;
+}
+.snav-link{
+  font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--text-dim);
+  padding:10px 14px 6px;cursor:pointer;
+  transition:color 0.2s;white-space:nowrap;
+}
+.snav-link:hover{color:var(--teal);}
+@media(max-width:639px){
+  #stickyNav{padding:0 2px 3px;}
+  .snav-logo{font-size:12px;padding:8px 10px 4px;}
+  .snav-link{font-size:8px;padding:8px 8px 4px;letter-spacing:0.14em;}
+}
+
+/* ══════════════════════════════════════
+   ENHANCED REVEAL VARIANTS
+══════════════════════════════════════ */
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+.reveal-scale{opacity:0;transform:scale(0.92);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-scale.visible{opacity:1;transform:scale(1);}
+
+.sec-header{position:relative;}
+
+/* Hero parallax wrapper */
+.hero-content{will-change:transform;}
+
+/* Ambient glow orbs that drift on scroll */
+#ambientOrbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);
+  transition:transform 1.2s cubic-bezier(0.16,1,0.3,1),opacity 1.2s ease;
+  pointer-events:none;
+}
+.orb-teal{width:400px;height:400px;background:radial-gradient(circle,rgba(45,224,204,0.06),transparent 70%);top:20%;left:-10%;}
+.orb-blue{width:500px;height:500px;background:radial-gradient(circle,rgba(58,159,212,0.05),transparent 70%);top:60%;right:-15%;}
+.orb-cyan{width:300px;height:300px;background:radial-gradient(circle,rgba(0,245,255,0.04),transparent 70%);top:40%;left:40%;}
+
+/* Stagger delays for grid items */
+.fish-grid .fish-card:nth-child(1),.aq-grid .aq-card:nth-child(1){transition-delay:0s;}
+.fish-grid .fish-card:nth-child(2),.aq-grid .aq-card:nth-child(2){transition-delay:0.07s;}
+.fish-grid .fish-card:nth-child(3),.aq-grid .aq-card:nth-child(3){transition-delay:0.14s;}
+.fish-grid .fish-card:nth-child(4),.aq-grid .aq-card:nth-child(4){transition-delay:0.21s;}
+.fish-grid .fish-card:nth-child(5),.aq-grid .aq-card:nth-child(5){transition-delay:0.28s;}
+.fish-grid .fish-card:nth-child(6),.aq-grid .aq-card:nth-child(6){transition-delay:0.35s;}
+.svc-card:nth-child(1){transition-delay:0s;}
+.svc-card:nth-child(2){transition-delay:0.06s;}
+.svc-card:nth-child(3){transition-delay:0.12s;}
+.svc-card:nth-child(4){transition-delay:0.18s;}
+.svc-card:nth-child(5){transition-delay:0.24s;}
+.svc-card:nth-child(6){transition-delay:0.30s;}
+.svc-card:nth-child(7){transition-delay:0.36s;}
+.svc-card:nth-child(8){transition-delay:0.42s;}
+.svc-card:nth-child(9){transition-delay:0.48s;}
+.svc-card:nth-child(10){transition-delay:0.54s;}
 </style>
 </head>
 <body>
 
-<!-- CANVAS BACKGROUND -->
+<!-- SCROLL PROGRESS BAR -->
+<div id="scrollBar"></div>
 
+<!-- STICKY NAV -->
+<div id="stickyNav">
+  <div class="snav-logo">Enes Akvaryum</div>
+  <div class="snav-link" onclick="document.getElementById('fishGrid').scrollIntoView({behavior:'smooth',block:'start'})">Balıklar</div>
+  <div class="snav-link" onclick="document.getElementById('aqGrid').scrollIntoView({behavior:'smooth',block:'start'})">Akvaryum</div>
+  <div class="snav-link" onclick="document.getElementById('reviewsTrack').closest('.reveal').scrollIntoView({behavior:'smooth',block:'start'})">Yorumlar</div>
+  <div class="snav-link" onclick="document.querySelector('.ig-card').scrollIntoView({behavior:'smooth',block:'center'})">Instagram</div>
+</div>
+
+<!-- AMBIENT ORBS -->
+<div id="ambientOrbs">
+  <div class="orb orb-teal"></div>
+  <div class="orb orb-blue"></div>
+  <div class="orb orb-cyan"></div>
+</div>
+
+<!-- CANVAS BACKGROUND -->
 <canvas id="bgCanvas"></canvas>
 
 <div class="page">
@@ -717,6 +871,9 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
       <div class="ig-follow-btn">Takip Et →</div>
     </div>
   </a>
+
+  <!-- INSTAGRAM GÖNDERİLER -->
+  <div class="ig-posts-grid reveal" id="igPostsGrid" style="display:none;"></div>
 
   <!-- GOOGLE HARİTA -->
   <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Bizi Bulun</div><div class="sec-line-r"></div></div>
@@ -924,10 +1081,29 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
       <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.65;margin-bottom:10px;">Mevcut Yorumlar</div>
       <div class="admin-fish-list" id="adminRvList"></div>
 
+      <!-- INSTAGRAM GÖNDERİLER YÖNETİMİ -->
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(131,58,180,0.9);opacity:0.9;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Instagram Gönderileri (Son 3)</div>
+      <div class="add-form" style="border-color:rgba(131,58,180,0.2);">
+        <h3 style="color:rgba(131,58,180,0.8);">Gönderi Ekle / Güncelle</h3>
+        <div style="font-size:10px;color:var(--text-dim);margin-bottom:12px;line-height:1.6;">Instagram gönderisinin linkini yapıştır (örn: https://www.instagram.com/p/ABC123/). Görsel URL'si veya Cloudinary linki de olabilir.</div>
+        <div class="form-row" style="grid-template-columns:1fr;">
+          <div class="field-sm"><label>Gönderi Linki (instagram.com/p/... veya görsel URL)</label><input type="text" id="igUrl1" placeholder="https://www.instagram.com/p/..."></div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr;">
+          <div class="field-sm"><label>Görsel 2</label><input type="text" id="igUrl2" placeholder="https://www.instagram.com/p/..."></div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr;">
+          <div class="field-sm"><label>Görsel 3</label><input type="text" id="igUrl3" placeholder="https://www.instagram.com/p/..."></div>
+        </div>
+        <button class="add-btn" onclick="saveIgPosts()" style="margin-top:8px;border-color:rgba(131,58,180,0.4);color:rgba(200,100,255,0.9);">💾 Kaydet & Yayınla</button>
+      </div>
+
     </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 /* ══ CONFIG ══ */
 const PASS='Enesakvaryum2024';
@@ -938,7 +1114,7 @@ const UPLOAD_PRESET='enes_akvaryum';
 const WA='905383279980';
 const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
 
-let fishList=[],cart={},currentImgUrl='',selectedFile=null;
+let fishList=[],cart={},currentImgUrl='',selectedFile=null,igPostsList=[];
 
 /* ══ CANVAS BACKGROUND ══ */
 const canvas=document.getElementById('bgCanvas');
@@ -1552,6 +1728,7 @@ function renderPlantGrid(){
       </div>
     </div>`;
   }).join('');
+  if(window._gsapRefresh) window._gsapRefresh();
 }
 
 function renderAdminPlList(){
@@ -1642,7 +1819,7 @@ async function fetchAquariums(){
 
 async function saveAll(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList, aquariums:aqList, reviews:reviewList, plants:plantList})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,igPosts:igPostsList})});
   return r.ok;
 }
 
@@ -1692,6 +1869,7 @@ function renderAqGrid(){
       </a>
     </div>`;
   g.innerHTML=html;
+  if(window._gsapRefresh) window._gsapRefresh();
 }
 
 function renderAdminAqList(){
@@ -1858,11 +2036,13 @@ async function fetchFish(){
     reviewList=d.record.reviews||[];
     plantList=d.record.plants||[];
     subList=d.record.subscribers||[];
+    igPostsList=d.record.igPosts||[];
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
     renderAqGrid();
     renderReviews();
     renderPlantGrid();
+    renderIgPosts();
   }catch(e){
     if(!fishList.length) document.getElementById('fishGrid').innerHTML='<div class="no-fish">Yüklenemedi, sayfayı yenile.</div>';
   }
@@ -1870,6 +2050,52 @@ async function fetchFish(){
 
 async function saveFish(){
   return await saveAll();
+}
+
+/* ══ INSTAGRAM GÖNDERİLER ══ */
+function renderIgPosts(){
+  const grid=document.getElementById('igPostsGrid');
+  if(!grid)return;
+  const posts=igPostsList.filter(p=>p&&p.url);
+  if(!posts.length){grid.style.display='none';return;}
+  grid.style.display='grid';
+  grid.innerHTML=posts.slice(0,3).map(p=>{
+    const isImg=/\.(jpg|jpeg|png|webp|gif)/i.test(p.url)||p.url.includes('cloudinary')||p.url.includes('cdninstagram');
+    const isIgPost=p.url.includes('instagram.com/p/');
+    let shortcode='';
+    if(isIgPost){const m=p.url.match(/instagram\.com\/p\/([^\/\?]+)/);shortcode=m?m[1]:'';}
+    return`<a class="ig-post-card" href="${isIgPost?p.url:'https://www.instagram.com/enesakvaryum_/'}" target="_blank">
+      ${isImg
+        ?`<img class="ig-post-img" src="${p.url}" alt="Instagram">`
+        :shortcode
+          ?`<iframe src="https://www.instagram.com/p/${shortcode}/embed/" frameborder="0" scrolling="no" style="width:100%;aspect-ratio:1;border:none;pointer-events:none;" loading="lazy"></iframe>`
+          :`<div class="ig-post-placeholder">📸</div>`
+      }
+      <div class="ig-post-overlay">
+        ${p.caption?`<div class="ig-post-caption">${p.caption}</div>`:''}
+        <div class="ig-post-link-label">Instagram'da Gör →</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+async function saveIgPosts(){
+  const urls=[
+    document.getElementById('igUrl1').value.trim(),
+    document.getElementById('igUrl2').value.trim(),
+    document.getElementById('igUrl3').value.trim()
+  ];
+  igPostsList=urls.filter(u=>u).map(u=>({url:u,caption:''}));
+  const ok=await saveAll();
+  if(ok){setStatus('✓ Instagram gönderileri kaydedildi',true);renderIgPosts();}
+  else setStatus('✗ Kaydedilemedi',false);
+}
+
+function loadIgAdminFields(){
+  ['igUrl1','igUrl2','igUrl3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el&&igPostsList[i]) el.value=igPostsList[i].url||'';
+  });
 }
 
 function renderFishGrid(){
@@ -1905,6 +2131,7 @@ function renderFishGrid(){
     </div>`;
   }).join('');
   addCardTilt();
+  if(window._gsapRefresh) window._gsapRefresh();
 }
 
 function addToCart(i,name,price){
@@ -2062,6 +2289,7 @@ function doLogin(){
     renderAdminAqList();
     renderAdminRvList();
     renderAdminSubList();
+    loadIgAdminFields();
   }else document.getElementById('loginErr').style.display='block';
 }
 
@@ -2266,6 +2494,138 @@ const _removeText=()=>currentLang==='EN'?'Remove':'Çıkar';
 const _origAddCart=addToCart;
 
 fetchFish();
+
+/* ══ SCROLL BAR + STICKY NAV ══ */
+(function(){
+  const scrollBar=document.getElementById('scrollBar');
+  const stickyNav=document.getElementById('stickyNav');
+  const heroEl=document.querySelector('.hero');
+  const orbTeal=document.querySelector('.orb-teal');
+  const orbBlue=document.querySelector('.orb-blue');
+  const orbCyan=document.querySelector('.orb-cyan');
+  let rafPending=false;
+  function onScroll(){if(!rafPending){rafPending=true;requestAnimationFrame(update);}}
+  function update(){
+    rafPending=false;
+    const sy=window.scrollY;
+    const docH=document.documentElement.scrollHeight-window.innerHeight;
+    scrollBar.style.width=(docH>0?sy/docH*100:0)+'%';
+    const heroH=heroEl?heroEl.offsetHeight:window.innerHeight;
+    if(sy>heroH*0.65) stickyNav.classList.add('show');
+    else stickyNav.classList.remove('show');
+    if(orbTeal) orbTeal.style.transform=`translateY(${sy*0.12}px) translateX(${Math.sin(sy*0.003)*20}px)`;
+    if(orbBlue) orbBlue.style.transform=`translateY(${-sy*0.08}px) translateX(${Math.cos(sy*0.004)*25}px)`;
+    if(orbCyan) orbCyan.style.transform=`translateY(${sy*0.05}px)`;
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+})();
+
+/* ══ GSAP PREMIUM ANİMASYONLAR ══ */
+(function(){
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Tüm .reveal elemanlarını hemen visible yap — GSAP devralıyor (sepet hariç)
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(el.id==='cartSummary') return; // sepet sadece ürün varsa açılır
+    el.classList.add('visible');
+  });
+
+  // ── 1. Hero içerik — scroll ile yukarı kayıp kayboluyor (scrub) ──
+  gsap.to('.hero-content',{
+    y:180,opacity:0,ease:'none',
+    scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1.5}
+  });
+
+  // ── 2. Bölüm başlıkları — soldan yay gibi geliyor ──
+  gsap.utils.toArray('.sec-header').forEach(el=>{
+    gsap.fromTo(el,
+      {opacity:0,x:-50},
+      {opacity:1,x:0,duration:1,ease:'power3.out',
+       scrollTrigger:{trigger:el,start:'top 88%',once:true}}
+    );
+  });
+
+  // ── 3. Link butonlar — soldan/sağdan dönüşümlü ──
+  document.querySelectorAll('.link-btn').forEach((el,i)=>{
+    gsap.fromTo(el,
+      {opacity:0,x:i%2===0?-80:80},
+      {opacity:1,x:0,duration:0.9,ease:'power3.out',
+       scrollTrigger:{trigger:el,start:'top 90%',once:true}}
+    );
+  });
+
+  // ── 4. Info kartlar — scale + bounce ──
+  gsap.fromTo('.info-card',
+    {opacity:0,y:40,scale:0.86},
+    {opacity:1,y:0,scale:1,stagger:0.18,duration:0.9,ease:'back.out(1.8)',
+     scrollTrigger:{trigger:'.info-grid',start:'top 86%',once:true}}
+  );
+
+  // ── 5. Balık/Bitki/Akvaryum grid container ──
+  ['#fishGrid','#plantGrid','#aqGrid'].forEach(id=>{
+    const el=document.querySelector(id);
+    if(!el)return;
+    gsap.fromTo(el,
+      {opacity:0,y:50},
+      {opacity:1,y:0,duration:0.8,ease:'power2.out',
+       scrollTrigger:{trigger:el,start:'top 85%',once:true}}
+    );
+  });
+
+  // ── 6. Hizmet kartları — stagger scale ──
+  gsap.fromTo('.svc-card',
+    {opacity:0,y:28,scale:0.91},
+    {opacity:1,y:0,scale:1,stagger:0.07,duration:0.7,ease:'back.out(1.5)',
+     scrollTrigger:{trigger:'.services-grid',start:'top 82%',once:true}}
+  );
+
+  // ── 7. Yorumlar — sağdan kayıyor ──
+  gsap.fromTo('.reviews-wrap',
+    {opacity:0,x:60},
+    {opacity:1,x:0,duration:1.1,ease:'power3.out',
+     scrollTrigger:{trigger:'.reviews-wrap',start:'top 86%',once:true}}
+  );
+
+  // ── 8. Abone bölümü — aşağıdan zıplıyor ──
+  const subEl=document.querySelector('#subTitle');
+  if(subEl){
+    const wrap=subEl.closest('[style*="background"]')||subEl.parentElement;
+    gsap.fromTo(wrap,
+      {opacity:0,y:60,scale:0.94},
+      {opacity:1,y:0,scale:1,duration:1,ease:'back.out(1.3)',
+       scrollTrigger:{trigger:wrap,start:'top 86%',once:true}}
+    );
+  }
+
+  // ── 9. Instagram kartı ──
+  gsap.fromTo('.ig-card',
+    {opacity:0,y:40,scale:0.93},
+    {opacity:1,y:0,scale:1,duration:1,ease:'power3.out',
+     scrollTrigger:{trigger:'.ig-card',start:'top 88%',once:true}}
+  );
+
+  // ── 10. Harita ──
+  const mapWrap=document.querySelector('iframe');
+  if(mapWrap){
+    gsap.fromTo(mapWrap.parentElement,
+      {opacity:0,scale:0.96},
+      {opacity:1,scale:1,duration:1.2,ease:'power2.out',
+       scrollTrigger:{trigger:mapWrap,start:'top 88%',once:true}}
+    );
+  }
+
+  // ── 11. Footer ──
+  gsap.fromTo('.site-footer',
+    {opacity:0,y:35},
+    {opacity:1,y:0,duration:1,ease:'power2.out',
+     scrollTrigger:{trigger:'.site-footer',start:'top 92%',once:true}}
+  );
+
+  // Dinamik içerik sonrası yenile
+  window._gsapRefresh=()=>ScrollTrigger.refresh();
+})();
+
 </script>
 </body>
 </html>
