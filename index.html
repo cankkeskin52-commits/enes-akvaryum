@@ -2898,7 +2898,7 @@ fetchFish();
         loader.style.opacity='0';
         setTimeout(()=>loader.style.display='none',1100);
         // Açılış sesi — sadece tarayıcı izin verirse çal
-        if(_actx) _actx.resume().then(()=>playOpeningSound()).catch(()=>{});
+        if(_actx) _actx.resume().catch(()=>{});
       },320);
     }
   },55);
@@ -3011,38 +3011,6 @@ function playSound(type){
   }
 }
 
-function playOpeningSound(){
-  if(!_actx||!_soundOn) return;
-  const t=_actx.currentTime;
-
-  // Su sesi — filtrelenmiş beyaz gürültü sweep
-  const bufLen=_actx.sampleRate*2;
-  const buf=_actx.createBuffer(1,bufLen,_actx.sampleRate);
-  const d=buf.getChannelData(0);
-  for(let i=0;i<bufLen;i++) d[i]=(Math.random()*2-1)*Math.sin(i/bufLen*Math.PI);
-  const src=_actx.createBufferSource(); src.buffer=buf;
-  const filt=_actx.createBiquadFilter(); filt.type='lowpass';
-  filt.frequency.setValueAtTime(180,t);
-  filt.frequency.linearRampToValueAtTime(900,t+1.4);
-  const gNoise=_actx.createGain();
-  gNoise.gain.setValueAtTime(0,t);
-  gNoise.gain.linearRampToValueAtTime(0.18,t+0.25);
-  gNoise.gain.linearRampToValueAtTime(0,t+2);
-  src.connect(filt); filt.connect(gNoise); gNoise.connect(_actx.destination);
-  src.start(t);
-
-  // Tiz zil notaları — yükselen melodi
-  [330,415,523,659,784,1046].forEach((freq,i)=>{
-    const o=_actx.createOscillator(), g=_actx.createGain();
-    o.connect(g); g.connect(_actx.destination);
-    o.type='sine'; o.frequency.value=freq;
-    const st=t+0.35+i*0.16;
-    g.gain.setValueAtTime(0,st);
-    g.gain.linearRampToValueAtTime(0.08,st+0.06);
-    g.gain.exponentialRampToValueAtTime(0.001,st+1.1);
-    o.start(st); o.stop(st+1.15);
-  });
-}
 
 function toggleSound(){
   _soundOn=!_soundOn;
