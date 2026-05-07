@@ -1351,7 +1351,7 @@ function animateCanvas(){
   ctx.fillStyle=rg;
   ctx.fillRect(0,0,W,H);
   particles.forEach(p=>{p.update();p.draw();});
-  fishDots.forEach(f=>{f.update();f.draw();});
+  if(typeof fishDots!=='undefined') fishDots.forEach(f=>{f.update();f.draw();});
   requestAnimationFrame(animateCanvas);
 }
 animateCanvas();
