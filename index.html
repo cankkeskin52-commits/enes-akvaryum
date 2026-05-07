@@ -1015,9 +1015,6 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
     </div>
   </a>
 
-  <!-- INSTAGRAM GÖNDERİLER -->
-  <div class="ig-posts-grid reveal" id="igPostsGrid" style="display:none;"></div>
-
   <!-- GOOGLE HARİTA -->
   <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Bizi Bulun</div><div class="sec-line-r"></div></div>
   <div class="reveal" style="width:100%;border-radius:16px;overflow:hidden;border:0.5px solid var(--border2);">
@@ -1271,23 +1268,6 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
       <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.65;margin-bottom:10px;">Mevcut Yorumlar</div>
       <div class="admin-fish-list" id="adminRvList"></div>
 
-      <!-- INSTAGRAM GÖNDERİLER YÖNETİMİ -->
-      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(131,58,180,0.9);opacity:0.9;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Instagram Gönderileri (Son 3)</div>
-      <div class="add-form" style="border-color:rgba(131,58,180,0.2);">
-        <h3 style="color:rgba(131,58,180,0.8);">Gönderi Ekle / Güncelle</h3>
-        <div style="font-size:10px;color:var(--text-dim);margin-bottom:12px;line-height:1.6;">Instagram gönderisinin linkini yapıştır (örn: https://www.instagram.com/p/ABC123/). Görsel URL'si veya Cloudinary linki de olabilir.</div>
-        <div class="form-row" style="grid-template-columns:1fr;">
-          <div class="field-sm"><label>Gönderi Linki (instagram.com/p/... veya görsel URL)</label><input type="text" id="igUrl1" placeholder="https://www.instagram.com/p/..."></div>
-        </div>
-        <div class="form-row" style="grid-template-columns:1fr;">
-          <div class="field-sm"><label>Görsel 2</label><input type="text" id="igUrl2" placeholder="https://www.instagram.com/p/..."></div>
-        </div>
-        <div class="form-row" style="grid-template-columns:1fr;">
-          <div class="field-sm"><label>Görsel 3</label><input type="text" id="igUrl3" placeholder="https://www.instagram.com/p/..."></div>
-        </div>
-        <button class="add-btn" onclick="saveIgPosts()" style="margin-top:8px;border-color:rgba(131,58,180,0.4);color:rgba(200,100,255,0.9);">💾 Kaydet & Yayınla</button>
-      </div>
-
     </div>
   </div>
 </div>
@@ -1304,7 +1284,7 @@ const UPLOAD_PRESET='enes_akvaryum';
 const WA='905383279980';
 const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
 
-let fishList=[],cart={},currentImgUrl='',selectedFile=null,igPostsList=[];
+let fishList=[],cart={},currentImgUrl='',selectedFile=null;
 
 /* ══ CANVAS BACKGROUND ══ */
 const canvas=document.getElementById('bgCanvas');
@@ -1945,7 +1925,7 @@ async function fetchAquariums(){
 
 async function saveAll(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,igPosts:igPostsList})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList})});
   return r.ok;
 }
 
@@ -2162,13 +2142,12 @@ async function fetchFish(){
     reviewList=d.record.reviews||[];
     plantList=d.record.plants||[];
     subList=d.record.subscribers||[];
-    igPostsList=d.record.igPosts||[];
+
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
     renderAqGrid();
     renderReviews();
     renderPlantGrid();
-    renderIgPosts();
   }catch(e){
     if(!fishList.length) document.getElementById('fishGrid').innerHTML='<div class="no-fish">Yüklenemedi, sayfayı yenile.</div>';
   }
@@ -2178,51 +2157,6 @@ async function saveFish(){
   return await saveAll();
 }
 
-/* ══ INSTAGRAM GÖNDERİLER ══ */
-function renderIgPosts(){
-  const grid=document.getElementById('igPostsGrid');
-  if(!grid)return;
-  const posts=igPostsList.filter(p=>p&&p.url);
-  if(!posts.length){grid.style.display='none';return;}
-  grid.style.display='grid';
-  grid.innerHTML=posts.slice(0,3).map(p=>{
-    const isImg=/\.(jpg|jpeg|png|webp|gif)/i.test(p.url)||p.url.includes('cloudinary')||p.url.includes('cdninstagram');
-    const isIgPost=p.url.includes('instagram.com/p/');
-    let shortcode='';
-    if(isIgPost){const m=p.url.match(/instagram\.com\/p\/([^\/\?]+)/);shortcode=m?m[1]:'';}
-    return`<a class="ig-post-card" href="${isIgPost?p.url:'https://www.instagram.com/enesakvaryum_/'}" target="_blank">
-      ${isImg
-        ?`<img class="ig-post-img" src="${p.url}" alt="Instagram">`
-        :shortcode
-          ?`<iframe src="https://www.instagram.com/p/${shortcode}/embed/" frameborder="0" scrolling="no" style="width:100%;aspect-ratio:1;border:none;pointer-events:none;" loading="lazy"></iframe>`
-          :`<div class="ig-post-placeholder">📸</div>`
-      }
-      <div class="ig-post-overlay">
-        ${p.caption?`<div class="ig-post-caption">${p.caption}</div>`:''}
-        <div class="ig-post-link-label">Instagram'da Gör →</div>
-      </div>
-    </a>`;
-  }).join('');
-}
-
-async function saveIgPosts(){
-  const urls=[
-    document.getElementById('igUrl1').value.trim(),
-    document.getElementById('igUrl2').value.trim(),
-    document.getElementById('igUrl3').value.trim()
-  ];
-  igPostsList=urls.filter(u=>u).map(u=>({url:u,caption:''}));
-  const ok=await saveAll();
-  if(ok){setStatus('✓ Instagram gönderileri kaydedildi',true);renderIgPosts();}
-  else setStatus('✗ Kaydedilemedi',false);
-}
-
-function loadIgAdminFields(){
-  ['igUrl1','igUrl2','igUrl3'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    if(el&&igPostsList[i]) el.value=igPostsList[i].url||'';
-  });
-}
 
 function renderFishGrid(){
   const g=document.getElementById('fishGrid');
@@ -2427,7 +2361,6 @@ function doLogin(){
     renderAdminAqList();
     renderAdminRvList();
     renderAdminSubList();
-    loadIgAdminFields();
   }else document.getElementById('loginErr').style.display='block';
 }
 
