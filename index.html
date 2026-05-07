@@ -2897,12 +2897,8 @@ fetchFish();
         loader.style.transform='scaleY(0)';
         loader.style.opacity='0';
         setTimeout(()=>loader.style.display='none',1100);
-        // Açılış sesi — resume dene, olmaz ise gesture'da çal
-        if(_actx){
-          _actx.resume().then(()=>playOpeningSound()).catch(()=>{_openingPending=true;});
-        } else {
-          _openingPending=true;
-        }
+        // Açılış sesi — sadece tarayıcı izin verirse çal
+        if(_actx) _actx.resume().then(()=>playOpeningSound()).catch(()=>{});
       },320);
     }
   },55);
@@ -2910,7 +2906,7 @@ fetchFish();
 
 
 /* ══ SES SİSTEMİ (Web Audio API) ══ */
-let _actx=null, _soundOn=true, _openingPending=false;
+let _actx=null, _soundOn=true;
 
 try{_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
 
@@ -2920,14 +2916,6 @@ function _play(fn){
   if(_actx.state==='running'){fn();}
   else{_actx.resume().then(()=>fn()).catch(()=>{});}
 }
-// Opening sound ayrı kanal — sadece pasif etkileşimde tetiklenir
-function _resumeAudio(){
-  if(!_actx||_actx.state!=='suspended') return;
-  _actx.resume().then(()=>{
-    if(_openingPending){_openingPending=false;playOpeningSound();}
-  }).catch(()=>{});
-}
-['touchstart','scroll'].forEach(ev=>document.addEventListener(ev,_resumeAudio,{passive:true}));
 
 function playSound(type){
   if(!_actx||!_soundOn) return;
