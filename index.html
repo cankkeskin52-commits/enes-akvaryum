@@ -156,8 +156,8 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    FISH CATALOG
 ══════════════════════════════════════ */
-.fish-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-@media(min-width:1024px){.fish-grid{grid-template-columns:1fr 1fr 1fr;}}
+.fish-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+@media(min-width:1024px){.fish-grid{grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;}}
 
 /* Tür bazlı renk değişkenleri */
 .fish-card{--fc:45,224,204;}
@@ -294,7 +294,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    AQUARIUM SECTION
 ══════════════════════════════════════ */
-.aq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.aq-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
 .aq-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;}
 .aq-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1);}
 
@@ -324,7 +324,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .aq-custom-desc{font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;}
 .aq-custom-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
 .aq-custom-btn:hover{background:rgba(45,224,204,0.2);box-shadow:0 0 20px rgba(45,224,204,0.15);}
-@media(max-width:639px){.aq-grid{grid-template-columns:1fr;}.aq-img-wrap,.aq-img-placeholder{height:200px;}}
+@media(max-width:639px){.aq-grid{grid-template-columns:1fr 1fr 1fr;gap:8px;}.aq-img-wrap,.aq-img-placeholder{height:90px;}.aq-card{border-radius:12px;}.aq-body{padding:8px 10px 10px;}.aq-name{font-size:10px;}.aq-price{font-size:16px;}.aq-img-placeholder{font-size:28px;}}
 @media(min-width:1024px){.aq-img-wrap,.aq-img-placeholder{height:170px;}}
 
 .no-fish{width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:3rem;font-size:16px;grid-column:1/-1;}
@@ -354,8 +354,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
    SERVICES — YENİ TASARIM
 ══════════════════════════════════════ */
 .services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-@media(min-width:768px){.services-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:639px){.services-grid{grid-template-columns:1fr 1fr;gap:10px;}}
+@media(min-width:768px){.services-grid{grid-template-columns:repeat(2,1fr);}}
 
 .svc-card{
   --sc:#2de0cc;
@@ -615,9 +614,20 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .info-grid{grid-template-columns:1fr;}
   .info-card{padding:16px 18px;}
   .info-val{font-size:16px;}
-  .fish-grid{grid-template-columns:1fr;}
-  .fish-img-wrap,.fish-img-placeholder{height:200px;}
-  .services-grid{grid-template-columns:1fr;}
+  .fish-grid{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .fish-img-wrap,.fish-img-placeholder{height:90px;}
+  .fish-img-placeholder{font-size:28px;}
+  .fish-card{border-radius:12px;}
+  .fish-body{padding:8px 10px 10px;gap:6px;}
+  .fish-name{font-size:10px;}
+  .fish-type-badge{font-size:8px;padding:2px 5px;}
+  .fish-price{font-size:16px;}
+  .fish-price span{font-size:9px;}
+  .add-cart-btn{font-size:8px;padding:7px 6px;letter-spacing:0.06em;}
+  .qty-btn{width:22px;height:22px;font-size:12px;}
+  .qty-num{font-size:12px;}
+  .out-of-stock-badge{font-size:8px;padding:3px 6px;}
+  .services-grid{grid-template-columns:repeat(2,1fr);}
   .form-row{grid-template-columns:1fr;}
   .cart-footer{flex-direction:column;align-items:stretch;}
   .whatsapp-btn{justify-content:center;}
@@ -820,7 +830,7 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
   <div class="snav-link" onclick="document.getElementById('plantGrid').scrollIntoView({behavior:'smooth',block:'start'})">Bitkiler</div>
   <div class="snav-link" onclick="document.getElementById('aqGrid').scrollIntoView({behavior:'smooth',block:'start'})">Akvaryum</div>
   <div class="snav-link" onclick="document.getElementById('reviewsTrack').closest('.reveal').scrollIntoView({behavior:'smooth',block:'start'})">Yorumlar</div>
-  <div class="snav-link" onclick="document.querySelector('.ig-card').scrollIntoView({behavior:'smooth',block:'center'})">Instagram</div>
+  <div class="snav-link" onclick="document.querySelector('.site-footer').scrollIntoView({behavior:'smooth',block:'start'})">İletişim</div>
 </div>
 
 <!-- AMBIENT ORBS -->
@@ -878,35 +888,6 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 
 <!-- ══ CONTENT ══ -->
 <div class="content">
-
-  <!-- LINKS -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secContact">İletişim & Konum</div><div class="sec-line-r"></div></div>
-  <div class="links reveal">
-    <a class="link-btn" href="https://maps.app.goo.gl/WfZ8XVNFPm5z6PX2A" target="_blank">
-      <div class="btn-inner">
-        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-        <div><div class="btn-label" data-tr="Konum" data-en="Location">Konum</div><div class="btn-sub" data-tr="Mağazamızı bulun" data-en="Find our store">Mağazamızı bulun</div></div>
-      </div><div class="btn-arrow">→</div>
-    </a>
-    <a class="link-btn" href="https://wa.me/905383279980" target="_blank">
-      <div class="btn-inner">
-        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-        <div><div class="btn-label" data-tr="WhatsApp" data-en="WhatsApp">WhatsApp</div><div class="btn-sub" data-tr="Hızlı iletişim" data-en="Quick contact">Hızlı iletişim</div></div>
-      </div><div class="btn-arrow">→</div>
-    </a>
-    <a class="link-btn" href="tel:+905383279980">
-      <div class="btn-inner">
-        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
-        <div><div class="btn-label" data-tr="Bizi Arayın" data-en="Call Us">Bizi Arayın</div><div class="btn-sub">0538 327 99 80</div></div>
-      </div><div class="btn-arrow">→</div>
-    </a>
-  </div>
-
-  <!-- INFO -->
-  <div class="info-grid reveal" style="margin-top:10px;">
-    <div class="info-card" style="padding:18px 20px;"><div class="info-lbl" data-tr="Çalışma Saatleri" data-en="Working Hours">Çalışma Saatleri</div><div class="info-val"><span data-tr="Her gün" data-en="Every day">Her gün</span><br>09:00 – 20:30</div></div>
-    <div class="info-card" style="padding:18px 20px;"><div class="info-lbl" data-tr="İletişim" data-en="Contact">İletişim</div><div class="info-val">0538 327 99 80</div></div>
-  </div>
 
   <!-- FISH CATALOG -->
   <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secFish">Şu An Mevcut Balıklar</div><div class="sec-line-r"></div></div>
@@ -2213,6 +2194,7 @@ function removeFromCart(i){
 function changeQty(i,d){
   cart[i]=(cart[i]||0)+d;
   if(cart[i]<=0)delete cart[i];
+  if(d>0) playSound('cartAdd');
   if(typeof i==='string'&&i.startsWith('pl_'))renderPlantGrid();
   else if(typeof i==='string'&&i.startsWith('aq_'))renderAqGrid();
   else renderFishGrid();
@@ -2861,12 +2843,6 @@ document.addEventListener('click',e=>{
     );
   });
 
-  // ── 6. Hizmet kartları — stagger scale ──
-  gsap.fromTo('.svc-card',
-    {opacity:0,y:28,scale:0.91},
-    {opacity:1,y:0,scale:1,stagger:0.07,duration:0.7,ease:'back.out(1.5)',
-     scrollTrigger:{trigger:'.services-grid',start:'top 82%',once:true}}
-  );
 
   // ── 7. Yorumlar — sağdan kayıyor ──
   gsap.fromTo('.reviews-wrap',
