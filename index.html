@@ -570,6 +570,8 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .afi-right{display:flex;align-items:center;gap:14px;flex-shrink:0;}
 .afi-price{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--teal);}
 .del-btn{background:none;border:0.5px solid rgba(220,50,50,0.2);color:#e05555;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;transition:border-color 0.2s;}
+.edit-btn{background:none;border:0.5px solid rgba(45,224,204,0.25);color:var(--teal);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;transition:border-color 0.2s;}
+.edit-btn:hover{border-color:var(--teal);}
 .del-btn:hover{border-color:#e05555;}
 .empty-admin{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);text-align:center;padding:2rem;font-size:15px;}
 .sync-status{font-size:11px;letter-spacing:0.1em;text-align:center;padding:10px;margin-bottom:1rem;border-radius:8px;}
@@ -1817,6 +1819,7 @@ function renderAdminPlList(){
       <div class="afi-right">
         <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
         <button onclick="togglePlantStock(${i})" style="background:none;border:0.5px solid ${f.outOfStock?'rgba(45,224,204,0.3)':'rgba(220,50,50,0.3)'};color:${f.outOfStock?'var(--teal)':'#e05555'};font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;">${f.outOfStock?'Stokta Var':'Stokta Yok'}</button>
+        <button class="edit-btn" onclick="editPlant(${i})">Düzelt</button>
         <button class="del-btn" onclick="deletePlant(${i})">Sil</button>
       </div>
     </div>`).join('');
@@ -1863,21 +1866,39 @@ async function addPlant(){
   let img=currentPlImgUrl;
   if(selectedPlFile){setStatus('📤 Fotoğraf yükleniyor...',true);img=await uploadCloudinary(selectedPlFile);}
   if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(name+' aquarium plant');}
-  plantList.push({name,type,price:parseFloat(price),note,stock:stock!==''?parseInt(stock):null,img});
+  const item={name,type,price:parseFloat(price),note,stock:stock!==''?parseInt(stock):null,img};
+  if(_editPlIdx>=0){const old=plantList[_editPlIdx];plantList[_editPlIdx]={...old,...item};}
+  else plantList.push(item);
   const ok=await saveAll();
   if(ok){
-    setStatus('✓ Bitki eklendi',true);
+    setStatus(_editPlIdx>=0?'✓ Güncellendi':'✓ Bitki eklendi',true);
     document.getElementById('plName').value='';document.getElementById('plPrice').value='';
     document.getElementById('plNote').value='';document.getElementById('plStock').value='';
+    _editPlIdx=-1;
     cancelPlImg();renderPlantGrid();renderAdminPlList();
-  }else{plantList.pop();setStatus('✗ Kayıt hatası',false);}
-  btn.disabled=false;btn.textContent='+ Bitki Ekle';
+  }else{if(_editPlIdx<0)plantList.pop();setStatus('✗ Kayıt hatası',false);}
+  btn.disabled=false;btn.textContent='+ Bitki Ekle';btn.style.background='';
 }
 
 async function deletePlant(i){
   plantList.splice(i,1);
   if(await saveAll()){setStatus('✓ Silindi',true);renderPlantGrid();renderAdminPlList();}
   else setStatus('✗ Silinemedi',false);
+}
+
+let _editPlIdx=-1;
+function editPlant(i){
+  const f=plantList[i];
+  _editPlIdx=i;
+  document.getElementById('plName').value=f.name||'';
+  document.getElementById('plType').value=f.type||'orta';
+  document.getElementById('plPrice').value=f.price||'';
+  document.getElementById('plNote').value=f.note||'';
+  document.getElementById('plStock').value=f.stock!=null?f.stock:'';
+  if(f.img){currentPlImgUrl=f.img;const p=document.getElementById('plImgPreview');p.src=f.img;p.style.display='block';document.getElementById('plCancelBtn').style.display='block';}
+  const btn=document.getElementById('plAddBtn');
+  btn.textContent='✓ Güncelle';btn.style.background='linear-gradient(135deg,rgba(45,224,204,0.2),rgba(45,224,204,0.1))';
+  document.getElementById('plName').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 /* ══ AQUARIUM DATA ══ */
@@ -1957,6 +1978,7 @@ function renderAdminAqList(){
       <div style="flex:1;"><div class="afi-name">${a.name}</div><div class="afi-meta">${a.size||''}${a.note?' · '+a.note:''}</div></div>
       <div class="afi-right">
         <div class="afi-price">${a.price?Number(a.price).toLocaleString('tr-TR')+' ₺':'—'}</div>
+        <button class="edit-btn" onclick="editAquarium(${i})">Düzelt</button>
         <button class="del-btn" onclick="deleteAquarium(${i})">Sil</button>
       </div>
     </div>`).join('');
@@ -1995,17 +2017,20 @@ async function addAquarium(){
     setStatus('📤 Fotoğraf yükleniyor...',true);
     img=await uploadCloudinary(selectedAqFile);
   }
-  aqList.push({name,size,price:price?parseFloat(price):null,note,img});
+  const item={name,size,price:price?parseFloat(price):null,note,img};
+  if(_editAqIdx>=0){const old=aqList[_editAqIdx];aqList[_editAqIdx]={...old,...item};}
+  else aqList.push(item);
   const ok=await saveAll();
   if(ok){
-    setStatus('✓ Akvaryum eklendi',true);
+    setStatus(_editAqIdx>=0?'✓ Güncellendi':'✓ Akvaryum eklendi',true);
     document.getElementById('aqName').value='';document.getElementById('aqSize').value='';
     document.getElementById('aqPrice').value='';document.getElementById('aqNote').value='';
+    _editAqIdx=-1;
     cancelAqImg();renderAqGrid();renderAdminAqList();
   }else{
-    aqList.pop();setStatus('✗ Kayıt hatası',false);
+    if(_editAqIdx<0) aqList.pop();setStatus('✗ Kayıt hatası',false);
   }
-  btn.disabled=false;btn.textContent='+ Akvaryum Ekle';
+  btn.disabled=false;btn.textContent='+ Akvaryum Ekle';btn.style.background='';
 }
 
 async function deleteAquarium(i){
@@ -2014,17 +2039,52 @@ async function deleteAquarium(i){
   else setStatus('✗ Silinemedi',false);
 }
 
+let _editAqIdx=-1;
+function editAquarium(i){
+  const a=aqList[i];
+  _editAqIdx=i;
+  document.getElementById('aqName').value=a.name||'';
+  document.getElementById('aqSize').value=a.size||'';
+  document.getElementById('aqPrice').value=a.price||'';
+  document.getElementById('aqNote').value=a.note||'';
+  if(a.img){currentAqImgUrl=a.img;const p=document.getElementById('aqImgPreview');p.src=a.img;p.style.display='block';document.getElementById('aqCancelBtn').style.display='block';}
+  const btn=document.getElementById('aqAddBtn');
+  btn.textContent='✓ Güncelle';btn.style.background='linear-gradient(135deg,rgba(45,224,204,0.2),rgba(45,224,204,0.1))';
+  document.getElementById('aqName').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
 /* ══ DATA LAYER ══ */
 const fishDict={'japon':'goldfish aquarium','betta':'betta fish aquarium','beta':'betta fish aquarium','guppy':'guppy fish aquarium','gupi':'guppy fish aquarium','neon':'neon tetra fish','tetra':'tetra fish aquarium','palyaço':'clownfish aquarium','mercan':'coral reef aquarium fish','oscar':'oscar fish aquarium','diskus':'discus fish aquarium','koi':'koi fish pond','melek':'angelfish aquarium','zebra':'zebrafish aquarium','plati':'platy fish aquarium','molly':'molly fish aquarium','canlı bitki':'aquatic plants aquarium','bitki':'aquatic plants aquarium','kılıç':'swordtail fish'};
 
 function getImgQuery(n){const l=n.toLowerCase();for(const[k,v]of Object.entries(fishDict))if(l.includes(k))return v;return n+' aquarium fish';}
 
 async function fetchPexels(q){
+  // 1. Wikipedia görseli dene (API anahtarı gerekmez)
   try{
-    const r=await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=1&orientation=landscape`,{headers:{Authorization:'563492ad6f9170000100000109eb34c65f6c43edba49b9ca11e5fc2c'}});
-    const d=await r.json();
-    return d.photos?.[0]?.src?.medium||'';
-  }catch(e){return '';}
+    const wiki=await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(q)}&prop=pageimages&format=json&pithumbsize=600&origin=*`);
+    const wd=await wiki.json();
+    const pages=wd.query?.pages;
+    if(pages){
+      const src=Object.values(pages)[0]?.thumbnail?.source||'';
+      if(src) return src;
+    }
+  }catch(e){}
+  // 2. Wikimedia Commons arama dene
+  try{
+    const wc=await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q+' fish')}&srlimit=1&prop=pageimages&format=json&origin=*`);
+    const wcd=await wc.json();
+    const title=wcd.query?.search?.[0]?.title;
+    if(title){
+      const r2=await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&format=json&pithumbsize=600&origin=*`);
+      const d2=await r2.json();
+      const pages2=d2.query?.pages;
+      if(pages2){
+        const src2=Object.values(pages2)[0]?.thumbnail?.source||'';
+        if(src2) return src2;
+      }
+    }
+  }catch(e){}
+  return '';
 }
 
 async function autoSearchImg(){
@@ -2183,7 +2243,7 @@ function removeFromCart(i){
 function changeQty(i,d){
   cart[i]=(cart[i]||0)+d;
   if(cart[i]<=0)delete cart[i];
-  if(d>0) playSound('cartAdd');
+  if(d>0) _play(()=>playSound('cartAdd'));
   if(typeof i==='string'&&i.startsWith('pl_'))renderPlantGrid();
   else if(typeof i==='string'&&i.startsWith('aq_'))renderAqGrid();
   else renderFishGrid();
@@ -2258,6 +2318,7 @@ function renderAdminList(){
       <div class="afi-right">
         <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
         <button onclick="toggleStock(${i})" style="background:none;border:0.5px solid ${f.outOfStock?'rgba(45,224,204,0.3)':'rgba(220,50,50,0.3)'};color:${f.outOfStock?'var(--teal)':'#e05555'};font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;">${f.outOfStock?'Stokta Var':'Stokta Yok'}</button>
+        <button class="edit-btn" onclick="editFish(${i})">Düzelt</button>
         <button class="del-btn" onclick="deleteFish(${i})">Sil</button>
       </div>
     </div>`).join('');
@@ -2274,6 +2335,7 @@ async function addFish(){
   const type=document.getElementById('fType').value;
   const price=document.getElementById('fPrice').value.trim();
   const note=document.getElementById('fNote').value.trim();
+  const stock=document.getElementById('fStock').value.trim();
   if(!name||!price){alert('Balık adı ve fiyat zorunludur.');return;}
   const btn=document.getElementById('addBtn');
   btn.disabled=true;btn.textContent='Kaydediliyor...';
@@ -2281,26 +2343,48 @@ async function addFish(){
   if(selectedFile){
     setStatus('📤 Fotoğraf Cloudinary\'e yükleniyor...',true);
     img=await uploadCloudinary(selectedFile);
-    if(!img){setStatus('✗ Fotoğraf yüklenemedi. Upload Preset ayarını kontrol et.',false);btn.disabled=false;btn.textContent='+ Ekle';return;}
+    if(!img){setStatus('✗ Fotoğraf yüklenemedi.',false);btn.disabled=false;btn.textContent=_editFishIdx>=0?'✓ Güncelle':'+ Ekle';return;}
   }
   if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(getImgQuery(name));}
-  const stock=document.getElementById('fStock').value.trim();
-  fishList.push({name,type,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null});
+  const item={name,type,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null};
+  if(_editFishIdx>=0){
+    const old=fishList[_editFishIdx];
+    fishList[_editFishIdx]={...old,...item};
+  } else {
+    fishList.push(item);
+  }
   const ok=await saveFish();
   if(ok){
-    setStatus('✓ Kaydedildi — tüm cihazlarda görünecek',true);
+    setStatus(_editFishIdx>=0?'✓ Güncellendi':'✓ Kaydedildi — tüm cihazlarda görünecek',true);
     document.getElementById('fName').value='';document.getElementById('fPrice').value='';document.getElementById('fNote').value='';document.getElementById('fStock').value='';
+    _editFishIdx=-1;
     cancelImg();renderAdminList();renderFishGrid();
   }else{
-    fishList.pop();setStatus('✗ Kayıt hatası, tekrar dene',false);
+    if(_editFishIdx<0) fishList.pop();
+    setStatus('✗ Kayıt hatası, tekrar dene',false);
   }
-  btn.disabled=false;btn.textContent='+ Ekle';
+  btn.disabled=false;btn.textContent='+ Ekle';btn.style.background='';
 }
 
 async function deleteFish(i){
   fishList.splice(i,1);cart={};
   if(await saveFish()){setStatus('✓ Silindi',true);renderAdminList();renderFishGrid();renderCart();}
   else setStatus('✗ Silinemedi',false);
+}
+
+let _editFishIdx=-1;
+function editFish(i){
+  const f=fishList[i];
+  _editFishIdx=i;
+  document.getElementById('fName').value=f.name||'';
+  document.getElementById('fType').value=f.type||'tatli';
+  document.getElementById('fPrice').value=f.price||'';
+  document.getElementById('fNote').value=f.note||'';
+  document.getElementById('fStock').value=f.stock!=null?f.stock:'';
+  if(f.img){currentImgUrl=f.img;const p=document.getElementById('imgPreview');p.src=f.img;p.style.display='block';document.getElementById('cancelImgBtn').style.display='block';}
+  const btn=document.getElementById('addBtn');
+  btn.textContent='✓ Güncelle';btn.style.background='linear-gradient(135deg,rgba(45,224,204,0.2),rgba(45,224,204,0.1))';
+  document.getElementById('fName').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 async function toggleStock(i){
@@ -2581,24 +2665,18 @@ fetchFish();
 /* ══ SES SİSTEMİ (Web Audio API) ══ */
 let _actx=null, _soundOn=true, _openingPending=false;
 
-// AudioContext'i hemen oluştur (suspended başlar, gesture'da resume olur)
 try{_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
 
-function _resumeAudio(){
-  if(!_actx) return;
-  if(_actx.state==='suspended'){
-    _actx.resume().then(()=>{
-      if(_openingPending){_openingPending=false;playOpeningSound();}
-    });
-  }
+// Her zaman resume'dan sonra çal
+function _play(fn){
+  if(!_actx||!_soundOn) return;
+  if(_actx.state==='running'){fn();}
+  else{_actx.resume().then(()=>{if(_openingPending){_openingPending=false;playOpeningSound();}fn();}).catch(()=>{});}
 }
-// İlk etkileşimde resume et
-['click','touchstart','scroll'].forEach(ev=>
-  document.addEventListener(ev,_resumeAudio,{passive:true})
-);
 
 function playSound(type){
   if(!_actx||!_soundOn) return;
+  if(_actx.state!=='running'){_play(()=>playSound(type));return;}
   const t=_actx.currentTime;
   const master=_actx.createGain();
   master.gain.value=0.22;
@@ -2727,20 +2805,15 @@ function toggleSound(){
   _soundOn=!_soundOn;
   const btn=document.getElementById('soundBtn');
   if(btn){btn.textContent=_soundOn?'🔊':'🔇';btn.classList.toggle('muted',!_soundOn);}
-  if(_soundOn){_initAudio();setTimeout(()=>playSound('drop'),50);}
+  if(_soundOn) _play(()=>playSound('drop'));
 }
 
 // Ses bağlantıları
 document.addEventListener('click',e=>{
-  _resumeAudio();
-  if(e.target.closest('.add-cart-btn')){
-    // Önce resume et, sonra sesi çal
-    const doPlay=()=>playSound('cartAdd');
-    if(_actx&&_actx.state==='running') doPlay();
-    else if(_actx) _actx.resume().then(doPlay);
-  }
-  else if(e.target.closest('.whatsapp-btn,.aq-wa-btn')) playSound('chime');
-  else if(e.target.closest('.link-btn,.snav-link')) playSound('drop');
+  if(e.target.closest('.add-cart-btn'))      _play(()=>playSound('cartAdd'));
+  else if(e.target.closest('.whatsapp-btn,.aq-wa-btn')) _play(()=>playSound('chime'));
+  else if(e.target.closest('.link-btn,.snav-link'))     _play(()=>playSound('drop'));
+  else _play(()=>{});
 });
 
 
