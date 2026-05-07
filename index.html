@@ -156,8 +156,8 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    FISH CATALOG
 ══════════════════════════════════════ */
-.fish-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
-@media(min-width:1024px){.fish-grid{grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;}}
+.fish-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(min-width:1024px){.fish-grid{grid-template-columns:1fr 1fr 1fr;gap:16px;}}
 
 /* Tür bazlı renk değişkenleri */
 .fish-card{--fc:45,224,204;}
@@ -238,7 +238,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 }
 .fish-card:hover .fish-price{text-shadow:0 0 30px rgba(var(--fc),0.7);}
 .fish-price span{font-size:11px;color:var(--text-dim);}
-.cart-controls{display:flex;align-items:center;justify-content:space-between;}
+.cart-controls{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
 .qty-wrap{display:flex;align-items:center;gap:10px;}
 .qty-btn{background:rgba(var(--fc),0.08);border:0.5px solid rgba(var(--fc),0.2);color:rgba(var(--fc),1);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
 .qty-btn:hover{background:rgba(var(--fc),0.2);border-color:rgba(var(--fc),1);}
@@ -294,7 +294,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    AQUARIUM SECTION
 ══════════════════════════════════════ */
-.aq-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.aq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .aq-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;}
 .aq-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1);}
 
@@ -324,7 +324,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .aq-custom-desc{font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;}
 .aq-custom-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
 .aq-custom-btn:hover{background:rgba(45,224,204,0.2);box-shadow:0 0 20px rgba(45,224,204,0.15);}
-@media(max-width:639px){.aq-grid{grid-template-columns:1fr 1fr 1fr;gap:8px;}.aq-img-wrap,.aq-img-placeholder{height:90px;}.aq-card{border-radius:12px;}.aq-body{padding:8px 10px 10px;}.aq-name{font-size:10px;}.aq-price{font-size:16px;}.aq-img-placeholder{font-size:28px;}}
+@media(max-width:639px){.aq-grid{grid-template-columns:1fr 1fr;gap:10px;}.aq-img-wrap,.aq-img-placeholder{height:130px;}}
 @media(min-width:1024px){.aq-img-wrap,.aq-img-placeholder{height:170px;}}
 
 .no-fish{width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:3rem;font-size:16px;grid-column:1/-1;}
@@ -614,19 +614,8 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .info-grid{grid-template-columns:1fr;}
   .info-card{padding:16px 18px;}
   .info-val{font-size:16px;}
-  .fish-grid{grid-template-columns:1fr 1fr 1fr;gap:8px;}
-  .fish-img-wrap,.fish-img-placeholder{height:90px;}
-  .fish-img-placeholder{font-size:28px;}
-  .fish-card{border-radius:12px;}
-  .fish-body{padding:8px 10px 10px;gap:6px;}
-  .fish-name{font-size:10px;}
-  .fish-type-badge{font-size:8px;padding:2px 5px;}
-  .fish-price{font-size:16px;}
-  .fish-price span{font-size:9px;}
-  .add-cart-btn{font-size:8px;padding:7px 6px;letter-spacing:0.06em;}
-  .qty-btn{width:22px;height:22px;font-size:12px;}
-  .qty-num{font-size:12px;}
-  .out-of-stock-badge{font-size:8px;padding:3px 6px;}
+  .fish-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .fish-img-wrap,.fish-img-placeholder{height:130px;}
   .services-grid{grid-template-columns:repeat(2,1fr);}
   .form-row{grid-template-columns:1fr;}
   .cart-footer{flex-direction:column;align-items:stretch;}
@@ -2577,9 +2566,9 @@ fetchFish();
         loader.style.transform='scaleY(0)';
         loader.style.opacity='0';
         setTimeout(()=>loader.style.display='none',1100);
-        // Açılış sesi — AudioContext hazırsa hemen çal, değilse ilk gesture'da çal
-        if(_actx&&_actx.state==='running'){
-          playOpeningSound();
+        // Açılış sesi — resume dene, olmaz ise gesture'da çal
+        if(_actx){
+          _actx.resume().then(()=>playOpeningSound()).catch(()=>{_openingPending=true;});
         } else {
           _openingPending=true;
         }
@@ -2627,14 +2616,18 @@ function playSound(type){
   }
 
   if(type==='drop'){
-    const o=_actx.createOscillator(),g=_actx.createGain();
-    o.connect(g);g.connect(master);
-    o.type='sine';
-    o.frequency.setValueAtTime(520,t);
-    o.frequency.exponentialRampToValueAtTime(160,t+0.28);
-    g.gain.setValueAtTime(0.13,t);
-    g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
-    o.start(t);o.stop(t+0.3);
+    // Yumuşak tık — kısa iki ton üst üste
+    [880,1100].forEach((freq,i)=>{
+      const o=_actx.createOscillator(),g=_actx.createGain();
+      o.connect(g);g.connect(master);
+      o.type='sine';
+      const st=t+i*0.045;
+      o.frequency.setValueAtTime(freq,st);
+      g.gain.setValueAtTime(0,st);
+      g.gain.linearRampToValueAtTime(0.07,st+0.01);
+      g.gain.exponentialRampToValueAtTime(0.001,st+0.12);
+      o.start(st);o.stop(st+0.14);
+    });
   }
 
   if(type==='chime'){
