@@ -205,10 +205,16 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 
 .fish-img-wrap{position:relative;width:100%;height:180px;overflow:hidden;background:#060e1c;}
 /* CATEGORY FILTER */
-.cat-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;margin-top:4px;padding-bottom:16px;border-bottom:0.5px solid var(--border2);}
+.cat-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0;margin-top:4px;padding-bottom:12px;}
 .cat-btn{background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:7px 16px;border-radius:20px;cursor:pointer;transition:all 0.25s;}
 .cat-btn:hover{border-color:rgba(45,224,204,0.4);color:var(--teal);}
 .cat-btn.active{background:rgba(45,224,204,0.12);border-color:rgba(45,224,204,0.5);color:var(--teal);box-shadow:0 0 12px rgba(45,224,204,0.1);}
+.sub-cat-filter{display:none;flex-wrap:wrap;align-items:center;gap:6px;padding:10px 0 14px 4px;margin-bottom:16px;border-bottom:0.5px solid var(--border2);}
+.sub-cat-filter.visible{display:flex;}
+.sub-cat-arrow{color:rgba(45,224,204,0.5);font-size:12px;margin-right:4px;}
+.sub-cat-btn{background:rgba(45,224,204,0.04);border:0.5px solid rgba(45,224,204,0.2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;cursor:pointer;transition:all 0.2s;}
+.sub-cat-btn:hover{border-color:rgba(45,224,204,0.5);color:var(--teal);}
+.sub-cat-btn.active{background:rgba(45,224,204,0.15);border-color:var(--teal);color:var(--teal);}
 .cat-select-inline{background:rgba(4,12,26,0.9);border:0.5px solid var(--border2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:10px;padding:5px 8px;border-radius:7px;outline:none;cursor:pointer;}
 .cat-select-inline:focus{border-color:var(--teal);}
 .fish-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.7s cubic-bezier(0.16,1,0.3,1),filter 0.4s;filter:saturate(1.15);}
@@ -954,6 +960,12 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
     <button class="cat-btn" onclick="filterFish('BETTA TÜRLERİ')">Betta Türleri</button>
     <button class="cat-btn" onclick="filterFish('Diğer')">Diğer</button>
   </div>
+  <div class="sub-cat-filter" id="subCatFilter">
+    <span class="sub-cat-arrow">↳</span>
+    <button class="sub-cat-btn active" onclick="filterSub('Tümü')">Tümü</button>
+    <button class="sub-cat-btn" onclick="filterSub('MOLLY TÜRLERİ')">Molly Türleri</button>
+    <button class="sub-cat-btn" onclick="filterSub('LEPİSTES TÜRLERİ')">Lepistes Türleri</button>
+  </div>
   <div class="fish-grid reveal" id="fishGrid">
     <div class="no-fish">Yükleniyor...</div>
   </div>
@@ -1251,7 +1263,7 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
         </div>
         <div class="form-row">
           <div class="field-sm"><label>Kategori</label>
-            <select id="fCategory">
+            <select id="fCategory" onchange="document.getElementById('subCatAdminRow').style.display=this.value==='CANLI DOĞURANLAR'?'grid':'none';">
               <option value="">— Seç —</option>
               <option value="CANLI DOĞURANLAR">Canlı Doğuranlar</option>
               <option value="VATOZ TÜRLERİ">Vatoz Türleri</option>
@@ -1266,6 +1278,15 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
             </select>
           </div>
           <div class="field-sm" style="display:flex;align-items:flex-end;padding-bottom:4px;"><span style="font-size:10px;color:var(--text-dim);font-style:italic;">Filtre butonlarında görünür</span></div>
+        </div>
+        <div class="form-row" id="subCatAdminRow" style="display:none;">
+          <div class="field-sm"><label>Alt Kategori (Canlı Doğuranlar)</label>
+            <select id="fSubCategory">
+              <option value="">— Seç —</option>
+              <option value="MOLLY TÜRLERİ">Molly Türleri</option>
+              <option value="LEPİSTES TÜRLERİ">Lepistes Türleri</option>
+            </select>
+          </div>
         </div>
         <div class="form-row">
           <div class="field-sm"><label>Fiyat (₺)</label><input type="number" id="fPrice" placeholder="örn. 150"></div>
@@ -2478,11 +2499,26 @@ async function saveFish(){
 }
 
 
-let activeCategory='Tümü';
+let activeCategory='Tümü',activeSubCategory='Tümü';
 function filterFish(cat){
   activeCategory=cat;
+  activeSubCategory='Tümü';
   document.querySelectorAll('#catFilter .cat-btn').forEach(b=>{
     b.classList.toggle('active',b.getAttribute('onclick')===`filterFish('${cat}')`);
+  });
+  const sub=document.getElementById('subCatFilter');
+  if(cat==='CANLI DOĞURANLAR'){
+    sub.classList.add('visible');
+    document.querySelectorAll('#subCatFilter .sub-cat-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick')===`filterSub('Tümü')`));
+  } else {
+    sub.classList.remove('visible');
+  }
+  renderFishGrid();
+}
+function filterSub(sub){
+  activeSubCategory=sub;
+  document.querySelectorAll('#subCatFilter .sub-cat-btn').forEach(b=>{
+    b.classList.toggle('active',b.getAttribute('onclick')===`filterSub('${sub}')`);
   });
   renderFishGrid();
 }
@@ -2492,7 +2528,9 @@ function renderFishGrid(){
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
   const filtered=fishList.map((f,i)=>({f,i})).filter(({f})=>{
     if(activeCategory==='Tümü') return true;
-    return f.category===activeCategory;
+    if(f.category!==activeCategory) return false;
+    if(activeSubCategory==='Tümü') return true;
+    return f.subcategory===activeSubCategory;
   });
   if(!filtered.length){g.innerHTML='<div class="no-fish">Bu kategoride balık bulunamadı.</div>';return;}
   g.innerHTML=filtered.map(({f,i})=>{
@@ -2665,6 +2703,12 @@ function renderAdminList(){
           <option value="BETTA TÜRLERİ" ${f.category==='BETTA TÜRLERİ'?'selected':''}>Betta Türleri</option>
           <option value="Diğer" ${f.category==='Diğer'?'selected':''}>Diğer</option>
         </select>
+        ${f.category==='CANLI DOĞURANLAR'?`
+        <select class="cat-select-inline" onchange="setSubCat(${i},this.value)" style="margin-top:3px;">
+          <option value="">Alt kategori yok</option>
+          <option value="MOLLY TÜRLERİ" ${f.subcategory==='MOLLY TÜRLERİ'?'selected':''}>Molly Türleri</option>
+          <option value="LEPİSTES TÜRLERİ" ${f.subcategory==='LEPİSTES TÜRLERİ'?'selected':''}>Lepistes Türleri</option>
+        </select>`:''}
       </div>
       <div class="afi-right">
         <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
@@ -2685,6 +2729,7 @@ async function addFish(){
   const name=document.getElementById('fName').value.trim();
   const type=document.getElementById('fType').value;
   const category=document.getElementById('fCategory').value||null;
+  const subcategory=category==='CANLI DOĞURANLAR'?(document.getElementById('fSubCategory').value||null):null;
   const price=document.getElementById('fPrice').value.trim();
   const note=document.getElementById('fNote').value.trim();
   const stock=document.getElementById('fStock').value.trim();
@@ -2698,7 +2743,7 @@ async function addFish(){
     if(!img){setStatus('✗ Fotoğraf yüklenemedi.',false);btn.disabled=false;btn.textContent=_editFishIdx>=0?'✓ Güncelle':'+ Ekle';return;}
   }
   if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(getImgQuery(name));}
-  const item={name,type,category,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null};
+  const item={name,type,category,subcategory,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null};
   if(_editFishIdx>=0){
     const old=fishList[_editFishIdx];
     fishList[_editFishIdx]={...old,...item};
@@ -2708,7 +2753,7 @@ async function addFish(){
   const ok=await saveFish();
   if(ok){
     setStatus(_editFishIdx>=0?'✓ Güncellendi':'✓ Kaydedildi — tüm cihazlarda görünecek',true);
-    document.getElementById('fName').value='';document.getElementById('fPrice').value='';document.getElementById('fNote').value='';document.getElementById('fStock').value='';document.getElementById('fCategory').value='';
+    document.getElementById('fName').value='';document.getElementById('fPrice').value='';document.getElementById('fNote').value='';document.getElementById('fStock').value='';document.getElementById('fCategory').value='';document.getElementById('fSubCategory').value='';document.getElementById('subCatAdminRow').style.display='none';
     _editFishIdx=-1;
     cancelImg();renderAdminList();renderFishGrid();
   }else{
@@ -2720,8 +2765,15 @@ async function addFish(){
 
 async function setCat(i,val){
   fishList[i].category=val||null;
+  if(val!=='CANLI DOĞURANLAR') fishList[i].subcategory=null;
   const ok=await saveFish();
-  if(ok){setStatus('✓ Kategori güncellendi',true);renderFishGrid();}
+  if(ok){setStatus('✓ Kategori güncellendi',true);renderAdminList();renderFishGrid();}
+  else setStatus('✗ Kayıt hatası',false);
+}
+async function setSubCat(i,val){
+  fishList[i].subcategory=val||null;
+  const ok=await saveFish();
+  if(ok){setStatus('✓ Alt kategori güncellendi',true);renderFishGrid();}
   else setStatus('✗ Kayıt hatası',false);
 }
 
@@ -2738,6 +2790,9 @@ function editFish(i){
   document.getElementById('fName').value=f.name||'';
   document.getElementById('fType').value=f.type||'tatli';
   document.getElementById('fCategory').value=f.category||'';
+  const subRow=document.getElementById('subCatAdminRow');
+  if(f.category==='CANLI DOĞURANLAR'){subRow.style.display='grid';document.getElementById('fSubCategory').value=f.subcategory||'';}
+  else{subRow.style.display='none';document.getElementById('fSubCategory').value='';}
   document.getElementById('fPrice').value=f.price||'';
   document.getElementById('fNote').value=f.note||'';
   document.getElementById('fStock').value=f.stock!=null?f.stock:'';
