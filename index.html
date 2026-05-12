@@ -3,9 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enes Akvaryum</title>
+<title>Enes Akvaryum | İstanbul Eyüpsultan Balık & Akvaryum Mağazası</title>
+<meta name="description" content="İstanbul Eyüpsultan'ın en iyi akvaryum mağazası. Tatlı su ve tuzlu su balıkları, canlı bitkiler, akvaryum kurulum ve bakım hizmeti. Hemen arayın: 0538 327 99 80">
+<meta name="keywords" content="akvaryum, balık mağazası, tatlı su balığı, tuzlu su balığı, istanbul, eyüpsultan, akvaryum kurulum, canlı bitki, japon balığı">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://enesakvaryum.com.tr">
+<meta property="og:title" content="Enes Akvaryum | İstanbul Eyüpsultan">
+<meta property="og:description" content="Tatlı su ve tuzlu su balıkları, canlı bitkiler, akvaryum kurulum ve bakım hizmeti. İstanbul Eyüpsultan.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enesakvaryum.com.tr">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Enes Akvaryum">
+<meta name="twitter:description" content="İstanbul Eyüpsultan balık ve akvaryum mağazası.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.0.42/dist/lenis.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -50,8 +62,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 
 /* HERO FISH SVG */
 .hero-fish-wrap{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
-.hf{position:absolute;filter:drop-shadow(0 0 8px rgba(45,224,204,0.4));animation:fishSwim linear infinite;}
-@keyframes fishSwim{0%{transform:translateX(-200px) translateY(0) scaleX(1);}48%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(1);}50%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(1);}51%{transform:translateX(calc(100vw + 200px)) translateY(var(--fy,20px)) scaleX(-1);}98%{transform:translateX(-200px) translateY(0) scaleX(-1);}99%{transform:translateX(-200px) translateY(0) scaleX(-1);}100%{transform:translateX(-200px) translateY(0) scaleX(1);}}
+
 
 /* HERO CONTENT */
 .hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem;perspective:1000px;}
@@ -62,15 +73,29 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .brand-wrap{position:relative;margin-bottom:0.4rem;animation:scaleIn 1.2s cubic-bezier(0.16,1,0.3,1) 0.4s both;}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
 
-.brand-main{font-family:'Jost',sans-serif;font-weight:200;letter-spacing:0.45em;color:transparent;background:linear-gradient(135deg,#a0d8f0 0%,#2de0cc 40%,#ffffff 60%,#3a9fd4 100%);-webkit-background-clip:text;background-clip:text;text-transform:uppercase;line-height:1;position:relative;}
-.brand-main::after{content:attr(data-text);position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.3) 50%,transparent 70%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;animation:textShimmer 4s ease-in-out infinite;}
-@keyframes textShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.brand-main{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  letter-spacing:0.12em;
+  color:#ffffff;
+  line-height:1;
+  position:relative;
+  text-shadow:0 0 20px rgba(255,255,255,0.4),0 0 60px rgba(45,224,204,0.2);
+  filter:none;
+}
+/* shimmer removed */
 
 .brand-wave{display:block;margin:10px auto 14px;animation:waveAnim 3s ease-in-out infinite;}
 @keyframes waveAnim{0%,100%{d:path("M0,8 C15,2 30,14 45,8 C60,2 75,14 90,8 C105,2 115,10 120,8");}50%{d:path("M0,8 C15,14 30,2 45,8 C60,14 75,2 90,8 C105,14 115,6 120,8");}}
 
 .brand-sub{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;letter-spacing:0.2em;color:var(--blue);animation:fadeUp 1s ease 0.7s both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* LETTER ANIMATION */
+.brand-letter{display:inline-block;opacity:0;animation:letterPop 0.6s ease forwards;}
+@keyframes letterPop{0%{opacity:0;transform:translateY(20px);text-shadow:none;filter:none;}70%{opacity:1;transform:translateY(-3px);}100%{opacity:1;transform:translateY(0);}}
+
 
 .hero-divider{width:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--teal),transparent);margin:1.4rem auto;animation:divGrow 1.5s ease 0.9s forwards;}
 @keyframes divGrow{to{width:120px;height:0.5px;}}
@@ -98,10 +123,19 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
    GLASS CARDS — LINK BUTTONS
 ══════════════════════════════════════ */
 .links{display:flex;flex-direction:column;gap:10px;}
-.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);border-radius:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;transform-style:preserve-3d;}
-.link-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(45,224,204,0.05) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;}
-.link-btn:hover{transform:translateY(-2px);border-color:rgba(45,224,204,0.4);box-shadow:0 8px 30px rgba(45,224,204,0.1),0 0 0 0.5px rgba(45,224,204,0.15);}
-.link-btn:hover::before{opacity:1;}
+.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);border-radius:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:border-color 0.4s,box-shadow 0.4s,background 0.4s;}
+/* Soldan sağa ışık tarama efekti */
+.link-btn::before{
+  content:'';position:absolute;top:0;left:-80%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(45,224,204,0.09),transparent);
+  transform:skewX(-18deg);transition:left 0.55s ease;pointer-events:none;
+}
+.link-btn:hover::before{left:140%;}
+.link-btn:hover{
+  border-color:rgba(45,224,204,0.5);
+  box-shadow:0 0 0 0.5px rgba(45,224,204,0.15),0 4px 30px rgba(45,224,204,0.1),inset 0 0 40px rgba(45,224,204,0.03);
+  background:rgba(6,20,38,0.85);
+}
 .btn-inner{display:flex;align-items:center;gap:1rem;}
 .btn-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(45,224,204,0.08);border-right:0.5px solid var(--border2);}
 .btn-icon svg{fill:none;stroke:var(--teal);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
@@ -123,27 +157,99 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
    FISH CATALOG
 ══════════════════════════════════════ */
 .fish-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.fish-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;transform-style:preserve-3d;cursor:default;}
-.fish-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1),inset 0 0 30px rgba(45,224,204,0.03);}
-.fish-card.in-cart{border-color:rgba(45,224,204,0.5);box-shadow:0 0 20px rgba(45,224,204,0.15);}
-.fish-img-wrap{position:relative;width:100%;height:150px;overflow:hidden;background:#060e1c;}
-.fish-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;filter:saturate(1.1);}
-.fish-card:hover .fish-img{transform:scale(1.06);}
-.fish-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(4,12,26,0.85) 100%);}
-.fish-img-placeholder{width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#060e1c,#0a1e35);font-size:40px;}
-.fish-body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;flex:1;}
+@media(min-width:1024px){.fish-grid{grid-template-columns:1fr 1fr 1fr;gap:16px;}}
+
+/* Tür bazlı renk değişkenleri */
+.fish-card{--fc:45,224,204;}
+.fish-card.type-tatli{--fc:45,224,204;}
+.fish-card.type-tuzlu{--fc:107,140,255;}
+.fish-card.type-bitki{--fc:32,196,90;}
+.fish-card.type-aksesuar{--fc:240,192,96;}
+.fish-card.type-diger{--fc:58,159,212;}
+
+.fish-card{
+  background:rgba(6,14,28,0.8);
+  border:0.5px solid var(--border2);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:border-color 0.3s,box-shadow 0.3s;
+  transform-style:preserve-3d;
+  cursor:default;
+  position:relative;
+  will-change:transform;
+}
+
+/* Üst renkli çizgi */
+.fish-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(var(--fc),0.8),transparent);
+  opacity:0;transition:opacity 0.4s;z-index:3;
+}
+.fish-card:hover::before{opacity:1;}
+
+/* İç parlama */
+.fish-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(var(--fc),0.06),transparent 65%);
+  opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:1;
+}
+.fish-card:hover::after{opacity:1;}
+
+.fish-card:hover{
+  border-color:rgba(var(--fc),0.35);
+  box-shadow:0 24px 60px rgba(0,8,24,0.7),0 0 0 0.5px rgba(var(--fc),0.15),0 0 40px rgba(var(--fc),0.06);
+}
+.fish-card.in-cart{border-color:rgba(var(--fc),0.5);box-shadow:0 0 25px rgba(var(--fc),0.18);}
+.fish-card.out-of-stock{opacity:0.65;}
+
+.fish-img-wrap{position:relative;width:100%;height:180px;overflow:hidden;}
+.fish-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.7s cubic-bezier(0.16,1,0.3,1),filter 0.4s;filter:saturate(1.15);}
+.fish-card:hover .fish-img{transform:scale(1.08);filter:saturate(1.3) brightness(1.05);}
+.fish-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(4,12,26,0.9) 100%);}
+
+/* Shimmer tarama efekti */
+.fish-shimmer{
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.07) 50%,transparent 65%);
+  background-size:250% 100%;background-position:200% 0;
+  opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:2;
+}
+.fish-card:hover .fish-shimmer{opacity:1;animation:shimmerScan 1.8s ease-in-out infinite;}
+@keyframes shimmerScan{0%{background-position:250% 0;}100%{background-position:-250% 0;}}
+
+.fish-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#060e1c,#0a1e35);font-size:48px;}
+
+.fish-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1;position:relative;z-index:2;}
 .fish-info-row{display:flex;justify-content:space-between;align-items:flex-start;}
-.fish-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;color:var(--text);}
-.fish-type-badge{display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.2);padding:2px 8px;border-radius:20px;margin-top:4px;}
-.fish-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--teal);white-space:nowrap;text-shadow:0 0 20px rgba(45,224,204,0.3);}
+.fish-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;color:var(--text);transition:color 0.3s;}
+.fish-card:hover .fish-name{color:#fff;}
+.fish-type-badge{
+  display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(var(--fc),1);background:rgba(var(--fc),0.08);
+  border:0.5px solid rgba(var(--fc),0.25);
+  padding:2px 8px;border-radius:20px;margin-top:4px;
+}
+.fish-price{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;
+  color:rgba(var(--fc),1);white-space:nowrap;
+  text-shadow:0 0 20px rgba(var(--fc),0.4);
+  transition:text-shadow 0.3s;
+}
+.fish-card:hover .fish-price{text-shadow:0 0 30px rgba(var(--fc),0.7);}
 .fish-price span{font-size:11px;color:var(--text-dim);}
-.cart-controls{display:flex;align-items:center;justify-content:space-between;}
+.cart-controls{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
 .qty-wrap{display:flex;align-items:center;gap:10px;}
-.qty-btn{background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.2);color:var(--teal);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.qty-btn:hover{background:rgba(45,224,204,0.18);border-color:var(--teal);}
+.qty-btn{background:rgba(var(--fc),0.08);border:0.5px solid rgba(var(--fc),0.2);color:rgba(var(--fc),1);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.qty-btn:hover{background:rgba(var(--fc),0.2);border-color:rgba(var(--fc),1);}
 .qty-num{font-family:'Jost',sans-serif;font-size:14px;font-weight:400;color:var(--text);min-width:18px;text-align:center;}
-.add-cart-btn{background:linear-gradient(135deg,rgba(45,224,204,0.12),rgba(58,159,212,0.08));border:0.5px solid rgba(45,224,204,0.25);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer;transition:all 0.3s;}
-.add-cart-btn:hover{background:rgba(45,224,204,0.2);border-color:var(--teal);box-shadow:0 0 15px rgba(45,224,204,0.15);}
+.add-cart-btn{
+  background:linear-gradient(135deg,rgba(var(--fc),0.12),rgba(var(--fc),0.06));
+  border:0.5px solid rgba(var(--fc),0.3);color:rgba(var(--fc),1);
+  font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+  padding:8px 16px;border-radius:8px;cursor:pointer;transition:all 0.3s;
+}
+.add-cart-btn:hover{background:rgba(var(--fc),0.22);border-color:rgba(var(--fc),1);box-shadow:0 0 18px rgba(var(--fc),0.2);}
 .remove-cart-btn{background:rgba(220,50,50,0.08);border:0.5px solid rgba(220,50,50,0.2);color:#e05555;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
 .remove-cart-btn:hover{background:rgba(220,50,50,0.15);}
 
@@ -151,10 +257,13 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    REVIEWS
 ══════════════════════════════════════ */
-.reviews-wrap{width:100%;overflow:hidden;position:relative;}
-.reviews-track{display:flex;gap:14px;animation:scrollReviews 30s linear infinite;}
+.reviews-wrap{width:100%;overflow:hidden;position:relative;cursor:grab;}
+.reviews-wrap.dragging{cursor:grabbing;}
+.reviews-track{display:flex;gap:14px;animation:scrollReviews 40s linear infinite;}
+@media(max-width:639px){.reviews-track{animation-duration:25s;}}
 .reviews-track:hover{animation-play-state:paused;}
-.review-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;padding:18px 20px;min-width:280px;max-width:280px;flex-shrink:0;backdrop-filter:blur(12px);transition:border-color 0.3s;}
+.review-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;padding:16px 18px;min-width:260px;max-width:260px;flex-shrink:0;backdrop-filter:blur(12px);transition:border-color 0.3s;}
+@media(max-width:639px){.review-card{min-width:220px;max-width:220px;padding:14px 16px;}}
 .review-card:hover{border-color:rgba(45,224,204,0.3);}
 @keyframes scrollReviews{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .review-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -188,6 +297,13 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .aq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .aq-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;}
 .aq-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1);}
+
+/* WATER RIPPLE */
+.ripple-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:16px;}
+.water-ripple{position:absolute;border-radius:50%;border:1.5px solid rgba(45,224,204,0.5);animation:rippleOut 0.8s ease-out forwards;}
+@keyframes rippleOut{0%{width:0;height:0;opacity:0.8;transform:translate(-50%,-50%);}100%{width:120px;height:120px;opacity:0;transform:translate(-50%,-50%);}}
+
+.aq-card.in-cart{border-color:rgba(45,224,204,0.5);box-shadow:0 0 20px rgba(45,224,204,0.15);}
 .aq-img-wrap{position:relative;width:100%;height:150px;overflow:hidden;}
 .aq-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
 .aq-card:hover .aq-img{transform:scale(1.06);}
@@ -208,28 +324,10 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .aq-custom-desc{font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;}
 .aq-custom-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
 .aq-custom-btn:hover{background:rgba(45,224,204,0.2);box-shadow:0 0 20px rgba(45,224,204,0.15);}
-@media(max-width:639px){.aq-grid{grid-template-columns:1fr;}.aq-img-wrap,.aq-img-placeholder{height:200px;}}
+@media(max-width:639px){.aq-grid{grid-template-columns:1fr 1fr;gap:10px;}.aq-img-wrap,.aq-img-placeholder{height:130px;}}
 @media(min-width:1024px){.aq-img-wrap,.aq-img-placeholder{height:170px;}}
 
 .no-fish{width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:3rem;font-size:16px;grid-column:1/-1;}
-
-/* ══════════════════════════════════════
-   CATEGORY FILTER
-══════════════════════════════════════ */
-.cat-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.cat-btn{background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:7px 16px;border-radius:20px;cursor:pointer;transition:all 0.25s;}
-.cat-btn:hover{border-color:rgba(45,224,204,0.4);color:var(--teal);}
-.cat-btn.active{background:rgba(45,224,204,0.12);border-color:rgba(45,224,204,0.5);color:var(--teal);box-shadow:0 0 12px rgba(45,224,204,0.1);}
-.fish-cat-badge{display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);background:rgba(58,159,212,0.08);border:0.5px solid rgba(58,159,212,0.2);padding:2px 8px;border-radius:20px;margin-top:3px;}
-
-/* ══════════════════════════════════════
-   MAPS SECTION
-══════════════════════════════════════ */
-.maps-wrap{border-radius:16px;overflow:hidden;border:0.5px solid var(--border2);height:280px;position:relative;}
-.maps-wrap iframe{width:100%;height:100%;border:0;filter:invert(92%) hue-rotate(180deg) saturate(0.9) brightness(0.85);}
-.maps-open-btn{display:inline-flex;align-items:center;gap:8px;margin-top:10px;background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:9px 18px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.25s;}
-.maps-open-btn:hover{border-color:rgba(45,224,204,0.4);color:var(--teal);}
-@media(max-width:639px){.maps-wrap{height:220px;}}
 
 /* ══════════════════════════════════════
    CART
@@ -253,21 +351,217 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .whatsapp-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
 
 /* ══════════════════════════════════════
-   SERVICES
+   SERVICES — YENİ TASARIM
 ══════════════════════════════════════ */
-.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.svc-card{background:rgba(6,14,28,0.6);border:0.5px solid var(--border);border-radius:12px;padding:16px 18px;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
-.svc-card:hover{border-color:var(--border3);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,10,30,0.4);}
-.svc-icon{font-size:18px;margin-bottom:8px;}
-.svc-name{font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mid);}
-.svc-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--text-dim);line-height:1.5;margin-top:4px;}
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+@media(min-width:768px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+
+.svc-card{
+  --sc:#2de0cc;
+  background:rgba(6,14,28,0.7);
+  border:0.5px solid rgba(var(--sc-rgb,45,224,204),0.15);
+  border-radius:16px;padding:22px 18px 20px;
+  position:relative;overflow:hidden;
+  transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),
+             box-shadow 0.35s,border-color 0.35s;
+  cursor:default;
+}
+/* Renk temaları */
+.svc-card:nth-child(1){--sc-rgb:45,224,204;}
+.svc-card:nth-child(2){--sc-rgb:58,159,212;}
+.svc-card:nth-child(3){--sc-rgb:32,196,90;}
+.svc-card:nth-child(4){--sc-rgb:240,192,96;}
+.svc-card:nth-child(5){--sc-rgb:107,140,255;}
+.svc-card:nth-child(6){--sc-rgb:0,245,255;}
+.svc-card:nth-child(7){--sc-rgb:45,224,204;}
+.svc-card:nth-child(8){--sc-rgb:58,159,212;}
+.svc-card:nth-child(9){--sc-rgb:240,192,96;}
+.svc-card:nth-child(10){--sc-rgb:32,196,90;}
+
+/* Üst aksan çizgisi */
+.svc-card::before{
+  content:'';position:absolute;top:0;left:16px;right:16px;height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(var(--sc-rgb),0.7),transparent);
+  transform:scaleX(0);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+/* İç parlama */
+.svc-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% -10%,rgba(var(--sc-rgb),0.07),transparent 65%);
+  opacity:0;transition:opacity 0.4s;
+}
+.svc-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(var(--sc-rgb),0.4);
+  box-shadow:0 16px 40px rgba(0,5,20,0.5), 0 0 0 0.5px rgba(var(--sc-rgb),0.12),
+             0 0 30px rgba(var(--sc-rgb),0.06);
+}
+.svc-card:hover::before{transform:scaleX(1);}
+.svc-card:hover::after{opacity:1;}
+
+.svc-icon{
+  font-size:26px;margin-bottom:14px;display:block;
+  filter:drop-shadow(0 0 8px rgba(var(--sc-rgb),0.3));
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), filter 0.4s;
+}
+.svc-card:hover .svc-icon{filter:drop-shadow(0 0 14px rgba(var(--sc-rgb),0.6));}
+.svc-name{
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(var(--sc-rgb),0.9);margin-bottom:6px;
+}
+.svc-desc{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:13px;color:var(--text-dim);line-height:1.6;
+}
+
+/* ══════════════════════════════════════
+   YENİLEME HİZMETİ
+══════════════════════════════════════ */
+.renew-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:639px){.renew-grid{grid-template-columns:1fr;gap:12px;}}
+@media(min-width:640px) and (max-width:1023px){.renew-grid{grid-template-columns:1fr 1fr;gap:12px;}}
+
+.renew-card{
+  position:relative;overflow:hidden;
+  background:rgba(6,14,28,0.75);
+  border:0.5px solid var(--border2);
+  border-radius:20px;padding:28px 22px 24px;
+  display:flex;flex-direction:column;gap:0;align-items:flex-start;
+  transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),border-color 0.35s,box-shadow 0.35s;
+}
+.renew-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  opacity:0;transition:opacity 0.4s;
+}
+.renew-card:hover{transform:translateY(-6px);}
+.renew-card:hover::before{opacity:1;}
+
+.renew-card.rc-teal{--rc:45,224,204;}
+.renew-card.rc-blue{--rc:58,159,212;}
+.renew-card.rc-gold{--rc:240,192,96;}
+
+.renew-card::before{background:linear-gradient(90deg,transparent,rgba(var(--rc),0.8),transparent);}
+.renew-card:hover{border-color:rgba(var(--rc),0.35);box-shadow:0 20px 50px rgba(0,5,20,0.6),0 0 30px rgba(var(--rc),0.07);}
+.renew-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(var(--rc),0.06),transparent 65%);opacity:0;transition:opacity 0.4s;pointer-events:none;}
+.renew-card:hover::after{opacity:1;}
+
+.renew-badge{display:inline-block;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(var(--rc),1);background:rgba(var(--rc),0.08);border:0.5px solid rgba(var(--rc),0.25);padding:3px 10px;border-radius:20px;margin-bottom:16px;align-self:flex-start;}
+.renew-icon{font-size:34px;margin-bottom:14px;filter:drop-shadow(0 0 10px rgba(var(--rc),0.3));transition:filter 0.4s,transform 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.renew-card:hover .renew-icon{filter:drop-shadow(0 0 18px rgba(var(--rc),0.6));transform:scale(1.12);}
+.renew-title{font-family:'Jost',sans-serif;font-size:15px;font-weight:400;letter-spacing:0.06em;color:var(--text);margin-bottom:10px;}
+.renew-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-dim);line-height:1.7;flex:1;margin-bottom:20px;}
+.renew-items{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:7px;}
+.renew-items li{font-size:11px;letter-spacing:0.04em;color:var(--text-mid);display:flex;align-items:center;gap:8px;}
+.renew-items li::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(var(--rc),0.7);flex-shrink:0;}
+.renew-title,.renew-desc,.renew-items{width:100%;}
+.clear-cart-btn{background:none;border:0.5px solid rgba(220,80,80,0.3);color:rgba(220,80,80,0.75);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;transition:border-color 0.2s,color 0.2s;white-space:nowrap;align-self:flex-start;}
+.clear-cart-btn:hover{border-color:rgba(220,80,80,0.6);color:rgba(220,80,80,1);}
+.renew-wa{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(var(--rc),0.08);border:0.5px solid rgba(var(--rc),0.3);color:rgba(var(--rc),1);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:11px 16px;border-radius:10px;text-decoration:none;transition:background 0.2s,border-color 0.2s,box-shadow 0.2s;margin-top:auto;}
+.renew-wa:hover{background:rgba(var(--rc),0.15);border-color:rgba(var(--rc),0.7);box-shadow:0 0 20px rgba(var(--rc),0.15);}
+
+.renew-cta{width:100%;background:linear-gradient(135deg,rgba(37,211,102,0.1),rgba(37,211,102,0.05));border:0.5px solid rgba(37,211,102,0.3);border-radius:16px;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:4px;flex-wrap:wrap;}
+.renew-cta-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--text);line-height:1.5;}
+.renew-cta-text span{color:#25d366;font-style:normal;}
+.renew-cta-btn{display:flex;align-items:center;gap:8px;background:rgba(37,211,102,0.12);border:0.5px solid rgba(37,211,102,0.4);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:12px 20px;border-radius:10px;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+.renew-cta-btn:hover{background:rgba(37,211,102,0.22);box-shadow:0 0 24px rgba(37,211,102,0.2);}
+
+/* ══════════════════════════════════════
+   INSTAGRAM KARTI
+══════════════════════════════════════ */
+.ig-card{
+  display:flex;align-items:center;justify-content:space-between;
+  text-decoration:none;
+  background:rgba(6,14,28,0.8);
+  border:0.5px solid rgba(131,58,180,0.25);
+  border-radius:16px;padding:20px 24px;
+  position:relative;overflow:hidden;
+  transition:transform 0.3s,box-shadow 0.3s,border-color 0.3s;
+  gap:16px;
+}
+.ig-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(131,58,180,0.07) 0%,rgba(253,29,29,0.04) 50%,rgba(252,176,69,0.05) 100%);
+  transition:opacity 0.3s;
+}
+.ig-card:hover{transform:translateY(-3px);border-color:rgba(131,58,180,0.5);box-shadow:0 12px 40px rgba(131,58,180,0.15);}
+.ig-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1;}
+.ig-avatar{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(131,58,180,0.3);
+}
+.ig-handle{font-family:'Jost',sans-serif;font-size:15px;font-weight:400;color:#fff;letter-spacing:0.03em;}
+.ig-desc{font-size:12px;color:var(--text-mid);margin-top:3px;letter-spacing:0.03em;}
+.ig-right{position:relative;z-index:1;flex-shrink:0;}
+.ig-follow-btn{
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  color:#fff;font-family:'Jost',sans-serif;font-size:11px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:10px 20px;border-radius:10px;
+  transition:opacity 0.3s,transform 0.3s;
+  box-shadow:0 4px 16px rgba(131,58,180,0.25);
+}
+.ig-card:hover .ig-follow-btn{opacity:0.9;transform:translateX(3px);}
+
+/* ══════════════════════════════════════
+   INSTAGRAM GÖNDERİ GRID
+══════════════════════════════════════ */
+.ig-posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;}
+@media(max-width:639px){.ig-posts-grid{grid-template-columns:1fr;}}
+.ig-post-card{
+  border-radius:14px;overflow:hidden;
+  border:0.5px solid rgba(131,58,180,0.2);
+  background:rgba(6,14,28,0.85);
+  position:relative;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+  cursor:pointer;
+}
+.ig-post-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(131,58,180,0.5);
+  box-shadow:0 12px 40px rgba(131,58,180,0.15);
+}
+.ig-post-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform 0.5s ease;}
+.ig-post-card:hover .ig-post-img{transform:scale(1.06);}
+.ig-post-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,0.75) 100%);
+  opacity:0;transition:opacity 0.3s;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:14px;gap:4px;
+}
+.ig-post-card:hover .ig-post-overlay{opacity:1;}
+.ig-post-caption{font-size:11px;color:#fff;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ig-post-link-label{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);}
+.ig-post-placeholder{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(131,58,180,0.15),rgba(253,29,29,0.1));}
 
 /* ══════════════════════════════════════
    FOOTER
 ══════════════════════════════════════ */
-.site-footer{text-align:center;padding:3rem 0 2rem;border-top:0.5px solid var(--border);}
-.footer-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--text-mid);margin-bottom:8px;}
+.site-footer{padding:3rem 1.5rem 2rem;border-top:0.5px solid var(--border);}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--text-mid);margin-bottom:6px;text-align:center;}
 .footer-copy{font-size:11px;color:var(--text-dim);letter-spacing:0.1em;}
+.footer-divider{height:0.5px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:1.6rem 0;}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:780px;margin:0 auto;}
+.footer-col{}
+.footer-col-title{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.footer-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text-mid);margin-bottom:7px;letter-spacing:0.04em;}
+.footer-row span:last-child{color:var(--text);font-weight:400;}
+.footer-addr{font-size:13px;color:var(--text);margin-bottom:10px;letter-spacing:0.04em;}
+.footer-map-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);text-decoration:none;transition:opacity 0.2s;}
+.footer-map-link:hover{opacity:0.7;}
+.footer-contact-btns{display:flex;gap:8px;margin-bottom:10px;}
+.footer-call-btn{display:flex;align-items:center;gap:6px;background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 14px;border-radius:8px;text-decoration:none;transition:all 0.25s;cursor:pointer;}
+.footer-call-btn:hover{background:rgba(45,224,204,0.14);border-color:rgba(45,224,204,0.5);}
+.footer-wa-btn{display:flex;align-items:center;gap:6px;background:rgba(37,211,102,0.08);border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 14px;border-radius:8px;text-decoration:none;transition:all 0.25s;}
+.footer-wa-btn:hover{background:rgba(37,211,102,0.14);border-color:rgba(37,211,102,0.5);}
+.footer-phone{font-size:13px;color:var(--text-mid);letter-spacing:0.06em;}
+@media(max-width:640px){
+  .footer-grid{grid-template-columns:1fr;gap:1.4rem;}
+  .footer-contact-btns{flex-direction:column;}
+  .footer-call-btn,.footer-wa-btn{justify-content:center;}
+}
 
 /* ══════════════════════════════════════
    FLOAT BUTTONS
@@ -324,9 +618,12 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .afi-placeholder{width:54px;height:54px;display:flex;align-items:center;justify-content:center;background:var(--border);border-radius:8px;font-size:22px;flex-shrink:0;}
 .afi-name{font-size:14px;color:var(--text);font-weight:400;}
 .afi-meta{font-size:12px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:3px;}
-.afi-right{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.afi-right{display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:200px;}
+@media(max-width:639px){.afi-right{flex-direction:column;align-items:flex-end;gap:5px;max-width:90px;}.afi-right .del-btn,.afi-right .edit-btn{font-size:9px;padding:4px 7px;letter-spacing:0.06em;}.afi-price{font-size:14px;}.admin-fish-item{gap:8px;}}
 .afi-price{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--teal);}
 .del-btn{background:none;border:0.5px solid rgba(220,50,50,0.2);color:#e05555;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;transition:border-color 0.2s;}
+.edit-btn{background:none;border:0.5px solid rgba(45,224,204,0.25);color:var(--teal);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;transition:border-color 0.2s;}
+.edit-btn:hover{border-color:var(--teal);}
 .del-btn:hover{border-color:#e05555;}
 .empty-admin{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);text-align:center;padding:2rem;font-size:15px;}
 .sync-status{font-size:11px;letter-spacing:0.1em;text-align:center;padding:10px;margin-bottom:1rem;border-radius:8px;}
@@ -334,17 +631,31 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .sync-err{color:#e05555;background:rgba(220,50,50,0.06);}
 
 /* ══════════════════════════════════════
+   BALIK FLOAT ANİMASYONU (hover)
+══════════════════════════════════════ */
+@keyframes fishFloat{
+  0%,100%{transform:scale(1.06) translateY(0px);}
+  50%    {transform:scale(1.075) translateY(-9px);}
+}
+.fish-card:hover .fish-img{
+  animation:fishFloat 3s ease-in-out infinite;
+  filter:saturate(1.2) brightness(1.05);
+  transition:none;
+}
+
+/* ══════════════════════════════════════
    SCROLL REVEAL
 ══════════════════════════════════════ */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
+
 
 /* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
 @media(max-width:639px){
   .hero{height:90vh;min-height:500px;}
-  .brand-main{font-size:44px;}
+  .brand-main{font-size:58px;}
   .brand-sub{font-size:18px;}
   .hero-tagline{font-size:14px;}
   .content{padding:0 1rem 4rem;}
@@ -357,15 +668,15 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .info-grid{grid-template-columns:1fr;}
   .info-card{padding:16px 18px;}
   .info-val{font-size:16px;}
-  .fish-grid{grid-template-columns:1fr;}
-  .fish-img-wrap,.fish-img-placeholder{height:200px;}
-  .services-grid{grid-template-columns:1fr;}
+  .fish-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .fish-img-wrap,.fish-img-placeholder{height:130px;}
+  .services-grid{grid-template-columns:repeat(2,1fr);}
   .form-row{grid-template-columns:1fr;}
   .cart-footer{flex-direction:column;align-items:stretch;}
   .whatsapp-btn{justify-content:center;}
 }
 @media(min-width:640px) and (max-width:1023px){
-  .brand-main{font-size:64px;}
+  .brand-main{font-size:88px;}
   .brand-sub{font-size:24px;}
   .link-btn{padding:18px 20px 18px 0;}
   .btn-icon{width:64px;height:64px;}
@@ -377,7 +688,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .info-card{padding:18px 22px;}
 }
 @media(min-width:1024px){
-  .brand-main{font-size:86px;}
+  .brand-main{font-size:120px;}
   .brand-sub{font-size:30px;}
   .hero-tagline{font-size:18px;}
   .link-btn{padding:22px 26px 22px 0;}
@@ -391,10 +702,186 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   .info-val{font-size:18px;}
   .fish-img-wrap,.fish-img-placeholder{height:170px;}
 }
+
+/* DAY THEME */
+body.day-theme{
+  --bg:#0a1628;--bg2:#0d1e38;--card:#0e2040;--card2:#102448;
+  --border:#1a3560;--border2:#204070;--border3:#2a5590;
+  --teal:#20d4c0;--blue:#3090c8;--text:#d0e8f8;--text-mid:#6aa8c8;--text-dim:#2a5070;
+}
+body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ══════════════════════════════════════
+   LOADING SCREEN
+══════════════════════════════════════ */
+#loader{
+  position:fixed;inset:0;background:#020810;z-index:3000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transform-origin:top;
+}
+#loaderTitle{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(72px,13vw,140px);color:#fff;letter-spacing:0.1em;line-height:1;
+  text-shadow:0 0 80px rgba(45,224,204,0.12);
+  display:flex;gap:0.04em;
+}
+#loaderTitle span{
+  display:inline-block;opacity:0;transform:translateY(30px);
+  transition:opacity 0.5s cubic-bezier(0.16,1,0.3,1),transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+#loaderTitle span.show{opacity:1;transform:translateY(0);}
+#loaderSub{
+  font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.55em;
+  text-transform:uppercase;color:var(--teal);opacity:0;
+  animation:fadeUp 0.7s ease 0.95s forwards;
+}
+.loader-bar{width:180px;height:1px;background:rgba(45,224,204,0.12);position:relative;overflow:hidden;}
+#loaderFill{
+  position:absolute;top:0;left:0;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--teal),var(--cyan));
+  box-shadow:0 0 10px rgba(45,224,204,0.8);transition:width 0.08s linear;
+}
+#loaderPct{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.25em;color:var(--text-dim);}
+
+
+/* ══════════════════════════════════════
+   SES TOGGLE
+══════════════════════════════════════ */
+#soundBtn{
+  position:fixed;top:1.2rem;left:1.2rem;z-index:60;
+  background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.25);
+  color:var(--teal);font-size:15px;width:36px;height:36px;border-radius:50%;
+  cursor:pointer;backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;
+}
+#soundBtn:hover{border-color:var(--teal);transform:scale(1.1);box-shadow:0 0 12px rgba(45,224,204,0.2);}
+#soundBtn.muted{border-color:var(--border);color:var(--text-dim);}
+
+/* ══════════════════════════════════════
+   SCROLL PROGRESS BAR
+══════════════════════════════════════ */
+#scrollBar{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--teal),var(--blue),var(--cyan));
+  z-index:200;transition:width 0.05s linear;
+  box-shadow:0 0 8px rgba(45,224,204,0.6);
+}
+
+/* ══════════════════════════════════════
+   STICKY NAV
+══════════════════════════════════════ */
+#stickyNav{
+  position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);
+  z-index:100;
+  display:flex;align-items:center;gap:0;
+  background:rgba(2,8,16,0.85);
+  border:0.5px solid rgba(45,224,204,0.2);
+  border-radius:0 0 16px 16px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:0 4px 4px;
+  transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 0.5px rgba(45,224,204,0.08);
+}
+#stickyNav.show{transform:translateX(-50%) translateY(0);}
+.snav-logo{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:14px;color:var(--teal);letter-spacing:0.12em;
+  padding:10px 16px 6px;border-right:0.5px solid rgba(45,224,204,0.12);
+  white-space:nowrap;
+}
+.snav-link{
+  font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--text-dim);
+  padding:10px 14px 6px;cursor:pointer;
+  transition:color 0.2s;white-space:nowrap;
+}
+.snav-link:hover{color:var(--teal);}
+@media(max-width:639px){
+  #stickyNav{padding:0 2px 3px;}
+  .snav-logo{font-size:12px;padding:8px 10px 4px;}
+  .snav-link{font-size:8px;padding:8px 8px 4px;letter-spacing:0.14em;}
+}
+
+/* ══════════════════════════════════════
+   ENHANCED REVEAL VARIANTS
+══════════════════════════════════════ */
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+.reveal-scale{opacity:0;transform:scale(0.92);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.reveal-scale.visible{opacity:1;transform:scale(1);}
+
+.sec-header{position:relative;}
+
+/* Hero parallax wrapper */
+.hero-content{will-change:transform;}
+
+/* Ambient glow orbs that drift on scroll */
+#ambientOrbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);
+  transition:transform 1.2s cubic-bezier(0.16,1,0.3,1),opacity 1.2s ease;
+  pointer-events:none;
+}
+.orb-teal{width:400px;height:400px;background:radial-gradient(circle,rgba(45,224,204,0.06),transparent 70%);top:20%;left:-10%;}
+.orb-blue{width:500px;height:500px;background:radial-gradient(circle,rgba(58,159,212,0.05),transparent 70%);top:60%;right:-15%;}
+.orb-cyan{width:300px;height:300px;background:radial-gradient(circle,rgba(0,245,255,0.04),transparent 70%);top:40%;left:40%;}
+
+/* Stagger delays for grid items */
+.fish-grid .fish-card:nth-child(1),.aq-grid .aq-card:nth-child(1){transition-delay:0s;}
+.fish-grid .fish-card:nth-child(2),.aq-grid .aq-card:nth-child(2){transition-delay:0.07s;}
+.fish-grid .fish-card:nth-child(3),.aq-grid .aq-card:nth-child(3){transition-delay:0.14s;}
+.fish-grid .fish-card:nth-child(4),.aq-grid .aq-card:nth-child(4){transition-delay:0.21s;}
+.fish-grid .fish-card:nth-child(5),.aq-grid .aq-card:nth-child(5){transition-delay:0.28s;}
+.fish-grid .fish-card:nth-child(6),.aq-grid .aq-card:nth-child(6){transition-delay:0.35s;}
+.svc-card:nth-child(1){transition-delay:0s;}
+.svc-card:nth-child(2){transition-delay:0.06s;}
+.svc-card:nth-child(3){transition-delay:0.12s;}
+.svc-card:nth-child(4){transition-delay:0.18s;}
+.svc-card:nth-child(5){transition-delay:0.24s;}
+.svc-card:nth-child(6){transition-delay:0.30s;}
+.svc-card:nth-child(7){transition-delay:0.36s;}
+.svc-card:nth-child(8){transition-delay:0.42s;}
+.svc-card:nth-child(9){transition-delay:0.48s;}
+.svc-card:nth-child(10){transition-delay:0.54s;}
 </style>
 </head>
 <body>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div id="loaderTitle"></div>
+  <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
+  <div class="loader-bar"><div id="loaderFill"></div></div>
+  <div id="loaderPct">0%</div>
+</div>
+
+<!-- SES TOGGLE -->
+<button id="soundBtn" onclick="toggleSound()" title="Ses Aç/Kapat">🔊</button>
+
+<!-- SCROLL PROGRESS BAR -->
+<div id="scrollBar"></div>
+
+<!-- STICKY NAV -->
+<div id="stickyNav">
+  <div class="snav-logo">Enes Akvaryum</div>
+  <div class="snav-link" onclick="document.getElementById('fishGrid').scrollIntoView({behavior:'smooth',block:'start'})">Balıklar</div>
+  <div class="snav-link" onclick="document.getElementById('plantGrid').scrollIntoView({behavior:'smooth',block:'start'})">Bitkiler</div>
+  <div class="snav-link" onclick="document.getElementById('aqGrid').scrollIntoView({behavior:'smooth',block:'start'})">Akvaryum</div>
+  <div class="snav-link" onclick="document.getElementById('reviewsTrack').closest('.reveal').scrollIntoView({behavior:'smooth',block:'start'})">Yorumlar</div>
+  <div class="snav-link" onclick="document.querySelector('.site-footer').scrollIntoView({behavior:'smooth',block:'start'})">İletişim</div>
+</div>
+
+<!-- AMBIENT ORBS -->
+<div id="ambientOrbs">
+  <div class="orb orb-teal"></div>
+  <div class="orb orb-blue"></div>
+  <div class="orb orb-cyan"></div>
+</div>
 
 <!-- CANVAS BACKGROUND -->
 <canvas id="bgCanvas"></canvas>
@@ -420,15 +907,19 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
     </path>
   </svg>
   <div class="hero-bubs" id="heroBubs"></div>
-  <div class="hero-fish-wrap" id="heroFishWrap"></div>
   <div class="hero-content">
     <div class="brand-wrap">
-      <div class="brand-main" data-text="ENES">ENES</div>
+      <div class="brand-main" data-text="ENES">
+        <span class="brand-letter" style="animation-delay:0.4s">E</span>
+        <span class="brand-letter" style="animation-delay:0.55s">N</span>
+        <span class="brand-letter" style="animation-delay:0.7s">E</span>
+        <span class="brand-letter" style="animation-delay:0.85s">S</span>
+      </div>
     </div>
     <svg class="brand-wave" width="110" height="18" viewBox="0 0 110 18">
       <path d="M5,9 C18,3 30,15 43,9 C56,3 68,15 81,9 C90,4 100,12 105,9" stroke="#2de0cc" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
     </svg>
-    <div class="brand-sub">Akvaryum</div>
+    <div class="brand-sub" id="brandSub">Akvaryum</div>
     <div class="hero-divider"></div>
     <div class="hero-tagline">Balık &amp; akvaryum dünyasına hoş geldiniz</div>
   </div>
@@ -441,70 +932,24 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 <!-- ══ CONTENT ══ -->
 <div class="content">
 
-  <!-- LINKS -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">İletişim & Konum</div><div class="sec-line-r"></div></div>
-  <div class="links reveal">
-    <a class="link-btn" href="https://maps.app.goo.gl/WfZ8XVNFPm5z6PX2A" target="_blank">
-      <div class="btn-inner">
-        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-        <div><div class="btn-label">Konum</div><div class="btn-sub">Mağazamızı bulun</div></div>
-      </div><div class="btn-arrow">→</div>
-    </a>
-    <a class="link-btn" href="https://wa.me/905383279980" target="_blank">
-      <div class="btn-inner">
-        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-        <div><div class="btn-label">WhatsApp</div><div class="btn-sub">Hızlı iletişim</div></div>
-      </div><div class="btn-arrow">→</div>
-    </a>
-    <a class="link-btn" href="tel:+905383279980">
-      <div class="btn-inner">
-        <div class="btn-icon"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
-        <div><div class="btn-label">Bizi Arayın</div><div class="btn-sub">0538 327 99 80</div></div>
-      </div><div class="btn-arrow">→</div>
-    </a>
-  </div>
-
-  <!-- INFO -->
-  <div class="info-grid reveal" style="margin-top:10px;">
-    <div class="info-card" style="padding:18px 20px;"><div class="info-lbl">Çalışma Saatleri</div><div class="info-val">Her gün<br>09:00 – 20:30</div></div>
-    <div class="info-card" style="padding:18px 20px;"><div class="info-lbl">İletişim</div><div class="info-val">0538 327 99 80</div></div>
-  </div>
-
-  <!-- MAPS -->
-  <div class="sec-header reveal" style="margin-top:1.5rem;"><div class="sec-line"></div><div class="sec-label">Bizi Bulun</div><div class="sec-line-r"></div></div>
-  <div class="reveal">
-    <div class="maps-wrap">
-      <iframe
-        src="https://maps.google.com/maps?q=Enes+Akvaryum&output=embed&hl=tr&z=16"
-        allowfullscreen
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
-    <a class="maps-open-btn" href="https://maps.app.goo.gl/WfZ8XVNFPm5z6PX2A" target="_blank">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Google Maps'te Aç
-    </a>
-  </div>
-
   <!-- FISH CATALOG -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut Balıklar</div><div class="sec-line-r"></div></div>
-  <div class="cat-filter reveal" id="catFilter">
-    <button class="cat-btn active" onclick="filterFish('Tümü')">Tümü</button>
-    <button class="cat-btn" onclick="filterFish('CANLI DOĞURANLAR')">Canlı Doğuranlar</button>
-    <button class="cat-btn" onclick="filterFish('VATOZ TÜRLERİ')">Vatoz Türleri</button>
-    <button class="cat-btn" onclick="filterFish('TETRA TÜRLERİ')">Tetra Türleri</button>
-    <button class="cat-btn" onclick="filterFish('CİKLET TÜRLERİ')">Ciklet Türleri</button>
-    <button class="cat-btn" onclick="filterFish('DİSCUS TÜRLERİ')">Discus Türleri</button>
-    <button class="cat-btn" onclick="filterFish('MELEK TÜRLERİ')">Melek Türleri</button>
-    <button class="cat-btn" onclick="filterFish('JAPON TÜRLERİ')">Japon Türleri</button>
-    <button class="cat-btn" onclick="filterFish('KOI TÜRLERİ')">Koi Türleri</button>
-    <button class="cat-btn" onclick="filterFish('BETTA TÜRLERİ')">Betta Türleri</button>
-    <button class="cat-btn" onclick="filterFish('Diğer')">Diğer</button>
-  </div>
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secFish">Şu An Mevcut Balıklar</div><div class="sec-line-r"></div></div>
   <div class="fish-grid reveal" id="fishGrid">
     <div class="no-fish">Yükleniyor...</div>
   </div>
+
+  <!-- PLANTS -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secPlant">Canlı Bitkiler</div><div class="sec-line-r"></div></div>
+  <div class="fish-grid reveal" id="plantGrid">
+    <div class="no-fish">Yükleniyor...</div>
+  </div>
+
+  <!-- AQUARIUM -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secAq">Akvaryumlar</div><div class="sec-line-r"></div></div>
+  <div class="aq-grid reveal" id="aqGrid">
+    <div class="no-fish">Yükleniyor...</div>
+  </div>
+
 
   <!-- CART -->
   <div class="cart-summary reveal" id="cartSummary" style="margin-top:16px;">
@@ -514,7 +959,10 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
-      <div class="cart-total" id="cartTotal"></div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div class="cart-total" id="cartTotal"></div>
+        <button class="clear-cart-btn" onclick="clearCart()">🗑 Sepeti Boşalt</button>
+      </div>
       <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank">
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z" stroke-width="0"/></svg>
         Sipariş Ver
@@ -522,16 +970,80 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
     </div>
   </div>
 
+  <!-- YENİLEME HİZMETİ -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secRenew">Akvaryum Yenileme & Bakım</div><div class="sec-line-r"></div></div>
+  <div class="renew-grid reveal">
 
-  <!-- AQUARIUM -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Akvaryumlar</div><div class="sec-line-r"></div></div>
-  <div class="aq-grid reveal" id="aqGrid">
-    <div class="no-fish">Yükleniyor...</div>
+    <!-- Kart 1: Bakım -->
+    <div class="renew-card rc-teal">
+      <span class="renew-badge">Aylık Hizmet</span>
+      <span class="renew-icon">🔧</span>
+      <div class="renew-title">Düzenli Bakım</div>
+      <div class="renew-desc">Akvaryumunuz her zaman kristal berrak kalsın. Düzenli bakım ile balıklarınız sağlıklı yaşar.</div>
+      <ul class="renew-items">
+        <li>Su değişimi & kalite testi</li>
+        <li>Filtre temizliği & bakımı</li>
+        <li>Yosun & kir temizleme</li>
+        <li>Balık sağlığı kontrolü</li>
+        <li>Cam & dekor temizliği</li>
+      </ul>
+      <a href="https://wa.me/905383279980?text=Merhaba!%20Düzenli%20akvaryum%20bakım%20hizmeti%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="renew-wa">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        Fiyat Bilgisi Al
+      </a>
+    </div>
+
+    <!-- Kart 2: Tasarım -->
+    <div class="renew-card rc-blue">
+      <span class="renew-badge">Tek Sefer</span>
+      <span class="renew-icon">🎨</span>
+      <div class="renew-title">Tasarım Değişikliği</div>
+      <div class="renew-desc">Akvaryumunuzu tamamen yeni bir görünüme kavuşturun. Aquascape sanatıyla evinize değer katın.</div>
+      <ul class="renew-items">
+        <li>Yeni dekor & kaya düzenlemesi</li>
+        <li>Canlı bitki aquascape tasarımı</li>
+        <li>Yeni kum / çakıl zemini</li>
+        <li>Aydınlatma optimizasyonu</li>
+        <li>Tema & renk uyumu</li>
+      </ul>
+      <a href="https://wa.me/905383279980?text=Merhaba!%20Akvaryum%20tasarım%20değişikliği%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="renew-wa">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        Fiyat Bilgisi Al
+      </a>
+    </div>
+
+    <!-- Kart 3: Komple Yenileme -->
+    <div class="renew-card rc-gold">
+      <span class="renew-badge">Komple Paket</span>
+      <span class="renew-icon">✨</span>
+      <div class="renew-title">Komple Yenileme</div>
+      <div class="renew-desc">Eski akvaryumunuz yerine sıfırdan kurulum. Balıklar, bitkiler, dekor — her şey dahil.</div>
+      <ul class="renew-items">
+        <li>Yeni akvaryum & ekipman kurulumu</li>
+        <li>Filtre, ısıtıcı, aydınlatma seçimi</li>
+        <li>Balık & bitki temin & yerleştirme</li>
+        <li>Su kimyası ayarı & devreye alma</li>
+        <li>İlk ay ücretsiz bakım dahil</li>
+      </ul>
+      <a href="https://wa.me/905383279980?text=Merhaba!%20Akvaryum%20komple%20yenileme%20paketi%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="renew-wa">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        Fiyat Bilgisi Al
+      </a>
+    </div>
+
   </div>
 
+  <!-- Yenileme CTA -->
+  <div class="renew-cta reveal">
+    <div class="renew-cta-text">Evinize gelerek ücretsiz <span>keşif & fiyat teklifi</span> sunuyoruz</div>
+    <a href="https://wa.me/905383279980?text=Merhaba!%20Evdeki%20akvaryumum%20için%20keşif%20randevusu%20almak%20istiyorum." target="_blank" class="renew-cta-btn">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      Keşif Randevusu Al
+    </a>
+  </div>
 
   <!-- REVIEWS -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Müşteri Yorumları</div><div class="sec-line-r"></div></div>
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secRev">Müşteri Yorumları</div><div class="sec-line-r"></div></div>
   <div class="reviews-wrap reveal">
     <div class="reviews-fade-l"></div>
     <div class="reviews-fade-r"></div>
@@ -541,29 +1053,145 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
   </div>
 
   <!-- SERVICES -->
-  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Hizmetlerimiz</div><div class="sec-line-r"></div></div>
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secSvc">Hizmetlerimiz</div><div class="sec-line-r"></div></div>
   <div class="services-grid reveal">
-    <div class="svc-card"><div class="svc-icon">🐠</div><div class="svc-name">Tatlı Su Balıkları</div><div class="svc-desc">Japon, akvaryum balığı ve daha fazlası</div></div>
-    <div class="svc-card"><div class="svc-icon">🌊</div><div class="svc-name">Tuzlu Su Balıkları</div><div class="svc-desc">Mercan, palyaço &amp; egzotik türler</div></div>
-    <div class="svc-card"><div class="svc-icon">🌿</div><div class="svc-name">Canlı Bitkiler</div><div class="svc-desc">Aquascape &amp; su altı bitkileri</div></div>
-    <div class="svc-card"><div class="svc-icon">⚙️</div><div class="svc-name">Filtreler</div><div class="svc-desc">İç, dış &amp; biyolojik filtreler</div></div>
-    <div class="svc-card"><div class="svc-icon">🔲</div><div class="svc-name">Akvaryumlar</div><div class="svc-desc">Özel ölçü &amp; hazır akvaryumlar</div></div>
-    <div class="svc-card"><div class="svc-icon">🍃</div><div class="svc-name">Yem &amp; Besin</div><div class="svc-desc">Canlı, dondurulmuş &amp; kuru yemler</div></div>
-    <div class="svc-card"><div class="svc-icon">💡</div><div class="svc-name">Işıklandırma</div><div class="svc-desc">LED &amp; özel akvaryum lambaları</div></div>
-    <div class="svc-card"><div class="svc-icon">🧪</div><div class="svc-name">Su Kimyası</div><div class="svc-desc">Test kitleri, tuz &amp; kondisyonerler</div></div>
-    <div class="svc-card"><div class="svc-icon">🪨</div><div class="svc-name">Dekorasyon</div><div class="svc-desc">Kaya, kum, driftwood &amp; figürler</div></div>
-    <div class="svc-card"><div class="svc-icon">🛠️</div><div class="svc-name">Bakım &amp; Servis</div><div class="svc-desc">Akvaryum kurulum &amp; bakım hizmeti</div></div>
+    <div class="svc-card"><div class="svc-icon">🐠</div><div class="svc-name" data-tr="Tatlı Su Balıkları" data-en="Freshwater Fish">Tatlı Su Balıkları</div><div class="svc-desc" data-tr="Japon, akvaryum balığı ve daha fazlası" data-en="Goldfish, aquarium fish and more">Japon, akvaryum balığı ve daha fazlası</div></div>
+    <div class="svc-card"><div class="svc-icon">🌊</div><div class="svc-name" data-tr="Tuzlu Su Balıkları" data-en="Saltwater Fish">Tuzlu Su Balıkları</div><div class="svc-desc" data-tr="Mercan, palyaço &amp; egzotik türler" data-en="Coral, clownfish &amp; exotic species">Mercan, palyaço &amp; egzotik türler</div></div>
+    <div class="svc-card"><div class="svc-icon">🌿</div><div class="svc-name" data-tr="Canlı Bitkiler" data-en="Live Plants">Canlı Bitkiler</div><div class="svc-desc" data-tr="Aquascape &amp; su altı bitkileri" data-en="Aquascape &amp; underwater plants">Aquascape &amp; su altı bitkileri</div></div>
+    <div class="svc-card"><div class="svc-icon">⚙️</div><div class="svc-name" data-tr="Filtreler" data-en="Filters">Filtreler</div><div class="svc-desc" data-tr="İç, dış &amp; biyolojik filtreler" data-en="Internal, external &amp; bio filters">İç, dış &amp; biyolojik filtreler</div></div>
+    <div class="svc-card"><div class="svc-icon">🔲</div><div class="svc-name" data-tr="Akvaryumlar" data-en="Aquariums">Akvaryumlar</div><div class="svc-desc" data-tr="Özel ölçü &amp; hazır akvaryumlar" data-en="Custom &amp; ready-made aquariums">Özel ölçü &amp; hazır akvaryumlar</div></div>
+    <div class="svc-card"><div class="svc-icon">🍃</div><div class="svc-name" data-tr="Yem &amp; Besin" data-en="Food &amp; Nutrition">Yem &amp; Besin</div><div class="svc-desc" data-tr="Canlı, dondurulmuş &amp; kuru yemler" data-en="Live, frozen &amp; dry foods">Canlı, dondurulmuş &amp; kuru yemler</div></div>
+    <div class="svc-card"><div class="svc-icon">💡</div><div class="svc-name" data-tr="Işıklandırma" data-en="Lighting">Işıklandırma</div><div class="svc-desc" data-tr="LED &amp; özel akvaryum lambaları" data-en="LED &amp; special aquarium lights">LED &amp; özel akvaryum lambaları</div></div>
+    <div class="svc-card"><div class="svc-icon">🧪</div><div class="svc-name" data-tr="Su Kimyası" data-en="Water Chemistry">Su Kimyası</div><div class="svc-desc" data-tr="Test kitleri, tuz &amp; kondisyonerler" data-en="Test kits, salt &amp; conditioners">Test kitleri, tuz &amp; kondisyonerler</div></div>
+    <div class="svc-card"><div class="svc-icon">🪨</div><div class="svc-name" data-tr="Dekorasyon" data-en="Decoration">Dekorasyon</div><div class="svc-desc" data-tr="Kaya, kum, driftwood &amp; figürler" data-en="Rock, sand, driftwood &amp; figures">Kaya, kum, driftwood &amp; figürler</div></div>
+    <div class="svc-card"><div class="svc-icon">🛠️</div><div class="svc-name" data-tr="Bakım &amp; Servis" data-en="Maintenance &amp; Service">Bakım &amp; Servis</div><div class="svc-desc" data-tr="Akvaryum kurulum &amp; bakım hizmeti" data-en="Aquarium setup &amp; maintenance">Akvaryum kurulum &amp; bakım hizmeti</div></div>
+  </div>
+
+
+  <!-- VISITOR COUNTER -->
+  <div class="reveal" style="width:100%;display:flex;justify-content:center;margin-top:0.5rem;">
+    <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(6,14,28,0.6);border:0.5px solid rgba(45,224,204,0.15);border-radius:20px;padding:8px 20px;backdrop-filter:blur(10px);">
+      <div style="width:6px;height:6px;border-radius:50%;background:#2de0cc;animation:loadPulse 2s ease-in-out infinite;"></div>
+      <span id="visitorText" style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;color:#4a8aaa;">Bu ay <span id="visitorCount" style="color:#2de0cc;font-weight:500;">...</span> ziyaretçi</span>
+    </div>
+  </div>
+
+
+  <!-- SUBSCRIBE -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label" id="secSub">Yeni Balık Bildirimi</div><div class="sec-line-r"></div></div>
+  <div class="reveal" style="width:100%;background:rgba(6,14,28,0.75);border:0.5px solid rgba(45,224,204,0.2);border-radius:16px;padding:2rem;backdrop-filter:blur(16px);text-align:center;">
+    <div style="font-size:32px;margin-bottom:14px;">🐠</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#ffffff;margin-bottom:10px;" id="subTitle">Yeni balıkları ilk sen gör</div>
+    <div style="font-size:13px;color:var(--text-mid);margin-bottom:1rem;line-height:1.7;max-width:320px;margin-left:auto;margin-right:auto;" id="subDesc">Nadir ve egzotik balıklar mağazamıza geldiğinde sana <strong style="color:var(--teal);">WhatsApp</strong>'tan haber veriyoruz. Stok bitmeden önce fırsatı kaçırma!</div>
+    <div style="display:flex;justify-content:center;gap:20px;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);"><span style="color:var(--teal);">✓</span> Ücretsiz</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);"><span style="color:var(--teal);">✓</span> İstediğin zaman çık</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);"><span style="color:var(--teal);">✓</span> Sadece yeni balık haberi</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;margin:0 auto;">
+      <input type="text" id="subName" placeholder="Adınız" style="width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:11px 16px;border-radius:10px;outline:none;"/>
+      <input type="tel" id="subPhone" placeholder="WhatsApp numaranız (05xx...)" style="width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:11px 16px;border-radius:10px;outline:none;"/>
+      <button onclick="subscribe()" id="subBtn" style="background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;padding:13px;border-radius:10px;cursor:pointer;">🔔 Abone Ol</button>
+      <div id="subMsg" style="font-size:12px;color:var(--teal);display:none;padding:8px;background:rgba(45,224,204,0.06);border-radius:8px;">✓ Abone oldunuz! Yeni balık gelince WhatsApp'tan haber vereceğiz.</div>
+    </div>
+  </div>
+
+  <!-- INSTAGRAM -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Instagram</div><div class="sec-line-r"></div></div>
+  <a href="https://www.instagram.com/enesakvaryum_/" target="_blank" class="reveal ig-card">
+    <div class="ig-bg"></div>
+    <div class="ig-left">
+      <div class="ig-avatar">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </div>
+      <div>
+        <div class="ig-handle">@enesakvaryum_</div>
+        <div class="ig-desc">Balıklar, akvaryumlar ve mağazadan anlar</div>
+      </div>
+    </div>
+    <div class="ig-right">
+      <div class="ig-follow-btn">Takip Et →</div>
+    </div>
+  </a>
+
+  <!-- GOOGLE HARİTA -->
+  <div class="sec-header reveal"><div class="sec-line"></div><div class="sec-label">Bizi Bulun</div><div class="sec-line-r"></div></div>
+  <div class="reveal" style="width:100%;border-radius:16px;overflow:hidden;border:0.5px solid var(--border2);">
+    <iframe src="https://www.google.com/maps?q=Enes+Akvaryum+Eyüpsultan+İstanbul&output=embed" width="100%" height="320" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <div class="reveal" style="text-align:center;margin-top:10px;">
+    <a href="https://maps.app.goo.gl/6dZxrJeD63xBHjVj7" target="_blank" style="font-size:12px;color:var(--teal);text-decoration:none;letter-spacing:0.08em;">→ Google Maps'te Aç</a>
   </div>
 
   <div class="site-footer reveal">
     <div class="footer-brand">Enes Akvaryum</div>
-    <div class="footer-copy">© 2025 · Tüm hakları saklıdır</div>
+    <div class="footer-divider"></div>
+
+    <div class="footer-grid">
+      <!-- Çalışma Saatleri -->
+      <div class="footer-col">
+        <div class="footer-col-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Çalışma Saatleri
+        </div>
+        <div class="footer-row"><span>Pzt – Cmt</span><span>09:00 – 20:00</span></div>
+        <div class="footer-row"><span>Pazar</span><span>10:00 – 18:00</span></div>
+      </div>
+
+      <!-- Konum -->
+      <div class="footer-col">
+        <div class="footer-col-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Konum
+        </div>
+        <div class="footer-addr">Eyüpsultan, İstanbul</div>
+        <a href="https://maps.app.goo.gl/6dZxrJeD63xBHjVj7" target="_blank" class="footer-map-link">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Google Maps'te Aç
+        </a>
+      </div>
+
+      <!-- İletişim -->
+      <div class="footer-col">
+        <div class="footer-col-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          İletişim
+        </div>
+        <div class="footer-contact-btns">
+          <a href="tel:+905383279980" class="footer-call-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Bizi Arayın
+          </a>
+          <a href="https://wa.me/905383279980" target="_blank" class="footer-wa-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+        <div class="footer-phone">0538 327 99 80</div>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <div class="footer-copy">© 2026 Enes Akvaryum · Tüm hakları saklıdır</div>
+      <a href="https://www.instagram.com/enesakvaryum_/" target="_blank" style="color:var(--text-dim);text-decoration:none;font-size:11px;letter-spacing:0.1em;transition:color 0.2s;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#e1306c'" onmouseout="this.style.color=''">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        @enesakvaryum_
+      </a>
+    </div>
   </div>
 </div>
 </div>
 
 <!-- FLOAT BUTTONS -->
 <button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
+
+<!-- LANGUAGE TOGGLE -->
+<button id="langBtn" onclick="toggleLang()" style="position:fixed;top:1.2rem;right:1.2rem;z-index:60;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);color:#7aaec8;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.15em;padding:7px 14px;border-radius:8px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.2s;">TR / EN</button>
+
+<a href="https://wa.me/905383279980" target="_blank" id="waFloat" style="position:fixed;bottom:5rem;right:2rem;z-index:50;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(32,196,90,0.4);transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 8px 30px rgba(32,196,90,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(32,196,90,0.4)'">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+</a>
 <button class="admin-trigger" onclick="openAdmin()">⚙ Yönetim</button>
 
 <!-- ADMIN -->
@@ -591,7 +1219,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
         <h3>Yeni Balık Ekle</h3>
         <div class="form-row">
           <div class="field-sm"><label>Balık Adı</label><input type="text" id="fName" placeholder="örn. Japon Balığı"></div>
-          <div class="field-sm"><label>Su Türü</label>
+          <div class="field-sm"><label>Tür</label>
             <select id="fType">
               <option value="Tatlı Su">Tatlı Su</option>
               <option value="Tuzlu Su">Tuzlu Su</option>
@@ -599,26 +1227,6 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
               <option value="Aksesuar">Aksesuar</option>
               <option value="Diğer">Diğer</option>
             </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="field-sm"><label>Kategori</label>
-            <select id="fCategory">
-              <option value="">— Kategori Seç —</option>
-              <option value="CANLI DOĞURANLAR">Canlı Doğuranlar</option>
-              <option value="VATOZ TÜRLERİ">Vatoz Türleri</option>
-              <option value="TETRA TÜRLERİ">Tetra Türleri</option>
-              <option value="CİKLET TÜRLERİ">Ciklet Türleri</option>
-              <option value="DİSCUS TÜRLERİ">Discus Türleri</option>
-              <option value="MELEK TÜRLERİ">Melek Türleri</option>
-              <option value="JAPON TÜRLERİ">Japon Türleri</option>
-              <option value="KOI TÜRLERİ">Koi Türleri</option>
-              <option value="BETTA TÜRLERİ">Betta Türleri</option>
-              <option value="Diğer">Diğer</option>
-            </select>
-          </div>
-          <div class="field-sm" style="display:flex;align-items:flex-end;padding-bottom:4px;">
-            <span style="font-size:10px;color:var(--text-dim);font-style:italic;">Kategori filtre butonlarında görünür</span>
           </div>
         </div>
         <div class="form-row">
@@ -646,10 +1254,144 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
       </div>
       <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);opacity:0.65;margin-bottom:10px;">Mevcut Liste</div>
       <div class="admin-fish-list" id="adminFishList"></div>
+
+
+      <!-- BİTKİ YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#4caf7d;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Bitki Yönetimi</div>
+      <div class="add-form">
+        <h3>Yeni Bitki Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>Bitki Adı</label><input type="text" id="plName" placeholder="örn. Anubias Nana"></div>
+          <div class="field-sm"><label>Tür</label>
+            <select id="plType">
+              <option value="Ön Plan">Ön Plan</option>
+              <option value="Arka Plan">Arka Plan</option>
+              <option value="Orta Plan">Orta Plan</option>
+              <option value="Yüzen">Yüzen</option>
+              <option value="Moss">Moss</option>
+              <option value="Diğer">Diğer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Fiyat (₺)</label><input type="number" id="plPrice" placeholder="örn. 50"></div>
+          <div class="field-sm"><label>Not (isteğe bağlı)</label><input type="text" id="plNote" placeholder="örn. saksıda / dal"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Stok Adedi (boş = sınırsız)</label><input type="number" id="plStock" placeholder="örn. 5" min="0"></div>
+          <div class="field-sm"></div>
+        </div>
+        <div class="field-sm" style="margin-bottom:12px;">
+          <label>Fotoğraf</label>
+          <div class="photo-upload-area">
+            <input type="file" accept="image/*" id="plPhoto" onchange="handlePlPhoto(this)">
+            <div class="upload-text">📷 <strong>Fotoğraf seç</strong> veya sürükle bırak</div>
+          </div>
+          <img id="plImgPreview" class="img-preview-admin" alt="Önizleme">
+          <button class="cancel-img-btn" id="plCancelBtn" onclick="cancelPlImg()">✕ Fotoğrafı Kaldır</button>
+        </div>
+        <div class="action-row">
+          <button class="search-btn" onclick="autoSearchPlImg()">🔍 Otomatik Ara</button>
+          <button class="add-btn" id="plAddBtn" onclick="addPlant()">+ Bitki Ekle</button>
+        </div>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#4caf7d;opacity:0.65;margin-bottom:10px;">Mevcut Bitkiler</div>
+      <div class="admin-fish-list" id="adminPlList"></div>
+
+      <!-- AKVARYUM YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Akvaryum Yönetimi</div>
+      <div class="add-form">
+        <h3>Yeni Akvaryum Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>Akvaryum Adı</label><input type="text" id="aqName" placeholder="örn. Başlangıç Seti 60L"></div>
+          <div class="field-sm"><label>Boyut / Hacim</label><input type="text" id="aqSize" placeholder="örn. 60x30x36 cm · 60L"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Fiyat (₺) — boş = fiyatsız</label><input type="number" id="aqPrice" placeholder="örn. 2500"></div>
+          <div class="field-sm"><label>Not (isteğe bağlı)</label><input type="text" id="aqNote" placeholder="örn. filtre dahil"></div>
+        </div>
+        <div class="field-sm" style="margin-bottom:12px;">
+          <label>Fotoğraf</label>
+          <div class="photo-upload-area">
+            <input type="file" accept="image/*" id="aqPhoto" onchange="handleAqPhoto(this)">
+            <div class="upload-text">📷 <strong>Fotoğraf seç</strong> veya sürükle bırak</div>
+          </div>
+          <img id="aqImgPreview" class="img-preview-admin" alt="Önizleme">
+          <button class="cancel-img-btn" id="aqCancelBtn" onclick="cancelAqImg()">✕ Fotoğrafı Kaldır</button>
+        </div>
+        <button class="add-btn" id="aqAddBtn" onclick="addAquarium()">+ Akvaryum Ekle</button>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--blue);opacity:0.65;margin-bottom:10px;">Mevcut Akvaryumlar</div>
+      <div class="admin-fish-list" id="adminAqList"></div>
+
+
+      <!-- ABONE YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">🔔 Abone Yönetimi</div>
+      <div class="add-form">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h3 style="margin:0;">Abone Listesi</h3>
+          <button onclick="notifyAll()" style="background:linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.08));border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 14px;border-radius:8px;cursor:pointer;">📢 Hepsine Bildir</button>
+        </div>
+        <div id="adminSubList"><div class="empty-admin">Henüz abone yok.</div></div>
+      </div>
+
+      <!-- YORUM YÖNETİMİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">Yorum Yönetimi</div>
+      <div class="add-form">
+        <h3>Yeni Yorum Ekle</h3>
+        <div class="form-row">
+          <div class="field-sm"><label>İsim</label><input type="text" id="rvName" placeholder="örn. Ahmet K."></div>
+          <div class="field-sm"><label>Yıldız (1-5)</label>
+            <select id="rvStars">
+              <option value="5">⭐⭐⭐⭐⭐ — 5</option>
+              <option value="4">⭐⭐⭐⭐ — 4</option>
+              <option value="3">⭐⭐⭐ — 3</option>
+              <option value="2">⭐⭐ — 2</option>
+              <option value="1">⭐ — 1</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="grid-template-columns:1fr;">
+          <div class="field-sm"><label>Yorum</label><input type="text" id="rvText" placeholder="örn. Harika bir mağaza, balıklar çok sağlıklı!"></div>
+        </div>
+        <div class="form-row">
+          <div class="field-sm"><label>Tarih</label><input type="text" id="rvDate" placeholder="örn. 1 ay önce"></div>
+          <div class="field-sm"><label>Profil Fotoğrafı URL (isteğe bağlı)</label><input type="text" id="rvAvatar" placeholder="https://..."></div>
+        </div>
+        <button class="add-btn" id="rvAddBtn" onclick="addReview()" style="margin-top:8px;">+ Yorum Ekle</button>
+      </div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.65;margin-bottom:10px;">Mevcut Yorumlar</div>
+      <div class="admin-fish-list" id="adminRvList"></div>
+
+      <!-- VERİ YEDEKLEMEİ -->
+      <div id="backupSection" style="display:none;margin-top:28px;background:rgba(6,14,28,0.7);border:0.5px solid rgba(45,224,204,0.2);border-radius:16px;padding:22px 20px;">
+        <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);opacity:0.8;margin-bottom:6px;">Otomatik Aylık Yedek</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;">Her ay yönetim panelini açtığında yedek mailin otomatik gönderilir. Mail adresini bir kez gir, gerisini biz hallederiz.</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <input type="email" id="backupEmail" placeholder="yedek@mail.com" style="flex:1;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:10px 14px;border-radius:9px;outline:none;">
+          <button onclick="saveBackupEmail()" style="background:rgba(45,224,204,0.1);border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;">Kaydet</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="sendBackupEmail()" style="flex:1;min-width:140px;background:linear-gradient(135deg,rgba(45,224,204,0.12),rgba(45,224,204,0.06));border:0.5px solid rgba(45,224,204,0.35);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 16px;border-radius:10px;cursor:pointer;">📧 Şimdi Yedek Maili Gönder</button>
+          <label style="flex:1;min-width:140px;background:rgba(6,14,28,0.5);border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 16px;border-radius:10px;cursor:pointer;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⬆ Yedekten Geri Yükle
+            <input type="file" accept=".json" onchange="importData(this)" style="display:none;">
+          </label>
+        </div>
+        <div id="backupStatus" style="display:none;margin-top:10px;font-size:11px;padding:8px 12px;background:rgba(45,224,204,0.06);border-radius:8px;border:0.5px solid rgba(45,224,204,0.2);"></div>
+        <div id="backupLastSent" style="margin-top:8px;font-size:10px;color:var(--text-dim);letter-spacing:0.06em;"></div>
+      </div>
+
     </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 /* ══ CONFIG ══ */
 const PASS='Enesakvaryum2024';
@@ -660,7 +1402,8 @@ const UPLOAD_PRESET='enes_akvaryum';
 const WA='905383279980';
 const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
 
-let fishList=[],cart={},currentImgUrl='',selectedFile=null,activeCategory='Tümü';
+let fishList=[],cart={},currentImgUrl='',selectedFile=null;
+let _visits=0;
 
 /* ══ CANVAS BACKGROUND ══ */
 const canvas=document.getElementById('bgCanvas');
@@ -670,6 +1413,7 @@ let W,H,particles=[];
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
 resize();
 window.addEventListener('resize',resize);
+
 
 class Particle{
   constructor(){this.reset();}
@@ -704,81 +1448,128 @@ class Particle{
 const isMobile=window.innerWidth<640;
 for(let i=0;i<(isMobile?40:80);i++) particles.push(new Particle());
 
-// Fish particles
-class FishDot{
-  constructor(){this.reset(true);}
-  reset(init=false){
-    this.x = init ? Math.random()*W : -60;
-    this.y=Math.random()*H;
-    this.speed=Math.random()*0.8+0.3;
-    this.opacity=Math.random()*0.06+0.02;
-    this.size=Math.random()*4+2;
-    this.wy=Math.random()*2;
-    this.wfreq=Math.random()*0.02+0.01;
-    this.t=Math.random()*100;
-  }
-  update(){
-    this.x+=this.speed;
-    this.t+=this.wfreq;
-    this.y+=Math.sin(this.t)*this.wy*0.1;
-    if(this.x>W+80)this.reset(false);
-  }
-  draw(){
-    ctx.save();
-    ctx.globalAlpha=this.opacity;
-    ctx.translate(this.x,this.y);
-    // body
-    ctx.beginPath();
-    ctx.ellipse(0,0,this.size*2.2,this.size,0,0,Math.PI*2);
-    ctx.fillStyle='rgba(45,224,204,1)';
-    ctx.fill();
-    // tail (behind, to the left for right-swimming fish)
-    ctx.beginPath();
-    ctx.moveTo(-this.size*2.2,0);
-    ctx.lineTo(-this.size*3.5,-this.size*1.3);
-    ctx.lineTo(-this.size*3.5,this.size*1.3);
-    ctx.fillStyle='rgba(45,224,204,0.7)';
-    ctx.fill();
-    // eye
-    ctx.beginPath();
-    ctx.arc(this.size*1.2,-this.size*0.2,this.size*0.35,0,Math.PI*2);
-    ctx.fillStyle='rgba(255,255,255,0.5)';
-    ctx.fill();
-    ctx.restore();
-  }
-}
+// Mouse/touch tracking for flee effect
+let mouseX=-999,mouseY=-999;
+window.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;});
+window.addEventListener('touchmove',e=>{if(e.touches[0]){mouseX=e.touches[0].clientX;mouseY=e.touches[0].clientY;}},{passive:true});
+window.addEventListener('touchstart',e=>{if(e.touches[0]){mouseX=e.touches[0].clientX;mouseY=e.touches[0].clientY;}},{passive:true});
+window.addEventListener('touchend',()=>{setTimeout(()=>{mouseX=-999;mouseY=-999;},800);});
 
-const fishDots=[];
-for(let i=0;i<(isMobile?3:6);i++){
-  const fd=new FishDot();
-  fd.x=Math.random()*W; // start scattered but moving
-  fd.t=Math.random()*100;
-  fishDots.push(fd);
-}
-
+/* ══ BG CANVAS ANIMATE ══ */
 function animateCanvas(){
   ctx.clearRect(0,0,W,H);
-  // deep ocean gradient
   const grad=ctx.createLinearGradient(0,0,0,H);
   grad.addColorStop(0,'#020810');
   grad.addColorStop(0.4,'#030c1a');
   grad.addColorStop(1,'#020810');
   ctx.fillStyle=grad;
   ctx.fillRect(0,0,W,H);
-
-  // radial glow
   const rg=ctx.createRadialGradient(W*0.3,H*0.4,0,W*0.3,H*0.4,W*0.5);
   rg.addColorStop(0,'rgba(10,30,70,0.4)');
   rg.addColorStop(1,'transparent');
   ctx.fillStyle=rg;
   ctx.fillRect(0,0,W,H);
-
   particles.forEach(p=>{p.update();p.draw();});
-  fishDots.forEach(f=>{f.update();f.draw();});
-
+  if(typeof fishDots!=='undefined') fishDots.forEach(f=>{f.update();f.draw();});
   requestAnimationFrame(animateCanvas);
 }
 animateCanvas();
+
+const PALETTES=[
+  {r:45,g:224,b:204},{r:58,g:159,b:212},{r:0,g:210,b:255},{r:80,g:180,b:220},{r:120,g:200,b:180}
+];
+
+class RealisticFish{
+  constructor(){
+    this.pal=PALETTES[Math.floor(Math.random()*PALETTES.length)];
+    const mob=window.innerWidth<640;
+    this.size=mob?(12+Math.random()*14):(16+Math.random()*24);
+    this.baseOpacity=0.07+Math.random()*0.08;
+    this.opacity=this.baseOpacity;
+    this.t=Math.random()*100;
+    this.tailT=Math.random()*Math.PI*2;
+    this.tailSpd=0.07+Math.random()*0.05;
+    this.facing=1;
+    this.reset(true);
+  }
+  reset(init=false){
+    this.facing=Math.random()>0.5?1:-1;
+    this.x=init?Math.random()*W:(this.facing===1?-80:W+80);
+    this.y=50+Math.random()*(H-100);
+    this.baseSpd=0.3+Math.random()*0.6;
+    this.vx=this.baseSpd*this.facing;
+    this.vy=0;
+    this.fleeTimer=0;
+  }
+  update(){
+    this.t+=0.01;
+    this.tailT+=this.tailSpd;
+    const dx=this.x-mouseX,dy=this.y-mouseY;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const R=isMobile?130:180;
+    if(dist<R&&dist>0){
+      this.fleeTimer=90;
+      const f=(R-dist)/R*2.5;
+      this.vx+=dx/dist*f;
+      this.vy+=dy/dist*f;
+    }
+    if(this.fleeTimer>0)this.fleeTimer--;
+    const fleeing=this.fleeTimer>0;
+    const tvx=this.baseSpd*(fleeing?3:1)*this.facing;
+    this.vx+=(tvx-this.vx)*0.05;
+    this.vy+=(-this.vy)*0.06+Math.sin(this.t)*0.12;
+    const spd=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+    const maxSpd=this.baseSpd*(fleeing?5:1.5);
+    if(spd>maxSpd){this.vx=this.vx/spd*maxSpd;this.vy=this.vy/spd*maxSpd;}
+    if(this.vx>0.1)this.facing=1;
+    else if(this.vx<-0.1)this.facing=-1;
+    this.x+=this.vx;this.y+=this.vy;
+    if(this.y<30){this.y=30;this.vy=Math.abs(this.vy)*0.5;}
+    if(this.y>H-30){this.y=H-30;this.vy=-Math.abs(this.vy)*0.5;}
+    this.opacity=fleeing?this.baseOpacity*1.5:this.baseOpacity;
+    if(this.x>W+120||this.x<-120)this.reset(false);
+  }
+  draw(){
+    const s=this.size;
+    const {r,g,b}=this.pal;
+    const col=(a)=>`rgba(${r},${g},${b},${a})`;
+    const angle=Math.atan2(this.vy,this.vx*this.facing)*0.3;
+    ctx.save();
+    ctx.globalAlpha=this.opacity;
+    ctx.translate(this.x,this.y);
+    ctx.rotate(angle);
+    if(this.facing===-1)ctx.scale(-1,1);
+    const tw=Math.sin(this.tailT)*0.4;
+    ctx.beginPath();
+    ctx.moveTo(-s*1.5,0);
+    ctx.lineTo(-s*2.9,(-s*1.0)+tw*s*1.2);
+    ctx.lineTo(-s*3.3,0);
+    ctx.lineTo(-s*2.9,(s*1.0)+tw*s*1.2);
+    ctx.closePath();
+    ctx.fillStyle=col(0.65);ctx.fill();
+    const bg=ctx.createLinearGradient(-s*1.5,0,s*1.4,0);
+    bg.addColorStop(0,col(0.4));bg.addColorStop(0.25,col(0.9));
+    bg.addColorStop(0.65,col(0.85));bg.addColorStop(1,col(0.35));
+    ctx.beginPath();ctx.ellipse(0,0,s*1.5,s*0.6,0,0,Math.PI*2);
+    ctx.fillStyle=bg;ctx.fill();
+    const sg=ctx.createLinearGradient(0,-s*0.6,0,s*0.6);
+    sg.addColorStop(0,'rgba(255,255,255,0.2)');sg.addColorStop(0.4,'rgba(255,255,255,0.05)');sg.addColorStop(1,'rgba(0,0,0,0.08)');
+    ctx.beginPath();ctx.ellipse(0,0,s*1.5,s*0.6,0,0,Math.PI*2);ctx.fillStyle=sg;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=0.7;
+    [-s*0.6,-s*0.05,s*0.5].forEach(sx=>{ctx.beginPath();ctx.arc(sx,0,s*0.36,Math.PI*0.15,Math.PI*0.85);ctx.stroke();});
+    ctx.beginPath();ctx.moveTo(-s*0.4,-s*0.6);ctx.quadraticCurveTo(s*0.1,-s*1.25,s*0.75,-s*0.6);ctx.closePath();ctx.fillStyle=col(0.4);ctx.fill();
+    ctx.beginPath();ctx.moveTo(s*0.2,s*0.3);ctx.quadraticCurveTo(s*0.75,s*0.85,s*0.05,s*0.6);ctx.closePath();ctx.fillStyle=col(0.3);ctx.fill();
+    ctx.beginPath();ctx.arc(s*0.9,-s*0.08,s*0.2,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.95)';ctx.fill();
+    ctx.beginPath();ctx.arc(s*0.93,-s*0.08,s*0.12,0,Math.PI*2);ctx.fillStyle='rgba(0,5,20,0.95)';ctx.fill();
+    ctx.beginPath();ctx.arc(s*0.97,-s*0.13,s*0.045,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.85)';ctx.fill();
+    ctx.restore();
+  }
+
+}
+
+var fishDots=[];
+const fishCount=isMobile?6:12;
+for(let i=0;i<fishCount;i++) fishDots.push(new RealisticFish());
 
 /* ══ HERO ELEMENTS ══ */
 // Light beams
@@ -805,33 +1596,7 @@ for(let i=0;i<35;i++){
 }
 
 // Hero SVG fish
-function makeFishSVG(w,h,color,opacity){
-  return `<svg width="${w}" height="${h}" viewBox="0 0 80 36" xmlns="http://www.w3.org/2000/svg" opacity="${opacity}">
-    <ellipse cx="48" cy="18" rx="26" ry="13" fill="${color}"/>
-    <path d="M24,18 L8,8 L8,28 Z" fill="${color}" opacity="0.85"/>
-    <ellipse cx="48" cy="18" rx="26" ry="13" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    <circle cx="66" cy="14" r="3.5" fill="rgba(255,255,255,0.35)"/>
-    <circle cx="67" cy="13" r="1.5" fill="rgba(0,0,0,0.4)"/>
-    <path d="M36,13 Q44,10 52,13" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
-    <path d="M36,18 Q44,22 52,18" stroke="rgba(255,255,255,0.1)" stroke-width="0.8" fill="none"/>
-  </svg>`;
-}
-
-const heroFishWrap=document.getElementById('heroFishWrap');
-const hFishData=[
-  {y:'18%',w:90,h:40,color:'rgba(45,224,204,0.5)',op:1,dur:20,delay:0,fy:'-15px'},
-  {y:'42%',w:60,h:27,color:'rgba(58,159,212,0.45)',op:1,dur:28,delay:7,fy:'20px'},
-  {y:'65%',w:110,h:50,color:'rgba(45,224,204,0.35)',op:1,dur:35,delay:14,fy:'-8px'},
-  {y:'30%',w:44,h:20,color:'rgba(0,245,255,0.4)',op:1,dur:22,delay:3,fy:'12px'},
-  {y:'75%',w:70,h:32,color:'rgba(58,159,212,0.4)',op:1,dur:30,delay:18,fy:'-18px'},
-];
-hFishData.forEach(f=>{
-  const d=document.createElement('div');
-  d.className='hf';
-  d.style.cssText=`top:${f.y};--fy:${f.fy};animation-duration:${f.dur}s;animation-delay:${f.delay}s;filter:drop-shadow(0 0 10px ${f.color});`;
-  d.innerHTML=makeFishSVG(f.w,f.h,f.color,f.op);
-  heroFishWrap.appendChild(d);
-});
+// Hero fish now rendered on canvas with same RealisticFish class
 
 /* ══ SCROLL REVEAL ══ */
 const observer=new IntersectionObserver(entries=>{
@@ -843,7 +1608,163 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
+/* ══ 3D KART TILT ══ */
+function addCardTilt(){
+  document.querySelectorAll('.fish-card,.aq-card').forEach(card=>{
+    let tiltRaf=null;
+    card.addEventListener('mousemove',e=>{
+      if(tiltRaf) return;
+      tiltRaf=requestAnimationFrame(()=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-0.5;
+        const y=(e.clientY-r.top)/r.height-0.5;
+        card.style.transform=`perspective(900px) rotateX(${-y*10}deg) rotateY(${x*10}deg) translateY(-8px) scale(1.02)`;
+        tiltRaf=null;
+      });
+    });
+    card.addEventListener('mouseleave',()=>{
+      if(tiltRaf){cancelAnimationFrame(tiltRaf);tiltRaf=null;}
+      card.style.transform='';
+    });
+  });
+}
+addCardTilt();
 
+
+
+
+/* ══ SUBSCRIBER SYSTEM ══ */
+let subList = [];
+
+async function fetchSubscribers(){
+  try{
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const d=await r.json();
+    subList=d.record.subscribers||[];
+  }catch(e){}
+}
+
+async function saveSubscribers(){
+  const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList})});
+  return r.ok;
+}
+
+async function subscribe(){
+  const name=document.getElementById('subName').value.trim();
+  const phone=document.getElementById('subPhone').value.trim();
+  if(!name||!phone){alert('İsim ve telefon numarası zorunludur.');return;}
+  // Check duplicate
+  if(subList.find(s=>s.phone===phone)){
+    document.getElementById('subMsg').textContent='✓ Bu numara zaten kayıtlı!';
+    document.getElementById('subMsg').style.display='block';
+    return;
+  }
+  const btn=document.getElementById('subBtn');
+  btn.textContent='Kaydediliyor...';btn.disabled=true;
+  subList.push({name,phone,date:new Date().toLocaleDateString('tr-TR')});
+  const ok=await saveSubscribers();
+  if(ok){
+    document.getElementById('subMsg').style.display='block';
+    document.getElementById('subName').value='';
+    document.getElementById('subPhone').value='';
+  }else{
+    subList.pop();
+    alert('Kayıt başarısız, tekrar dene.');
+  }
+  btn.textContent='🔔 Abone Ol';btn.disabled=false;
+}
+
+function renderAdminSubList(){
+  const el=document.getElementById('adminSubList');
+  if(!subList.length){el.innerHTML='<div class="empty-admin">Henüz abone yok.</div>';return;}
+  el.innerHTML=`<div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;">${subList.length} abone kayıtlı</div>`+
+  subList.map((s,i)=>`
+    <div class="admin-fish-item">
+      <div style="flex:1;">
+        <div class="afi-name">${s.name}</div>
+        <div class="afi-meta">${s.phone} · ${s.date||''}</div>
+      </div>
+      <div class="afi-right">
+        <a href="https://wa.me/${s.phone.replace(/\D/g,'').replace(/^0/,'90')}" target="_blank" style="background:rgba(37,211,102,0.1);border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:6px;text-decoration:none;font-family:'Jost',sans-serif;">WA</a>
+        <button class="del-btn" onclick="deleteSub(${i})">Sil</button>
+      </div>
+    </div>`).join('');
+}
+
+async function deleteSub(i){
+  subList.splice(i,1);
+  if(await saveSubscribers()){renderAdminSubList();}
+}
+
+function notifyAll(){
+  if(!subList.length){alert('Henüz abone yok.');return;}
+
+  // Build numbers list and message
+  const numbers = subList.map(s=>{
+    let p=s.phone.replace(/[^0-9]/g,'');
+    if(p.startsWith('0'))p='90'+p.slice(1);
+    if(!p.startsWith('90'))p='90'+p;
+    return p;
+  });
+
+  const message = `Merhaba! Enes Akvaryum'da yeni baliklar geldi! Stok bitmeden goz atin: https://cankkeskin52-commits.github.io/enes-akvaryum/`;
+
+  // Copy numbers to clipboard
+  const numbersText = numbers.join('\n');
+  navigator.clipboard.writeText(numbersText).then(()=>{
+    showNotifyModal(numbers.length, message);
+  }).catch(()=>{
+    showNotifyModal(numbers.length, message);
+  });
+}
+
+function showNotifyModal(count, message){
+  // Create modal
+  const modal = document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(2,8,16,0.95);z-index:200;display:flex;align-items:center;justify-content:center;padding:2rem;';
+  modal.innerHTML=`
+    <div style="background:rgba(6,14,28,0.95);border:0.5px solid rgba(45,224,204,0.3);border-radius:16px;padding:2rem;max-width:480px;width:100%;backdrop-filter:blur(20px);">
+      <div style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;">📢 Toplu Bildirim</div>
+
+      <div style="background:rgba(45,224,204,0.06);border:0.5px solid rgba(45,224,204,0.2);border-radius:10px;padding:14px;margin-bottom:1rem;">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.1em;">ADIM 1 — Numaraları kopyala</div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:10px;">${count} abonenin numarası panoya kopyalandı ✓</div>
+        <div style="font-size:11px;color:var(--text-dim);">WhatsApp → Yeni Yayın → Kişilere yapıştır</div>
+      </div>
+
+      <div style="background:rgba(45,224,204,0.06);border:0.5px solid rgba(45,224,204,0.2);border-radius:10px;padding:14px;margin-bottom:1rem;">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.1em;">ADIM 2 — Mesajı kopyala</div>
+        <div style="font-family:'Jost',sans-serif;font-size:12px;color:var(--text);background:rgba(0,0,0,0.3);border-radius:8px;padding:10px;margin-bottom:10px;line-height:1.6;" id="notifyMsg">${message}</div>
+        <button onclick="copyMsg()" style="background:none;border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer;" id="copyMsgBtn">📋 Mesajı Kopyala</button>
+      </div>
+
+      <div style="background:rgba(37,211,102,0.06);border:0.5px solid rgba(37,211,102,0.2);border-radius:10px;padding:14px;margin-bottom:1.5rem;">
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.1em;">ADIM 3 — WhatsApp'ı aç</div>
+        <div style="font-size:12px;color:var(--text-mid);">Yayın listeni oluştur → mesajı yapıştır → gönder 🎉</div>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <a href="whatsapp://app" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(37,211,102,0.2),rgba(37,211,102,0.1));border:0.5px solid rgba(37,211,102,0.4);color:#25d366;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px;border-radius:10px;text-decoration:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+          WhatsApp Aç
+        </a>
+        <button onclick="this.closest('div[style]').remove()" style="flex:1;background:none;border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:12px;border-radius:10px;cursor:pointer;">Kapat</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
+
+function copyMsg(){
+  const msg=document.getElementById('notifyMsg').textContent;
+  navigator.clipboard.writeText(msg).then(()=>{
+    const btn=document.getElementById('copyMsgBtn');
+    btn.textContent='✓ Kopyalandı!';
+    btn.style.color='var(--teal)';
+  });
+}
 
 /* ══ REVIEWS ══ */
 let reviewList = [];
@@ -858,7 +1779,73 @@ function renderReviews(){
   // Duplicate for infinite scroll
   const cards = reviewList.map(r => buildReviewCard(r)).join('');
   track.innerHTML = cards + cards;
-  track.style.animation = `scrollReviews ${Math.max(20, reviewList.length * 8)}s linear infinite`;
+  const dur = Math.max(25, reviewList.length * 7);
+  const mobileDur = Math.max(18, reviewList.length * 5);
+  const isMob = window.innerWidth < 640;
+  track.style.animation = `scrollReviews ${isMob?mobileDur:dur}s linear infinite`;
+  initReviewDrag();
+}
+
+function initReviewDrag(){
+  const wrap=document.querySelector('.reviews-wrap');
+  const track=document.getElementById('reviewsTrack');
+  if(!wrap||!track)return;
+
+  let startX=0, offsetX=0, isDragging=false, resumeTimer=null;
+
+  function getTranslateX(){
+    const st=window.getComputedStyle(track);
+    const mat=new WebKitCSSMatrix(st.transform);
+    return mat.m41;
+  }
+
+  function pause(){
+    track.style.animationPlayState='paused';
+    offsetX=getTranslateX();
+    track.style.animation='none';
+    track.style.transform=`translateX(${offsetX}px)`;
+  }
+
+  function resume(){
+    track.style.transform='';
+    track.style.animation='';
+    const isMob=window.innerWidth<640;
+    const dur=Math.max(isMob?18:25, (reviewList.length||3)*7);
+    track.style.animation=`scrollReviews ${isMob?Math.max(18,reviewList.length*5):dur}s linear infinite`;
+  }
+
+  function onStart(x){
+    isDragging=true;
+    startX=x;
+    pause();
+    wrap.classList.add('dragging');
+    if(resumeTimer)clearTimeout(resumeTimer);
+  }
+
+  function onMove(x){
+    if(!isDragging)return;
+    const diff=x-startX;
+    track.style.transform=`translateX(${offsetX+diff}px)`;
+  }
+
+  function onEnd(){
+    if(!isDragging)return;
+    isDragging=false;
+    wrap.classList.remove('dragging');
+    resumeTimer=setTimeout(resume, 2500);
+  }
+
+  // Mouse events
+  wrap.addEventListener('mousedown',e=>{onStart(e.clientX);e.preventDefault();});
+  window.addEventListener('mousemove',e=>{onMove(e.clientX);});
+  window.addEventListener('mouseup',onEnd);
+
+  // Touch events
+  wrap.addEventListener('touchstart',e=>{onStart(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchmove',e=>{
+    if(isDragging){onMove(e.touches[0].clientX);e.preventDefault();}
+  },{passive:false});
+  wrap.addEventListener('touchend',onEnd);
 }
 
 function buildReviewCard(r){
@@ -916,7 +1903,8 @@ async function addReview(){
     document.getElementById('rvText').value='';
     document.getElementById('rvDate').value='';
     document.getElementById('rvAvatar').value='';
-    renderReviews();renderAdminRvList();
+    renderReviews();
+    renderPlantGrid();renderAdminRvList();
   }else{
     reviewList.pop();setStatus('✗ Kayıt hatası',false);
   }
@@ -925,8 +1913,139 @@ async function addReview(){
 
 async function deleteReview(i){
   reviewList.splice(i,1);
-  if(await saveAll()){setStatus('✓ Silindi',true);renderReviews();renderAdminRvList();}
+  if(await saveAll()){setStatus('✓ Silindi',true);renderReviews();
+    renderPlantGrid();renderAdminRvList();}
   else setStatus('✗ Silinemedi',false);
+}
+
+
+/* ══ PLANT DATA ══ */
+let plantList=[], selectedPlFile=null, currentPlImgUrl='';
+
+function renderPlantGrid(){
+  const g=document.getElementById('plantGrid');
+  if(!plantList.length){g.innerHTML='<div class="no-fish">Henüz bitki eklenmemiş.</div>';return;}
+  g.innerHTML=plantList.map((f,i)=>{
+    const qty=cart['pl_'+i]||0,inCart=qty>0;
+    const stockBadge = f.stock!==null&&f.stock!==undefined
+      ? (f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`
+        :f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:'')
+      : '';
+    return`<div class="fish-card ${inCart?'in-cart':''}">
+      <div class="fish-img-wrap">
+        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
+      </div>
+      <div class="fish-body">
+        <div class="fish-info-row">
+          <div>
+            <div class="fish-name">${f.name}</div>
+            <div class="fish-type-badge" style="color:#4caf7d;background:rgba(76,175,125,0.08);border-color:rgba(76,175,125,0.2);">${f.type}</div>
+            ${stockBadge}
+            ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
+          </div>
+          <div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+        </div>
+        <div class="cart-controls">
+          ${inCart
+            ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('pl_${i}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('pl_${i}',1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart('pl_${i}')">Çıkar</button>`
+            :`<div></div><button class="add-cart-btn" onclick="addToCart('pl_${i}','${f.name}',${f.price})">${_addCartText()}</button>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if(window._gsapRefresh) window._gsapRefresh();
+}
+
+function renderAdminPlList(){
+  const el=document.getElementById('adminPlList');
+  if(!plantList.length){el.innerHTML='<div class="empty-admin">Henüz bitki eklenmemiş.</div>';return;}
+  el.innerHTML=plantList.map((f,i)=>`
+    <div class="admin-fish-item" style="${f.outOfStock?'opacity:0.5':''}">
+      ${f.img?`<img class="afi-img" src="${f.img}" alt="${f.name}">`:`<div class="afi-placeholder">🌿</div>`}
+      <div style="flex:1;"><div class="afi-name">${f.name}${f.outOfStock?' <span style="color:#e05555;font-size:10px;">[Stokta Yok]</span>':''}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
+      <div class="afi-right">
+        <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
+        <button onclick="togglePlantStock(${i})" style="background:none;border:0.5px solid ${f.outOfStock?'rgba(45,224,204,0.3)':'rgba(220,50,50,0.3)'};color:${f.outOfStock?'var(--teal)':'#e05555'};font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;">${f.outOfStock?'Stokta Var':'Stokta Yok'}</button>
+        <button class="edit-btn" onclick="editPlant(${i})">Düzelt</button>
+        <button class="del-btn" onclick="deletePlant(${i})">Sil</button>
+      </div>
+    </div>`).join('');
+}
+
+function handlePlPhoto(input){
+  const file=input.files[0];if(!file)return;
+  selectedPlFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const p=document.getElementById('plImgPreview');
+    p.src=e.target.result;p.style.display='block';
+    document.getElementById('plCancelBtn').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function cancelPlImg(){
+  selectedPlFile=null;currentPlImgUrl='';
+  const p=document.getElementById('plImgPreview');
+  p.src='';p.style.display='none';
+  document.getElementById('plCancelBtn').style.display='none';
+  document.getElementById('plPhoto').value='';
+}
+
+async function autoSearchPlImg(){
+  const name=document.getElementById('plName').value.trim();
+  if(!name){alert('Önce bitki adını yaz!');return;}
+  setStatus('🔍 Görsel aranıyor...',true);
+  const url=await fetchPexels(name+' aquarium plant');
+  if(url){currentPlImgUrl=url;const p=document.getElementById('plImgPreview');p.src=url;p.style.display='block';document.getElementById('plCancelBtn').style.display='block';setStatus('✓ Görsel bulundu',true);}
+  else setStatus('Görsel bulunamadı',false);
+}
+
+async function addPlant(){
+  const name=document.getElementById('plName').value.trim();
+  const type=document.getElementById('plType').value;
+  const price=document.getElementById('plPrice').value.trim();
+  const note=document.getElementById('plNote').value.trim();
+  const stock=document.getElementById('plStock').value.trim();
+  if(!name||!price){alert('Bitki adı ve fiyat zorunludur.');return;}
+  const btn=document.getElementById('plAddBtn');
+  btn.disabled=true;btn.textContent='Kaydediliyor...';
+  let img=currentPlImgUrl;
+  if(selectedPlFile){setStatus('📤 Fotoğraf yükleniyor...',true);img=await uploadCloudinary(selectedPlFile);}
+  if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(name+' aquarium plant');}
+  const item={name,type,price:parseFloat(price),note,stock:stock!==''?parseInt(stock):null,img};
+  if(_editPlIdx>=0){const old=plantList[_editPlIdx];plantList[_editPlIdx]={...old,...item};}
+  else plantList.push(item);
+  const ok=await saveAll();
+  if(ok){
+    setStatus(_editPlIdx>=0?'✓ Güncellendi':'✓ Bitki eklendi',true);
+    document.getElementById('plName').value='';document.getElementById('plPrice').value='';
+    document.getElementById('plNote').value='';document.getElementById('plStock').value='';
+    _editPlIdx=-1;
+    cancelPlImg();renderPlantGrid();renderAdminPlList();
+  }else{if(_editPlIdx<0)plantList.pop();setStatus('✗ Kayıt hatası',false);}
+  btn.disabled=false;btn.textContent='+ Bitki Ekle';btn.style.background='';
+}
+
+async function deletePlant(i){
+  plantList.splice(i,1);
+  if(await saveAll()){setStatus('✓ Silindi',true);renderPlantGrid();renderAdminPlList();}
+  else setStatus('✗ Silinemedi',false);
+}
+
+let _editPlIdx=-1;
+function editPlant(i){
+  const f=plantList[i];
+  _editPlIdx=i;
+  document.getElementById('plName').value=f.name||'';
+  document.getElementById('plType').value=f.type||'orta';
+  document.getElementById('plPrice').value=f.price||'';
+  document.getElementById('plNote').value=f.note||'';
+  document.getElementById('plStock').value=f.stock!=null?f.stock:'';
+  if(f.img){currentPlImgUrl=f.img;const p=document.getElementById('plImgPreview');p.src=f.img;p.style.display='block';document.getElementById('plCancelBtn').style.display='block';}
+  const btn=document.getElementById('plAddBtn');
+  btn.textContent='✓ Güncelle';btn.style.background='linear-gradient(135deg,rgba(45,224,204,0.2),rgba(45,224,204,0.1))';
+  document.getElementById('plName').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 /* ══ AQUARIUM DATA ══ */
@@ -944,16 +2063,121 @@ async function fetchAquariums(){
 
 async function saveAll(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList, aquariums:aqList, reviews:reviewList})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
   return r.ok;
+}
+
+function _backupPayload(){
+  return {
+    exportDate:new Date().toLocaleString('tr-TR'),
+    version:2,
+    fish:fishList,plants:plantList,
+    aquariums:aqList,reviews:reviewList,subscribers:subList
+  };
+}
+
+function _showBackupStatus(msg,ok=true){
+  const s=document.getElementById('backupStatus');
+  if(!s)return;
+  s.style.display='block';
+  s.style.color=ok?'var(--teal)':'#e05555';
+  s.textContent=msg;
+}
+
+function saveBackupEmail(){
+  const em=document.getElementById('backupEmail').value.trim();
+  if(!em||!em.includes('@')){alert('Geçerli bir mail adresi gir.');return;}
+  localStorage.setItem('enes_backup_email',em);
+  _showBackupStatus('✓ Mail adresi kaydedildi: '+em);
+}
+
+function sendBackupEmail(auto=false){
+  const email=localStorage.getItem('enes_backup_email')||'';
+  if(!email){
+    if(!auto) alert('Önce mail adresini kaydet.');
+    return;
+  }
+  const data=_backupPayload();
+  const stats=`${fishList.length} balık · ${plantList.length} bitki · ${aqList.length} akvaryum · ${subList.length} abone`;
+  const subject=encodeURIComponent(`Enes Akvaryum Yedek — ${data.exportDate}`);
+  const jsonStr=JSON.stringify(data,null,2);
+  // JSON dosyasını indir + mail aç
+  const blob=new Blob([jsonStr],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const dateStr=new Date().toISOString().slice(0,10);
+  a.href=url;a.download=`enes-akvaryum-yedek-${dateStr}.json`;a.click();
+  URL.revokeObjectURL(url);
+  const body=encodeURIComponent(
+    `Enes Akvaryum otomatik yedek — ${data.exportDate}\n\n`+
+    `İçerik: ${stats}\n\n`+
+    `JSON dosyası aynı anda indirildi. Dosyayı bu maile ekleyip gönder veya güvenli bir klasörde sakla.\n\n`+
+    `-- Enes Akvaryum Yedek Sistemi`
+  );
+  window.open(`mailto:${email}?subject=${subject}&body=${body}`,'_blank');
+  localStorage.setItem('enes_last_backup',Date.now().toString());
+  _updateBackupLabel();
+  _showBackupStatus(`✓ ${auto?'Aylık otomatik yedek':'Yedek'} gönderildi — ${stats}`);
+}
+
+function _updateBackupLabel(){
+  const el=document.getElementById('backupLastSent');
+  if(!el)return;
+  const last=localStorage.getItem('enes_last_backup');
+  const em=localStorage.getItem('enes_backup_email')||'';
+  if(em){const inp=document.getElementById('backupEmail');if(inp)inp.value=em;}
+  if(!last){el.textContent='Henüz yedek gönderilmedi.';return;}
+  const days=Math.floor((Date.now()-parseInt(last))/(1000*60*60*24));
+  el.textContent=days===0?'Son yedek: bugün gönderildi.':`Son yedek: ${days} gün önce gönderildi.`;
+}
+
+function _checkAutoBackup(){
+  _updateBackupLabel();
+  const email=localStorage.getItem('enes_backup_email');
+  if(!email)return;
+  const last=parseInt(localStorage.getItem('enes_last_backup')||'0');
+  const daysSince=(Date.now()-last)/(1000*60*60*24);
+  if(daysSince>=30) sendBackupEmail(true);
+}
+
+function exportData(){sendBackupEmail(false);}
+
+function importData(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.fish&&!data.plants&&!data.aquariums){alert('Geçersiz yedek dosyası.');return;}
+      const onay=confirm(
+        `Yedek dosyası: ${data.exportDate||'?'}\n\n`+
+        `${(data.fish||[]).length} balık, ${(data.plants||[]).length} bitki, `+
+        `${(data.aquariums||[]).length} akvaryum, ${(data.reviews||[]).length} yorum, `+
+        `${(data.subscribers||[]).length} abone\n\n`+
+        `Mevcut veriler bu dosyadaki verilerle değiştirilecek. Devam edilsin mi?`
+      );
+      if(!onay)return;
+      fishList=data.fish||[];plantList=data.plants||[];
+      aqList=data.aquariums||[];reviewList=data.reviews||[];subList=data.subscribers||[];
+      const ok=await saveAll();
+      if(ok){
+        renderFishGrid();renderAdminList();renderPlantGrid();renderAdminPlList();
+        renderAqGrid();renderAdminAqList();renderReviews();renderAdminSubList();
+        _showBackupStatus('✓ Geri yükleme başarılı — tüm veriler buluta kaydedildi.');
+      }else{alert('Buluta kayıt başarısız.');}
+    }catch(err){alert('Dosya okunamadı: '+err.message);}
+    input.value='';
+  };
+  reader.readAsText(file);
 }
 
 function renderAqGrid(){
   const g=document.getElementById('aqGrid');
   let html='';
   if(aqList.length){
-    html+=aqList.map((a,i)=>`
-      <div class="aq-card">
+    html+=aqList.map((a,i)=>{
+      const qty=cart['aq_'+i]||0,inCart=qty>0;
+      return`<div class="aq-card ${inCart?'in-cart':''}">
         <div class="aq-img-wrap">
           ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🐟</div>`}
         </div>
@@ -965,14 +2189,21 @@ function renderAqGrid(){
             ${a.note?`<div class="aq-size">${a.note}</div>`:''}
           </div>
           <div class="aq-footer">
-            ${a.price?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
-            <a class="aq-wa-btn" href="https://wa.me/905383279980?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
-              Sor
-            </a>
+            ${a.price
+              ?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`
+              :`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
+            ${a.price
+              ?(inCart
+                ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('aq_${i}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('aq_${i}',1)">+</button></div>`
+                :`<button class="add-cart-btn" onclick="addToCart('aq_${i}','${a.name}',${a.price})">+ Sepete Ekle</button>`)
+              :`<a class="aq-wa-btn" href="https://wa.me/905383279980?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+                Sor
+              </a>`}
           </div>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
   // Always show custom design card
   html+=`
@@ -986,6 +2217,7 @@ function renderAqGrid(){
       </a>
     </div>`;
   g.innerHTML=html;
+  if(window._gsapRefresh) window._gsapRefresh();
 }
 
 function renderAdminAqList(){
@@ -997,6 +2229,7 @@ function renderAdminAqList(){
       <div style="flex:1;"><div class="afi-name">${a.name}</div><div class="afi-meta">${a.size||''}${a.note?' · '+a.note:''}</div></div>
       <div class="afi-right">
         <div class="afi-price">${a.price?Number(a.price).toLocaleString('tr-TR')+' ₺':'—'}</div>
+        <button class="edit-btn" onclick="editAquarium(${i})">Düzelt</button>
         <button class="del-btn" onclick="deleteAquarium(${i})">Sil</button>
       </div>
     </div>`).join('');
@@ -1035,17 +2268,20 @@ async function addAquarium(){
     setStatus('📤 Fotoğraf yükleniyor...',true);
     img=await uploadCloudinary(selectedAqFile);
   }
-  aqList.push({name,size,price:price?parseFloat(price):null,note,img});
+  const item={name,size,price:price?parseFloat(price):null,note,img};
+  if(_editAqIdx>=0){const old=aqList[_editAqIdx];aqList[_editAqIdx]={...old,...item};}
+  else aqList.push(item);
   const ok=await saveAll();
   if(ok){
-    setStatus('✓ Akvaryum eklendi',true);
+    setStatus(_editAqIdx>=0?'✓ Güncellendi':'✓ Akvaryum eklendi',true);
     document.getElementById('aqName').value='';document.getElementById('aqSize').value='';
     document.getElementById('aqPrice').value='';document.getElementById('aqNote').value='';
+    _editAqIdx=-1;
     cancelAqImg();renderAqGrid();renderAdminAqList();
   }else{
-    aqList.pop();setStatus('✗ Kayıt hatası',false);
+    if(_editAqIdx<0) aqList.pop();setStatus('✗ Kayıt hatası',false);
   }
-  btn.disabled=false;btn.textContent='+ Akvaryum Ekle';
+  btn.disabled=false;btn.textContent='+ Akvaryum Ekle';btn.style.background='';
 }
 
 async function deleteAquarium(i){
@@ -1054,17 +2290,52 @@ async function deleteAquarium(i){
   else setStatus('✗ Silinemedi',false);
 }
 
+let _editAqIdx=-1;
+function editAquarium(i){
+  const a=aqList[i];
+  _editAqIdx=i;
+  document.getElementById('aqName').value=a.name||'';
+  document.getElementById('aqSize').value=a.size||'';
+  document.getElementById('aqPrice').value=a.price||'';
+  document.getElementById('aqNote').value=a.note||'';
+  if(a.img){currentAqImgUrl=a.img;const p=document.getElementById('aqImgPreview');p.src=a.img;p.style.display='block';document.getElementById('aqCancelBtn').style.display='block';}
+  const btn=document.getElementById('aqAddBtn');
+  btn.textContent='✓ Güncelle';btn.style.background='linear-gradient(135deg,rgba(45,224,204,0.2),rgba(45,224,204,0.1))';
+  document.getElementById('aqName').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
 /* ══ DATA LAYER ══ */
 const fishDict={'japon':'goldfish aquarium','betta':'betta fish aquarium','beta':'betta fish aquarium','guppy':'guppy fish aquarium','gupi':'guppy fish aquarium','neon':'neon tetra fish','tetra':'tetra fish aquarium','palyaço':'clownfish aquarium','mercan':'coral reef aquarium fish','oscar':'oscar fish aquarium','diskus':'discus fish aquarium','koi':'koi fish pond','melek':'angelfish aquarium','zebra':'zebrafish aquarium','plati':'platy fish aquarium','molly':'molly fish aquarium','canlı bitki':'aquatic plants aquarium','bitki':'aquatic plants aquarium','kılıç':'swordtail fish'};
 
 function getImgQuery(n){const l=n.toLowerCase();for(const[k,v]of Object.entries(fishDict))if(l.includes(k))return v;return n+' aquarium fish';}
 
 async function fetchPexels(q){
+  // 1. Wikipedia görseli dene (API anahtarı gerekmez)
   try{
-    const r=await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=1&orientation=landscape`,{headers:{Authorization:'563492ad6f9170000100000109eb34c65f6c43edba49b9ca11e5fc2c'}});
-    const d=await r.json();
-    return d.photos?.[0]?.src?.medium||'';
-  }catch(e){return '';}
+    const wiki=await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(q)}&prop=pageimages&format=json&pithumbsize=600&origin=*`);
+    const wd=await wiki.json();
+    const pages=wd.query?.pages;
+    if(pages){
+      const src=Object.values(pages)[0]?.thumbnail?.source||'';
+      if(src) return src;
+    }
+  }catch(e){}
+  // 2. Wikimedia Commons arama dene
+  try{
+    const wc=await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q+' fish')}&srlimit=1&prop=pageimages&format=json&origin=*`);
+    const wcd=await wc.json();
+    const title=wcd.query?.search?.[0]?.title;
+    if(title){
+      const r2=await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=pageimages&format=json&pithumbsize=600&origin=*`);
+      const d2=await r2.json();
+      const pages2=d2.query?.pages;
+      if(pages2){
+        const src2=Object.values(pages2)[0]?.thumbnail?.source||'';
+        if(src2) return src2;
+      }
+    }
+  }catch(e){}
+  return '';
 }
 
 async function autoSearchImg(){
@@ -1139,7 +2410,9 @@ async function fetchFish(){
     const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');
     if(cached.fish){fishList=cached.fish;renderFishGrid();}
     if(cached.aquariums){aqList=cached.aquariums;renderAqGrid();}
-    if(cached.reviews){reviewList=cached.reviews;renderReviews();}
+    if(cached.reviews){reviewList=cached.reviews;renderReviews();
+    renderPlantGrid();}
+    if(cached.plants){plantList=cached.plants;renderPlantGrid();}
   }catch(e){}
   // Then fetch fresh data
   try{
@@ -1148,10 +2421,15 @@ async function fetchFish(){
     fishList=d.record.fish||[];
     aqList=d.record.aquariums||[];
     reviewList=d.record.reviews||[];
-    localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList}));
+    plantList=d.record.plants||[];
+    subList=d.record.subscribers||[];
+    if(d.record.visits) _visits=d.record.visits;
+
+    localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
     renderAqGrid();
     renderReviews();
+    renderPlantGrid();
   }catch(e){
     if(!fishList.length) document.getElementById('fishGrid').innerHTML='<div class="no-fish">Yüklenemedi, sayfayı yenile.</div>';
   }
@@ -1161,68 +2439,148 @@ async function saveFish(){
   return await saveAll();
 }
 
-function filterFish(cat){
-  activeCategory=cat;
-  document.querySelectorAll('#catFilter .cat-btn').forEach(b=>{
-    b.classList.toggle('active',b.getAttribute('onclick')===`filterFish('${cat}')`);
-  });
-  renderFishGrid();
-}
 
 function renderFishGrid(){
   const g=document.getElementById('fishGrid');
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
-  // Build index map (original indices preserved for cart)
-  const filtered=fishList.map((f,i)=>({f,i})).filter(({f})=>{
-    if(activeCategory==='Tümü') return true;
-    return f.category===activeCategory;
-  });
-  if(!filtered.length){g.innerHTML='<div class="no-fish">Bu kategoride balık bulunamadı.</div>';return;}
-  g.innerHTML=filtered.map(({f,i})=>{
+  g.innerHTML=fishList.map((f,i)=>{
     const qty=cart[i]||0,inCart=qty>0;
-    const badgeHtml=f.category
-      ?`<div class="fish-cat-badge">${f.category}</div>`
-      :`<div class="fish-type-badge">${f.type}</div>`;
-    return`<div class="fish-card ${inCart?'in-cart':''}">
+    const typeClass=f.type==='Tatlı Su'?'type-tatli':f.type==='Tuzlu Su'?'type-tuzlu':f.type==='Canlı Bitki'?'type-bitki':f.type==='Aksesuar'?'type-aksesuar':'type-diger';
+    return`<div class="fish-card ${typeClass} ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
       <div class="fish-img-wrap">
-        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
+        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy" style="${f.outOfStock?'filter:grayscale(0.6)':''}"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
+        <div class="fish-shimmer"></div>
+        ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-family:'Jost',sans-serif;backdrop-filter:blur(4px);">Stokta Yok</div>`:''}
       </div>
       <div class="fish-body">
         <div class="fish-info-row">
           <div>
             <div class="fish-name">${f.name}</div>
-            ${badgeHtml}
-            ${f.stock!==null&&f.stock!==undefined?(f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`:f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:''):''}
+            <div class="fish-type-badge">${f.type}</div>
+            ${!f.outOfStock&&f.stock!==null&&f.stock!==undefined?(f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`:f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:''):''}
             ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
           </div>
-          <div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+          <div class="fish-price" style="${f.outOfStock?'color:var(--text-dim)':'}'}">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
         </div>
         <div class="cart-controls">
-          ${inCart
-            ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">Çıkar</button>`
-            :`<div></div><button class="add-cart-btn" onclick="addToCart(${i})">+ Sepete Ekle</button>`}
+          ${f.outOfStock
+            ?`<div></div><div style="font-size:10px;color:#e05555;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;">Stokta Yok</div>`
+            :inCart
+              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">${_removeText()}</button>`
+              :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name}',${f.price})">${_addCartText()}</button>`}
         </div>
       </div>
     </div>`;
   }).join('');
+  addCardTilt();
+  if(window._gsapRefresh) window._gsapRefresh();
 }
 
-function addToCart(i){cart[i]=(cart[i]||0)+1;renderFishGrid();renderCart();}
-function removeFromCart(i){delete cart[i];renderFishGrid();renderCart();}
-function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];renderFishGrid();renderCart();}
+function updateCartControls(i){
+  const isStr=typeof i==='string';
+  const isPl=isStr&&i.startsWith('pl_');
+  const isAq=isStr&&i.startsWith('aq_');
+  const idx=isPl?parseInt(i.replace('pl_','')):isAq?parseInt(i.replace('aq_','')):parseInt(i);
+  if(isPl){
+    const cards=document.querySelectorAll('#plantGrid .fish-card');
+    const card=cards[idx],f=plantList[idx];
+    if(!card||!f){renderPlantGrid();return;}
+    const qty=cart[i]||0,inCart=qty>0;
+    card.classList.toggle('in-cart',inCart);
+    const cc=card.querySelector('.cart-controls');if(!cc)return;
+    cc.innerHTML=inCart
+      ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('pl_${idx}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('pl_${idx}',1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart('pl_${idx}')">Çıkar</button>`
+      :`<div></div><button class="add-cart-btn" onclick="addToCart('pl_${idx}','${f.name}',${f.price})">${_addCartText()}</button>`;
+  }else if(isAq){
+    const cards=document.querySelectorAll('#aqGrid .aq-card');
+    const card=cards[idx],a=aqList[idx];
+    if(!card||!a){renderAqGrid();return;}
+    const qty=cart[i]||0,inCart=qty>0;
+    card.classList.toggle('in-cart',inCart);
+    const footer=card.querySelector('.aq-footer');if(!footer||!a.price)return;
+    footer.innerHTML=`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`
+      +(inCart
+        ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('aq_${idx}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('aq_${idx}',1)">+</button></div>`
+        :`<button class="add-cart-btn" onclick="addToCart('aq_${idx}','${a.name}',${a.price})">+ Sepete Ekle</button>`);
+  }else{
+    const cards=document.querySelectorAll('#fishGrid .fish-card');
+    const card=cards[idx],f=fishList[idx];
+    if(!card||!f){renderFishGrid();return;}
+    const qty=cart[i]||0,inCart=qty>0;
+    card.classList.toggle('in-cart',inCart);
+    if(f.outOfStock)return;
+    const cc=card.querySelector('.cart-controls');if(!cc)return;
+    cc.innerHTML=inCart
+      ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${idx},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${idx},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${idx})">${_removeText()}</button>`
+      :`<div></div><button class="add-cart-btn" onclick="addToCart(${idx},'${f.name}',${f.price})">${_addCartText()}</button>`;
+  }
+}
+function clearCart(){
+  cart={};
+  renderFishGrid();renderPlantGrid();renderAqGrid();renderCart();
+}
+function addToCart(i,name,price){
+  cart[i]=(cart[i]||0)+1;updateCartControls(i);renderCart();
+}
+function removeFromCart(i){
+  delete cart[i];updateCartControls(i);renderCart();
+}
+function changeQty(i,d){
+  cart[i]=(cart[i]||0)+d;
+  if(cart[i]<=0)delete cart[i];
+  if(d>0)_play(()=>playSound('cartAdd'));
+  updateCartControls(i);renderCart();
+}
 
 function renderCart(){
-  const keys=Object.keys(cart).map(Number);
+  const keys=Object.keys(cart);
   const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
   if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
   sum.classList.add('visible');fl.classList.add('visible');
-  let total=0,html='',msg='Merhaba! Şu balıkları sipariş etmek istiyorum:%0A%0A';
-  keys.forEach(i=>{
-    const f=fishList[i],q=cart[i],sub=f.price*q;total+=sub;
-    html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
-    msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
-  });
-  msg+=`%0AToplam: ${total.toLocaleString('tr-TR')}₺`;
+  let total=0,html='',msg='Merhaba! Enes Akvaryum sipariş vermek istiyorum 🐠%0A%0A';
+  // Group by category
+  const fishItems=keys.filter(i=>!String(i).startsWith('pl_')&&!String(i).startsWith('aq_'));
+  const plantItems=keys.filter(i=>String(i).startsWith('pl_'));
+  const aqItems=keys.filter(i=>String(i).startsWith('aq_'));
+
+  function getItem(i){
+    if(String(i).startsWith('pl_'))return plantList[parseInt(String(i).replace('pl_',''))];
+    if(String(i).startsWith('aq_'))return aqList[parseInt(String(i).replace('aq_',''))];
+    return fishList[i];
+  }
+
+  // Build HTML and WA message by category
+  if(fishItems.length){
+    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);opacity:0.7;padding:8px 0 4px;">🐠 Balıklar</div>`;
+    msg+=`🐠 *BALIKLAR*%0A`;
+    fishItems.forEach(i=>{
+      const f=getItem(i);if(!f)return;
+      const q=cart[i],sub=f.price*q;total+=sub;
+      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+    });
+  }
+  if(plantItems.length){
+    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4caf7d;opacity:0.7;padding:8px 0 4px;">🌿 Bitkiler</div>`;
+    msg+=`%0A🌿 *BİTKİLER*%0A`;
+    plantItems.forEach(i=>{
+      const f=getItem(i);if(!f)return;
+      const q=cart[i],sub=f.price*q;total+=sub;
+      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+    });
+  }
+  if(aqItems.length){
+    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);opacity:0.7;padding:8px 0 4px;">🐟 Akvaryumlar</div>`;
+    msg+=`%0A🐟 *AKVARYUMLAR*%0A`;
+    aqItems.forEach(i=>{
+      const f=getItem(i);if(!f)return;
+      const q=cart[i],sub=f.price*q;total+=sub;
+      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+    });
+  }
+  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler, siparişimi onaylayabilir misiniz?`;
   document.getElementById('cartItems').innerHTML=html;
   document.getElementById('cartCount').textContent=`${keys.length} ürün`;
   document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
@@ -1236,10 +2594,15 @@ function renderAdminList(){
   const el=document.getElementById('adminFishList');
   if(!fishList.length){el.innerHTML='<div class="empty-admin">Henüz balık eklenmemiş.</div>';return;}
   el.innerHTML=fishList.map((f,i)=>`
-    <div class="admin-fish-item">
+    <div class="admin-fish-item" style="${f.outOfStock?'opacity:0.5':''}">
       ${f.img?`<img class="afi-img" src="${f.img}" alt="${f.name}">`:`<div class="afi-placeholder">🐠</div>`}
-      <div style="flex:1;"><div class="afi-name">${f.name}</div><div class="afi-meta">${f.category||f.type}${f.note?' · '+f.note:''}</div></div>
-      <div class="afi-right"><div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div><button class="del-btn" onclick="deleteFish(${i})">Sil</button></div>
+      <div style="flex:1;"><div class="afi-name">${f.name}${f.outOfStock?' <span style="color:#e05555;font-size:10px;">[Stokta Yok]</span>':''}</div><div class="afi-meta">${f.type}${f.note?' · '+f.note:''}</div></div>
+      <div class="afi-right">
+        <div class="afi-price">${Number(f.price).toLocaleString('tr-TR')} ₺</div>
+        <button onclick="toggleStock(${i})" style="background:none;border:0.5px solid ${f.outOfStock?'rgba(45,224,204,0.3)':'rgba(220,50,50,0.3)'};color:${f.outOfStock?'var(--teal)':'#e05555'};font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px;cursor:pointer;font-family:'Jost',sans-serif;">${f.outOfStock?'Stokta Var':'Stokta Yok'}</button>
+        <button class="edit-btn" onclick="editFish(${i})">Düzelt</button>
+        <button class="del-btn" onclick="deleteFish(${i})">Sil</button>
+      </div>
     </div>`).join('');
 }
 
@@ -1252,9 +2615,9 @@ function setStatus(msg,ok){
 async function addFish(){
   const name=document.getElementById('fName').value.trim();
   const type=document.getElementById('fType').value;
-  const category=document.getElementById('fCategory').value;
   const price=document.getElementById('fPrice').value.trim();
   const note=document.getElementById('fNote').value.trim();
+  const stock=document.getElementById('fStock').value.trim();
   if(!name||!price){alert('Balık adı ve fiyat zorunludur.');return;}
   const btn=document.getElementById('addBtn');
   btn.disabled=true;btn.textContent='Kaydediliyor...';
@@ -1262,27 +2625,60 @@ async function addFish(){
   if(selectedFile){
     setStatus('📤 Fotoğraf Cloudinary\'e yükleniyor...',true);
     img=await uploadCloudinary(selectedFile);
-    if(!img){setStatus('✗ Fotoğraf yüklenemedi. Upload Preset ayarını kontrol et.',false);btn.disabled=false;btn.textContent='+ Ekle';return;}
+    if(!img){setStatus('✗ Fotoğraf yüklenemedi.',false);btn.disabled=false;btn.textContent=_editFishIdx>=0?'✓ Güncelle':'+ Ekle';return;}
   }
   if(!img){setStatus('🔍 Görsel aranıyor...',true);img=await fetchPexels(getImgQuery(name));}
-  const stock=document.getElementById('fStock').value.trim();
-  fishList.push({name,type,category:category||null,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null});
+  const item={name,type,price:parseFloat(price),note,img,stock:stock!==''?parseInt(stock):null};
+  if(_editFishIdx>=0){
+    const old=fishList[_editFishIdx];
+    fishList[_editFishIdx]={...old,...item};
+  } else {
+    fishList.push(item);
+  }
   const ok=await saveFish();
   if(ok){
-    setStatus('✓ Kaydedildi — tüm cihazlarda görünecek',true);
+    setStatus(_editFishIdx>=0?'✓ Güncellendi':'✓ Kaydedildi — tüm cihazlarda görünecek',true);
     document.getElementById('fName').value='';document.getElementById('fPrice').value='';document.getElementById('fNote').value='';document.getElementById('fStock').value='';
-    document.getElementById('fCategory').value='';
+    _editFishIdx=-1;
     cancelImg();renderAdminList();renderFishGrid();
   }else{
-    fishList.pop();setStatus('✗ Kayıt hatası, tekrar dene',false);
+    if(_editFishIdx<0) fishList.pop();
+    setStatus('✗ Kayıt hatası, tekrar dene',false);
   }
-  btn.disabled=false;btn.textContent='+ Ekle';
+  btn.disabled=false;btn.textContent='+ Ekle';btn.style.background='';
 }
 
 async function deleteFish(i){
   fishList.splice(i,1);cart={};
   if(await saveFish()){setStatus('✓ Silindi',true);renderAdminList();renderFishGrid();renderCart();}
   else setStatus('✗ Silinemedi',false);
+}
+
+let _editFishIdx=-1;
+function editFish(i){
+  const f=fishList[i];
+  _editFishIdx=i;
+  document.getElementById('fName').value=f.name||'';
+  document.getElementById('fType').value=f.type||'tatli';
+  document.getElementById('fPrice').value=f.price||'';
+  document.getElementById('fNote').value=f.note||'';
+  document.getElementById('fStock').value=f.stock!=null?f.stock:'';
+  if(f.img){currentImgUrl=f.img;const p=document.getElementById('imgPreviewAdmin');if(p){p.src=f.img;p.style.display='block';}document.getElementById('cancelImgBtn').style.display='block';}
+  const btn=document.getElementById('addBtn');
+  btn.textContent='✓ Güncelle';btn.style.background='linear-gradient(135deg,rgba(45,224,204,0.2),rgba(45,224,204,0.1))';
+  document.getElementById('fName').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+async function toggleStock(i){
+  fishList[i].outOfStock=!fishList[i].outOfStock;
+  if(await saveFish()){setStatus(fishList[i].outOfStock?'✓ Stokta Yok olarak işaretlendi':'✓ Stokta Var olarak işaretlendi',true);renderAdminList();renderFishGrid();}
+  else{fishList[i].outOfStock=!fishList[i].outOfStock;setStatus('✗ Kayıt hatası',false);}
+}
+
+async function togglePlantStock(i){
+  plantList[i].outOfStock=!plantList[i].outOfStock;
+  if(await saveAll()){setStatus(plantList[i].outOfStock?'✓ Stokta Yok olarak işaretlendi':'✓ Stokta Var olarak işaretlendi',true);renderAdminPlList();renderPlantGrid();}
+  else{plantList[i].outOfStock=!plantList[i].outOfStock;setStatus('✗ Kayıt hatası',false);}
 }
 
 function openAdmin(){
@@ -1292,18 +2688,521 @@ function openAdmin(){
   document.getElementById('pwInput').value='';
   document.getElementById('loginErr').style.display='none';
 }
-function closeAdmin(){document.getElementById('adminOverlay').classList.remove('active');}
+function closeAdmin(){document.getElementById('adminOverlay').classList.remove('active');document.getElementById('backupSection').style.display='none';}
 function doLogin(){
   if(document.getElementById('pwInput').value===PASS){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminPanel').style.display='block';
     renderAdminList();
+    renderAdminPlList();
     renderAdminAqList();
     renderAdminRvList();
+    renderAdminSubList();
+    document.getElementById('backupSection').style.display='block';
+    setTimeout(_checkAutoBackup,800);
   }else document.getElementById('loginErr').style.display='block';
 }
 
+
+/* ══ DAY/NIGHT THEME ══ */
+(function(){
+  const h=new Date().getHours();
+  if(h>=6&&h<20) document.body.classList.add('day-theme');
+  // Auto switch check every minute
+  setInterval(()=>{
+    const hh=new Date().getHours();
+    if(hh>=6&&hh<20) document.body.classList.add('day-theme');
+    else document.body.classList.remove('day-theme');
+  },60000);
+})();
+
+/* ══ VISITOR COUNTER ══ */
+(function(){
+  const BIN='69f61406aaba88219762a326';
+  const KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
+  const BASE2='https://api.jsonbin.io/v3/b/'+BIN;
+
+  function animateCount(target){
+    const el=document.getElementById('visitorCount');
+    if(!el)return;
+    let current=0;
+    const step=Math.max(1,Math.ceil(target/40));
+    const timer=setInterval(()=>{
+      current=Math.min(current+step,target);
+      el.textContent=current.toLocaleString('tr-TR');
+      if(current>=target)clearInterval(timer);
+    },30);
+  }
+
+  async function trackVisit(){
+    try{
+      const r=await fetch(BASE2+'/latest',{headers:{'X-Master-Key':KEY}});
+      const d=await r.json();
+      let visits=d.record.visits||0;
+      _visits=visits;
+      if(!sessionStorage.getItem('v_counted')){
+        visits++;_visits=visits;
+        sessionStorage.setItem('v_counted','1');
+        await fetch(BASE2,{method:'PUT',
+          headers:{'Content-Type':'application/json','X-Master-Key':KEY},
+          body:JSON.stringify({...d.record,visits})
+        });
+      }
+      animateCount(visits);
+    }catch(e){
+      // Fallback to localStorage
+      const lk='enes_v2';
+      let c=parseInt(localStorage.getItem(lk)||'0');
+      if(!sessionStorage.getItem('v_counted')){c++;localStorage.setItem(lk,c);sessionStorage.setItem('v_counted','1');}
+      animateCount(c);
+    }
+  }
+  trackVisit();
+})();
+
+/* ══ WATER RIPPLE on fish/plant/aq cards ══ */
+document.addEventListener('click',e=>{
+  const card=e.target.closest('.fish-card,.aq-card');
+  if(!card)return;
+  let wrap=card.querySelector('.ripple-wrap');
+  if(!wrap){wrap=document.createElement('div');wrap.className='ripple-wrap';card.style.position='relative';card.appendChild(wrap);}
+  const r=card.getBoundingClientRect();
+  const ripple=document.createElement('div');
+  ripple.className='water-ripple';
+  ripple.style.left=(e.clientX-r.left)+'px';
+  ripple.style.top=(e.clientY-r.top)+'px';
+  wrap.appendChild(ripple);
+  setTimeout(()=>ripple.remove(),800);
+});
+
+/* ══ LANGUAGE TOGGLE ══ */
+const TR={
+  tagline:"Balik ve akvaryum dunyasina hos geldiniz",
+  loc:"Konum",locSub:"Magazamizi bulun",
+  wa:"WhatsApp",waSub:"Hizli iletisim",
+  call:"Bizi Arayin",
+  hours:"Calisma Saatleri",contact:"Iletisim",
+  fishSec:"Su An Mevcut Baliklar",
+  plantSec:"Canli Bitkiler",
+  aqSec:"Akvaryumlar",
+  reviewSec:"Musteri Yorumlari",
+  svcSec:"Hizmetlerimiz",
+  addCart:"+ Sepete Ekle",
+  remove:"Cikar",
+  cartTitle:"Sepetim",
+  orderBtn:"Siparis Ver",
+  visitor:"Bu ay",visitorSuf:"ziyaretci",
+  everyDay:"Her gun",
+  langBtn:"TR / EN",
+  noFish:"Henuz balik eklenmemis.",
+  loading:"Yukleniyor",
+};
+const EN={
+  tagline:"Welcome to the world of fish and aquariums",
+  loc:"Location",locSub:"Find our store",
+  wa:"WhatsApp",waSub:"Quick contact",
+  call:"Call Us",
+  hours:"Working Hours",contact:"Contact",
+  fishSec:"Available Fish",
+  plantSec:"Live Plants",
+  aqSec:"Aquariums",
+  reviewSec:"Customer Reviews",
+  svcSec:"Our Services",
+  addCart:"+ Add to Cart",
+  remove:"Remove",
+  cartTitle:"My Cart",
+  orderBtn:"Place Order",
+  visitor:"This month",visitorSuf:"visitors",
+  everyDay:"Every day",
+  langBtn:"EN / TR",
+  noFish:"No fish added yet.",
+  loading:"Loading",
+};
+
+let currentLang='TR';
+function toggleLang(){
+  currentLang=currentLang==='TR'?'EN':'TR';
+  applyLang();
+}
+
+function applyLang(){
+  const t=currentLang==='TR'?TR:EN;
+  const isEN=currentLang==='EN';
+
+  // Lang button
+  document.getElementById('langBtn').textContent=t.langBtn;
+
+  // All data-tr/data-en elements (skip brand letters)
+  document.querySelectorAll('[data-tr]').forEach(el=>{
+    if(el.closest('.brand-wrap'))return; // protect ENES letters
+    const val=isEN?el.getAttribute('data-en'):el.getAttribute('data-tr');
+    if(val)el.innerHTML=val;
+  });
+
+  // Hero tagline
+  const tl=document.querySelector('.hero-tagline');
+  if(tl)tl.textContent=t.tagline;
+
+  // Brand sub
+  const bs=document.getElementById('brandSub');
+  if(bs)bs.textContent=isEN?'Aquarium':'Akvaryum';
+
+  // Section labels
+  const secMap={
+    secContact:isEN?'Contact & Location':'İletişim & Konum',
+    secFish:isEN?'Available Fish':'Şu An Mevcut Balıklar',
+    secPlant:isEN?'Live Plants':'Canlı Bitkiler',
+    secAq:isEN?'Aquariums':'Akvaryumlar',
+    secRev:isEN?'Customer Reviews':'Müşteri Yorumları',
+    secSvc:isEN?'Our Services':'Hizmetlerimiz',
+  };
+  Object.entries(secMap).forEach(([id,text])=>{const el=document.getElementById(id);if(el)el.textContent=text;});
+
+  // Cart title
+  const ct=document.querySelector('.cart-title');
+  if(ct)ct.textContent=isEN?'🛒 My Cart':'🛒 Sepetim';
+
+  // WhatsApp order button
+  const wb=document.getElementById('whatsappBtn');
+  if(wb)wb.innerHTML=wb.innerHTML.replace(/Sipariş Ver|Place Order/,isEN?'Place Order':'Sipariş Ver');
+
+  // Visitor text
+  const vc=document.getElementById('visitorCount');
+  const vcNum=vc?vc.textContent:'...';
+  const vt=document.getElementById('visitorText');
+  if(vt)vt.innerHTML=`${isEN?'Total':'Bu ay'} <span id="visitorCount" style="color:#2de0cc;font-weight:500;">${vcNum}</span> ${isEN?'visitors':'ziyaretçi'}`;
+
+  // Custom aquarium WA button
+  document.querySelectorAll('.aq-custom-title').forEach(el=>{
+    el.textContent=isEN?'Custom Aquarium Design':'Özel Tasarım Akvaryum';
+  });
+  document.querySelectorAll('.aq-custom-desc').forEach(el=>{
+    el.textContent=isEN?'We design custom aquariums in any size, shape and decoration. Contact us for pricing.':'İstediğiniz boyut, şekil ve dekorasyona göre size özel akvaryum tasarlıyoruz. Fiyat için iletişime geçin.';
+  });
+  document.querySelectorAll('.aq-custom-btn').forEach(el=>{
+    const svg=el.querySelector('svg');
+    el.textContent=isEN?"Ask on WhatsApp":"WhatsApp'tan Sor";
+    if(svg)el.prepend(svg);
+  });
+
+  // No items text
+  document.querySelectorAll('.no-fish').forEach(el=>{
+    if(el.textContent.includes('Henüz')||el.textContent.includes('No fish'))
+      el.textContent=isEN?'No items added yet.':'Henüz ürün eklenmemiş.';
+  });
+
+  // Re-render grids to update add-to-cart buttons
+  renderFishGrid();renderPlantGrid();renderAqGrid();renderCart();
+}
+
+// Patch button texts based on lang in render functions
+const _addCartText=()=>currentLang==='EN'?'+ Add to Cart':'+ Sepete Ekle';
+const _removeText=()=>currentLang==='EN'?'Remove':'Çıkar';
+
+// Override button text based on lang
+const _origAddCart=addToCart;
+
 fetchFish();
+
+/* ══ LOADING SCREEN ══ */
+(function(){
+  const loader=document.getElementById('loader');
+  const fill=document.getElementById('loaderFill');
+  const pctEl=document.getElementById('loaderPct');
+  const titleEl=document.getElementById('loaderTitle');
+  if(!loader) return;
+
+  // Harf harf ENES
+  'ENES'.split('').forEach((l,i)=>{
+    const s=document.createElement('span');
+    s.textContent=l;
+    titleEl.appendChild(s);
+    setTimeout(()=>s.classList.add('show'), 200+i*150);
+  });
+
+  // İlerleme çubuğu
+  let p=0;
+  const iv=setInterval(()=>{
+    p+=Math.random()*9+4;
+    if(p>=100){p=100;clearInterval(iv);}
+    fill.style.width=p+'%';
+    pctEl.textContent=Math.floor(p)+'%';
+    if(p===100){
+      setTimeout(()=>{
+        loader.style.transition='transform 1s cubic-bezier(0.76,0,0.24,1),opacity 0.4s ease 0.5s';
+        loader.style.transform='scaleY(0)';
+        loader.style.opacity='0';
+        setTimeout(()=>loader.style.display='none',1100);
+        // Açılış sesi — sadece tarayıcı izin verirse çal
+        if(_actx) _actx.resume().catch(()=>{});
+      },320);
+    }
+  },55);
+})();
+
+
+/* ══ SES SİSTEMİ (Web Audio API) ══ */
+let _actx=null, _soundOn=true;
+
+try{_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+
+// Her zaman resume'dan sonra çal (opening sound bu kanaldan tetiklenmez)
+function _play(fn){
+  if(!_actx||!_soundOn) return;
+  if(_actx.state==='running'){fn();}
+  else{_actx.resume().then(()=>fn()).catch(()=>{});}
+}
+
+function playSound(type){
+  if(!_actx||!_soundOn) return;
+  if(_actx.state!=='running'){_play(()=>playSound(type));return;}
+  const t=_actx.currentTime;
+  const master=_actx.createGain();
+  master.gain.value=0.22;
+  master.connect(_actx.destination);
+
+  if(type==='bubble'){
+    const o=_actx.createOscillator(),g=_actx.createGain();
+    o.connect(g);g.connect(master);
+    o.type='sine';
+    o.frequency.setValueAtTime(860,t);
+    o.frequency.exponentialRampToValueAtTime(280,t+0.18);
+    g.gain.setValueAtTime(0.16,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.18);
+    o.start(t);o.stop(t+0.2);
+  }
+
+  if(type==='drop'){
+    // Yumuşak tık — kısa iki ton üst üste
+    [880,1100].forEach((freq,i)=>{
+      const o=_actx.createOscillator(),g=_actx.createGain();
+      o.connect(g);g.connect(master);
+      o.type='sine';
+      const st=t+i*0.045;
+      o.frequency.setValueAtTime(freq,st);
+      g.gain.setValueAtTime(0,st);
+      g.gain.linearRampToValueAtTime(0.07,st+0.01);
+      g.gain.exponentialRampToValueAtTime(0.001,st+0.12);
+      o.start(st);o.stop(st+0.14);
+    });
+  }
+
+  if(type==='chime'){
+    [523,659,784,1046].forEach((freq,i)=>{
+      const o=_actx.createOscillator(),g=_actx.createGain();
+      o.connect(g);g.connect(master);
+      o.type='sine';o.frequency.value=freq;
+      const st=t+i*0.13;
+      g.gain.setValueAtTime(0,st);
+      g.gain.linearRampToValueAtTime(0.12,st+0.05);
+      g.gain.exponentialRampToValueAtTime(0.001,st+0.7);
+      o.start(st);o.stop(st+0.75);
+    });
+  }
+
+  if(type==='swoosh'){
+    const len=_actx.sampleRate*0.12;
+    const buf=_actx.createBuffer(1,len,_actx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/(len*0.35));
+    const src=_actx.createBufferSource();src.buffer=buf;
+    const f=_actx.createBiquadFilter();f.type='bandpass';f.frequency.value=1400;f.Q.value=0.7;
+    const g=_actx.createGain();g.gain.value=0.4;
+    src.connect(f);f.connect(g);g.connect(master);
+    src.start(t);
+  }
+
+  if(type==='pop'){
+    const o=_actx.createOscillator(),g=_actx.createGain();
+    o.connect(g);g.connect(master);
+    o.type='triangle';
+    o.frequency.setValueAtTime(420,t);
+    o.frequency.exponentialRampToValueAtTime(80,t+0.09);
+    g.gain.setValueAtTime(0.18,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.09);
+    o.start(t);o.stop(t+0.1);
+  }
+
+  if(type==='cartAdd'){
+    // Pop + yükselen iki nota — "sepete eklendi" hissi
+    [0,0.12].forEach((delay,i)=>{
+      const o=_actx.createOscillator(),g=_actx.createGain();
+      o.connect(g);g.connect(master);
+      o.type='sine';
+      o.frequency.setValueAtTime(i===0?520:780,t+delay);
+      g.gain.setValueAtTime(0,t+delay);
+      g.gain.linearRampToValueAtTime(0.14,t+delay+0.03);
+      g.gain.exponentialRampToValueAtTime(0.001,t+delay+0.25);
+      o.start(t+delay);o.stop(t+delay+0.28);
+    });
+    // Kısa bubble tık
+    const o2=_actx.createOscillator(),g2=_actx.createGain();
+    o2.connect(g2);g2.connect(master);
+    o2.type='triangle';
+    o2.frequency.setValueAtTime(300,t);
+    o2.frequency.exponentialRampToValueAtTime(80,t+0.07);
+    g2.gain.setValueAtTime(0.2,t);
+    g2.gain.exponentialRampToValueAtTime(0.001,t+0.07);
+    o2.start(t);o2.stop(t+0.08);
+  }
+}
+
+
+function toggleSound(){
+  _soundOn=!_soundOn;
+  const btn=document.getElementById('soundBtn');
+  if(btn){btn.textContent=_soundOn?'🔊':'🔇';btn.classList.toggle('muted',!_soundOn);}
+  if(_soundOn) _play(()=>playSound('drop'));
+}
+
+// Ses bağlantıları
+document.addEventListener('click',e=>{
+  if(e.target.closest('.add-cart-btn'))      _play(()=>playSound('cartAdd'));
+  else if(e.target.closest('.whatsapp-btn,.aq-wa-btn')) _play(()=>playSound('chime'));
+  else if(e.target.closest('.link-btn,.snav-link'))     _play(()=>playSound('drop'));
+  else _play(()=>{});
+});
+
+
+/* ══ LENIS SMOOTH SCROLL ══ */
+(function(){
+  if(typeof Lenis==='undefined') return;
+  const lenis=new Lenis({duration:1.35,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,wheelMultiplier:0.9});
+  if(typeof ScrollTrigger!=='undefined'){
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(time=>lenis.raf(time*1000));
+    gsap.ticker.lagSmoothing(0);
+  } else {
+    (function raf(time){lenis.raf(time);requestAnimationFrame(raf);})();
+  }
+  window._lenis=lenis;
+})();
+
+/* ══ SCROLL BAR + STICKY NAV ══ */
+(function(){
+  const scrollBar=document.getElementById('scrollBar');
+  const stickyNav=document.getElementById('stickyNav');
+  const heroEl=document.querySelector('.hero');
+  const orbTeal=document.querySelector('.orb-teal');
+  const orbBlue=document.querySelector('.orb-blue');
+  const orbCyan=document.querySelector('.orb-cyan');
+  let rafPending=false;
+  function onScroll(){if(!rafPending){rafPending=true;requestAnimationFrame(update);}}
+  function update(){
+    rafPending=false;
+    const sy=window.scrollY;
+    const docH=document.documentElement.scrollHeight-window.innerHeight;
+    scrollBar.style.width=(docH>0?sy/docH*100:0)+'%';
+    const heroH=heroEl?heroEl.offsetHeight:window.innerHeight;
+    if(sy>heroH*0.65) stickyNav.classList.add('show');
+    else stickyNav.classList.remove('show');
+    if(orbTeal) orbTeal.style.transform=`translateY(${sy*0.12}px) translateX(${Math.sin(sy*0.003)*20}px)`;
+    if(orbBlue) orbBlue.style.transform=`translateY(${-sy*0.08}px) translateX(${Math.cos(sy*0.004)*25}px)`;
+    if(orbCyan) orbCyan.style.transform=`translateY(${sy*0.05}px)`;
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+})();
+
+/* ══ GSAP PREMIUM ANİMASYONLAR ══ */
+(function(){
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Tüm .reveal elemanlarını hemen visible yap — GSAP devralıyor (sepet hariç)
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(el.id==='cartSummary') return; // sepet sadece ürün varsa açılır
+    el.classList.add('visible');
+  });
+
+  // ── 1. Hero içerik — scroll ile yukarı kayıp kayboluyor (scrub) ──
+  gsap.to('.hero-content',{
+    y:180,opacity:0,ease:'none',
+    scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1.5}
+  });
+
+  // ── 2. Bölüm başlıkları — soldan yay gibi geliyor ──
+  gsap.utils.toArray('.sec-header').forEach(el=>{
+    gsap.fromTo(el,
+      {opacity:0,x:-50},
+      {opacity:1,x:0,duration:1,ease:'power3.out',
+       scrollTrigger:{trigger:el,start:'top 88%',once:true}}
+    );
+  });
+
+  // ── 3. Link butonlar — soldan/sağdan dönüşümlü ──
+  document.querySelectorAll('.link-btn').forEach((el,i)=>{
+    gsap.fromTo(el,
+      {opacity:0,x:i%2===0?-80:80},
+      {opacity:1,x:0,duration:0.9,ease:'power3.out',
+       scrollTrigger:{trigger:el,start:'top 90%',once:true}}
+    );
+  });
+
+  // ── 4. Info kartlar — scale + bounce ──
+  gsap.fromTo('.info-card',
+    {opacity:0,y:40,scale:0.86},
+    {opacity:1,y:0,scale:1,stagger:0.18,duration:0.9,ease:'back.out(1.8)',
+     scrollTrigger:{trigger:'.info-grid',start:'top 86%',once:true}}
+  );
+
+  // ── 5. Balık/Bitki/Akvaryum grid container ──
+  ['#fishGrid','#plantGrid','#aqGrid'].forEach(id=>{
+    const el=document.querySelector(id);
+    if(!el)return;
+    gsap.fromTo(el,
+      {opacity:0,y:50},
+      {opacity:1,y:0,duration:0.8,ease:'power2.out',
+       scrollTrigger:{trigger:el,start:'top 85%',once:true}}
+    );
+  });
+
+
+  // ── 7. Yorumlar — sağdan kayıyor ──
+  gsap.fromTo('.reviews-wrap',
+    {opacity:0,x:60},
+    {opacity:1,x:0,duration:1.1,ease:'power3.out',
+     scrollTrigger:{trigger:'.reviews-wrap',start:'top 86%',once:true}}
+  );
+
+  // ── 8. Abone bölümü — aşağıdan zıplıyor ──
+  const subEl=document.querySelector('#subTitle');
+  if(subEl){
+    const wrap=subEl.closest('[style*="background"]')||subEl.parentElement;
+    gsap.fromTo(wrap,
+      {opacity:0,y:60,scale:0.94},
+      {opacity:1,y:0,scale:1,duration:1,ease:'back.out(1.3)',
+       scrollTrigger:{trigger:wrap,start:'top 86%',once:true}}
+    );
+  }
+
+  // ── 9. Instagram kartı ──
+  gsap.fromTo('.ig-card',
+    {opacity:0,y:40,scale:0.93},
+    {opacity:1,y:0,scale:1,duration:1,ease:'power3.out',
+     scrollTrigger:{trigger:'.ig-card',start:'top 88%',once:true}}
+  );
+
+  // ── 10. Harita ──
+  const mapWrap=document.querySelector('iframe');
+  if(mapWrap){
+    gsap.fromTo(mapWrap.parentElement,
+      {opacity:0,scale:0.96},
+      {opacity:1,scale:1,duration:1.2,ease:'power2.out',
+       scrollTrigger:{trigger:mapWrap,start:'top 88%',once:true}}
+    );
+  }
+
+  // ── 11. Footer ──
+  gsap.fromTo('.site-footer',
+    {opacity:0,y:35},
+    {opacity:1,y:0,duration:1,ease:'power2.out',
+     scrollTrigger:{trigger:'.site-footer',start:'top 92%',once:true}}
+  );
+
+  // Dinamik içerik sonrası yenile
+  window._gsapRefresh=()=>ScrollTrigger.refresh();
+})();
+
 </script>
 </body>
 </html>
