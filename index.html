@@ -998,6 +998,31 @@ input,textarea,select{touch-action:auto;}
 .fish-grid .fish-card:nth-child(19),.aq-grid .aq-card:nth-child(19){transition-delay:1.26s;}
 .fish-grid .fish-card:nth-child(20),.aq-grid .aq-card:nth-child(20){transition-delay:1.33s;}
 
+/* ── Stokta Yok Gizle toggle ── */
+.oos-toggle{background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all 0.25s;}
+.oos-toggle.active{background:rgba(45,224,204,0.10);border-color:rgba(45,224,204,0.45);color:var(--teal);}
+.oos-toggle:active{transform:scale(0.93);}
+
+/* ── Gelince Haber Ver butonu (fish card) ── */
+.notify-btn{background:rgba(220,50,50,0.07);border:0.5px solid rgba(220,50,50,0.28);color:#e07070;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.notify-btn:hover{background:rgba(220,50,50,0.15);border-color:rgba(220,50,50,0.5);color:#ff8080;}
+.notify-btn:active{transform:scale(0.92);}
+
+/* ── Bildirim formu modal ── */
+#notify-modal{display:none;position:fixed;inset:0;background:rgba(2,8,16,0.88);z-index:200;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(10px);}
+#notify-modal.open{display:flex;}
+.notify-box{background:rgba(6,14,28,0.98);border:0.5px solid rgba(220,80,80,0.25);border-radius:20px;padding:2rem 1.8rem;width:100%;max-width:360px;animation:notifySlide 0.3s cubic-bezier(0.16,1,0.3,1);}
+@keyframes notifySlide{from{opacity:0;transform:scale(0.91) translateY(22px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.notify-box h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--text);margin:0 0 0.3rem;font-weight:300;}
+.notify-box .nf-fish-name{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;color:var(--teal);margin-bottom:1.4rem;text-transform:uppercase;}
+.notify-box input{width:100%;background:rgba(4,12,26,0.8);border:0.5px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:11px 14px;border-radius:10px;outline:none;margin-bottom:10px;box-sizing:border-box;transition:border-color 0.2s;}
+.notify-box input:focus{border-color:rgba(45,224,204,0.4);}
+.notify-submit{width:100%;background:rgba(220,50,50,0.12);border:0.5px solid rgba(220,50,50,0.35);color:#e07070;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:12px;border-radius:10px;cursor:pointer;transition:all 0.2s;margin-top:4px;}
+.notify-submit:hover{background:rgba(220,50,50,0.2);color:#ff9090;}
+.notify-cancel{background:none;border:none;color:var(--text-dim);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:10px;cursor:pointer;width:100%;margin-top:4px;transition:color 0.2s;}
+.notify-cancel:hover{color:var(--text);}
+.nf-success{font-size:12px;color:var(--teal);background:rgba(45,224,204,0.06);border:0.5px solid rgba(45,224,204,0.2);border-radius:8px;padding:10px 12px;margin-top:10px;display:none;line-height:1.5;}
+
 /* ── Bölüm başlığı mobil ── */
 @media(max-width:639px){
   .sec-label{letter-spacing:0.22em;font-size:8px;}
@@ -1101,6 +1126,9 @@ input,textarea,select{touch-action:auto;}
 
   <!-- FISH CATALOG -->
   <div class="sec-header"><div class="sec-line"></div><div class="sec-label" id="secFish">Şu An Mevcut Balıklar</div><div class="sec-line-r"></div></div>
+  <div style="display:flex;justify-content:flex-end;padding:6px 0 0;">
+    <button id="hideOOSBtn" class="oos-toggle" onclick="toggleHideOOS()">🚫 Stokta Olmayanları Gizle</button>
+  </div>
   <div class="cat-filter reveal" id="catFilter">
     <button class="cat-btn active" onclick="filterFish('Tümü')">Tümü</button>
     <button class="cat-btn" onclick="filterFish('CANLI DOĞURANLAR')">Canlı Doğuranlar</button>
@@ -1542,6 +1570,17 @@ input,textarea,select{touch-action:auto;}
       <div class="admin-fish-list" id="adminAqList"></div>
 
 
+      <!-- STOK BİLDİRİMLERİ -->
+      <div style="height:1.5rem;"></div>
+      <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#e07070;opacity:0.85;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">📬 Stok Bildirimleri</div>
+      <div class="add-form">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h3 style="margin:0;">Gelince Haber Ver İstekleri</h3>
+          <span id="alertBadge" style="background:rgba(220,50,50,0.15);border:0.5px solid rgba(220,50,50,0.3);color:#e07070;font-family:'Jost',sans-serif;font-size:10px;padding:3px 10px;border-radius:12px;display:none;"></span>
+        </div>
+        <div id="adminAlertList"><div class="empty-admin">Henüz bildirim isteği yok.</div></div>
+      </div>
+
       <!-- ABONE YÖNETİMİ -->
       <div style="height:1.5rem;"></div>
       <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#f0c060;opacity:0.8;margin-bottom:10px;padding-top:1rem;border-top:0.5px solid var(--border2);">🔔 Abone Yönetimi</div>
@@ -1620,6 +1659,8 @@ const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
 
 let fishList=[],cart={},currentImgUrl='',selectedFile=null;
 let _visits=0;
+let hideOutOfStock=false;
+let stockAlerts=[];
 
 /* ══ CANVAS BACKGROUND ══ */
 const canvas=document.getElementById('bgCanvas');
@@ -1873,7 +1914,7 @@ async function fetchSubscribers(){
 
 async function saveSubscribers(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits,stockAlerts})});
   return r.ok;
 }
 
@@ -2284,13 +2325,15 @@ async function fetchAquariums(){
     const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
     const d=await r.json();
     aqList=d.record.aquariums||[];
+    stockAlerts=d.record.stockAlerts||[];
     renderAqGrid();
+    renderStockAlerts();
   }catch(e){document.getElementById('aqGrid').innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
 }
 
 async function saveAll(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits,stockAlerts})});
   return r.ok;
 }
 
@@ -2691,10 +2734,93 @@ function filterSub(sub){
   renderFishGrid();
 }
 
+/* ══ STOKTA YOK TOGGLE ══ */
+function toggleHideOOS(){
+  hideOutOfStock=!hideOutOfStock;
+  const btn=document.getElementById('hideOOSBtn');
+  if(btn){
+    btn.classList.toggle('active',hideOutOfStock);
+    btn.textContent=hideOutOfStock?'👁 Tümünü Göster':'🚫 Stokta Olmayanları Gizle';
+  }
+  renderFishGrid();
+}
+
+/* ══ GELİNCE HABER VER ══ */
+function showNotifyForm(fishName){
+  document.getElementById('nf-fish-name').textContent=fishName;
+  document.getElementById('nf-name').value='';
+  document.getElementById('nf-phone').value='';
+  document.getElementById('nf-success').style.display='none';
+  const sub=document.querySelector('#notify-modal .notify-submit');
+  if(sub){sub.disabled=false;sub.textContent='🔔 Haber Ver';}
+  document.getElementById('notify-modal').classList.add('open');
+}
+function closeNotifyModal(){
+  document.getElementById('notify-modal').classList.remove('open');
+}
+async function submitNotify(e){
+  e.preventDefault();
+  const fishName=document.getElementById('nf-fish-name').textContent;
+  const name=document.getElementById('nf-name').value.trim();
+  const phone=document.getElementById('nf-phone').value.trim();
+  if(!name||!phone)return;
+  const btn=e.target.querySelector('button[type="submit"]');
+  if(btn){btn.disabled=true;btn.textContent='Kaydediliyor…';}
+  if(stockAlerts.find(a=>a.phone===phone&&a.fish===fishName)){
+    const s=document.getElementById('nf-success');
+    s.textContent='✓ Bu numara zaten kayıtlı!';s.style.display='block';
+    if(btn){btn.disabled=false;btn.textContent='🔔 Haber Ver';}
+    return;
+  }
+  stockAlerts.push({name,phone,fish:fishName,date:new Date().toLocaleDateString('tr-TR')});
+  const ok=await saveAll();
+  if(ok){
+    const s=document.getElementById('nf-success');
+    s.textContent='✓ Kaydedildi! Balık gelince WhatsApp\'tan haber vereceğiz. 🐠';
+    s.style.display='block';
+    renderStockAlerts();
+    setTimeout(()=>closeNotifyModal(),2800);
+  }else{
+    stockAlerts.pop();
+    alert('Kayıt başarısız, tekrar dene.');
+  }
+  if(btn){btn.disabled=false;btn.textContent='🔔 Haber Ver';}
+}
+
+/* ══ ADMIN: STOK BİLDİRİM LİSTESİ ══ */
+function renderStockAlerts(){
+  const el=document.getElementById('adminAlertList');
+  const badge=document.getElementById('alertBadge');
+  if(!el)return;
+  if(badge){
+    if(stockAlerts.length){badge.textContent=stockAlerts.length+' istek';badge.style.display='inline';}
+    else{badge.style.display='none';}
+  }
+  if(!stockAlerts.length){el.innerHTML='<div class="empty-admin">Henüz bildirim isteği yok.</div>';return;}
+  el.innerHTML=stockAlerts.map((a,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:0.5px solid var(--border2);">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;color:var(--text);font-family:'Jost',sans-serif;font-weight:400;">${a.name}</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:2px;letter-spacing:0.04em;">🐠 ${a.fish}</div>
+        <div style="font-size:9px;color:var(--text-dim);opacity:0.6;margin-top:1px;">${a.phone} · ${a.date}</div>
+      </div>
+      <a href="https://wa.me/${(a.phone||'').replace(/\D/g,'')}?text=${encodeURIComponent('Merhaba '+a.name+'! '+a.fish+' stoklarımıza geldi. Hemen sipariş verebilirsiniz! 🐠 enesakvaryum.com.tr')}" target="_blank"
+        style="flex-shrink:0;background:rgba(37,211,102,0.1);border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 10px;border-radius:8px;text-decoration:none;white-space:nowrap;">WA</a>
+      <button onclick="clearStockAlert(${i})" style="flex-shrink:0;background:none;border:0.5px solid rgba(220,50,50,0.25);color:#e05555;font-size:9px;padding:6px 8px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;">Sil</button>
+    </div>`).join('');
+}
+async function clearStockAlert(i){
+  if(!confirm('Bu bildirimi silmek istiyor musunuz?'))return;
+  stockAlerts.splice(i,1);
+  await saveAll();
+  renderStockAlerts();
+}
+
 function renderFishGrid(){
   const g=document.getElementById('fishGrid');
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
   const filtered=fishList.map((f,i)=>({f,i})).filter(({f})=>{
+    if(hideOutOfStock && f.outOfStock) return false;
     if(activeCategory==='Tümü') return true;
     if(f.category!==activeCategory) return false;
     if(activeSubCategory==='Tümü') return true;
@@ -2723,7 +2849,7 @@ function renderFishGrid(){
         </div>
         <div class="cart-controls">
           ${f.outOfStock
-            ?`<div></div><div style="font-size:10px;color:#e05555;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;">Stokta Yok</div>`
+            ?`<div></div><button class="notify-btn" onclick="showNotifyForm('${f.name.replace(/'/g,"&#39;")}')">🔔 Gelince Haber Ver</button>`
             :inCart
               ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">${_removeText()}</button>`
               :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name}',${f.price})">${_addCartText()}</button>`}
@@ -3521,5 +3647,20 @@ document.addEventListener('click',e=>{
 })();
 
 </script>
+
+<!-- GELİNCE HABER VER MODALI -->
+<div id="notify-modal" onclick="if(event.target===this)closeNotifyModal()">
+  <div class="notify-box">
+    <h3>Stok Bildirimi</h3>
+    <div class="nf-fish-name" id="nf-fish-name">—</div>
+    <form onsubmit="submitNotify(event)">
+      <input type="text" id="nf-name" placeholder="Adınız" required autocomplete="name">
+      <input type="tel" id="nf-phone" placeholder="WhatsApp numaranız (05xx...)" required autocomplete="tel">
+      <div class="nf-success" id="nf-success">✓ Kaydedildi! Balık gelince WhatsApp'tan haber vereceğiz. 🐠</div>
+      <button type="submit" class="notify-submit">🔔 Haber Ver</button>
+    </form>
+    <button class="notify-cancel" onclick="closeNotifyModal()">İptal</button>
+  </div>
+</div>
 </body>
 </html>
