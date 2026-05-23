@@ -579,11 +579,11 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    FLOAT BUTTONS
 ══════════════════════════════════════ */
-.cart-float{position:fixed;bottom:2rem;left:2rem;background:linear-gradient(135deg,var(--teal2),var(--blue2));color:var(--bg);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 18px;border-radius:12px;cursor:pointer;z-index:50;border:none;display:none;gap:10px;align-items:center;box-shadow:0 4px 20px rgba(45,224,204,0.3);transition:transform 0.2s,box-shadow 0.2s;}
+.cart-float{position:fixed;bottom:calc(1.8rem + env(safe-area-inset-bottom));left:1.2rem;background:linear-gradient(135deg,var(--teal2),var(--blue2));color:var(--bg);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 18px;border-radius:12px;cursor:pointer;z-index:50;border:none;display:none;gap:10px;align-items:center;box-shadow:0 4px 20px rgba(45,224,204,0.3);transition:transform 0.2s,box-shadow 0.2s;}
 .cart-float.visible{display:flex;}
 .cart-float:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(45,224,204,0.4);}
 .cart-float-count{background:var(--bg);color:var(--teal);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;}
-.admin-trigger{position:fixed;bottom:2rem;right:2rem;background:rgba(6,14,28,0.9);border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:10px 16px;border-radius:10px;cursor:pointer;z-index:50;backdrop-filter:blur(12px);transition:border-color 0.2s,color 0.2s;}
+.admin-trigger{position:fixed;bottom:calc(1.8rem + env(safe-area-inset-bottom));right:1.2rem;background:rgba(6,14,28,0.9);border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:10px 16px;border-radius:10px;cursor:pointer;z-index:50;backdrop-filter:blur(12px);transition:border-color 0.2s,color 0.2s;}
 .admin-trigger:hover{border-color:var(--teal);color:var(--teal);}
 
 /* ══════════════════════════════════════
@@ -862,6 +862,159 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 .svc-card:nth-child(8){transition-delay:0.42s;}
 .svc-card:nth-child(9){transition-delay:0.48s;}
 .svc-card:nth-child(10){transition-delay:0.54s;}
+
+/* ══════════════════════════════════════
+   MOBİL & ANİMASYON İYİLEŞTİRMELERİ
+══════════════════════════════════════ */
+
+/* Sayfa geçişleri için smooth scroll */
+html{scroll-behavior:smooth;}
+
+/* Touch delay kaldır */
+*{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+input,textarea,select{touch-action:auto;}
+
+/* ── Kategori filtresi: mobilde yatay kaydır ── */
+@media(max-width:639px){
+  .cat-filter{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    padding:12px 0 10px;
+    gap:6px;
+    /* Sağ ve sol fade efekti için */
+    mask-image:linear-gradient(to right,transparent 0,black 16px,black calc(100% - 16px),transparent 100%);
+    -webkit-mask-image:linear-gradient(to right,transparent 0,black 16px,black calc(100% - 16px),transparent 100%);
+  }
+  .cat-filter::-webkit-scrollbar{display:none;}
+  .cat-btn{flex-shrink:0;padding:7px 14px;font-size:9px;}
+
+  .sub-cat-filter{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .sub-cat-filter::-webkit-scrollbar{display:none;}
+  .sub-cat-btn{flex-shrink:0;}
+}
+
+/* ── Sticky nav mobil ── */
+@media(max-width:639px){
+  #stickyNav{
+    overflow-x:auto;
+    scrollbar-width:none;
+    display:flex;
+    align-items:stretch;
+  }
+  #stickyNav::-webkit-scrollbar{display:none;}
+  .snav-logo{flex-shrink:0;}
+  .snav-link{flex-shrink:0;white-space:nowrap;font-size:8.5px;padding:10px 10px 5px;}
+}
+
+/* ── Servis kartları mobilde tek kolon ── */
+@media(max-width:479px){
+  .services-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .svc-card{padding:16px 10px 14px;}
+  .svc-name{font-size:9px;}
+}
+
+/* ── Float butonlar: safe-area + konum ── */
+.cart-float{
+  bottom:calc(1.8rem + env(safe-area-inset-bottom));
+  left:1.2rem;
+}
+.admin-trigger{
+  bottom:calc(1.8rem + env(safe-area-inset-bottom));
+  right:1.2rem;
+}
+@media(max-width:639px){
+  .cart-float{left:0.8rem;padding:10px 14px;font-size:10px;}
+  .admin-trigger{right:0.8rem;padding:8px 12px;}
+}
+
+/* ── Fish card: dokunmatik geri bildirim ── */
+@media(hover:none){
+  .fish-card:active{
+    border-color:rgba(var(--fc),0.5);
+    transform:scale(0.97);
+    transition:transform 0.12s ease,border-color 0.15s;
+    box-shadow:0 8px 30px rgba(0,8,24,0.6),0 0 20px rgba(var(--fc),0.12);
+  }
+  .fish-card:active::before{opacity:1;}
+  .fish-card:active .fish-img{transform:scale(1.04);}
+}
+
+/* ── Buton & chip aktif animasyonları ── */
+.cat-btn:active,.sub-cat-btn:active{
+  transform:scale(0.93);
+  transition:transform 0.1s ease;
+}
+.qty-btn:active{
+  transform:scale(0.82);
+  transition:transform 0.1s ease;
+}
+.snav-link:active{
+  color:var(--teal);
+  transition:color 0.1s;
+}
+
+/* ── Sepete ekleme: kart yukarı zıplama ── */
+.fish-card.added-anim{
+  animation:cardBounce 0.45s cubic-bezier(0.36,0.07,0.19,0.97) both;
+}
+@keyframes cardBounce{
+  0%{transform:scale(1);}
+  25%{transform:scale(0.95) translateY(3px);}
+  60%{transform:scale(1.04) translateY(-5px);}
+  100%{transform:scale(1) translateY(0);}
+}
+
+/* ── Cart float: sepete ekleme nabız ── */
+.cart-float.pulse-anim{
+  animation:cartPulse 0.5s cubic-bezier(0.36,0.07,0.19,0.97) both;
+}
+@keyframes cartPulse{
+  0%{transform:scale(1);}
+  30%{transform:scale(1.18) translateY(-3px);}
+  65%{transform:scale(0.94);}
+  100%{transform:scale(1);}
+}
+
+/* ── Genişletilmiş stagger (6→20 kart) ── */
+.fish-grid .fish-card:nth-child(7),.aq-grid .aq-card:nth-child(7){transition-delay:0.42s;}
+.fish-grid .fish-card:nth-child(8),.aq-grid .aq-card:nth-child(8){transition-delay:0.49s;}
+.fish-grid .fish-card:nth-child(9),.aq-grid .aq-card:nth-child(9){transition-delay:0.56s;}
+.fish-grid .fish-card:nth-child(10),.aq-grid .aq-card:nth-child(10){transition-delay:0.63s;}
+.fish-grid .fish-card:nth-child(11),.aq-grid .aq-card:nth-child(11){transition-delay:0.70s;}
+.fish-grid .fish-card:nth-child(12),.aq-grid .aq-card:nth-child(12){transition-delay:0.77s;}
+.fish-grid .fish-card:nth-child(13),.aq-grid .aq-card:nth-child(13){transition-delay:0.84s;}
+.fish-grid .fish-card:nth-child(14),.aq-grid .aq-card:nth-child(14){transition-delay:0.91s;}
+.fish-grid .fish-card:nth-child(15),.aq-grid .aq-card:nth-child(15){transition-delay:0.98s;}
+.fish-grid .fish-card:nth-child(16),.aq-grid .aq-card:nth-child(16){transition-delay:1.05s;}
+.fish-grid .fish-card:nth-child(17),.aq-grid .aq-card:nth-child(17){transition-delay:1.12s;}
+.fish-grid .fish-card:nth-child(18),.aq-grid .aq-card:nth-child(18){transition-delay:1.19s;}
+.fish-grid .fish-card:nth-child(19),.aq-grid .aq-card:nth-child(19){transition-delay:1.26s;}
+.fish-grid .fish-card:nth-child(20),.aq-grid .aq-card:nth-child(20){transition-delay:1.33s;}
+
+/* ── Bölüm başlığı mobil ── */
+@media(max-width:639px){
+  .sec-label{letter-spacing:0.22em;font-size:8px;}
+  .sec-header{margin:2.2rem 0 0.3rem;gap:10px;}
+}
+
+/* ── Hero alt scroll göstergesi mobil ── */
+@media(max-width:639px){
+  .hero-scroll{bottom:calc(1.2rem + env(safe-area-inset-bottom));}
+  .hero-tagline{font-size:13px;letter-spacing:0.04em;}
+}
+
+/* ── Reveal animasyonu: hafifçe yukarıdan ── */
+.reveal{
+  transition:opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+             transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
 </style>
 </head>
 <body>
@@ -2626,7 +2779,29 @@ function clearCart(){
   renderFishGrid();renderPlantGrid();renderAqGrid();renderCart();
 }
 function addToCart(i,name,price){
-  cart[i]=(cart[i]||0)+1;updateCartControls(i);renderCart();
+  cart[i]=(cart[i]||0)+1;
+  updateCartControls(i);
+  renderCart();
+  // Kart bounce animasyonu
+  const cards=document.querySelectorAll('.fish-card,.aq-card');
+  cards.forEach(card=>{
+    const btn=card.querySelector('.add-cart-btn');
+    if(btn&&btn.getAttribute('onclick')&&btn.getAttribute('onclick').includes("'"+i+"'")||
+       btn&&btn.getAttribute('onclick')&&btn.getAttribute('onclick').includes('('+i+',')){
+      card.classList.remove('added-anim');
+      void card.offsetWidth;
+      card.classList.add('added-anim');
+      setTimeout(()=>card.classList.remove('added-anim'),450);
+    }
+  });
+  // Cart float nabız
+  const fl=document.getElementById('cartFloat');
+  if(fl){
+    fl.classList.remove('pulse-anim');
+    void fl.offsetWidth;
+    fl.classList.add('pulse-anim');
+    setTimeout(()=>fl.classList.remove('pulse-anim'),500);
+  }
 }
 function removeFromCart(i){
   delete cart[i];updateCartControls(i);renderCart();
