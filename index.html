@@ -1720,7 +1720,7 @@ async function fetchSubscribers(){
 
 async function saveSubscribers(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
   return r.ok;
 }
 
