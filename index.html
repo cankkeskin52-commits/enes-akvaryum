@@ -1106,7 +1106,7 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
   <div class="reveal" style="width:100%;display:flex;justify-content:center;margin-top:0.5rem;">
     <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(6,14,28,0.6);border:0.5px solid rgba(45,224,204,0.15);border-radius:20px;padding:8px 20px;backdrop-filter:blur(10px);">
       <div style="width:6px;height:6px;border-radius:50%;background:#2de0cc;animation:loadPulse 2s ease-in-out infinite;"></div>
-      <span id="visitorText" style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;color:#4a8aaa;">Bu ay <span id="visitorCount" style="color:#2de0cc;font-weight:500;">...</span> ziyaretçi</span>
+      <span id="visitorText" style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;color:#4a8aaa;">Toplam <span id="visitorCount" style="color:#2de0cc;font-weight:500;">...</span> ziyaretçi</span>
     </div>
   </div>
 
@@ -3019,7 +3019,7 @@ function applyLang(){
   const vc=document.getElementById('visitorCount');
   const vcNum=vc?vc.textContent:'...';
   const vt=document.getElementById('visitorText');
-  if(vt)vt.innerHTML=`${isEN?'Total':'Bu ay'} <span id="visitorCount" style="color:#2de0cc;font-weight:500;">${vcNum}</span> ${isEN?'visitors':'ziyaretçi'}`;
+  if(vt)vt.innerHTML=`${isEN?'Total':'Toplam'} <span id="visitorCount" style="color:#2de0cc;font-weight:500;">${vcNum}</span> ${isEN?'visitors':'ziyaretçi'}`;
 
   // Custom aquarium WA button
   document.querySelectorAll('.aq-custom-title').forEach(el=>{
