@@ -2770,7 +2770,17 @@ async function fetchFish(){
     reviewList=d.record.reviews||[];
     plantList=d.record.plants||[];
     subList=d.record.subscribers||[];
-    if(d.record.visits) _visits=d.record.visits;
+    _visits=d.record.visits||0;
+    stockAlerts=d.record.stockAlerts||[];
+    renderStockAlerts();
+
+    // Ziyaretçi sayımı — tek bir PUT ile, tüm veri birlikte kaydedilir
+    if(!sessionStorage.getItem('v_counted')){
+      _visits++;
+      sessionStorage.setItem('v_counted','1');
+      await saveAll(); // fishList, aqList vs. zaten yüklendi, güvenli
+    }
+    animateVisitorCount(_visits);
 
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
@@ -3243,49 +3253,18 @@ function doLogin(){
   },60000);
 })();
 
-/* ══ VISITOR COUNTER ══ */
-(function(){
-  const BIN='69f61406aaba88219762a326';
-  const KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
-  const BASE2='https://api.jsonbin.io/v3/b/'+BIN;
-
-  function animateCount(target){
-    const el=document.getElementById('visitorCount');
-    if(!el)return;
-    let current=0;
-    const step=Math.max(1,Math.ceil(target/40));
-    const timer=setInterval(()=>{
-      current=Math.min(current+step,target);
-      el.textContent=current.toLocaleString('tr-TR');
-      if(current>=target)clearInterval(timer);
-    },30);
-  }
-
-  async function trackVisit(){
-    try{
-      const r=await fetch(BASE2+'/latest',{headers:{'X-Master-Key':KEY}});
-      const d=await r.json();
-      let visits=d.record.visits||0;
-      _visits=visits;
-      if(!sessionStorage.getItem('v_counted')){
-        visits++;_visits=visits;
-        sessionStorage.setItem('v_counted','1');
-        await fetch(BASE2,{method:'PUT',
-          headers:{'Content-Type':'application/json','X-Master-Key':KEY},
-          body:JSON.stringify({...d.record,visits})
-        });
-      }
-      animateCount(visits);
-    }catch(e){
-      // Fallback to localStorage
-      const lk='enes_v2';
-      let c=parseInt(localStorage.getItem(lk)||'0');
-      if(!sessionStorage.getItem('v_counted')){c++;localStorage.setItem(lk,c);sessionStorage.setItem('v_counted','1');}
-      animateCount(c);
-    }
-  }
-  trackVisit();
-})();
+/* ══ VISITOR COUNTER — animasyon fonksiyonu (sayım fetchAquariums içinde yapılır) ══ */
+function animateVisitorCount(target){
+  const el=document.getElementById('visitorCount');
+  if(!el)return;
+  let current=0;
+  const step=Math.max(1,Math.ceil(target/40));
+  const timer=setInterval(()=>{
+    current=Math.min(current+step,target);
+    el.textContent=current.toLocaleString('tr-TR');
+    if(current>=target)clearInterval(timer);
+  },30);
+}
 
 /* ══ WATER RIPPLE on fish/plant/aq cards ══ */
 document.addEventListener('click',e=>{
