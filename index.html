@@ -2774,13 +2774,24 @@ async function fetchFish(){
     stockAlerts=d.record.stockAlerts||[];
     renderStockAlerts();
 
-    // Ziyaretçi sayımı — tek bir PUT ile, tüm veri birlikte kaydedilir
+    // Ziyaretçi sayımı — yarış koşulunu azaltmak için taze sayı çek
     if(!sessionStorage.getItem('v_counted')){
-      _visits++;
       sessionStorage.setItem('v_counted','1');
-      await saveAll(); // fishList, aqList vs. zaten yüklendi, güvenli
+      try {
+        // En güncel visits değerini doğrudan JSONbin'den al
+        const fr=await fetch(BASE,{headers:{'X-Master-Key':BIN_KEY}});
+        if(fr.ok){
+          const fd=await fr.json();
+          _visits=(fd.record.visits||0)+1;
+        } else {
+          _visits++;
+        }
+      } catch(e){ _visits++; }
+      animateVisitorCount(_visits);
+      saveAll().catch(()=>{}); // Hata olursa sessizce geç, sayfayı bloklama
+    } else {
+      animateVisitorCount(_visits);
     }
-    animateVisitorCount(_visits);
 
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
