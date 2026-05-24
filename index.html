@@ -1361,12 +1361,6 @@ input,textarea,select{touch-action:auto;}
 
 
   <!-- VISITOR COUNTER -->
-  <div class="reveal" style="width:100%;display:flex;justify-content:center;margin-top:0.5rem;">
-    <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(6,14,28,0.6);border:0.5px solid rgba(45,224,204,0.15);border-radius:20px;padding:8px 20px;backdrop-filter:blur(10px);">
-      <div style="width:6px;height:6px;border-radius:50%;background:#2de0cc;animation:loadPulse 2s ease-in-out infinite;"></div>
-      <span id="visitorText" style="font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;color:#4a8aaa;">Toplam <span id="visitorCount" style="color:#2de0cc;font-weight:500;">...</span> ziyaretçi</span>
-    </div>
-  </div>
 
 
   <!-- SUBSCRIBE -->
@@ -1735,7 +1729,6 @@ const WA='905383279980';
 const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
 
 let fishList=[],cart={},currentImgUrl='',selectedFile=null;
-let _visits=0;
 let hideOutOfStock=false;
 let stockAlerts=[];
 
@@ -1991,7 +1984,7 @@ async function fetchSubscribers(){
 
 async function saveSubscribers(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits,stockAlerts})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,stockAlerts})});
   return r.ok;
 }
 
@@ -2410,7 +2403,7 @@ async function fetchAquariums(){
 
 async function saveAll(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits,stockAlerts})});
+    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,stockAlerts})});
   return r.ok;
 }
 
@@ -2770,28 +2763,9 @@ async function fetchFish(){
     reviewList=d.record.reviews||[];
     plantList=d.record.plants||[];
     subList=d.record.subscribers||[];
-    _visits=d.record.visits||0;
     stockAlerts=d.record.stockAlerts||[];
     renderStockAlerts();
 
-    // Ziyaretçi sayımı — yarış koşulunu azaltmak için taze sayı çek
-    if(!sessionStorage.getItem('v_counted')){
-      sessionStorage.setItem('v_counted','1');
-      try {
-        // En güncel visits değerini doğrudan JSONbin'den al
-        const fr=await fetch(BASE,{headers:{'X-Master-Key':BIN_KEY}});
-        if(fr.ok){
-          const fd=await fr.json();
-          _visits=(fd.record.visits||0)+1;
-        } else {
-          _visits++;
-        }
-      } catch(e){ _visits++; }
-      animateVisitorCount(_visits);
-      saveAll().catch(()=>{}); // Hata olursa sessizce geç, sayfayı bloklama
-    } else {
-      animateVisitorCount(_visits);
-    }
 
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
@@ -3264,18 +3238,6 @@ function doLogin(){
   },60000);
 })();
 
-/* ══ VISITOR COUNTER — animasyon fonksiyonu (sayım fetchAquariums içinde yapılır) ══ */
-function animateVisitorCount(target){
-  const el=document.getElementById('visitorCount');
-  if(!el)return;
-  let current=0;
-  const step=Math.max(1,Math.ceil(target/40));
-  const timer=setInterval(()=>{
-    current=Math.min(current+step,target);
-    el.textContent=current.toLocaleString('tr-TR');
-    if(current>=target)clearInterval(timer);
-  },30);
-}
 
 /* ══ WATER RIPPLE on fish/plant/aq cards ══ */
 document.addEventListener('click',e=>{
@@ -3308,7 +3270,6 @@ const TR={
   remove:"Cikar",
   cartTitle:"Sepetim",
   orderBtn:"Siparis Ver",
-  visitor:"Bu ay",visitorSuf:"ziyaretci",
   everyDay:"Her gun",
   langBtn:"TR / EN",
   noFish:"Henuz balik eklenmemis.",
@@ -3329,7 +3290,6 @@ const EN={
   remove:"Remove",
   cartTitle:"My Cart",
   orderBtn:"Place Order",
-  visitor:"This month",visitorSuf:"visitors",
   everyDay:"Every day",
   langBtn:"EN / TR",
   noFish:"No fish added yet.",
@@ -3382,12 +3342,6 @@ function applyLang(){
   // WhatsApp order button
   const wb=document.getElementById('whatsappBtn');
   if(wb)wb.innerHTML=wb.innerHTML.replace(/Sipariş Ver|Place Order/,isEN?'Place Order':'Sipariş Ver');
-
-  // Visitor text
-  const vc=document.getElementById('visitorCount');
-  const vcNum=vc?vc.textContent:'...';
-  const vt=document.getElementById('visitorText');
-  if(vt)vt.innerHTML=`${isEN?'Total':'Toplam'} <span id="visitorCount" style="color:#2de0cc;font-weight:500;">${vcNum}</span> ${isEN?'visitors':'ziyaretçi'}`;
 
   // Custom aquarium WA button
   document.querySelectorAll('.aq-custom-title').forEach(el=>{
