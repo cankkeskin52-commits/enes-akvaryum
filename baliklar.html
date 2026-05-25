@@ -18,6 +18,7 @@
   --cyan:#00f5ff;--text:#cce8f8;--text-mid:#6aaec8;--text-dim:#1e4060;
   --green:#20c45a;--gold:#f0c060;
 }
+html{scroll-behavior:smooth;}
 html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;width:100%;overflow-x:hidden;}
 #bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 #ambientOrbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
@@ -34,8 +35,10 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 #loaderFill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--cyan));box-shadow:0 0 10px rgba(45,224,204,0.8);transition:width 0.08s linear;}
 #loaderPct{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.25em;color:var(--text-dim);}
 /* ── STICKY NAV ── */
-#stickyNav{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);z-index:100;display:flex;align-items:center;gap:0;background:rgba(2,8,16,0.85);border:0.5px solid rgba(45,224,204,0.2);border-radius:0 0 16px 16px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:0 4px 4px;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+#stickyNav{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);z-index:100;display:flex;align-items:center;background:rgba(2,8,16,0.88);border:0.5px solid rgba(45,224,204,0.2);border-radius:0 0 16px 16px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:0 4px 4px;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:calc(100vw - 24px);}
 #stickyNav.show{transform:translateX(-50%) translateY(0);}
+.snav-links{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.snav-links::-webkit-scrollbar{display:none;}
 .snav-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--teal);letter-spacing:0.12em;padding:10px 16px 6px;border-right:0.5px solid rgba(45,224,204,0.12);white-space:nowrap;cursor:pointer;}
 .snav-link{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);padding:10px 14px 6px;cursor:pointer;transition:color 0.2s;white-space:nowrap;text-decoration:none;}
 .snav-link:hover{color:var(--teal);}
@@ -210,10 +213,12 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 
 <div id="stickyNav">
   <div class="snav-logo" onclick="location.href='index.html'">← Enes Akvaryum</div>
-  <span class="snav-link active">🐠 Balıklar</span>
-  <a class="snav-link" href="bitkiler.html">🌿 Bitkiler</a>
-  <a class="snav-link" href="akvaryumlar.html">🔲 Akvaryum</a>
-  <a class="snav-link" href="taslar.html">🪨 Taşlar</a>
+  <div class="snav-links">
+    <span class="snav-link active">🐠 Balıklar</span>
+    <a class="snav-link" href="bitkiler.html">🌿 Bitkiler</a>
+    <a class="snav-link" href="akvaryumlar.html">🔲 Akvaryum</a>
+    <a class="snav-link" href="taslar.html">🪨 Taşlar</a>
+  </div>
 </div>
 
 <div id="ambientOrbs">

@@ -27,6 +27,7 @@
   --cyan:#00f5ff;--text:#cce8f8;--text-mid:#6aaec8;--text-dim:#1e4060;
   --green:#20c45a;--gold:#f0c060;
 }
+html{scroll-behavior:smooth;}
 html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;width:100%;overflow-x:hidden;}
 
 /* ══════════════════════════════════════
@@ -746,17 +747,30 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 /* ══ KATEGORİ HUB KARTLARI ══ */
 .cat-hub{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:1rem;}
 @media(min-width:768px){.cat-hub{grid-template-columns:repeat(4,1fr);}}
-.hub-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:2rem 1.2rem;background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:18px;text-decoration:none;color:var(--text);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s,background 0.3s;cursor:pointer;position:relative;overflow:hidden;}
-.hub-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(45,224,204,0.05),transparent 70%);opacity:0;transition:opacity 0.4s;}
-.hub-card:hover{transform:translateY(-8px) scale(1.02);border-color:rgba(45,224,204,0.35);box-shadow:0 24px 60px rgba(0,10,30,0.7),0 0 0 0.5px rgba(45,224,204,0.12);}
+.hub-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:2rem 1.2rem;background:rgba(6,14,28,0.75);border-radius:18px;text-decoration:none;color:var(--text);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;cursor:pointer;position:relative;overflow:hidden;}
+.hub-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--hc);opacity:0.5;transition:opacity 0.3s;}
+.hub-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(var(--hc-rgb),0.08),transparent 65%);opacity:0;transition:opacity 0.4s;}
+.hub-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 24px 60px rgba(0,10,30,0.7),0 0 0 0.5px rgba(var(--hc-rgb),0.25);}
 .hub-card:hover::before{opacity:1;}
-.hub-icon{font-size:40px;line-height:1;filter:drop-shadow(0 0 10px rgba(45,224,204,0.25));transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);}
-.hub-card:hover .hub-icon{transform:scale(1.15);}
-.hub-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--text);letter-spacing:0.05em;}
-.hub-desc{font-size:11px;color:var(--text-dim);letter-spacing:0.06em;line-height:1.5;}
-.hub-arrow{font-size:18px;color:var(--teal);opacity:0;transform:translateX(-6px);transition:opacity 0.3s,transform 0.3s;}
+.hub-card:hover::after{opacity:1;}
+/* per-card colors */
+.hub-card[href="baliklar.html"]{--hc:#3a9fd4;--hc-rgb:58,159,212;border:0.5px solid rgba(58,159,212,0.2);}
+.hub-card[href="baliklar.html"]:hover{border-color:rgba(58,159,212,0.5);}
+.hub-card[href="bitkiler.html"]{--hc:#4caf7d;--hc-rgb:76,175,125;border:0.5px solid rgba(76,175,125,0.2);}
+.hub-card[href="bitkiler.html"]:hover{border-color:rgba(76,175,125,0.5);}
+.hub-card[href="akvaryumlar.html"]{--hc:#2de0cc;--hc-rgb:45,224,204;border:0.5px solid rgba(45,224,204,0.2);}
+.hub-card[href="akvaryumlar.html"]:hover{border-color:rgba(45,224,204,0.5);}
+.hub-card[href="taslar.html"]{--hc:#c4a432;--hc-rgb:196,164,50;border:0.5px solid rgba(196,164,50,0.2);}
+.hub-card[href="taslar.html"]:hover{border-color:rgba(196,164,50,0.5);}
+.hub-icon{font-size:44px;line-height:1;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),filter 0.3s;}
+.hub-card:hover .hub-icon{transform:scale(1.18) translateY(-3px);}
+.hub-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;color:var(--text);letter-spacing:0.05em;transition:color 0.3s;}
+.hub-card:hover .hub-title{color:#fff;}
+.hub-desc{font-size:11px;color:var(--text-dim);letter-spacing:0.05em;line-height:1.6;}
+.hub-badge{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--hc);background:rgba(var(--hc-rgb),0.1);border:0.5px solid rgba(var(--hc-rgb),0.25);padding:3px 10px;border-radius:20px;margin-top:2px;}
+.hub-arrow{font-size:16px;color:var(--hc);opacity:0;transform:translateX(-8px);transition:opacity 0.3s,transform 0.35s;}
 .hub-card:hover .hub-arrow{opacity:1;transform:translateX(0);}
-@media(max-width:639px){.cat-hub{grid-template-columns:1fr 1fr;gap:10px;}.hub-card{padding:1.4rem 0.8rem;gap:8px;}.hub-icon{font-size:32px;}.hub-title{font-size:17px;}.hub-desc{font-size:10px;}}
+@media(max-width:639px){.cat-hub{gap:10px;}.hub-card{padding:1.5rem 0.8rem;gap:8px;}.hub-icon{font-size:36px;}.hub-title{font-size:18px;}.hub-desc{display:none;}}
 
 /* ══════════════════════════════════════
    LOADING SCREEN
@@ -822,32 +836,35 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
   position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);
   z-index:100;
   display:flex;align-items:center;gap:0;
-  background:rgba(2,8,16,0.85);
+  background:rgba(2,8,16,0.88);
   border:0.5px solid rgba(45,224,204,0.2);
   border-radius:0 0 16px 16px;
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   padding:0 4px 4px;
   transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
   box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 0.5px rgba(45,224,204,0.08);
+  max-width:calc(100vw - 24px);
 }
 #stickyNav.show{transform:translateX(-50%) translateY(0);}
 .snav-logo{
   font-family:'Cormorant Garamond',serif;font-style:italic;
   font-size:14px;color:var(--teal);letter-spacing:0.12em;
   padding:10px 16px 6px;border-right:0.5px solid rgba(45,224,204,0.12);
-  white-space:nowrap;
+  white-space:nowrap;flex-shrink:0;
 }
+.snav-links{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.snav-links::-webkit-scrollbar{display:none;}
 .snav-link{
   font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;
   text-transform:uppercase;color:var(--text-dim);
   padding:10px 14px 6px;cursor:pointer;
-  transition:color 0.2s;white-space:nowrap;
+  transition:color 0.2s;white-space:nowrap;text-decoration:none;flex-shrink:0;
 }
 .snav-link:hover{color:var(--teal);}
 @media(max-width:639px){
-  #stickyNav{padding:0 2px 3px;}
+  #stickyNav{padding:0 2px 3px;border-radius:0 0 12px 12px;}
   .snav-logo{font-size:12px;padding:8px 10px 4px;}
-  .snav-link{font-size:8px;padding:8px 8px 4px;letter-spacing:0.14em;}
+  .snav-link{font-size:8px;padding:8px 8px 4px;letter-spacing:0.12em;}
 }
 
 /* ══════════════════════════════════════
@@ -915,12 +932,14 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 <!-- STICKY NAV -->
 <div id="stickyNav">
   <div class="snav-logo">Enes Akvaryum</div>
-  <a class="snav-link" href="baliklar.html">🐠 Balıklar</a>
-  <a class="snav-link" href="bitkiler.html">🌿 Bitkiler</a>
-  <a class="snav-link" href="akvaryumlar.html">🔲 Akvaryum</a>
-  <a class="snav-link" href="taslar.html">🪨 Taşlar</a>
-  <div class="snav-link" onclick="document.getElementById('reviewsTrack').closest('.reveal').scrollIntoView({behavior:'smooth',block:'start'})">Yorumlar</div>
-  <div class="snav-link" onclick="document.querySelector('.site-footer').scrollIntoView({behavior:'smooth',block:'start'})">İletişim</div>
+  <div class="snav-links">
+    <a class="snav-link" href="baliklar.html">🐠 Balıklar</a>
+    <a class="snav-link" href="bitkiler.html">🌿 Bitkiler</a>
+    <a class="snav-link" href="akvaryumlar.html">🔲 Akvaryum</a>
+    <a class="snav-link" href="taslar.html">🪨 Taşlar</a>
+    <div class="snav-link" onclick="document.getElementById('reviewsTrack').closest('.reveal').scrollIntoView({behavior:'smooth',block:'start'})">Yorumlar</div>
+    <div class="snav-link" onclick="document.querySelector('.site-footer').scrollIntoView({behavior:'smooth',block:'start'})">İletişim</div>
+  </div>
 </div>
 
 <!-- AMBIENT ORBS -->
@@ -996,25 +1015,25 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
       <div class="hub-icon">🐠</div>
       <div class="hub-title">Balıklar</div>
       <div class="hub-desc">Tatlı su & tuzlu su balıkları</div>
-      <div class="hub-arrow">→</div>
+      <div class="hub-badge">Keşfet →</div>
     </a>
     <a class="hub-card" href="bitkiler.html">
       <div class="hub-icon">🌿</div>
       <div class="hub-title">Bitkiler</div>
       <div class="hub-desc">Canlı akvaryum bitkileri</div>
-      <div class="hub-arrow">→</div>
+      <div class="hub-badge">Keşfet →</div>
     </a>
     <a class="hub-card" href="akvaryumlar.html">
       <div class="hub-icon">🔲</div>
       <div class="hub-title">Akvaryumlar</div>
       <div class="hub-desc">Hazır setler & özel tasarım</div>
-      <div class="hub-arrow">→</div>
+      <div class="hub-badge">Keşfet →</div>
     </a>
     <a class="hub-card" href="taslar.html">
       <div class="hub-icon">🪨</div>
       <div class="hub-title">Taşlar & Dekor</div>
       <div class="hub-desc">Doğal taşlar & aksesuar</div>
-      <div class="hub-arrow">→</div>
+      <div class="hub-badge">Keşfet →</div>
     </a>
   </div>
 
