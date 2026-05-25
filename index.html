@@ -2872,15 +2872,12 @@ async function togglePlantStock(i){
 
 function openAdmin(){
   document.getElementById('adminOverlay').classList.add('active');
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('adminPanel').style.display='block';
-  renderAdminList();
-  renderAdminPlList();
-  renderAdminAqList();
-  renderAdminRvList();
-  renderAdminSubList();
-  document.getElementById('backupSection').style.display='block';
-  setTimeout(_checkAutoBackup,800);
+  document.getElementById('loginScreen').style.display='block';
+  document.getElementById('adminPanel').style.display='none';
+  document.getElementById('backupSection').style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('loginErr').style.display='none';
+  setTimeout(()=>document.getElementById('pwInput').focus(),200);
 }
 function closeAdmin(){document.getElementById('adminOverlay').classList.remove('active');document.getElementById('backupSection').style.display='none';}
 function doLogin(){
