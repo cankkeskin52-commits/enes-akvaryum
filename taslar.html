@@ -233,10 +233,10 @@ body.day-theme{--bg:#0a1628;--border:#1a3560;--border2:#204070;--teal:#20d4c0;--
 </a>
 
 <script>
-const BIN_ID='69f61406aaba88219762a326';
-const BIN_KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
+
+
 const WA='905383279980';
-const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
+const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let dkList=[],cart={};
 
 (function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
@@ -327,9 +327,9 @@ function renderCart(){
 async function fetchData(){
   try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.fish){dkList=(cached.fish||[]).filter(f=>f.type==='Aksesuar');renderDkGrid();}}catch(e){}
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY},cache:'no-cache'});
+    const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    const allFish=d.record.fish||[];
+    const allFish=d.fish||[];
     dkList=allFish.filter(f=>f.type==='Aksesuar');
     localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),fish:allFish}));
     renderDkGrid();

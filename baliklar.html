@@ -324,10 +324,8 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 
 <script>
 /* ── CONFIG ── */
-const BIN_ID='69f61406aaba88219762a326';
-const BIN_KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
 const WA='905383279980';
-const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
+const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let fishList=[],cart={};
 
 /* ── DAY/NIGHT ── */
@@ -466,9 +464,9 @@ async function fetchData(){
     if(cached.fish){fishList=cached.fish;renderFishGrid();}
   }catch(e){}
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY},cache:'no-cache'});
+    const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    fishList=d.record.fish||[];
+    fishList=d.fish||[];
     localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),fish:fishList}));
     renderFishGrid();
   }catch(e){

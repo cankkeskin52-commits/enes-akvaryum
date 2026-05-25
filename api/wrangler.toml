@@ -1,0 +1,7 @@
+name = "enes-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "ENES_DATA"
+id = "04aa05bd48be4d96bbe15d65b2ccb980"

@@ -1448,12 +1448,10 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 <script>
 /* ══ CONFIG ══ */
 const PASS='Enesakvaryum2024';
-const BIN_ID='69f61406aaba88219762a326';
-const BIN_KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
 const CLOUD_NAME='dhxxsm5ec';
 const UPLOAD_PRESET='enes_akvaryum';
 const WA='905383279980';
-const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
+const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 
 let fishList=[],cart={},currentImgUrl='',selectedFile=null;
 let _visits=0;
@@ -1702,14 +1700,14 @@ let subList = [];
 
 async function fetchSubscribers(){
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    subList=d.record.subscribers||[];
+    subList=d.subscribers||[];
   }catch(e){}
 }
 
 async function saveSubscribers(){
-  const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+  const r=await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
     body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList})});
   return r.ok;
 }
@@ -2117,17 +2115,16 @@ function editPlant(i){
 let aqList=[], selectedAqFile=null, currentAqImgUrl='';
 
 async function fetchAquariums(){
-  // use same bin, different key
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    aqList=d.record.aquariums||[];
+    aqList=d.aquariums||[];
     renderAqGrid();
   }catch(e){document.getElementById('aqGrid').innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
 }
 
 async function saveAll(){
-  const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
+  const r=await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
     body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
   if(r.ok){
     try{localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));}catch(e){}
@@ -2485,14 +2482,14 @@ async function fetchFish(){
   }catch(e){}
   // Then fetch fresh data
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    fishList=d.record.fish||[];
-    aqList=d.record.aquariums||[];
-    reviewList=d.record.reviews||[];
-    plantList=d.record.plants||[];
-    subList=d.record.subscribers||[];
-    if(d.record.visits) _visits=d.record.visits;
+    fishList=d.fish||[];
+    aqList=d.aquariums||[];
+    reviewList=d.reviews||[];
+    plantList=d.plants||[];
+    subList=d.subscribers||[];
+    if(d.visits) _visits=d.visits;
 
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
@@ -2869,10 +2866,6 @@ function doLogin(){
 
 /* ══ VISITOR COUNTER ══ */
 (function(){
-  const BIN='69f61406aaba88219762a326';
-  const KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
-  const BASE2='https://api.jsonbin.io/v3/b/'+BIN;
-
   function animateCount(target){
     const el=document.getElementById('visitorCount');
     if(!el)return;
@@ -2887,16 +2880,16 @@ function doLogin(){
 
   async function trackVisit(){
     try{
-      const r=await fetch(BASE2+'/latest',{headers:{'X-Master-Key':KEY}});
+      const r=await fetch(WORKER,{cache:'no-cache'});
       const d=await r.json();
-      let visits=d.record.visits||0;
+      let visits=d.visits||0;
       _visits=visits;
       if(!sessionStorage.getItem('v_counted')){
         visits++;_visits=visits;
         sessionStorage.setItem('v_counted','1');
-        await fetch(BASE2,{method:'PUT',
-          headers:{'Content-Type':'application/json','X-Master-Key':KEY},
-          body:JSON.stringify({...d.record,visits})
+        await fetch(WORKER,{method:'PUT',
+          headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
+          body:JSON.stringify({...d,visits})
         });
       }
       animateCount(visits);

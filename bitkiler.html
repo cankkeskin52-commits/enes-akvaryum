@@ -233,10 +233,10 @@ body.day-theme{--bg:#0a1628;--bg2:#0d1e38;--border:#1a3560;--border2:#204070;--t
 </a>
 
 <script>
-const BIN_ID='69f61406aaba88219762a326';
-const BIN_KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
+
+
 const WA='905383279980';
-const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
+const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let plantList=[],cart={};
 
 (function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
@@ -321,9 +321,9 @@ function renderCart(){
 async function fetchData(){
   try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.plants){plantList=cached.plants;renderPlantGrid();}}catch(e){}
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY},cache:'no-cache'});
+    const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    plantList=d.record.plants||[];
+    plantList=d.plants||[];
     localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),plants:plantList}));
     renderPlantGrid();
   }catch(e){const g=document.getElementById('plantGrid');if(g&&!plantList.length)g.innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
