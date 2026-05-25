@@ -341,6 +341,7 @@ async function fetchData(){
   }catch(e){const g=document.getElementById('plantGrid');if(g&&!plantList.length)g.innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
 }
 fetchData();
+renderCart();
 
 (function(){
   const loader=document.getElementById('loader');const fill=document.getElementById('loaderFill');const pctEl=document.getElementById('loaderPct');const titleEl=document.getElementById('loaderTitle');if(!loader)return;
