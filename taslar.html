@@ -327,7 +327,7 @@ function renderCart(){
 async function fetchData(){
   try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.fish){dkList=(cached.fish||[]).filter(f=>f.type==='Aksesuar');renderDkGrid();}}catch(e){}
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY},cache:'no-cache'});
     const d=await r.json();
     const allFish=d.record.fish||[];
     dkList=allFish.filter(f=>f.type==='Aksesuar');

@@ -2129,6 +2129,9 @@ async function fetchAquariums(){
 async function saveAll(){
   const r=await fetch(BASE,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':BIN_KEY},
     body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
+  if(r.ok){
+    try{localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));}catch(e){}
+  }
   return r.ok;
 }
 

@@ -325,7 +325,7 @@ function renderCart(){
 async function fetchData(){
   try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.aquariums){aqList=cached.aquariums;renderAqGrid();}}catch(e){}
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY},cache:'no-cache'});
     const d=await r.json();
     aqList=d.record.aquariums||[];
     localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),aquariums:aqList}));

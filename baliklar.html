@@ -466,7 +466,7 @@ async function fetchData(){
     if(cached.fish){fishList=cached.fish;renderFishGrid();}
   }catch(e){}
   try{
-    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY},cache:'no-cache'});
     const d=await r.json();
     fishList=d.record.fish||[];
     localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),fish:fishList}));
