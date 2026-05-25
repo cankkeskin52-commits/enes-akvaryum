@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akvaryumlar | Enes Akvaryum — Hazır & Özel Tasarım</title>
+<meta name="description" content="Hazır akvaryum setleri ve özel tasarım akvaryumlar. Enes Akvaryum, Eyüpsultan İstanbul. Kurulum ve bakım dahil.">
+<link rel="canonical" href="https://enesakvaryum.com.tr/akvaryumlar.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#020810;--card:#060e1c;
+  --border:#0a1e35;--border2:#102840;--border3:#1a3f60;
+  --teal:#2de0cc;--teal2:#1ab8a8;--blue:#3a9fd4;--blue2:#2280b8;
+  --cyan:#00f5ff;--text:#cce8f8;--text-mid:#6aaec8;--text-dim:#1e4060;
+  --green:#20c45a;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;width:100%;overflow-x:hidden;}
+#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+#ambientOrbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.orb-blue{width:450px;height:450px;background:radial-gradient(circle,rgba(58,159,212,0.07),transparent 70%);top:15%;left:-10%;}
+.orb-teal{width:400px;height:400px;background:radial-gradient(circle,rgba(45,224,204,0.05),transparent 70%);top:60%;right:-10%;}
+#loader{position:fixed;inset:0;background:#020810;z-index:3000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transform-origin:top;}
+#loaderTitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(32px,8vw,80px);color:#fff;letter-spacing:0.1em;line-height:1;display:flex;gap:0.04em;}
+#loaderTitle span{display:inline-block;opacity:0;transform:translateY(30px);transition:opacity 0.5s cubic-bezier(0.16,1,0.3,1),transform 0.5s cubic-bezier(0.16,1,0.3,1);}
+#loaderTitle span.show{opacity:1;transform:translateY(0);}
+#loaderSub{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.55em;text-transform:uppercase;color:var(--blue);opacity:0;animation:fadeUp 0.7s ease 0.95s forwards;}
+.loader-bar{width:180px;height:1px;background:rgba(58,159,212,0.12);position:relative;overflow:hidden;}
+#loaderFill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--teal));box-shadow:0 0 10px rgba(58,159,212,0.8);transition:width 0.08s linear;}
+#loaderPct{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.25em;color:var(--text-dim);}
+#stickyNav{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);z-index:100;display:flex;align-items:center;background:rgba(2,8,16,0.85);border:0.5px solid rgba(45,224,204,0.2);border-radius:0 0 16px 16px;backdrop-filter:blur(20px);padding:0 4px 4px;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+#stickyNav.show{transform:translateX(-50%) translateY(0);}
+.snav-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--teal);letter-spacing:0.12em;padding:10px 16px 6px;border-right:0.5px solid rgba(45,224,204,0.12);white-space:nowrap;cursor:pointer;}
+.snav-link{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);padding:10px 14px 6px;cursor:pointer;transition:color 0.2s;white-space:nowrap;text-decoration:none;}
+.snav-link:hover,.snav-link.active{color:var(--teal);}
+.cat-hero{position:relative;width:100%;height:52vh;min-height:300px;max-height:480px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:1;}
+.water-distort{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,20,50,0.6) 0%,rgba(0,10,40,0.3) 50%,rgba(0,20,50,0.7) 100%);animation:waterBreath 8s ease-in-out infinite;}
+@keyframes waterBreath{0%,100%{opacity:0.8;}50%{opacity:1;}}
+.hero-bubs{position:absolute;inset:0;pointer-events:none;z-index:2;}
+@keyframes bubRise{0%{transform:translateY(100vh) translateX(0) scale(1);opacity:0;}5%{opacity:1;}90%{opacity:0.3;}100%{transform:translateY(-60px) translateX(var(--dx,10px)) scale(var(--ds,0.9));opacity:0;}}
+.hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem;}
+.cat-page-badge{font-size:9px;letter-spacing:0.5em;text-transform:uppercase;color:var(--blue);border:0.5px solid rgba(58,159,212,0.3);padding:6px 18px;border-radius:20px;margin-bottom:1.4rem;backdrop-filter:blur(10px);background:rgba(58,159,212,0.05);animation:fadeDown 1s ease 0.2s both;}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.cat-page-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(44px,9vw,90px);color:#fff;letter-spacing:0.1em;line-height:1;text-shadow:0 0 30px rgba(255,255,255,0.3),0 0 60px rgba(58,159,212,0.15);animation:scaleIn 1s cubic-bezier(0.16,1,0.3,1) 0.3s both;}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
+.cat-page-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blue);letter-spacing:0.06em;animation:fadeUp 1s ease 0.7s both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.hero-divider{width:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--blue),transparent);margin:1rem auto;animation:divGrow 1.5s ease 0.8s forwards;}
+@keyframes divGrow{to{width:100px;height:0.5px;}}
+.page{position:relative;z-index:2;}
+.content{width:100%;max-width:900px;margin:0 auto;padding:0 1.5rem 6rem;}
+.sec-header{display:flex;align-items:center;gap:16px;margin:3rem 0 0.5rem;position:relative;opacity:0;transform:translateX(-50px);transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1),transform 0.85s cubic-bezier(0.16,1,0.3,1);}
+.sec-header.in-view{opacity:1;transform:translateX(0);}
+.sec-line{flex:1;height:0.5px;background:linear-gradient(90deg,rgba(58,159,212,0.3),transparent);}
+.sec-label{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--blue);opacity:0.8;white-space:nowrap;}
+.sec-line-r{flex:1;height:0.5px;background:linear-gradient(90deg,transparent,rgba(58,159,212,0.3));}
+/* ── AQUARIUM CARDS ── */
+.aq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(min-width:1024px){.aq-grid{grid-template-columns:1fr 1fr 1fr;gap:14px;}}
+.aq-card{background:rgba(6,14,28,0.75);border:0.5px solid var(--border2);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),border-color 0.3s,box-shadow 0.4s;}
+.aq-card:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(45,224,204,0.3);box-shadow:0 20px 60px rgba(0,10,30,0.6),0 0 0 0.5px rgba(45,224,204,0.1);}
+.aq-card.in-cart{border-color:rgba(45,224,204,0.5);box-shadow:0 0 20px rgba(45,224,204,0.15);}
+.aq-img-wrap{position:relative;width:100%;height:160px;overflow:hidden;}
+.aq-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
+.aq-card:hover .aq-img{transform:scale(1.06);}
+.aq-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(4,12,26,0.85) 100%);}
+.aq-img-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#060e1c,#0a1e35);font-size:44px;}
+.aq-body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.aq-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;color:var(--text);}
+.aq-badge{display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);background:rgba(58,159,212,0.08);border:0.5px solid rgba(58,159,212,0.2);padding:2px 8px;border-radius:20px;margin-top:4px;}
+.aq-size{font-size:11px;color:var(--text-dim);margin-top:2px;font-style:italic;}
+.aq-footer{display:flex;justify-content:space-between;align-items:center;}
+.aq-price{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--teal);text-shadow:0 0 20px rgba(45,224,204,0.3);}
+.aq-price span{font-size:11px;color:var(--text-dim);}
+.aq-wa-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(32,196,90,0.15),rgba(24,160,72,0.1));border:0.5px solid rgba(32,196,90,0.3);color:#20c45a;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+.aq-wa-btn:hover{background:rgba(32,196,90,0.2);}
+.add-cart-btn{background:linear-gradient(135deg,rgba(45,224,204,0.12),rgba(45,224,204,0.06));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all 0.3s;}
+.add-cart-btn:hover{background:rgba(45,224,204,0.22);}
+.qty-wrap{display:flex;align-items:center;gap:8px;}
+.qty-btn{background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.2);color:var(--teal);width:26px;height:26px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.qty-btn:hover{background:rgba(45,224,204,0.2);}
+.qty-num{font-family:'Jost',sans-serif;font-size:14px;color:var(--text);min-width:16px;text-align:center;}
+.aq-custom-card{background:linear-gradient(135deg,rgba(6,14,28,0.9),rgba(8,21,38,0.9));border:0.5px solid rgba(45,224,204,0.2);border-radius:16px;padding:2rem;text-align:center;grid-column:1/-1;position:relative;overflow:hidden;}
+.aq-custom-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(45,224,204,0.06),transparent 70%);}
+.aq-custom-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:var(--text);margin-bottom:8px;position:relative;}
+.aq-custom-desc{font-size:12px;color:var(--text-dim);line-height:1.7;margin-bottom:1.5rem;max-width:420px;margin-left:auto;margin-right:auto;position:relative;}
+.aq-custom-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(58,159,212,0.1));border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;position:relative;}
+.aq-custom-btn:hover{background:rgba(45,224,204,0.2);}
+.no-fish{width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:3rem;font-size:16px;grid-column:1/-1;}
+.ripple-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:16px;}
+.water-ripple{position:absolute;border-radius:50%;border:1.5px solid rgba(45,224,204,0.5);animation:rippleOut 0.8s ease-out forwards;}
+@keyframes rippleOut{0%{width:0;height:0;opacity:0.8;transform:translate(-50%,-50%);}100%{width:120px;height:120px;opacity:0;transform:translate(-50%,-50%);}}
+/* ── CART ── */
+.cart-summary{width:100%;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);border-radius:16px;overflow:hidden;display:none;backdrop-filter:blur(20px);}
+.cart-summary.visible{display:block;animation:cartAppear 0.4s cubic-bezier(0.16,1,0.3,1);}
+@keyframes cartAppear{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.cart-header{padding:16px 20px;border-bottom:0.5px solid var(--border2);display:flex;justify-content:space-between;align-items:center;background:rgba(45,224,204,0.04);}
+.cart-title{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);}
+.cart-count{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--text-dim);}
+.cart-items{padding:12px 20px;}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.cart-item:last-child{border-bottom:none;}
+.cart-item-name{font-size:13px;color:var(--text);}
+.cart-item-qty{font-size:12px;color:var(--text-dim);margin-left:6px;}
+.cart-item-price{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--teal);}
+.cart-footer{padding:16px 20px;border-top:0.5px solid var(--border2);display:flex;justify-content:space-between;align-items:center;gap:14px;}
+.cart-total{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);}
+.clear-cart-btn{background:none;border:0.5px solid rgba(220,80,80,0.3);color:rgba(220,80,80,0.75);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;}
+.whatsapp-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 20px rgba(32,196,90,0.25);flex-shrink:0;}
+.whatsapp-btn:hover{transform:translateY(-2px);}
+.whatsapp-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
+#scrollBar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blue),var(--teal),var(--cyan));z-index:200;box-shadow:0 0 8px rgba(58,159,212,0.6);}
+.cart-float{position:fixed;bottom:2rem;left:2rem;background:linear-gradient(135deg,var(--teal2),var(--blue2));color:var(--bg);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 18px;border-radius:12px;cursor:pointer;z-index:50;border:none;display:none;gap:10px;align-items:center;box-shadow:0 4px 20px rgba(45,224,204,0.3);}
+.cart-float.visible{display:flex;}
+.cart-float-count{background:var(--bg);color:var(--teal);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;}
+#soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(6,14,28,0.85);border:0.5px solid rgba(58,159,212,0.25);color:var(--blue);font-size:15px;width:36px;height:36px;border-radius:50%;cursor:pointer;backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;}
+.site-footer{padding:3rem 1.5rem 2rem;border-top:0.5px solid var(--border);}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--text-mid);margin-bottom:6px;text-align:center;}
+.footer-divider{height:0.5px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:1.6rem 0;}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:780px;margin:0 auto;}
+.footer-col-title{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.footer-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text-mid);margin-bottom:7px;}
+.footer-row span:last-child{color:var(--text);font-weight:400;}
+.footer-addr{font-size:13px;color:var(--text);margin-bottom:10px;}
+.footer-map-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);text-decoration:none;}
+.footer-contact-btns{display:flex;gap:8px;margin-bottom:10px;}
+.footer-call-btn{display:flex;align-items:center;gap:6px;background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 14px;border-radius:8px;text-decoration:none;}
+.footer-wa-btn{display:flex;align-items:center;gap:6px;background:rgba(37,211,102,0.08);border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 14px;border-radius:8px;text-decoration:none;}
+.footer-phone{font-size:13px;color:var(--text-mid);}
+.footer-copy{font-size:11px;color:var(--text-dim);}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@media(max-width:639px){.content{padding:0 1rem 4rem;}.aq-grid{grid-template-columns:1fr 1fr;gap:10px;}.aq-img-wrap,.aq-img-placeholder{height:130px;}.cart-footer{flex-direction:column;align-items:stretch;}.whatsapp-btn{justify-content:center;}.footer-grid{grid-template-columns:1fr;gap:1.4rem;}.footer-contact-btns{flex-direction:column;}.footer-call-btn,.footer-wa-btn{justify-content:center;}#stickyNav{padding:0 2px 3px;}.snav-logo{font-size:12px;padding:8px 10px 4px;}.snav-link{font-size:8px;padding:8px 8px 4px;letter-spacing:0.14em;}}
+body.day-theme{--bg:#0a1628;--border:#1a3560;--border2:#204070;--teal:#20d4c0;--blue:#3090c8;--text:#d0e8f8;--text-mid:#6aa8c8;--text-dim:#2a5070;}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div id="loaderTitle"></div>
+  <div id="loaderSub">Hazır & Özel Tasarım</div>
+  <div class="loader-bar"><div id="loaderFill"></div></div>
+  <div id="loaderPct">0%</div>
+</div>
+
+<button id="soundBtn" onclick="toggleSound()" title="Ses">🔊</button>
+<div id="scrollBar"></div>
+
+<div id="stickyNav">
+  <div class="snav-logo" onclick="location.href='index.html'">← Enes Akvaryum</div>
+  <a class="snav-link" href="baliklar.html">🐠 Balıklar</a>
+  <a class="snav-link" href="bitkiler.html">🌿 Bitkiler</a>
+  <span class="snav-link active">🔲 Akvaryum</span>
+  <a class="snav-link" href="taslar.html">🪨 Taşlar</a>
+</div>
+
+<div id="ambientOrbs">
+  <div class="orb orb-blue"></div>
+  <div class="orb orb-teal"></div>
+</div>
+<canvas id="bgCanvas"></canvas>
+
+<div class="page">
+  <div class="cat-hero">
+    <div class="water-distort"></div>
+    <div class="hero-bubs" id="heroBubs"></div>
+    <div class="hero-content">
+      <div class="cat-page-badge">Enes Akvaryum</div>
+      <div class="cat-page-title">Akvaryumlar</div>
+      <div class="hero-divider"></div>
+      <div class="cat-page-sub">Hazır setler & özel tasarım kurulumlar</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="sec-header"><div class="sec-line"></div><div class="sec-label">Mevcut Akvaryumlar</div><div class="sec-line-r"></div></div>
+
+    <div class="aq-grid reveal" id="aqGrid">
+      <div class="no-fish">Yükleniyor...</div>
+    </div>
+
+    <div class="cart-summary reveal" id="cartSummary" style="margin-top:16px;">
+      <div class="cart-header">
+        <div class="cart-title">🛒 Sepetim</div>
+        <div class="cart-count" id="cartCount"></div>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="cart-total" id="cartTotal"></div>
+          <button class="clear-cart-btn" onclick="clearCart()">🗑 Sepeti Boşalt</button>
+        </div>
+        <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+          Sipariş Ver
+        </a>
+      </div>
+    </div>
+
+    <div class="site-footer reveal">
+      <div class="footer-brand">Enes Akvaryum</div>
+      <div class="footer-divider"></div>
+      <div class="footer-grid">
+        <div><div class="footer-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Çalışma Saatleri</div><div class="footer-row"><span>Pzt – Cmt</span><span>09:00 – 20:00</span></div><div class="footer-row"><span>Pazar</span><span>10:00 – 18:00</span></div></div>
+        <div><div class="footer-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Konum</div><div class="footer-addr">Eyüpsultan, İstanbul</div><a href="https://maps.app.goo.gl/6dZxrJeD63xBHjVj7" target="_blank" class="footer-map-link">Google Maps</a></div>
+        <div><div class="footer-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>İletişim</div><div class="footer-contact-btns"><a href="tel:+905383279980" class="footer-call-btn">Bizi Arayın</a><a href="https://wa.me/905383279980" target="_blank" class="footer-wa-btn">WhatsApp</a></div><div class="footer-phone">0538 327 99 80</div></div>
+      </div>
+      <div class="footer-divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div class="footer-copy">© 2026 Enes Akvaryum</div>
+        <a href="index.html" style="color:var(--teal);text-decoration:none;font-size:11px;letter-spacing:0.1em;">← Ana Sayfa</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
+<a href="https://wa.me/905383279980" target="_blank" style="position:fixed;bottom:5rem;right:2rem;z-index:50;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(32,196,90,0.4);text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+</a>
+
+<script>
+const BIN_ID='69f61406aaba88219762a326';
+const BIN_KEY='$2a$10$o/HOJCjVDln0MowdufxdK.ZC2.iAg8htoVa9VGThxrOhKB6DQIjUW';
+const WA='905383279980';
+const BASE='https://api.jsonbin.io/v3/b/'+BIN_ID;
+let aqList=[],cart={};
+
+(function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
+
+const canvas=document.getElementById('bgCanvas');const ctx=canvas.getContext('2d');let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}resize();window.addEventListener('resize',resize);
+class Particle{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=H+Math.random()*100;this.r=Math.random()*3+0.5;this.speed=Math.random()*0.4+0.1;this.dx=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.5+0.1;this.color=Math.random()>0.5?'58,159,212':'45,224,204';}update(){this.y-=this.speed;this.x+=this.dx;this.opacity-=0.0008;if(this.y<-10||this.opacity<=0)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${this.opacity})`;ctx.fill();}}
+const isMobile=window.innerWidth<640;for(let i=0;i<(isMobile?40:80);i++)particles.push(new Particle());
+function animateCanvas(){ctx.clearRect(0,0,W,H);const grad=ctx.createLinearGradient(0,0,0,H);grad.addColorStop(0,'#020810');grad.addColorStop(1,'#030c1a');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animateCanvas);}animateCanvas();
+
+(function(){const b=document.getElementById('heroBubs');for(let i=0;i<20;i++){const d=document.createElement('div');const s=Math.random()*14+3;d.style.cssText=`position:absolute;width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${-s}px;border-radius:50%;border:0.5px solid rgba(58,159,212,0.3);background:rgba(58,159,212,0.06);--dx:${(Math.random()-0.5)*30}px;--ds:${0.8+Math.random()*0.4};animation:bubRise ${6+Math.random()*10}s linear ${Math.random()*8}s infinite;`;b.appendChild(d);}})();
+
+const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*60);});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const secObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');secObs.unobserve(e.target);}});},{threshold:0.15});
+document.querySelectorAll('.sec-header').forEach(el=>secObs.observe(el));
+
+(function(){const sb=document.getElementById('scrollBar');const nav=document.getElementById('stickyNav');const hero=document.querySelector('.cat-hero');function update(){const sy=window.scrollY;const dH=document.documentElement.scrollHeight-window.innerHeight;sb.style.width=(dH>0?sy/dH*100:0)+'%';const hH=hero?hero.offsetHeight:300;if(sy>hH*0.5)nav.classList.add('show');else nav.classList.remove('show');}window.addEventListener('scroll',update,{passive:true});})();
+
+document.addEventListener('click',e=>{const card=e.target.closest('.aq-card');if(!card)return;let wrap=card.querySelector('.ripple-wrap');if(!wrap){wrap=document.createElement('div');wrap.className='ripple-wrap';card.appendChild(wrap);}const r=card.getBoundingClientRect();const ripple=document.createElement('div');ripple.className='water-ripple';ripple.style.left=(e.clientX-r.left)+'px';ripple.style.top=(e.clientY-r.top)+'px';wrap.appendChild(ripple);setTimeout(()=>ripple.remove(),800);});
+
+function renderAqGrid(){
+  const g=document.getElementById('aqGrid');if(!g)return;
+  let html='';
+  if(aqList.length){
+    html+=aqList.map((a,i)=>{
+      const qty=cart[i]||0,inCart=qty>0;
+      return`<div class="aq-card ${inCart?'in-cart':''}">
+        <div class="aq-img-wrap">
+          ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🔲</div>`}
+        </div>
+        <div class="aq-body">
+          <div>
+            <div class="aq-name">${a.name}</div>
+            <div class="aq-badge">Hazır Akvaryum</div>
+            ${a.size?`<div class="aq-size">${a.size}</div>`:''}
+            ${a.note?`<div class="aq-size">${a.note}</div>`:''}
+          </div>
+          <div class="aq-footer">
+            ${a.price?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
+            ${a.price
+              ?(inCart
+                ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div>`
+                :`<button class="add-cart-btn" onclick="addToCart(${i},'${a.name.replace(/'/g,"\\'")}',${a.price})">+ Sepete Ekle</button>`)
+              :`<a class="aq-wa-btn" href="https://wa.me/${WA}?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>Sor</a>`}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  html+=`<div class="aq-custom-card">
+    <div style="font-size:32px;margin-bottom:12px;position:relative;">✨</div>
+    <div class="aq-custom-title">Özel Tasarım Akvaryum</div>
+    <div class="aq-custom-desc">İstediğiniz boyut, şekil ve dekorasyona göre size özel akvaryum tasarlıyoruz. Fiyat için bizimle iletişime geçin.</div>
+    <a class="aq-custom-btn" href="https://wa.me/${WA}?text=${encodeURIComponent('Özel tasarım akvaryum hakkında bilgi almak istiyorum.')}" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+      WhatsApp'tan Sor
+    </a>
+  </div>`;
+  g.innerHTML=html;
+}
+
+function addToCart(i,name,price){cart[i]=(cart[i]||0)+1;renderAqGrid();renderCart();}
+function removeFromCart(i){delete cart[i];renderAqGrid();renderCart();}
+function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];renderAqGrid();renderCart();}
+function clearCart(){cart={};renderAqGrid();renderCart();}
+function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
+
+function renderCart(){
+  const keys=Object.keys(cart);
+  const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
+  if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  sum.classList.add('visible');fl.classList.add('visible');
+  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan akvaryum sipariş vermek istiyorum 🔲%0A%0A';
+  keys.forEach(i=>{
+    const a=aqList[parseInt(i)];if(!a)return;
+    const q=cart[i],sub=a.price*q;total+=sub;
+    html+=`<div class="cart-item"><div><span class="cart-item-name">${a.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${a.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  });
+  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler!`;
+  document.getElementById('cartItems').innerHTML=html;
+  document.getElementById('cartCount').textContent=`${keys.length} ürün`;
+  document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
+  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+  document.getElementById('cartFloatCount').textContent=keys.length;
+}
+
+async function fetchData(){
+  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.aquariums){aqList=cached.aquariums;renderAqGrid();}}catch(e){}
+  try{
+    const r=await fetch(BASE+'/latest',{headers:{'X-Master-Key':BIN_KEY}});
+    const d=await r.json();
+    aqList=d.record.aquariums||[];
+    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),aquariums:aqList}));
+    renderAqGrid();
+  }catch(e){renderAqGrid();}
+}
+fetchData();
+
+(function(){
+  const loader=document.getElementById('loader');const fill=document.getElementById('loaderFill');const pctEl=document.getElementById('loaderPct');const titleEl=document.getElementById('loaderTitle');if(!loader)return;
+  'AKVARYUM'.split('').forEach((l,i)=>{const s=document.createElement('span');s.textContent=l;titleEl.appendChild(s);setTimeout(()=>s.classList.add('show'),150+i*100);});
+  let p=0;const iv=setInterval(()=>{p+=Math.random()*10+5;if(p>=100){p=100;clearInterval(iv);}fill.style.width=p+'%';pctEl.textContent=Math.floor(p)+'%';if(p===100){setTimeout(()=>{loader.style.transition='transform 0.9s cubic-bezier(0.76,0,0.24,1),opacity 0.4s ease 0.4s';loader.style.transform='scaleY(0)';loader.style.opacity='0';setTimeout(()=>loader.style.display='none',1000);},280);}},55);
+})();
+
+let _soundOn=true;
+function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
+</script>
+</body>
+</html>
