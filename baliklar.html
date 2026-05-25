@@ -326,7 +326,12 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 /* ── CONFIG ── */
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
-let fishList=[],cart={};
+let fishList=[];
+const CART_KEY='enes_cart_fish';
+function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
+function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
+function totalItems(){return['enes_cart_fish','enes_cart_plant','enes_cart_aq','enes_cart_dk'].reduce((s,k)=>{try{return s+Object.values(JSON.parse(localStorage.getItem(k)||'{}')).reduce((a,b)=>a+b,0)}catch(e){return s}},0)}
+let cart=loadCart();
 
 /* ── DAY/NIGHT ── */
 (function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
@@ -431,10 +436,10 @@ function renderFishGrid(){
 }
 
 /* ── CART ── */
-function addToCart(i,name,price){cart[i]=(cart[i]||0)+1;renderFishGrid();renderCart();}
-function removeFromCart(i){delete cart[i];renderFishGrid();renderCart();}
-function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];renderFishGrid();renderCart();}
-function clearCart(){cart={};renderFishGrid();renderCart();}
+function addToCart(i,name,price){cart[i]=(cart[i]||0)+1;saveCart();renderFishGrid();renderCart();}
+function removeFromCart(i){delete cart[i];saveCart();renderFishGrid();renderCart();}
+function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];saveCart();renderFishGrid();renderCart();}
+function clearCart(){cart={};saveCart();renderFishGrid();renderCart();}
 function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
 
 function renderCart(){
@@ -454,7 +459,7 @@ function renderCart(){
   document.getElementById('cartCount').textContent=`${keys.length} ürün`;
   document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
   document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
-  document.getElementById('cartFloatCount').textContent=keys.length;
+  document.getElementById('cartFloatCount').textContent=totalItems();
 }
 
 /* ── DATA FETCH ── */
