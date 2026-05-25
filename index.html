@@ -1428,6 +1428,7 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
           <button onclick="saveBackupEmail()" style="background:rgba(45,224,204,0.1);border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;">Kaydet</button>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="recoverFromLocalStorage()" style="flex:1;min-width:140px;background:linear-gradient(135deg,rgba(196,164,50,0.18),rgba(196,164,50,0.06));border:0.5px solid rgba(196,164,50,0.5);color:#f0c060;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 16px;border-radius:10px;cursor:pointer;">🔄 Veriyi Bu Cihazdan Kurtar</button>
           <button onclick="sendBackupEmail()" style="flex:1;min-width:140px;background:linear-gradient(135deg,rgba(45,224,204,0.12),rgba(45,224,204,0.06));border:0.5px solid rgba(45,224,204,0.35);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 16px;border-radius:10px;cursor:pointer;">📧 Şimdi Yedek Maili Gönder</button>
           <label style="flex:1;min-width:140px;background:rgba(6,14,28,0.5);border:0.5px solid var(--border2);color:var(--text-dim);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 16px;border-radius:10px;cursor:pointer;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;">
             ⬆ Yedekten Geri Yükle
@@ -2132,6 +2133,32 @@ async function saveAll(){
   return r.ok;
 }
 
+async function recoverFromLocalStorage(){
+  try{
+    const lc=JSON.parse(localStorage.getItem('enes_cache')||'{}');
+    const lcOld=JSON.parse(localStorage.getItem('enes_fish_backup')||'{}');
+    const src=lc.fish?.length?lc:(lcOld.fish?.length?lcOld:null);
+    if(!src||!src.fish||!src.fish.length){
+      _showBackupStatus('⚠️ Bu cihazda kayıtlı veri bulunamadı. Lütfen balıkların girildiği cihazdan deneyin.',false);
+      return;
+    }
+    _showBackupStatus('⏳ Veriler yükleniyor...', true);
+    fishList=src.fish||[];
+    aqList=src.aquariums||[];
+    reviewList=src.reviews||[];
+    plantList=src.plants||[];
+    const r=await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
+      body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
+    if(r.ok){
+      localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
+      renderFishGrid();renderAqGrid();renderReviews();renderPlantGrid();renderAdminList();renderAdminPlList();renderAdminAqList();
+      _showBackupStatus(`✓ Kurtarıldı! ${fishList.length} balık, ${plantList.length} bitki, ${aqList.length} akvaryum Cloudflare'e yüklendi.`,true);
+    }else{
+      _showBackupStatus('✗ Yükleme başarısız, tekrar dene.',false);
+    }
+  }catch(e){_showBackupStatus('✗ Hata: '+e.message,false);}
+}
+
 function _backupPayload(){
   return {
     exportDate:new Date().toLocaleString('tr-TR'),
@@ -2490,6 +2517,25 @@ async function fetchFish(){
     plantList=d.plants||[];
     subList=d.subscribers||[];
     if(d.visits) _visits=d.visits;
+
+    // ── AUTO-RECOVERY ──
+    // Worker boşsa ama localStorage'da veri varsa otomatik kurtar
+    if(!fishList.length&&!aqList.length&&!reviewList.length&&!plantList.length){
+      try{
+        const lc=JSON.parse(localStorage.getItem('enes_cache')||'{}');
+        const lcOld=JSON.parse(localStorage.getItem('enes_fish_backup')||'{}');
+        const src=lc.fish?.length?lc:(lcOld.fish?.length?lcOld:null);
+        if(src&&src.fish&&src.fish.length){
+          fishList=src.fish||[];
+          aqList=src.aquariums||[];
+          reviewList=src.reviews||[];
+          plantList=src.plants||[];
+          await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
+            body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
+          setStatus('✓ Veriler otomatik kurtarıldı ve Cloudflare\'a yüklendi!',true);
+        }
+      }catch(re){}
+    }
 
     localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
     renderFishGrid();
