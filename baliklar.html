@@ -327,10 +327,10 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let fishList=[];
-const CART_KEY='enes_cart_fish';
+const CART_KEY='enes_cart';
 function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
 function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
-function totalItems(){return['enes_cart_fish','enes_cart_plant','enes_cart_aq','enes_cart_dk'].reduce((s,k)=>{try{return s+Object.values(JSON.parse(localStorage.getItem(k)||'{}')).reduce((a,b)=>a+b,0)}catch(e){return s}},0)}
+function totalItems(){return Object.values(cart).reduce((s,v)=>s+(v.qty||0),0)}
 let cart=loadCart();
 
 /* ── DAY/NIGHT ── */
@@ -403,9 +403,10 @@ function renderFishGrid(){
   });
   if(!filtered.length){g.innerHTML='<div class="no-fish">Bu kategoride balık bulunamadı.</div>';return;}
   g.innerHTML=filtered.map(({f,i})=>{
-    const qty=cart[i]||0,inCart=qty>0;
+    const qty=cart[f.name]?.qty||0,inCart=qty>0;
     const typeClass=f.type==='Tuzlu Su'?'type-tuzlu':'type-tatli';
     const badgeLabel=f.category||f.type||'Balık';
+    const esc=f.name.replace(/'/g,"\\'");
     return`<div class="fish-card ${typeClass} ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
       <div class="fish-img-wrap">
         ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
@@ -426,8 +427,8 @@ function renderFishGrid(){
           ${f.outOfStock
             ?`<div></div><div style="font-size:10px;color:#e05555;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;">Stokta Yok</div>`
             :inCart
-              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">Çıkar</button>`
-              :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name.replace(/'/g,"\\'")}',${f.price})">+ Sepete Ekle</button>`}
+              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('${esc}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('${esc}',1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart('${esc}')">Çıkar</button>`
+              :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${esc}',${f.price})">+ Sepete Ekle</button>`}
         </div>
       </div>
     </div>`;
@@ -436,27 +437,33 @@ function renderFishGrid(){
 }
 
 /* ── CART ── */
-function addToCart(i,name,price){cart[i]=(cart[i]||0)+1;saveCart();renderFishGrid();renderCart();}
-function removeFromCart(i){delete cart[i];saveCart();renderFishGrid();renderCart();}
-function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];saveCart();renderFishGrid();renderCart();}
+function addToCart(i,name,price){
+  if(!cart[name])cart[name]={name,price,qty:0,img:fishList[i]?.img||'',label:'🐠 Balık'};
+  cart[name].qty++;saveCart();renderFishGrid();renderCart();
+}
+function removeFromCart(name){delete cart[name];saveCart();renderFishGrid();renderCart();}
+function changeQty(name,d){
+  if(cart[name]){cart[name].qty+=d;if(cart[name].qty<=0)delete cart[name];}
+  saveCart();renderFishGrid();renderCart();
+}
 function clearCart(){cart={};saveCart();renderFishGrid();renderCart();}
 function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
 
 function renderCart(){
-  const keys=Object.keys(cart);
+  const items=Object.values(cart);
   const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
-  if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  if(!items.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
   sum.classList.add('visible');fl.classList.add('visible');
-  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan balık sipariş vermek istiyorum 🐠%0A%0A';
-  keys.forEach(i=>{
-    const f=fishList[parseInt(i)];if(!f)return;
-    const q=cart[i],sub=f.price*q;total+=sub;
-    html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
-    msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan sipariş vermek istiyorum 🐠%0A%0A';
+  items.forEach(item=>{
+    const sub=item.price*item.qty;total+=sub;
+    html+=`<div class="cart-item"><div><span class="cart-item-name">${item.label||''} ${item.name}</span><span class="cart-item-qty"> ×${item.qty}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${item.name} ×${item.qty} — ${sub.toLocaleString('tr-TR')}₺%0A`;
   });
   msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler, siparişimi onaylayabilir misiniz?`;
   document.getElementById('cartItems').innerHTML=html;
-  document.getElementById('cartCount').textContent=`${keys.length} ürün`;
+  const totalQty=items.reduce((s,v)=>s+v.qty,0);
+  document.getElementById('cartCount').textContent=`${totalQty} ürün`;
   document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
   document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
   document.getElementById('cartFloatCount').textContent=totalItems();

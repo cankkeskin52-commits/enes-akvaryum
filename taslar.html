@@ -238,10 +238,10 @@ body.day-theme{--bg:#0a1628;--border:#1a3560;--border2:#204070;--teal:#20d4c0;--
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let dkList=[];
-const CART_KEY='enes_cart_dk';
+const CART_KEY='enes_cart';
 function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
 function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
-function totalItems(){return['enes_cart_fish','enes_cart_plant','enes_cart_aq','enes_cart_dk'].reduce((s,k)=>{try{return s+Object.values(JSON.parse(localStorage.getItem(k)||'{}')).reduce((a,b)=>a+b,0)}catch(e){return s}},0)}
+function totalItems(){return Object.values(cart).reduce((s,v)=>s+(v.qty||0),0)}
 let cart=loadCart();
 
 (function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
@@ -278,7 +278,8 @@ function renderDkGrid(){
     return;
   }
   g.innerHTML=dkList.map((d,i)=>{
-    const qty=cart[i]||0,inCart=qty>0;
+    const qty=cart[d.name]?.qty||0,inCart=qty>0;
+    const esc=d.name.replace(/'/g,"\\'");
     return`<div class="dk-card ${inCart?'in-cart':''}">
       <div class="dk-img-wrap">
         ${d.img?`<img class="dk-img" src="${d.img}" alt="${d.name}" loading="lazy"><div class="dk-img-overlay"></div>`:`<div class="dk-img-placeholder">🪨</div>`}
@@ -293,8 +294,8 @@ function renderDkGrid(){
           ${d.price?`<div class="dk-price">${Number(d.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div class="dk-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
           ${d.price
             ?(inCart
-              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div>`
-              :`<button class="add-cart-btn" onclick="addToCart(${i},'${d.name.replace(/'/g,"\\'")}',${d.price})">+ Sepete Ekle</button>`)
+              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('${esc}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('${esc}',1)">+</button></div>`
+              :`<button class="add-cart-btn" onclick="addToCart(${i},'${esc}',${d.price})">+ Sepete Ekle</button>`)
             :`<a class="dk-wa-btn" href="https://wa.me/${WA}?text=${encodeURIComponent(d.name+' hakkında bilgi almak istiyorum.')}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>Sor</a>`}
         </div>
       </div>
@@ -302,28 +303,33 @@ function renderDkGrid(){
   }).join('');
 }
 
-function addToCart(i,name,price){cart[i]=(cart[i]||0)+1;saveCart();renderDkGrid();renderCart();}
-function removeFromCart(i){delete cart[i];saveCart();renderDkGrid();renderCart();}
-function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];saveCart();renderDkGrid();renderCart();}
+function addToCart(i,name,price){
+  if(!cart[name])cart[name]={name,price,qty:0,img:dkList[i]?.img||'',label:'🪨 Aksesuar'};
+  cart[name].qty++;saveCart();renderDkGrid();renderCart();
+}
+function removeFromCart(name){delete cart[name];saveCart();renderDkGrid();renderCart();}
+function changeQty(name,d){
+  if(cart[name]){cart[name].qty+=d;if(cart[name].qty<=0)delete cart[name];}
+  saveCart();renderDkGrid();renderCart();
+}
 function clearCart(){cart={};saveCart();renderDkGrid();renderCart();}
 function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
 
 function renderCart(){
-  const keys=Object.keys(cart);
+  const items=Object.values(cart);
   const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
   if(!sum||!fl)return;
-  if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  if(!items.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
   sum.classList.add('visible');fl.classList.add('visible');
-  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan aksesuar sipariş vermek istiyorum 🪨%0A%0A';
-  keys.forEach(i=>{
-    const d=dkList[parseInt(i)];if(!d)return;
-    const q=cart[i],sub=d.price*q;total+=sub;
-    html+=`<div class="cart-item"><div><span class="cart-item-name">${d.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
-    msg+=`• ${d.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan sipariş vermek istiyorum 🐠%0A%0A';
+  items.forEach(item=>{
+    const q=item.qty,sub=(item.price||0)*q;total+=sub;
+    html+=`<div class="cart-item"><div><span class="cart-item-name">${item.label||''} ${item.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${item.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
   });
   msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler!`;
   document.getElementById('cartItems').innerHTML=html;
-  document.getElementById('cartCount').textContent=`${keys.length} ürün`;
+  document.getElementById('cartCount').textContent=`${items.length} ürün`;
   document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
   document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
   document.getElementById('cartFloatCount').textContent=totalItems();
