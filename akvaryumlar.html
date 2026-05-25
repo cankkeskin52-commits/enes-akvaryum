@@ -46,7 +46,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .hero-bubs{position:absolute;inset:0;pointer-events:none;z-index:2;}
 @keyframes bubRise{0%{transform:translateY(100vh) translateX(0) scale(1);opacity:0;}5%{opacity:1;}90%{opacity:0.3;}100%{transform:translateY(-60px) translateX(var(--dx,10px)) scale(var(--ds,0.9));opacity:0;}}
 .hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem;}
-.cat-page-badge{font-size:9px;letter-spacing:0.5em;text-transform:uppercase;color:var(--blue);border:0.5px solid rgba(58,159,212,0.3);padding:6px 18px;border-radius:20px;margin-bottom:1.4rem;backdrop-filter:blur(10px);background:rgba(58,159,212,0.05);animation:fadeDown 1s ease 0.2s both;}
+.cat-page-badge{text-decoration:none;cursor:pointer;font-size:9px;letter-spacing:0.5em;text-transform:uppercase;color:var(--blue);border:0.5px solid rgba(58,159,212,0.3);padding:6px 18px;border-radius:20px;margin-bottom:1.4rem;backdrop-filter:blur(10px);background:rgba(58,159,212,0.05);animation:fadeDown 1s ease 0.2s both;}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
 .cat-page-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(44px,9vw,90px);color:#fff;letter-spacing:0.1em;line-height:1;text-shadow:0 0 30px rgba(255,255,255,0.3),0 0 60px rgba(58,159,212,0.15);animation:scaleIn 1s cubic-bezier(0.16,1,0.3,1) 0.3s both;}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
@@ -175,7 +175,7 @@ body.day-theme{--bg:#0a1628;--border:#1a3560;--border2:#204070;--teal:#20d4c0;--
     <div class="water-distort"></div>
     <div class="hero-bubs" id="heroBubs"></div>
     <div class="hero-content">
-      <div class="cat-page-badge">Enes Akvaryum</div>
+      <a class="cat-page-badge" href="index.html">← Enes Akvaryum</a>
       <div class="cat-page-title">Akvaryumlar</div>
       <div class="hero-divider"></div>
       <div class="cat-page-sub">Hazır setler & özel tasarım kurulumlar</div>
