@@ -677,6 +677,67 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 /* ══════════════════════════════════════
    BALIK FLOAT ANİMASYONU (hover)
 ══════════════════════════════════════ */
+@keyframes quizPulseRing{
+  0%{transform:scale(1);opacity:.6;}
+  70%{transform:scale(1.55);opacity:0;}
+  100%{transform:scale(1.55);opacity:0;}
+}
+@keyframes quizWiggle{
+  0%,100%{transform:rotate(-8deg);}
+  50%{transform:rotate(8deg);}
+}
+@keyframes quizFloat{
+  0%,100%{transform:translateY(0px);}
+  50%{transform:translateY(-5px);}
+}
+@keyframes quizShimmer{
+  0%{background-position:200% center;}
+  100%{background-position:-200% center;}
+}
+.quiz-fab{
+  position:fixed;bottom:9rem;left:1.5rem;z-index:50;
+  display:flex;align-items:center;gap:9px;
+  background:linear-gradient(135deg,#0d3a36 0%,#0a2e2b 100%);
+  border:1px solid rgba(45,224,204,0.5);
+  color:#2de0cc;
+  font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.15em;
+  padding:11px 18px;border-radius:99px;cursor:pointer;
+  backdrop-filter:blur(16px);
+  box-shadow:0 0 18px rgba(45,224,204,0.2),0 4px 20px rgba(0,0,0,0.4);
+  animation:quizFloat 3s ease-in-out infinite;
+  transition:box-shadow .3s,border-color .3s;
+}
+.quiz-fab:hover{
+  box-shadow:0 0 30px rgba(45,224,204,0.4),0 4px 24px rgba(0,0,0,0.5);
+  border-color:rgba(45,224,204,0.9);
+  animation:none;transform:translateY(-2px);
+}
+.quiz-fab::before{
+  content:'';position:absolute;inset:0;border-radius:99px;
+  border:1px solid rgba(45,224,204,0.5);
+  animation:quizPulseRing 2.2s ease-out infinite;
+  pointer-events:none;
+}
+.quiz-fab::after{
+  content:'';position:absolute;inset:0;border-radius:99px;
+  border:1px solid rgba(45,224,204,0.3);
+  animation:quizPulseRing 2.2s ease-out infinite .7s;
+  pointer-events:none;
+}
+.quiz-fab-emoji{
+  font-size:17px;
+  display:inline-block;
+  animation:quizWiggle 1.4s ease-in-out infinite;
+  transform-origin:bottom center;
+}
+.quiz-fab-text{
+  background:linear-gradient(90deg,#2de0cc,#a8f5ef,#2de0cc);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:quizShimmer 3s linear infinite;
+  font-weight:500;
+}
 @keyframes fishFloat{
   0%,100%{transform:scale(1.06) translateY(0px);}
   50%    {transform:scale(1.075) translateY(-9px);}
@@ -1241,8 +1302,9 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 <button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
 
 <!-- QUIZ BUTTON -->
-<button onclick="openQuiz()" style="position:fixed;bottom:9rem;left:1.5rem;z-index:50;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(45,224,204,0.08));border:0.5px solid rgba(45,224,204,0.4);color:#2de0cc;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.15em;padding:10px 16px;border-radius:99px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.3s;display:flex;align-items:center;gap:7px;" onmouseover="this.style.background='rgba(45,224,204,0.2)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(45,224,204,0.15),rgba(45,224,204,0.08))'">
-  🐠 Bana Uygun Balık
+<button onclick="openQuiz()" class="quiz-fab">
+  <span class="quiz-fab-emoji">🐠</span>
+  <span class="quiz-fab-text">Bana Uygun Balık</span>
 </button>
 
 <!-- QUIZ MODAL -->
