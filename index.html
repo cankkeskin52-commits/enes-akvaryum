@@ -488,7 +488,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 ══════════════════════════════════════ */
 .quiz-q{font-family:'Jost',sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(45,224,204,0.7);margin-bottom:.6rem;}
 .quiz-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,30px);color:#e8f4f2;line-height:1.2;margin-bottom:2rem;}
-.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:2rem;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-bottom:2rem;}
 .quiz-opt{background:rgba(45,224,204,0.04);border:0.5px solid rgba(45,224,204,0.18);border-radius:14px;padding:1.1rem 1rem;cursor:pointer;text-align:left;transition:all .25s;font-family:'Jost',sans-serif;}
 .quiz-opt:hover,.quiz-opt.sel{background:rgba(45,224,204,0.12);border-color:rgba(45,224,204,0.6);box-shadow:0 0 20px rgba(45,224,204,0.1);}
 .quiz-opt-icon{font-size:24px;margin-bottom:.5rem;display:block;}
@@ -3440,47 +3440,83 @@ document.addEventListener('click',e=>{
 /* ── QUIZ ── */
 const QUIZ_STEPS=[
   {
-    q:'Kaçıncı adım?',title:'Akvaryum deneyimin nedir?',
+    q:'1 / 10',title:'Akvaryumda senin için en önemli şey ne?',
     opts:[
-      {icon:'🌱',label:'Yeni başlayan',desc:'İlk akvaryumum olacak',val:'beginner'},
-      {icon:'🐠',label:'Orta seviye',desc:'1-2 yıldır ilgileniyorum',val:'mid'},
-      {icon:'🏆',label:'Deneyimliyim',desc:'Yıllardır akvaryumum var',val:'expert'},
-      {icon:'🤷',label:'Bilmiyorum',desc:'Henüz karar vermedim',val:'any'},
+      {icon:'✨',label:'Görsellik',desc:'Evin yıldızı olsun',val:'A'},
+      {icon:'🔍',label:'Özel türler',desc:'İlginç ve nadir olsun',val:'B'},
+      {icon:'😌',label:'Kolaylık',desc:'Kafam rahat olsun',val:'C'},
     ]
   },
   {
-    q:'2. Adım',title:'Akvaryumun boyutu ne kadar?',
+    q:'2 / 10',title:'Balığa nasıl bakarsın?',
     opts:[
-      {icon:'🪣',label:'Küçük',desc:'20 – 40 litre',val:'small'},
-      {icon:'🐟',label:'Orta',desc:'40 – 100 litre',val:'mid'},
-      {icon:'🌊',label:'Büyük',desc:'100 litre ve üzeri',val:'large'},
-      {icon:'❓',label:'Henüz yok',desc:'Akvaryum almayı düşünüyorum',val:'any'},
+      {icon:'💖',label:'Bebek gibi',desc:'Özenle ilgilenirim',val:'A'},
+      {icon:'📋',label:'Gerekeni yaparım',desc:'Sorumluluk alırım',val:'B'},
+      {icon:'😅',label:'Ben bakmasam da',desc:'Yaşasın yeter 😅',val:'C'},
     ]
   },
   {
-    q:'3. Adım',title:'Ne tür su tercih edersin?',
+    q:'3 / 10',title:'Akvaryum kurarken bütçen?',
     opts:[
-      {icon:'💧',label:'Tatlı su',desc:'Daha kolay bakım',val:'Tatlı Su'},
-      {icon:'🌊',label:'Tuzlu su',desc:'Renkli deniz balıkları',val:'Tuzlu Su'},
-      {icon:'✨',label:'Fark etmez',desc:'İkisi de olabilir',val:'any'},
+      {icon:'💎',label:'Para ikinci planda',desc:'Güzelse alırım',val:'A'},
+      {icon:'⚖️',label:'Mantıklı bütçe',desc:'Makul harcama',val:'B'},
+      {icon:'🏷️',label:'Ne kadar ucuz',desc:'O kadar iyi',val:'C'},
     ]
   },
   {
-    q:'4. Adım',title:'Kaç balık istiyorsun?',
+    q:'4 / 10',title:'Balıklarında ne görmek istersin?',
     opts:[
-      {icon:'🐡',label:'Tek / az',desc:'1-3 balık, sakin ortam',val:'solo'},
-      {icon:'🐠',label:'Küçük grup',desc:'5-10 balık',val:'group'},
-      {icon:'🌈',label:'Topluluk',desc:'Çok sayıda, canlı ortam',val:'community'},
-      {icon:'🤔',label:'Karar vermedim',desc:'Önerine göre seçerim',val:'any'},
+      {icon:'🎨',label:'Muhteşem renkler',desc:'Göz alıcı olsun',val:'A'},
+      {icon:'🎭',label:'Karakter & hareket',desc:'Canlı ve ilginç',val:'B'},
+      {icon:'🛡️',label:'Dayanıklılık',desc:'Sağlam ve uzun ömürlü',val:'C'},
     ]
   },
   {
-    q:'5. Adım',title:'Bütçen ne kadar?',
+    q:'5 / 10',title:'Akvaryum temizliği zamanı geldiğinde?',
     opts:[
-      {icon:'💰',label:'Ekonomik',desc:'₺0 – ₺150 arası',val:'budget'},
-      {icon:'💎',label:'Orta',desc:'₺150 – ₺500 arası',val:'mid'},
-      {icon:'👑',label:'Premium',desc:'₺500 ve üzeri',val:'premium'},
-      {icon:'🎯',label:'Fark etmez',desc:'Doğru balık önemli',val:'any'},
+      {icon:'📅',label:'Takvim kurarım',desc:'Düzenli yaparım',val:'A'},
+      {icon:'🤔',label:'Aklıma gelince',desc:'Ara sıra yaparım',val:'B'},
+      {icon:'😂',label:'Şikayet ederse',desc:'Balıklar söylerse 😂',val:'C'},
+    ]
+  },
+  {
+    q:'6 / 10',title:'Eve gelen misafir ne desin istersin?',
+    opts:[
+      {icon:'😍',label:'"Vay be!" desin',desc:'Ne güzel akvaryum',val:'A'},
+      {icon:'🤩',label:'"Bu ne?" desin',desc:'Bu balığın adı ne?',val:'B'},
+      {icon:'😆',label:'"Hâlâ yaşıyor mu?"',desc:'Derler ama yaşar 😆',val:'C'},
+    ]
+  },
+  {
+    q:'7 / 10',title:'Bir balığın özelliğini seç.',
+    opts:[
+      {icon:'🌈',label:'Çok güzel',desc:'Estetik önce gelir',val:'A'},
+      {icon:'⭐',label:'Çok özel',desc:'Nadir tür olsun',val:'B'},
+      {icon:'💪',label:'Çok dayanıklı',desc:'Kolay ölmesin',val:'C'},
+    ]
+  },
+  {
+    q:'8 / 10',title:'Akvaryum hobisini nasıl görüyorsun?',
+    opts:[
+      {icon:'🖼️',label:'Dekorasyon',desc:'Evin bir parçası',val:'A'},
+      {icon:'❤️‍🔥',label:'Tutku',desc:'Gerçek bir hobi',val:'B'},
+      {icon:'😄',label:'Hobi işte',desc:'Takılmayalım 😄',val:'C'},
+    ]
+  },
+  {
+    q:'9 / 10',title:"Akvaryumcu'ya gidince ne yaparsın?",
+    opts:[
+      {icon:'👀',label:'En güzeline',desc:'Bakıyorum hemen',val:'A'},
+      {icon:'🔎',label:'Nadir türlere',desc:'Onları araştırırım',val:'B'},
+      {icon:'🏷️',label:'İndirim köşesi',desc:'Önce oraya giderim',val:'C'},
+    ]
+  },
+  {
+    q:'10 / 10',title:'Hangisi sana daha yakın?',
+    opts:[
+      {icon:'💘',label:'"Aşık oldum"',desc:'Görünce aldım',val:'A'},
+      {icon:'📚',label:'"Araştırıyordum"',desc:'Uzun süre bekledi',val:'B'},
+      {icon:'🤣',label:'"Yaşasın yeter"',desc:'Filozofik yaklaşım 🤣',val:'C'},
     ]
   },
 ];
@@ -3526,8 +3562,7 @@ function renderQuizStep(){
 }
 
 function quizSelect(val){
-  const key=['experience','tank','water','count','budget'][quizStep];
-  quizAnswers[key]=val;
+  quizAnswers[quizStep]=val;
   if(quizStep<QUIZ_STEPS.length-1){
     quizStep++;
     renderQuizStep();
@@ -3545,53 +3580,59 @@ function showQuizResults(){
   const el=document.getElementById('quizResults');
   el.style.display='block';
 
-  const a=quizAnswers;
+  // A/B/C sayımı
+  const counts={A:0,B:0,C:0};
+  Object.values(quizAnswers).forEach(v=>{ if(counts[v]!==undefined) counts[v]++; });
+
+  // Persona belirle
+  let persona;
+  if(counts.A>=counts.B&&counts.A>=counts.C) persona='A';
+  else if(counts.B>=counts.C) persona='B';
+  else persona='C';
+
+  const personas={
+    A:{
+      emoji:'✨',
+      title:'Estetik Seversin',
+      desc:'Sen için akvaryum bir sanat eseri. Renk, desen ve görsellik önce gelir.',
+      keywords:['diskus','guppy','betta','japon','kılıç','altın','rainbow','apistogramma','inka','balo'],
+      priceSortDesc:true,
+    },
+    B:{
+      emoji:'🔍',
+      title:'Meraklı & Tutkulusun',
+      desc:'Nadir türler, ilginç davranışlar ve keşfetme duygusu senin için her şey.',
+      keywords:['diskus','oscar','arowana','cichlid','flowerhorn','polipterus','african','altolamprologus'],
+      priceSortDesc:true,
+    },
+    C:{
+      emoji:'😎',
+      title:'Kolay Bakım Arayışındasın',
+      desc:'Zahmetsiz, dayanıklı ve sorunsuz — doğru tercih bu!',
+      keywords:['japon','plati','molly','neon','tetra','zebra','danio','guppy','melek','cory'],
+      priceSortDesc:false,
+    },
+  };
+
+  const p=personas[persona];
   let pool=[...fishList].filter(f=>!f.outOfStock);
 
-  // Su tipi filtresi
-  if(a.water!=='any') pool=pool.filter(f=>f.type===a.water||!f.type);
-
-  // Bütçe filtresi
-  if(a.budget==='budget') pool=pool.filter(f=>Number(f.price)<=150);
-  else if(a.budget==='mid') pool=pool.filter(f=>Number(f.price)>150&&Number(f.price)<=500);
-  else if(a.budget==='premium') pool=pool.filter(f=>Number(f.price)>500);
-
-  // Deneyim & boyuta göre sıralama skoru
+  // Persona keyword skoru
   pool=pool.map(f=>{
-    let score=0;
-    const p=Number(f.price);
     const name=(f.name||'').toLowerCase();
     const cat=(f.category||'').toLowerCase();
-
-    // Yeni başlayana uygun türler
-    const easyFish=['japon','guppy','plati','molly','neon','tetra','zebra','danio','betta','oscar','diskus'];
-    const hardFish=['deniz','tuzlu','mercan','anemone','tang','clown'];
-
-    if(a.experience==='beginner'){
-      if(easyFish.some(e=>name.includes(e))) score+=3;
-      if(hardFish.some(h=>name.includes(h)||cat.includes(h))) score-=2;
-    } else if(a.experience==='expert'){
-      if(p>300) score+=2;
-    }
-
-    // Tank boyutuna göre
-    if(a.tank==='small'&&p<200) score+=2;
-    if(a.tank==='large'&&p>200) score+=2;
-
-    // Topluluk balıkları
-    if(a.count==='community'){
-      if(['tetra','neon','guppy','plati','danio','rasbora'].some(t=>name.includes(t))) score+=2;
-    }
-    if(a.count==='solo'){
-      if(['betta','oscar','diskus','arowana'].some(t=>name.includes(t))) score+=2;
-    }
-
+    let score=p.keywords.filter(k=>name.includes(k)||cat.includes(k)).length;
+    // Fiyat ağırlığı
+    const price=Number(f.price)||0;
+    if(p.priceSortDesc) score+=price/500;
+    else score+=1/(price/100+1);
     return {...f,_score:score};
   });
 
-  // Sırala ve en iyi 5'i al
   pool.sort((a,b)=>b._score-a._score);
   const results=pool.slice(0,5);
+
+  const restartFn=`quizStep=0;quizAnswers={};renderQuizStep();document.getElementById('quizResults').style.display='none';document.getElementById('quizSteps').style.display='block';`;
 
   if(!results.length){
     el.innerHTML=`
@@ -3606,10 +3647,12 @@ function showQuizResults(){
   }
 
   el.innerHTML=`
-    <div style="margin-bottom:1.5rem;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:#e8f4f2;margin-bottom:.3rem;">Sana uygun balıklar</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;">Tercihlerine göre ${results.length} öneri bulundu</div>
+    <div style="background:rgba(45,224,204,0.05);border:0.5px solid rgba(45,224,204,0.15);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.5rem;">
+      <div style="font-size:28px;margin-bottom:.4rem;">${p.emoji}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#e8f4f2;margin-bottom:.3rem;">${p.title}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);line-height:1.5;">${p.desc}</div>
     </div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;margin-bottom:1rem;">Sana özel ${results.length} öneri ↓</div>
     ${results.map(f=>`
       <div class="qr-card">
         ${f.img?`<img class="qr-img" src="${f.img}" alt="${f.name}">`:`<div class="qr-img-ph">🐠</div>`}
@@ -3623,7 +3666,7 @@ function showQuizResults(){
       </div>
     `).join('')}
     <div style="display:flex;gap:.8rem;margin-top:1.5rem;flex-wrap:wrap;">
-      <button onclick="quizStep=0;quizAnswers={};renderQuizStep();document.getElementById('quizResults').style.display='none';document.getElementById('quizSteps').style.display='block';" style="background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.25);color:#2de0cc;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;padding:10px 18px;border-radius:10px;cursor:pointer;">↺ Yeniden Başla</button>
+      <button onclick="${restartFn}" style="background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.25);color:#2de0cc;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;padding:10px 18px;border-radius:10px;cursor:pointer;">↺ Yeniden Başla</button>
       <a href="https://wa.me/905383279980?text=Merhaba!%20Balık%20seçimi%20konusunda%20yardım%20almak%20istiyorum." target="_blank" style="background:rgba(37,211,102,0.08);border:0.5px solid rgba(37,211,102,0.25);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;padding:10px 18px;border-radius:10px;text-decoration:none;">WhatsApp'tan Sor</button>
     </div>
   `;
