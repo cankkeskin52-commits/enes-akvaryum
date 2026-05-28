@@ -484,6 +484,33 @@ html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;f
 .renew-cta-btn:hover{background:rgba(37,211,102,0.22);box-shadow:0 0 24px rgba(37,211,102,0.2);}
 
 /* ══════════════════════════════════════
+   QUIZ
+══════════════════════════════════════ */
+.quiz-q{font-family:'Jost',sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(45,224,204,0.7);margin-bottom:.6rem;}
+.quiz-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,30px);color:#e8f4f2;line-height:1.2;margin-bottom:2rem;}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:2rem;}
+.quiz-opt{background:rgba(45,224,204,0.04);border:0.5px solid rgba(45,224,204,0.18);border-radius:14px;padding:1.1rem 1rem;cursor:pointer;text-align:left;transition:all .25s;font-family:'Jost',sans-serif;}
+.quiz-opt:hover,.quiz-opt.sel{background:rgba(45,224,204,0.12);border-color:rgba(45,224,204,0.6);box-shadow:0 0 20px rgba(45,224,204,0.1);}
+.quiz-opt-icon{font-size:24px;margin-bottom:.5rem;display:block;}
+.quiz-opt-label{font-size:12px;letter-spacing:0.06em;color:#e8f4f2;display:block;}
+.quiz-opt-desc{font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px;display:block;}
+.quiz-progress{display:flex;gap:5px;margin-bottom:2rem;}
+.quiz-pip{height:2px;flex:1;background:rgba(45,224,204,0.15);border-radius:99px;transition:background .4s;}
+.quiz-pip.done{background:rgba(45,224,204,0.8);}
+.quiz-back{background:none;border:0.5px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;}
+.quiz-back:hover{color:#fff;border-color:rgba(255,255,255,0.3);}
+.qr-card{background:rgba(6,14,28,0.8);border:0.5px solid rgba(45,224,204,0.2);border-radius:16px;padding:1rem;display:flex;gap:1rem;align-items:center;margin-bottom:.8rem;transition:border-color .2s;}
+.qr-card:hover{border-color:rgba(45,224,204,0.5);}
+.qr-img{width:70px;height:70px;border-radius:10px;object-fit:cover;flex-shrink:0;background:rgba(45,224,204,0.05);}
+.qr-img-ph{width:70px;height:70px;border-radius:10px;flex-shrink:0;background:rgba(45,224,204,0.05);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.qr-name{font-family:'Jost',sans-serif;font-size:14px;color:#e8f4f2;margin-bottom:3px;}
+.qr-type{font-size:10px;letter-spacing:0.1em;color:rgba(45,224,204,0.6);text-transform:uppercase;}
+.qr-price{font-family:'Cormorant Garamond',serif;font-size:18px;color:#2de0cc;margin-top:4px;}
+.qr-add{background:rgba(45,224,204,0.1);border:0.5px solid rgba(45,224,204,0.3);color:#2de0cc;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;padding:6px 14px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.qr-add:hover{background:rgba(45,224,204,0.2);}
+.qr-match{font-size:10px;color:rgba(45,224,204,0.5);margin-top:2px;}
+
+/* ══════════════════════════════════════
    INSTAGRAM KARTI
 ══════════════════════════════════════ */
 .ig-card{
@@ -1212,6 +1239,30 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 
 <!-- FLOAT BUTTONS -->
 <button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
+
+<!-- QUIZ BUTTON -->
+<button onclick="openQuiz()" style="position:fixed;bottom:9rem;left:1.5rem;z-index:50;background:linear-gradient(135deg,rgba(45,224,204,0.15),rgba(45,224,204,0.08));border:0.5px solid rgba(45,224,204,0.4);color:#2de0cc;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.15em;padding:10px 16px;border-radius:99px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.3s;display:flex;align-items:center;gap:7px;" onmouseover="this.style.background='rgba(45,224,204,0.2)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(45,224,204,0.15),rgba(45,224,204,0.08))'">
+  🐠 Bana Uygun Balık
+</button>
+
+<!-- QUIZ MODAL -->
+<div id="quizOverlay" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(4,10,22,0.96);backdrop-filter:blur(20px);overflow-y:auto;">
+  <div style="max-width:560px;margin:0 auto;padding:2rem 1.5rem;min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
+
+    <!-- Header -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#2de0cc;">Balık Rehberi</div>
+      <button onclick="closeQuiz()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;padding:4px;">✕</button>
+    </div>
+
+    <!-- Steps -->
+    <div id="quizSteps"></div>
+
+    <!-- Results -->
+    <div id="quizResults" style="display:none;"></div>
+
+  </div>
+</div>
 
 <!-- LANGUAGE TOGGLE -->
 <button id="langBtn" onclick="toggleLang()" style="position:fixed;top:1.2rem;right:1.2rem;z-index:60;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);color:#7aaec8;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.15em;padding:7px 14px;border-radius:8px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.2s;">TR / EN</button>
@@ -3385,6 +3436,198 @@ document.addEventListener('click',e=>{
   // Dinamik içerik sonrası yenile
   window._gsapRefresh=()=>ScrollTrigger.refresh();
 })();
+
+/* ── QUIZ ── */
+const QUIZ_STEPS=[
+  {
+    q:'Kaçıncı adım?',title:'Akvaryum deneyimin nedir?',
+    opts:[
+      {icon:'🌱',label:'Yeni başlayan',desc:'İlk akvaryumum olacak',val:'beginner'},
+      {icon:'🐠',label:'Orta seviye',desc:'1-2 yıldır ilgileniyorum',val:'mid'},
+      {icon:'🏆',label:'Deneyimliyim',desc:'Yıllardır akvaryumum var',val:'expert'},
+      {icon:'🤷',label:'Bilmiyorum',desc:'Henüz karar vermedim',val:'any'},
+    ]
+  },
+  {
+    q:'2. Adım',title:'Akvaryumun boyutu ne kadar?',
+    opts:[
+      {icon:'🪣',label:'Küçük',desc:'20 – 40 litre',val:'small'},
+      {icon:'🐟',label:'Orta',desc:'40 – 100 litre',val:'mid'},
+      {icon:'🌊',label:'Büyük',desc:'100 litre ve üzeri',val:'large'},
+      {icon:'❓',label:'Henüz yok',desc:'Akvaryum almayı düşünüyorum',val:'any'},
+    ]
+  },
+  {
+    q:'3. Adım',title:'Ne tür su tercih edersin?',
+    opts:[
+      {icon:'💧',label:'Tatlı su',desc:'Daha kolay bakım',val:'Tatlı Su'},
+      {icon:'🌊',label:'Tuzlu su',desc:'Renkli deniz balıkları',val:'Tuzlu Su'},
+      {icon:'✨',label:'Fark etmez',desc:'İkisi de olabilir',val:'any'},
+    ]
+  },
+  {
+    q:'4. Adım',title:'Kaç balık istiyorsun?',
+    opts:[
+      {icon:'🐡',label:'Tek / az',desc:'1-3 balık, sakin ortam',val:'solo'},
+      {icon:'🐠',label:'Küçük grup',desc:'5-10 balık',val:'group'},
+      {icon:'🌈',label:'Topluluk',desc:'Çok sayıda, canlı ortam',val:'community'},
+      {icon:'🤔',label:'Karar vermedim',desc:'Önerine göre seçerim',val:'any'},
+    ]
+  },
+  {
+    q:'5. Adım',title:'Bütçen ne kadar?',
+    opts:[
+      {icon:'💰',label:'Ekonomik',desc:'₺0 – ₺150 arası',val:'budget'},
+      {icon:'💎',label:'Orta',desc:'₺150 – ₺500 arası',val:'mid'},
+      {icon:'👑',label:'Premium',desc:'₺500 ve üzeri',val:'premium'},
+      {icon:'🎯',label:'Fark etmez',desc:'Doğru balık önemli',val:'any'},
+    ]
+  },
+];
+
+let quizAnswers={};
+let quizStep=0;
+
+function openQuiz(){
+  quizAnswers={};quizStep=0;
+  document.getElementById('quizOverlay').style.display='block';
+  document.body.style.overflow='hidden';
+  renderQuizStep();
+}
+function closeQuiz(){
+  document.getElementById('quizOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+function renderQuizStep(){
+  const stepsEl=document.getElementById('quizSteps');
+  const resultsEl=document.getElementById('quizResults');
+  resultsEl.style.display='none';
+  stepsEl.style.display='block';
+
+  const s=QUIZ_STEPS[quizStep];
+  const pips=QUIZ_STEPS.map((_,i)=>`<div class="quiz-pip ${i<quizStep?'done':''}"></div>`).join('');
+
+  stepsEl.innerHTML=`
+    <div class="quiz-progress">${pips}</div>
+    <div class="quiz-q">${s.q}</div>
+    <div class="quiz-title">${s.title}</div>
+    <div class="quiz-opts">
+      ${s.opts.map(o=>`
+        <button class="quiz-opt" onclick="quizSelect('${o.val}')">
+          <span class="quiz-opt-icon">${o.icon}</span>
+          <span class="quiz-opt-label">${o.label}</span>
+          <span class="quiz-opt-desc">${o.desc}</span>
+        </button>
+      `).join('')}
+    </div>
+    ${quizStep>0?`<button class="quiz-back" onclick="quizBack()">← Geri</button>`:''}
+  `;
+}
+
+function quizSelect(val){
+  const key=['experience','tank','water','count','budget'][quizStep];
+  quizAnswers[key]=val;
+  if(quizStep<QUIZ_STEPS.length-1){
+    quizStep++;
+    renderQuizStep();
+  } else {
+    showQuizResults();
+  }
+}
+
+function quizBack(){
+  if(quizStep>0){quizStep--;renderQuizStep();}
+}
+
+function showQuizResults(){
+  document.getElementById('quizSteps').style.display='none';
+  const el=document.getElementById('quizResults');
+  el.style.display='block';
+
+  const a=quizAnswers;
+  let pool=[...fishList].filter(f=>!f.outOfStock);
+
+  // Su tipi filtresi
+  if(a.water!=='any') pool=pool.filter(f=>f.type===a.water||!f.type);
+
+  // Bütçe filtresi
+  if(a.budget==='budget') pool=pool.filter(f=>Number(f.price)<=150);
+  else if(a.budget==='mid') pool=pool.filter(f=>Number(f.price)>150&&Number(f.price)<=500);
+  else if(a.budget==='premium') pool=pool.filter(f=>Number(f.price)>500);
+
+  // Deneyim & boyuta göre sıralama skoru
+  pool=pool.map(f=>{
+    let score=0;
+    const p=Number(f.price);
+    const name=(f.name||'').toLowerCase();
+    const cat=(f.category||'').toLowerCase();
+
+    // Yeni başlayana uygun türler
+    const easyFish=['japon','guppy','plati','molly','neon','tetra','zebra','danio','betta','oscar','diskus'];
+    const hardFish=['deniz','tuzlu','mercan','anemone','tang','clown'];
+
+    if(a.experience==='beginner'){
+      if(easyFish.some(e=>name.includes(e))) score+=3;
+      if(hardFish.some(h=>name.includes(h)||cat.includes(h))) score-=2;
+    } else if(a.experience==='expert'){
+      if(p>300) score+=2;
+    }
+
+    // Tank boyutuna göre
+    if(a.tank==='small'&&p<200) score+=2;
+    if(a.tank==='large'&&p>200) score+=2;
+
+    // Topluluk balıkları
+    if(a.count==='community'){
+      if(['tetra','neon','guppy','plati','danio','rasbora'].some(t=>name.includes(t))) score+=2;
+    }
+    if(a.count==='solo'){
+      if(['betta','oscar','diskus','arowana'].some(t=>name.includes(t))) score+=2;
+    }
+
+    return {...f,_score:score};
+  });
+
+  // Sırala ve en iyi 5'i al
+  pool.sort((a,b)=>b._score-a._score);
+  const results=pool.slice(0,5);
+
+  if(!results.length){
+    el.innerHTML=`
+      <div style="text-align:center;padding:2rem 0;">
+        <div style="font-size:40px;margin-bottom:1rem;">🔍</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#e8f4f2;margin-bottom:.8rem;">Eşleşme bulunamadı</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:1.5rem;">Stok güncellendikten sonra tekrar dene veya bize WhatsApp'tan ulaş.</div>
+        <a href="https://wa.me/905383279980" target="_blank" style="background:rgba(37,211,102,0.15);border:0.5px solid rgba(37,211,102,0.4);color:#25d366;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;padding:10px 22px;border-radius:10px;text-decoration:none;">WhatsApp'tan Sor</a>
+      </div>
+    `;
+    return;
+  }
+
+  el.innerHTML=`
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:#e8f4f2;margin-bottom:.3rem;">Sana uygun balıklar</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;">Tercihlerine göre ${results.length} öneri bulundu</div>
+    </div>
+    ${results.map(f=>`
+      <div class="qr-card">
+        ${f.img?`<img class="qr-img" src="${f.img}" alt="${f.name}">`:`<div class="qr-img-ph">🐠</div>`}
+        <div style="flex:1;min-width:0;">
+          <div class="qr-name">${f.name}</div>
+          <div class="qr-type">${f.type||''} ${f.category?'· '+f.category:''}</div>
+          ${f.note?`<div style="font-size:10px;color:rgba(255,255,255,0.35);font-style:italic;margin-top:2px;">${f.note}</div>`:''}
+          <div class="qr-price">${Number(f.price).toLocaleString('tr-TR')} <span style="font-size:12px;">₺</span></div>
+        </div>
+        <button class="qr-add" onclick="addToCart('fish_quiz_${f.name}','${f.name.replace(/'/g,"\\'")}',${f.price});this.textContent='✓ Eklendi';this.style.color='#2de0cc'">+ Sepete</button>
+      </div>
+    `).join('')}
+    <div style="display:flex;gap:.8rem;margin-top:1.5rem;flex-wrap:wrap;">
+      <button onclick="quizStep=0;quizAnswers={};renderQuizStep();document.getElementById('quizResults').style.display='none';document.getElementById('quizSteps').style.display='block';" style="background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.25);color:#2de0cc;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;padding:10px 18px;border-radius:10px;cursor:pointer;">↺ Yeniden Başla</button>
+      <a href="https://wa.me/905383279980?text=Merhaba!%20Balık%20seçimi%20konusunda%20yardım%20almak%20istiyorum." target="_blank" style="background:rgba(37,211,102,0.08);border:0.5px solid rgba(37,211,102,0.25);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;padding:10px 18px;border-radius:10px;text-decoration:none;">WhatsApp'tan Sor</button>
+    </div>
+  `;
+}
 
 </script>
 </body>
