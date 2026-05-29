@@ -1801,6 +1801,20 @@ async function addReview(){
 
 
 
+function renderReviews(){
+  const track=document.getElementById('reviewsTrack');
+  if(!track) return;
+  if(!reviewList.length){
+    track.innerHTML='<div class="no-reviews">Henüz yorum eklenmemiş.</div>';
+    return;
+  }
+  const cards=reviewList.map(buildReviewCard).join('');
+  track.innerHTML=cards+cards; // sonsuz scroll için iki kez
+  const isMob=window.innerWidth<640;
+  const dur=Math.max(isMob?18:25,reviewList.length*7);
+  track.style.animation=`scrollReviews ${dur}s linear infinite`;
+}
+
 /* ══ PLANT DATA ══ */
 let plantList=[], selectedPlFile=null, currentPlImgUrl='';
 
