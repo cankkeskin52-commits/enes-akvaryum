@@ -1308,6 +1308,7 @@ body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
 </div>
 
 <!-- LANGUAGE TOGGLE -->
+<button id="themeBtn" onclick="toggleTheme()" style="position:fixed;top:1.2rem;right:7.5rem;z-index:60;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);color:#7aaec8;font-family:'Jost',sans-serif;font-size:14px;padding:7px 12px;border-radius:8px;cursor:pointer;backdrop-filter:blur(12px);">🌙</button>
 <button id="langBtn" onclick="toggleLang()" style="position:fixed;top:1.2rem;right:1.2rem;z-index:60;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);color:#7aaec8;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.15em;padding:7px 14px;border-radius:8px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.2s;">TR / EN</button>
 
 <a href="https://wa.me/905383279980" target="_blank" id="waFloat" style="position:fixed;bottom:1.8rem;right:2rem;z-index:150;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(32,196,90,0.4);transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 8px 30px rgba(32,196,90,0.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(32,196,90,0.4)'">
@@ -2538,6 +2539,17 @@ let currentLang='TR';
 function toggleLang(){
   currentLang=currentLang==='TR'?'EN':'TR';
   applyLang();
+}
+
+let _lightMode=false;
+function toggleTheme(){
+  _lightMode=!_lightMode;
+  document.body.style.filter=_lightMode?'invert(1) hue-rotate(180deg)':'';
+  document.getElementById('themeBtn').textContent=_lightMode?'☀️':'🌙';
+  // Görselleri tekrar ters çevir (doğal görünsün)
+  document.querySelectorAll('img,video,canvas').forEach(el=>{
+    el.style.filter=_lightMode?'invert(1) hue-rotate(180deg)':'';
+  });
 }
 
 function applyLang(){
