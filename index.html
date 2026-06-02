@@ -128,13 +128,77 @@ a{text-decoration:none;color:inherit;}
 #scrollBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--coral));z-index:9999;width:0%;transition:width .1s;}
 
 /* ══ LOADER ══ */
-#loader{position:fixed;inset:0;z-index:10000;background:var(--blue-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,transform .6s ease;}
-#loader.hidden{opacity:0;pointer-events:none;transform:translateY(-10px);}
-#loaderTitle{font-family:'Sora',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:700;color:#fff;letter-spacing:0.08em;margin-bottom:8px;}
-#loaderSub{font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:32px;}
-.loader-bar{width:180px;height:2px;background:rgba(255,255,255,0.12);border-radius:99px;overflow:hidden;}
-#loaderFill{height:100%;background:var(--coral);border-radius:99px;width:0%;transition:width .1s;}
-#loaderPct{font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;letter-spacing:0.1em;}
+/* ══ LOADER ══ */
+#loader{
+  position:fixed;inset:0;z-index:10000;
+  background:linear-gradient(180deg,#010f2e 0%,#0a2460 60%,#0d3585 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+/* Su dalgası geçiş */
+#loaderWave{
+  position:absolute;bottom:-2px;left:0;right:0;z-index:1;
+  opacity:0;transition:opacity 0.4s;
+}
+#loaderWave svg{display:block;width:100%;}
+/* Balık kabarcıkları */
+.l-bubble{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.6),rgba(255,255,255,0.05));
+  border:0.5px solid rgba(255,255,255,0.25);
+  animation:lBubbleRise linear infinite;pointer-events:none;
+}
+@keyframes lBubbleRise{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  15%{opacity:0.9;}85%{opacity:0.4;}
+  100%{transform:translateY(-100vh) translateX(20px);opacity:0;}
+}
+/* Işık huzmesi */
+#loaderRays{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#loaderRays::before{
+  content:'';position:absolute;top:-10%;left:50%;
+  width:200px;height:120%;
+  background:linear-gradient(to bottom,rgba(100,200,255,0.07) 0%,transparent 70%);
+  transform:rotate(-15deg) translateX(-180px);
+  animation:lRayShift 6s ease-in-out infinite;
+}
+#loaderRays::after{
+  content:'';position:absolute;top:-10%;left:50%;
+  width:140px;height:100%;
+  background:linear-gradient(to bottom,rgba(120,220,255,0.05) 0%,transparent 60%);
+  transform:rotate(12deg) translateX(60px);
+  animation:lRayShift 9s ease-in-out infinite reverse;
+}
+@keyframes lRayShift{0%,100%{opacity:.5;transform:rotate(-15deg) translateX(-180px);}50%{opacity:1;transform:rotate(-8deg) translateX(-120px);}}
+/* Merkez içerik */
+#loaderContent{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;}
+#loaderIcon{font-size:clamp(40px,8vw,64px);margin-bottom:16px;opacity:0;transform:translateY(20px);transition:opacity 0.8s ease,transform 0.8s cubic-bezier(.16,1,.3,1);}
+#loaderIcon.show{opacity:1;transform:translateY(0);}
+#loaderTitle{
+  font-family:'Sora',sans-serif;font-size:clamp(28px,6vw,52px);
+  font-weight:800;color:#fff;letter-spacing:0.08em;margin-bottom:6px;
+  min-height:1.2em;
+}
+#loaderTitle span{
+  display:inline-block;opacity:0;transform:translateY(24px);
+  transition:opacity 0.5s cubic-bezier(.16,1,.3,1),transform 0.5s cubic-bezier(.16,1,.3,1);
+}
+#loaderTitle span.show{opacity:1;transform:translateY(0);}
+#loaderSub{
+  font-size:11px;letter-spacing:0.35em;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);margin-bottom:36px;
+  opacity:0;transition:opacity 0.6s ease;
+}
+#loaderSub.show{opacity:1;}
+#loaderPhrase{
+  font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;
+  margin-bottom:28px;min-height:20px;
+  opacity:0;transition:opacity 0.5s ease;
+}
+#loaderPhrase.show{opacity:1;}
+.loader-bar{width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:10px;}
+#loaderFill{height:100%;background:linear-gradient(90deg,var(--blue-light),var(--coral));border-radius:99px;width:0%;transition:width .15s ease;}
+#loaderPct{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.12em;}
 
 /* ══ SOUND BTN ══ */
 #soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(255,255,255,0.9);border:1px solid var(--stroke);border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow);backdrop-filter:blur(8px);transition:all .2s;}
@@ -369,7 +433,7 @@ a{text-decoration:none;color:inherit;}
   color:rgba(255,255,255,0.55);margin-bottom:28px;
   background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);
   border:0.5px solid rgba(255,255,255,0.15);padding:7px 22px;border-radius:99px;
-  opacity:0;animation:heroFadeIn .6s ease 0.8s forwards;
+  opacity:0;animation:heroFadeIn .9s ease 0.3s forwards;
 }
 
 /* Başlık */
@@ -385,9 +449,9 @@ a{text-decoration:none;color:inherit;}
   opacity:0;animation:heroCharIn 1s cubic-bezier(.16,1,.3,1) forwards;
   text-shadow:0 0 60px rgba(100,200,255,0.15);
 }
-.hero-title-line:nth-child(1){animation-delay:1.0s;}
+.hero-title-line:nth-child(1){animation-delay:0.5s;}
 .hero-title-line:nth-child(2){
-  animation-delay:1.2s;
+  animation-delay:0.8s;
   color:var(--coral);
   text-shadow:0 0 60px rgba(255,120,120,0.25);
 }
@@ -399,19 +463,19 @@ a{text-decoration:none;color:inherit;}
   background:linear-gradient(to right,var(--coral),rgba(255,120,120,0.2));
   margin:20px auto;
   transform:scaleX(0);transform-origin:left;
-  animation:underlineIn .8s cubic-bezier(.16,1,.3,1) 1.6s forwards;
+  animation:underlineIn .8s cubic-bezier(.16,1,.3,1) 1.1s forwards;
 }
 
 /* Tagline */
 .hero-tagline{
   font-size:clamp(13px,1.6vw,17px);color:rgba(255,255,255,0.55);
   max-width:440px;line-height:1.7;margin-bottom:44px;
-  opacity:0;animation:heroSlideUp .9s cubic-bezier(.16,1,.3,1) 1.7s forwards;
+  opacity:0;animation:heroSlideUp 1s cubic-bezier(.16,1,.3,1) 1.2s forwards;
 }
 /* CTA */
 .hero-ctas{
   display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
-  opacity:0;animation:heroSlideUp .9s cubic-bezier(.16,1,.3,1) 1.95s forwards;
+  opacity:0;animation:heroSlideUp 1s cubic-bezier(.16,1,.3,1) 1.5s forwards;
 }
 .hero-cta-primary{
   display:inline-flex;align-items:center;gap:8px;
@@ -961,10 +1025,20 @@ a{text-decoration:none;color:inherit;}
 
 <!-- LOADING SCREEN -->
 <div id="loader">
-  <div id="loaderTitle"></div>
-  <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
-  <div class="loader-bar"><div id="loaderFill"></div></div>
-  <div id="loaderPct">0%</div>
+  <div id="loaderRays"></div>
+  <div id="loaderContent">
+    <div id="loaderIcon">🐠</div>
+    <div id="loaderTitle"></div>
+    <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
+    <div id="loaderPhrase"></div>
+    <div class="loader-bar"><div id="loaderFill"></div></div>
+    <div id="loaderPct">0%</div>
+  </div>
+  <div id="loaderWave">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,30 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+    </svg>
+  </div>
 </div>
 
 <!-- SCROLL BAR -->
@@ -2829,33 +2903,97 @@ fetchFish();
   const fill=document.getElementById('loaderFill');
   const pctEl=document.getElementById('loaderPct');
   const titleEl=document.getElementById('loaderTitle');
+  const iconEl=document.getElementById('loaderIcon');
+  const subEl=document.getElementById('loaderSub');
+  const phraseEl=document.getElementById('loaderPhrase');
+  const waveEl=document.getElementById('loaderWave');
   if(!loader) return;
 
-  // Harf harf ENES — anında başla, hızlı
-  'ENES'.split('').forEach((l,i)=>{
-    const s=document.createElement('span');
-    s.textContent=l;
-    titleEl.appendChild(s);
-    setTimeout(()=>s.classList.add('show'), 30+i*60);
-  });
+  // Akvaryum temalı yükleme mesajları
+  const phrases=[
+    'Su hazırlanıyor... 💧',
+    'Balıklar yüzüyor... 🐟',
+    'Bitkiler büyüyor... 🌿',
+    'Akvaryum dolduruluyor... 🔲',
+    'Hazır! Dalmaya hazır mısın? 🤿',
+  ];
 
-  // İlerleme çubuğu — hızlandırıldı
+  // Kabarcıklar oluştur
+  for(let i=0;i<14;i++){
+    const b=document.createElement('div');
+    b.className='l-bubble';
+    const size=Math.random()*10+4;
+    b.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s;`;
+    loader.appendChild(b);
+  }
+
+  // İkon — hemen göster
+  setTimeout(()=>iconEl.classList.add('show'),100);
+
+  // İkonları değiştir
+  const icons=['🐠','🌊','🐟','🌿','🔲','✨'];
+  let iconIdx=0;
+  const iconTimer=setInterval(()=>{
+    iconIdx=(iconIdx+1)%icons.length;
+    iconEl.style.transform='translateY(-10px)';
+    iconEl.style.opacity='0';
+    setTimeout(()=>{
+      iconEl.textContent=icons[iconIdx];
+      iconEl.style.transform='translateY(0)';
+      iconEl.style.opacity='1';
+    },300);
+  },600);
+
+  // Harf harf "ENES" — biraz bekleyerek, dramatik
+  setTimeout(()=>{
+    'ENES'.split('').forEach((l,i)=>{
+      const s=document.createElement('span');
+      s.textContent=l;
+      titleEl.appendChild(s);
+      setTimeout(()=>s.classList.add('show'),i*120);
+    });
+  },300);
+
+  // Alt başlık
+  setTimeout(()=>subEl.classList.add('show'),800);
+
+  // Phrase rotasyonu
+  let phraseIdx=0;
+  phraseEl.textContent=phrases[0];
+  setTimeout(()=>phraseEl.classList.add('show'),900);
+  const phraseTimer=setInterval(()=>{
+    phraseEl.style.opacity='0';
+    setTimeout(()=>{
+      phraseIdx=(phraseIdx+1)%phrases.length;
+      phraseEl.textContent=phrases[phraseIdx];
+      phraseEl.style.opacity='1';
+    },300);
+  },700);
+
+  // İlerleme çubuğu — yavaş ve organik
   let p=0;
   const iv=setInterval(()=>{
-    p+=Math.random()*14+8;
-    if(p>=100){p=100;clearInterval(iv);}
+    p+=Math.random()*6+3;
+    if(p>=100){p=100;clearInterval(iv);clearInterval(iconTimer);clearInterval(phraseTimer);}
     fill.style.width=p+'%';
     pctEl.textContent=Math.floor(p)+'%';
     if(p===100){
+      // Son phrase
+      phraseEl.textContent='Hoş geldiniz! 🐠';
+      // Dalga göster
       setTimeout(()=>{
-        loader.style.transition='transform 0.6s cubic-bezier(0.76,0,0.24,1),opacity 0.3s ease 0.2s';
-        loader.style.transform='scaleY(0)';
-        loader.style.opacity='0';
-        setTimeout(()=>loader.style.display='none',700);
-        if(_actx) _actx.resume().catch(()=>{});
+        if(waveEl) waveEl.style.opacity='1';
       },200);
+      // Loader kapat
+      setTimeout(()=>{
+        loader.style.transition='transform 0.9s cubic-bezier(0.76,0,0.24,1),opacity 0.5s ease 0.3s';
+        loader.style.transform='translateY(-100%)';
+        loader.style.opacity='0';
+        setTimeout(()=>loader.style.display='none',1000);
+        if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
+      },600);
     }
-  },40);
+  },55);
 })();
 
 
