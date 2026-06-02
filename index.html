@@ -692,49 +692,113 @@ a{text-decoration:none;color:inherit;}
 .contact-chip-wa:hover{background:#16A34A;}
 .contact-chip-info{cursor:default;}
 
-/* ══ CART FLOAT ══ */
+/* ══ CART FLOAT BTN ══ */
 .cart-float{
-  position:fixed;bottom:1.8rem;right:5.5rem;z-index:50;
+  position:fixed;bottom:5.5rem;right:2rem;z-index:140;
   display:none;align-items:center;gap:8px;
   background:var(--blue);color:#fff;border:none;
   font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;
   padding:12px 20px;border-radius:99px;cursor:pointer;
-  box-shadow:0 4px 20px rgba(18,70,181,0.3);transition:all .2s;
+  box-shadow:0 4px 24px rgba(18,70,181,0.4);transition:all .25s;
 }
 .cart-float.visible{display:flex;}
-.cart-float:hover{background:var(--blue-dark);transform:translateY(-2px);}
+.cart-float:hover{background:var(--blue-dark);transform:translateY(-3px);box-shadow:0 8px 32px rgba(18,70,181,0.5);}
 .cart-float-count{
   background:#fff;color:var(--blue);border-radius:50%;
   width:22px;height:22px;display:flex;align-items:center;justify-content:center;
   font-size:12px;font-weight:700;
 }
+@keyframes cartBounce{0%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}60%{transform:translateY(-3px);}}
+.cart-float.bounce{animation:cartBounce .5s ease;}
 
-/* ══ CART SUMMARY ══ */
-#cartSummary{
-  background:var(--blue-pale);border:1px solid var(--stroke-blue);
-  border-radius:var(--r);padding:clamp(20px,3vw,32px);
-  margin:clamp(32px,4vw,48px) 0;display:none;
+/* ══ CART DRAWER ══ */
+#cartOverlay{
+  position:fixed;inset:0;z-index:160;
+  background:rgba(15,23,41,0.5);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .3s;
 }
-#cartSummary.active,#cartSummary.visible{display:block;}
-.cart-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:16px;}
+#cartOverlay.open{opacity:1;pointer-events:all;}
+#cartDrawer{
+  position:fixed;bottom:0;left:0;right:0;z-index:170;
+  background:#fff;border-radius:24px 24px 0 0;
+  box-shadow:0 -8px 48px rgba(18,70,181,0.18);
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);
+  max-height:90svh;display:flex;flex-direction:column;
+}
+#cartDrawer.open{transform:translateY(0);}
+.cart-drawer-handle{
+  width:40px;height:4px;background:var(--stroke);border-radius:99px;
+  margin:12px auto 0;flex-shrink:0;
+}
+.cart-drawer-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px 12px;border-bottom:1px solid var(--stroke);flex-shrink:0;
+}
+.cart-drawer-title{
+  font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--dark);
+  display:flex;align-items:center;gap:8px;
+}
+.cart-badge{
+  background:var(--blue);color:#fff;font-size:11px;font-weight:700;
+  padding:2px 9px;border-radius:99px;
+}
+.cart-drawer-close{
+  background:none;border:1px solid var(--stroke);border-radius:8px;
+  padding:6px;cursor:pointer;color:var(--text-mid);
+  display:flex;align-items:center;transition:all .2s;
+}
+.cart-drawer-close:hover{border-color:var(--blue);color:var(--blue);}
+.cart-drawer-body{
+  overflow-y:auto;flex:1;padding:12px 20px;
+}
+/* Cart item animate in */
+@keyframes cartItemIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
 .cart-item{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:12px 0;border-bottom:1px solid var(--stroke);
+  animation:cartItemIn .25s ease both;
 }
-.cart-item-name{font-size:14px;font-weight:500;color:var(--dark);}
-.cart-item-price{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--coral);}
-.cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0 20px;}
-.cart-total-label{font-family:'Sora',sans-serif;font-size:16px;font-weight:600;color:var(--dark);}
-.cart-total{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--blue);}
-#cartCount{font-family:'Sora',sans-serif;font-size:14px;font-weight:500;color:var(--text-mid);}
-.cart-footer{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
-#whatsappBtn{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--green);color:#fff;border:none;
-  font-size:13px;font-weight:600;padding:13px 28px;border-radius:99px;cursor:pointer;
-  transition:all .2s;box-shadow:0 4px 16px rgba(34,197,94,0.3);
+.cart-item:last-child{border-bottom:none;}
+.cart-item-left{display:flex;align-items:center;gap:10px;}
+.cart-item-emoji{
+  width:38px;height:38px;border-radius:10px;background:var(--blue-pale);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
 }
-#whatsappBtn:hover{background:#16A34A;}
+.cart-item-name{font-size:14px;font-weight:600;color:var(--dark);}
+.cart-item-qty{font-size:12px;color:var(--text-dim);margin-top:1px;}
+.cart-item-price{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--coral);white-space:nowrap;}
+.cart-section-label{
+  font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text-dim);padding:10px 0 4px;
+}
+.cart-drawer-footer{
+  padding:16px 20px;border-top:1px solid var(--stroke);flex-shrink:0;
+  background:#fff;
+}
+.cart-total-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.cart-total-label{font-size:13px;color:var(--text-mid);}
+.cart-total{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:var(--dark);}
+.cart-count-sub{font-size:12px;color:var(--text-dim);}
+.cart-wa-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--green);color:#fff;border:none;width:100%;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;
+  padding:16px;border-radius:14px;cursor:pointer;transition:all .25s;
+  box-shadow:0 4px 20px rgba(34,197,94,0.35);
+  text-decoration:none;
+}
+.cart-wa-btn:hover{background:#16A34A;transform:translateY(-2px);box-shadow:0 8px 30px rgba(34,197,94,0.45);}
+@keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(34,197,94,0.35);}50%{box-shadow:0 4px 32px rgba(34,197,94,0.6);}}
+.cart-wa-btn{animation:waPulse 2.5s ease-in-out infinite;}
+.cart-clear-btn{
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:none;color:var(--text-dim);font-size:12px;
+  cursor:pointer;margin-top:10px;width:100%;padding:4px;transition:color .2s;
+}
+.cart-clear-btn:hover{color:var(--coral);}
 
 /* ══ FOOTER ══ */
 .site-footer{
@@ -1151,25 +1215,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 
   <!-- SEPET -->
-  <div id="cartSummary" style="background:var(--blue-pale);border:1px solid var(--stroke-blue);border-radius:var(--r);padding:clamp(20px,3vw,32px);margin:clamp(24px,4vw,40px) 0;display:none;">
-    <div class="cart-title">🛒 Sepetim</div>
-    <div id="cartItems"></div>
-    <div class="cart-total-row">
-      <div>
-        <div class="cart-total-label">Toplam</div>
-        <div id="cartCount" style="font-size:12px;color:var(--text-mid);margin-top:2px;"></div>
-      </div>
-      <div id="cartTotal" class="cart-total"></div>
-    </div>
-    <div class="cart-footer">
-      <button id="whatsappBtn" onclick="checkoutWA()">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
-        WhatsApp ile Sipariş Ver
-      </button>
-      <button onclick="clearCart()" style="background:none;border:1px solid var(--stroke);color:var(--text-mid);font-size:12px;padding:10px 20px;border-radius:99px;cursor:pointer;">Sepeti Temizle</button>
-    </div>
-  </div>
-
   <!-- DARK SECTION — Akvaryum Bakım -->
   <div class="dark-section">
     <div class="sec-header">
@@ -1340,7 +1385,45 @@ a{text-decoration:none;color:inherit;}
 </div><!-- /page -->
 
 <!-- FLOAT BUTTONS -->
-<button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
+<button class="cart-float" id="cartFloat" onclick="openCartDrawer()">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  Sepetim
+  <div class="cart-float-count" id="cartFloatCount">0</div>
+</button>
+
+<!-- CART OVERLAY -->
+<div id="cartOverlay" onclick="closeCartDrawer()"></div>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer">
+  <div class="cart-drawer-handle"></div>
+  <div class="cart-drawer-header">
+    <div class="cart-drawer-title">
+      🛒 Sepetim
+      <span class="cart-badge" id="cartBadge">0</span>
+    </div>
+    <button class="cart-drawer-close" onclick="closeCartDrawer()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-drawer-body" id="cartItems">
+    <!-- rendered by JS -->
+  </div>
+  <div class="cart-drawer-footer">
+    <div class="cart-total-row">
+      <div>
+        <div class="cart-count-sub" id="cartCount">0 ürün</div>
+        <div class="cart-total-label">Toplam Tutar</div>
+      </div>
+      <div id="cartTotal" class="cart-total">0 ₺</div>
+    </div>
+    <a id="whatsappBtn" class="cart-wa-btn" href="#" target="_blank">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+      WhatsApp ile Sipariş Ver
+    </a>
+    <button class="cart-clear-btn" onclick="clearCart()">Sepeti temizle</button>
+  </div>
+</div>
 
 <!-- QUIZ BUTTON -->
 <div class="quiz-fab-wrap"><button onclick="openQuiz()" class="quiz-fab">
@@ -2447,14 +2530,33 @@ function changeQty(i,d){
   updateCartControls(i);renderCart();
 }
 
+function openCartDrawer(){
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCartDrawer(){
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
 function renderCart(){
   const keys=Object.keys(cart);
-  const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
-  if(!sum||!fl)return;
-  if(!keys.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
-  sum.classList.add('visible');fl.classList.add('visible');
+  const fl=document.getElementById('cartFloat');
+  if(!fl)return;
+  if(!keys.length){
+    fl.classList.remove('visible');
+    closeCartDrawer();
+    return;
+  }
+  fl.classList.add('visible');
+  // Bounce animation
+  fl.classList.remove('bounce');
+  void fl.offsetWidth;
+  fl.classList.add('bounce');
+
   let total=0,html='',msg='Merhaba! Enes Akvaryum sipariş vermek istiyorum 🐠%0A%0A';
-  // Group by category
   const fishItems=keys.filter(i=>!String(i).startsWith('pl_')&&!String(i).startsWith('aq_'));
   const plantItems=keys.filter(i=>String(i).startsWith('pl_'));
   const aqItems=keys.filter(i=>String(i).startsWith('aq_'));
@@ -2465,46 +2567,47 @@ function renderCart(){
     return fishList[i];
   }
 
-  // Build HTML and WA message by category
   if(fishItems.length){
-    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);opacity:0.7;padding:8px 0 4px;">🐠 Balıklar</div>`;
+    html+=`<div class="cart-section-label">🐠 Balıklar</div>`;
     msg+=`🐠 *BALIKLAR*%0A`;
     fishItems.forEach(i=>{
       const f=getItem(i);if(!f)return;
       const q=cart[i],sub=f.price*q;total+=sub;
-      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      html+=`<div class="cart-item"><div class="cart-item-left"><div class="cart-item-emoji">🐠</div><div><div class="cart-item-name">${f.name}</div><div class="cart-item-qty">×${q} adet</div></div></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
       msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
     });
   }
   if(plantItems.length){
-    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4caf7d;opacity:0.7;padding:8px 0 4px;">🌿 Bitkiler</div>`;
+    html+=`<div class="cart-section-label">🌿 Bitkiler</div>`;
     msg+=`%0A🌿 *BİTKİLER*%0A`;
     plantItems.forEach(i=>{
       const f=getItem(i);if(!f)return;
       const q=cart[i],sub=f.price*q;total+=sub;
-      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      html+=`<div class="cart-item"><div class="cart-item-left"><div class="cart-item-emoji">🌿</div><div><div class="cart-item-name">${f.name}</div><div class="cart-item-qty">×${q} adet</div></div></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
       msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
     });
   }
   if(aqItems.length){
-    html+=`<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);opacity:0.7;padding:8px 0 4px;">🐟 Akvaryumlar</div>`;
-    msg+=`%0A🐟 *AKVARYUMLAR*%0A`;
+    html+=`<div class="cart-section-label">🔲 Akvaryumlar</div>`;
+    msg+=`%0A🔲 *AKVARYUMLAR*%0A`;
     aqItems.forEach(i=>{
       const f=getItem(i);if(!f)return;
       const q=cart[i],sub=f.price*q;total+=sub;
-      html+=`<div class="cart-item"><div><span class="cart-item-name">${f.name}</span><span class="cart-item-qty"> ×${q}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+      html+=`<div class="cart-item"><div class="cart-item-left"><div class="cart-item-emoji">🔲</div><div><div class="cart-item-name">${f.name}</div><div class="cart-item-qty">×${q} adet</div></div></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
       msg+=`• ${f.name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
     });
   }
   msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler, siparişimi onaylayabilir misiniz?`;
+
   document.getElementById('cartItems').innerHTML=html;
   document.getElementById('cartCount').textContent=`${keys.length} ürün`;
-  document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
-  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+  document.getElementById('cartTotal').textContent=`${total.toLocaleString('tr-TR')} ₺`;
+  document.getElementById('cartBadge').textContent=keys.length;
   document.getElementById('cartFloatCount').textContent=keys.length;
+  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
 }
 
-function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
+function scrollToCart(){openCartDrawer();}
 
 
 async function toggleStock(i){
@@ -2921,9 +3024,8 @@ document.addEventListener('click',e=>{
   if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Tüm .reveal elemanlarını hemen visible yap — GSAP devralıyor (sepet hariç)
+  // Tüm .reveal elemanlarını hemen visible yap — GSAP devralıyor
   document.querySelectorAll('.reveal').forEach(el=>{
-    if(el.id==='cartSummary') return; // sepet sadece ürün varsa açılır
     el.classList.add('visible');
   });
 
