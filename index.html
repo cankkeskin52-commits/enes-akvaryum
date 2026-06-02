@@ -131,71 +131,108 @@ a{text-decoration:none;color:inherit;}
 /* ══ LOADER ══ */
 #loader{
   position:fixed;inset:0;z-index:10000;
-  background:#010a18;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  background:#07122b;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0;overflow:hidden;
 }
-/* Arka plan resim — soluk su altı */
-#loaderBg{
-  position:absolute;inset:0;
-  background:url('https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1200&auto=format&fit=crop&q=60') center/cover;
+/* Üç kase sahne */
+#loaderBowls{
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:clamp(20px,4vw,48px);
+  margin-bottom:36px;
+  opacity:0;animation:lFadeUp .8s cubic-bezier(.16,1,.3,1) .2s forwards;
+}
+@keyframes lFadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* Kase SVG ortak */
+.l-bowl{overflow:visible;}
+.l-bowl-glass{
+  fill:none;stroke:#FF7878;stroke-width:2;
+  filter:drop-shadow(0 0 6px rgba(255,120,120,0.6));
+}
+/* Su maskeleme */
+.l-water{
+  fill:url(#waterGrad);opacity:0.85;
+  clip-path:url(#bowlClip);
+}
+/* Dalga animasyonu */
+.l-wave-path{
+  fill:url(#waveGrad);opacity:0.7;
+  animation:waveFlow 2.4s ease-in-out infinite;
+}
+@keyframes waveFlow{
+  0%,100%{transform:translateX(0);}
+  50%{transform:translateX(-18px);}
+}
+/* Balık — sarı tang */
+.l-fish{
   opacity:0;
-  animation:loaderBgFade 1.2s ease 0.3s forwards;
-  filter:blur(2px) brightness(0.25);
-  transform:scale(1.04);
+  transition:opacity .5s ease, transform .6s cubic-bezier(.16,1,.3,1);
 }
-@keyframes loaderBgFade{to{opacity:1;}}
-/* Merkez panel */
-#loaderContent{
-  position:relative;z-index:2;
-  display:flex;flex-direction:column;align-items:center;
-  text-align:center;padding:0 24px;
+.l-fish.show{opacity:1;}
+
+/* Dolum animasyonu — clip-path height */
+@keyframes fillBowl1{
+  0%{clip-path:inset(88% 0 0 0 round 0);}
+  100%{clip-path:inset(55% 0 0 0 round 0);}
 }
-/* Logo çizgisi */
-#loaderLine{
-  width:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
-  margin-bottom:28px;
-  transition:width 1s cubic-bezier(.16,1,.3,1);
+@keyframes fillBowl2{
+  0%{clip-path:inset(55% 0 0 0 round 0);}
+  100%{clip-path:inset(20% 0 0 0 round 0);}
 }
-#loaderLine.show{width:min(280px,60vw);}
-/* Ana başlık */
+@keyframes fillBowl3{
+  0%{clip-path:inset(20% 0 0 0 round 0);}
+  100%{clip-path:inset(2% 0 0 0 round 0);}
+}
+.fill-1{animation:fillBowl1 1.2s cubic-bezier(.4,0,.2,1) .4s both;}
+.fill-2{animation:fillBowl2 1.2s cubic-bezier(.4,0,.2,1) 1.6s both;}
+.fill-3{animation:fillBowl3 1.2s cubic-bezier(.4,0,.2,1) 2.8s both;}
+
+/* Pulse — 3. kase tamamlandığında */
+.l-bowl-pulse{
+  fill:none;stroke:rgba(255,120,120,0);stroke-width:2;r:52;
+  animation:bowlPulse 1.2s ease-out 4s infinite;
+}
+@keyframes bowlPulse{
+  0%{r:52;stroke:rgba(255,120,120,0.7);stroke-width:2;}
+  100%{r:72;stroke:rgba(100,200,255,0);stroke-width:0;}
+}
+.l-bowl-pulse2{
+  fill:none;stroke:rgba(100,200,255,0);stroke-width:1.5;r:52;
+  animation:bowlPulse2 1.2s ease-out 4.3s infinite;
+}
+@keyframes bowlPulse2{
+  0%{r:52;stroke:rgba(100,200,255,0.5);stroke-width:1.5;}
+  100%{r:78;stroke:rgba(100,200,255,0);stroke-width:0;}
+}
+
+/* Başlık */
 #loaderTitle{
   font-family:'Sora',sans-serif;
-  font-size:clamp(36px,8vw,72px);
+  font-size:clamp(28px,6vw,52px);
   font-weight:800;color:#fff;
-  letter-spacing:0.06em;
-  line-height:1;
-  margin-bottom:10px;
+  letter-spacing:0.1em;line-height:1;
+  margin-bottom:8px;perspective:600px;
 }
 #loaderTitle span{
   display:inline-block;
-  opacity:0;transform:translateY(30px) rotateX(40deg);
-  transition:opacity 0.7s cubic-bezier(.16,1,.3,1),transform 0.7s cubic-bezier(.16,1,.3,1);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
 }
-#loaderTitle span.show{opacity:1;transform:translateY(0) rotateX(0);}
-/* Alt yazı */
+#loaderTitle span.show{opacity:1;transform:translateY(0);}
 #loaderSub{
   font-size:10px;letter-spacing:0.4em;text-transform:uppercase;
-  color:rgba(255,255,255,0);margin-bottom:48px;
-  transition:color 1s ease 0.8s;
+  color:rgba(255,255,255,0.3);margin-bottom:32px;
+  opacity:0;transition:opacity .8s ease;
 }
-#loaderSub.show{color:rgba(255,255,255,0.35);}
-/* Progress */
+#loaderSub.show{opacity:1;}
 .loader-bar{
-  width:min(160px,40vw);height:1px;
-  background:rgba(255,255,255,0.1);
-  overflow:hidden;margin-bottom:14px;
+  width:min(140px,38vw);height:1px;
+  background:rgba(255,255,255,0.08);
+  overflow:hidden;margin-bottom:10px;
 }
-#loaderFill{
-  height:100%;width:0%;
-  background:#fff;
-  transition:width .2s ease;
-}
-#loaderPct{
-  font-size:10px;color:rgba(255,255,255,0.2);
-  letter-spacing:0.2em;font-variant-numeric:tabular-nums;
-}
+#loaderFill{height:100%;width:0%;background:linear-gradient(90deg,#2563EB,#FF7878);transition:width .2s ease;}
+#loaderPct{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:0.2em;}
 
 /* ══ SOUND BTN ══ */
 #soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(255,255,255,0.9);border:1px solid var(--stroke);border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow);backdrop-filter:blur(8px);transition:all .2s;}
@@ -1022,14 +1059,102 @@ a{text-decoration:none;color:inherit;}
 
 <!-- LOADING SCREEN -->
 <div id="loader">
-  <div id="loaderBg"></div>
-  <div id="loaderContent">
-    <div id="loaderLine"></div>
-    <div id="loaderTitle"></div>
-    <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
-    <div class="loader-bar"><div id="loaderFill"></div></div>
-    <div id="loaderPct">0%</div>
+  <!-- Üç kase animasyonu -->
+  <div id="loaderBowls">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 120" width="90" height="100" class="l-bowl" id="bowl1">
+      <defs>
+        <clipPath id="bClip1"><ellipse cx="55" cy="62" rx="42" ry="44"/></clipPath>
+        <linearGradient id="wg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#40c8f4" stop-opacity=".9"/><stop offset="100%" stop-color="#1246B5" stop-opacity=".8"/></linearGradient>
+      </defs>
+      <!-- Su -->
+      <g clip-path="url(#bClip1)" class="fill-1" style="clip-path:inset(88% 0 0 0 round 0)">
+        <ellipse cx="55" cy="62" rx="42" ry="44" fill="url(#wg1)"/>
+        <path d="M13,62 Q24,54 35,62 Q46,70 57,62 Q68,54 79,62 Q90,70 97,62 L97,106 Q55,110 13,106 Z" fill="#40c8f4" opacity=".5" class="l-wave-path"/>
+      </g>
+      <!-- Balık (az su — sadece kafa görünür) -->
+      <g class="l-fish" id="fish1" style="transform:translate(28px,82px)">
+        <g transform="scale(0.5)">
+          <ellipse cx="20" cy="0" rx="22" ry="11" fill="#f5c518"/>
+          <ellipse cx="20" cy="0" rx="10" ry="9" fill="#e8a800" opacity=".6"/>
+          <path d="M-4,-8 L-18,0 L-4,8 Z" fill="#f5c518"/>
+          <circle cx="28" cy="-3" r="3" fill="#222"/>
+          <path d="M14,-10 Q20,-16 26,-10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
+          <path d="M14,10 Q20,16 26,10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
+        </g>
+      </g>
+      <!-- Kase çerçevesi -->
+      <ellipse cx="55" cy="62" rx="42" ry="44" class="l-bowl-glass"/>
+      <path d="M30,106 Q55,116 80,106" fill="none" stroke="#FF7878" stroke-width="2" opacity=".5"/>
+      <line x1="40" y1="18" x2="70" y2="18" stroke="#FF7878" stroke-width="1.5" opacity=".4"/>
+    </svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 120" width="90" height="100" class="l-bowl" id="bowl2">
+      <defs>
+        <clipPath id="bClip2"><ellipse cx="55" cy="62" rx="42" ry="44"/></clipPath>
+        <linearGradient id="wg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#40c8f4" stop-opacity=".9"/><stop offset="100%" stop-color="#1246B5" stop-opacity=".8"/></linearGradient>
+      </defs>
+      <g clip-path="url(#bClip2)" class="fill-2" style="clip-path:inset(55% 0 0 0 round 0)">
+        <ellipse cx="55" cy="62" rx="42" ry="44" fill="url(#wg2)"/>
+        <path d="M13,62 Q24,54 35,62 Q46,70 57,62 Q68,54 79,62 Q90,70 97,62 L97,106 Q55,110 13,106 Z" fill="#40c8f4" opacity=".5" class="l-wave-path" style="animation-delay:-.4s"/>
+      </g>
+      <!-- Balık (yarı su — tam balık görünür) -->
+      <g class="l-fish" id="fish2" style="transform:translate(20px,60px)">
+        <g transform="scale(0.65)">
+          <ellipse cx="20" cy="0" rx="22" ry="11" fill="#f5c518"/>
+          <ellipse cx="20" cy="0" rx="10" ry="9" fill="#e8a800" opacity=".6"/>
+          <path d="M-4,-8 L-18,0 L-4,8 Z" fill="#f5c518"/>
+          <circle cx="28" cy="-3" r="3" fill="#222"/>
+          <path d="M14,-10 Q20,-16 26,-10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
+          <path d="M14,10 Q20,16 26,10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
+          <!-- Balık yüzgeçleri -->
+          <path d="M10,-11 Q16,-20 22,-11" fill="#f5c518" opacity=".8"/>
+          <path d="M8,0 Q4,8 10,11" fill="#f5c518" opacity=".6"/>
+        </g>
+      </g>
+      <ellipse cx="55" cy="62" rx="42" ry="44" class="l-bowl-glass"/>
+      <path d="M30,106 Q55,116 80,106" fill="none" stroke="#FF7878" stroke-width="2" opacity=".5"/>
+      <line x1="40" y1="18" x2="70" y2="18" stroke="#FF7878" stroke-width="1.5" opacity=".4"/>
+    </svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 120" width="90" height="100" class="l-bowl" id="bowl3">
+      <defs>
+        <clipPath id="bClip3"><ellipse cx="55" cy="62" rx="42" ry="44"/></clipPath>
+        <linearGradient id="wg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#40c8f4" stop-opacity=".9"/><stop offset="100%" stop-color="#1246B5" stop-opacity=".8"/></linearGradient>
+      </defs>
+      <g clip-path="url(#bClip3)" class="fill-3" style="clip-path:inset(20% 0 0 0 round 0)">
+        <ellipse cx="55" cy="62" rx="42" ry="44" fill="url(#wg3)"/>
+        <path d="M13,50 Q24,42 35,50 Q46,58 57,50 Q68,42 79,50 Q90,58 97,50 L97,106 Q55,110 13,106 Z" fill="#40c8f4" opacity=".5" class="l-wave-path" style="animation-delay:-.8s"/>
+      </g>
+      <!-- Balık (dolu su — tam yüzüyor) -->
+      <g class="l-fish" id="fish3" style="transform:translate(18px,52px)">
+        <g transform="scale(0.72)">
+          <ellipse cx="20" cy="0" rx="22" ry="11" fill="#f5c518"/>
+          <ellipse cx="20" cy="0" rx="10" ry="9" fill="#e8a800" opacity=".6"/>
+          <path d="M-4,-8 L-18,0 L-4,8 Z" fill="#f5c518"/>
+          <circle cx="28" cy="-3" r="3" fill="#222"/>
+          <path d="M14,-10 Q20,-16 26,-10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
+          <path d="M14,10 Q20,16 26,10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
+          <path d="M10,-11 Q16,-20 22,-11" fill="#f5c518" opacity=".8"/>
+          <path d="M8,0 Q4,8 10,11" fill="#f5c518" opacity=".6"/>
+          <!-- Kabarcık -->
+          <circle cx="34" cy="-18" r="2.5" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+          <circle cx="30" cy="-28" r="1.5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        </g>
+      </g>
+      <!-- Pulse halkaları -->
+      <circle cx="55" cy="62" class="l-bowl-pulse"/>
+      <circle cx="55" cy="62" class="l-bowl-pulse2"/>
+      <ellipse cx="55" cy="62" rx="42" ry="44" class="l-bowl-glass" style="filter:drop-shadow(0 0 10px rgba(255,120,120,0.8))"/>
+      <path d="M30,106 Q55,116 80,106" fill="none" stroke="#FF7878" stroke-width="2" opacity=".5"/>
+      <line x1="40" y1="18" x2="70" y2="18" stroke="#FF7878" stroke-width="1.5" opacity=".4"/>
+    </svg>
   </div>
+
+  <!-- Metin + progress -->
+  <div id="loaderTitle"></div>
+  <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
+  <div class="loader-bar"><div id="loaderFill"></div></div>
+  <div id="loaderPct">0%</div>
 </div>
 
 <!-- SCROLL BAR -->
@@ -2895,55 +3020,52 @@ fetchFish();
   const pctEl=document.getElementById('loaderPct');
   const titleEl=document.getElementById('loaderTitle');
   const subEl=document.getElementById('loaderSub');
-  const lineEl=document.getElementById('loaderLine');
   if(!loader) return;
 
-  // Loader açıkken scroll'u kilitle
+  // Scroll kilitle
   document.body.style.overflow='hidden';
   document.documentElement.style.overflow='hidden';
 
-  // Üst çizgi
-  setTimeout(()=>lineEl&&lineEl.classList.add('show'), 100);
+  // Balıkları sıralı göster (kase dolumuna paralel)
+  setTimeout(()=>document.getElementById('fish1')?.classList.add('show'), 600);
+  setTimeout(()=>document.getElementById('fish2')?.classList.add('show'), 1800);
+  setTimeout(()=>document.getElementById('fish3')?.classList.add('show'), 3000);
 
-  // "ENES AKVARYUM" — kelime kelime
+  // "ENES AKVARYUM" harf harf — kaseler dolduktan sonra
   const words=['ENES','AKVARYUM'];
-  let delay=250;
+  let delay=3600;
   words.forEach((word,wi)=>{
     word.split('').forEach((l,li)=>{
       const s=document.createElement('span');
       s.textContent=l;
-      if(li===0&&wi===1) s.style.marginLeft='0.4em'; // boşluk
+      if(li===0&&wi===1) s.style.marginLeft='0.35em';
       titleEl.appendChild(s);
       setTimeout(()=>s.classList.add('show'), delay);
-      delay+=80;
+      delay+=70;
     });
   });
+  setTimeout(()=>subEl?.classList.add('show'), delay+100);
 
-  // Alt yazı
-  setTimeout(()=>subEl&&subEl.classList.add('show'), delay+100);
-
-  // Progress — akışkan, organik
+  // Progress — kaselerle senkron
   let p=0;
   const iv=setInterval(()=>{
-    p+=Math.random()*5+2;
+    p+=Math.random()*4+1.5;
     if(p>=100){p=100;clearInterval(iv);}
     fill.style.width=p+'%';
     pctEl.textContent=Math.floor(p)+'%';
     if(p===100){
       setTimeout(()=>{
-        // Zarif fade-out + yukarı çıkış
-        loader.style.transition='opacity 0.7s ease, transform 1s cubic-bezier(.76,0,.24,1)';
+        loader.style.transition='opacity 0.8s ease';
         loader.style.opacity='0';
-        loader.style.transform='translateY(-3%)';
         setTimeout(()=>{
           loader.style.display='none';
           document.body.style.overflow='';
           document.documentElement.style.overflow='';
-        },800);
+        },900);
         if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
-      },500);
+      },600);
     }
-  },60);
+  },70);
 })();
 
 
