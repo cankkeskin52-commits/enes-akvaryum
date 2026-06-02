@@ -260,11 +260,6 @@ a{text-decoration:none;color:inherit;}
   backdrop-filter:blur(12px);
   box-shadow:0 1px 20px rgba(18,70,181,0.06);
   transition:opacity .3s, transform .3s;
-  opacity:0;
-  transform:translateY(-100%);
-  pointer-events:none;
-}
-#stickyNav.show{
   opacity:1;
   transform:translateY(0);
   pointer-events:all;
@@ -745,23 +740,19 @@ a{text-decoration:none;color:inherit;}
   gap:16px;margin-bottom:clamp(40px,6vw,64px);
 }
 .hub-card{
-  background:var(--white);border:1px solid var(--stroke);
-  border-radius:var(--r-lg);padding:28px 24px;
-  transition:all .25s;cursor:pointer;
-  display:flex;flex-direction:column;gap:10px;
+  position:relative;height:130px;border-radius:var(--r-lg);overflow:hidden;
+  text-decoration:none;display:block;
+  transition:transform .18s cubic-bezier(.34,1.36,.64,1);
   box-shadow:var(--shadow);
 }
-.hub-card:hover{
-  border-color:var(--blue);transform:translateY(-4px);
-  box-shadow:var(--shadow-lg);
-}
-.hub-icon{font-size:36px;}
-.hub-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--dark);}
-.hub-desc{font-size:13px;color:var(--text-mid);line-height:1.5;}
-.hub-badge{
-  display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.06em;
-  color:var(--blue);margin-top:4px;
-}
+.hub-card:hover{transform:scale(1.03);}
+.hub-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hub-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,25,80,0.88) 0%,rgba(10,25,80,0.2) 60%,transparent 100%);}
+.hub-content{position:absolute;bottom:10px;left:12px;}
+.hub-icon{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border-radius:8px;padding:4px 8px;font-size:16px;}
+.hub-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;}
+.hub-desc{font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;}
+.hub-badge{display:none;}
 
 /* ══ FISH GRID ══ */
 .fish-grid{
@@ -1217,9 +1208,9 @@ a{text-decoration:none;color:inherit;}
 /* ══ RESPONSIVE ══ */
 @media(max-width:639px){
   .cat-hub{grid-template-columns:1fr 1fr;}
-  .hub-card{padding:18px 14px;}
-  .hub-icon{font-size:28px;}
-  .hub-title{font-size:15px;}
+  .hub-card{height:110px;}
+  .hub-title{font-size:13px;}
+  .hub-desc{font-size:9px;}
   .renew-grid{grid-template-columns:1fr;}
   .quiz-opts{grid-template-columns:1fr 1fr;}
   .hero h1{font-size:clamp(36px,10vw,56px);}
@@ -1630,28 +1621,40 @@ a{text-decoration:none;color:inherit;}
   </div>
   <div class="cat-hub reveal" id="catHub">
     <a class="hub-card" href="baliklar.html">
+      <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&auto=format&fit=crop&q=70" alt="Balıklar" loading="lazy"/>
+      <div class="hub-overlay"></div>
       <div class="hub-icon">🐠</div>
-      <div class="hub-title">Balıklar</div>
-      <div class="hub-desc">Tatlı su & tuzlu su balıkları</div>
-      <div class="hub-badge">Keşfet →</div>
+      <div class="hub-content">
+        <div class="hub-title">Balıklar</div>
+        <div class="hub-desc">Tatlı su & tuzlu su</div>
+      </div>
     </a>
     <a class="hub-card" href="bitkiler.html">
+      <img src="https://images.unsplash.com/photo-1520301255226-bf5f144451c1?w=400&auto=format&fit=crop&q=70" alt="Bitkiler" loading="lazy"/>
+      <div class="hub-overlay" style="background:linear-gradient(to top,rgba(5,46,22,0.88) 0%,rgba(5,46,22,0.2) 60%,transparent 100%);"></div>
       <div class="hub-icon">🌿</div>
-      <div class="hub-title">Bitkiler</div>
-      <div class="hub-desc">Canlı akvaryum bitkileri</div>
-      <div class="hub-badge">Keşfet →</div>
+      <div class="hub-content">
+        <div class="hub-title">Bitkiler</div>
+        <div class="hub-desc">Canlı akvaryum bitkileri</div>
+      </div>
     </a>
     <a class="hub-card" href="akvaryumlar.html">
+      <img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=400&auto=format&fit=crop&q=70" alt="Akvaryumlar" loading="lazy"/>
+      <div class="hub-overlay" style="background:linear-gradient(to top,rgba(13,50,133,0.88) 0%,rgba(13,50,133,0.2) 60%,transparent 100%);"></div>
       <div class="hub-icon">🔲</div>
-      <div class="hub-title">Akvaryumlar</div>
-      <div class="hub-desc">Hazır setler & özel tasarım</div>
-      <div class="hub-badge">Keşfet →</div>
+      <div class="hub-content">
+        <div class="hub-title">Akvaryumlar</div>
+        <div class="hub-desc">Hazır setler & özel tasarım</div>
+      </div>
     </a>
     <a class="hub-card" href="taslar.html">
+      <img src="https://images.unsplash.com/photo-1567429127-1c0ee2571ec9?w=400&auto=format&fit=crop&q=70" alt="Taşlar" loading="lazy"/>
+      <div class="hub-overlay" style="background:linear-gradient(to top,rgba(61,35,14,0.88) 0%,rgba(61,35,14,0.2) 60%,transparent 100%);"></div>
       <div class="hub-icon">🪨</div>
-      <div class="hub-title">Taşlar & Dekor</div>
-      <div class="hub-desc">Doğal taşlar & aksesuar</div>
-      <div class="hub-badge">Keşfet →</div>
+      <div class="hub-content">
+        <div class="hub-title">Taşlar & Dekor</div>
+        <div class="hub-desc">Doğal taşlar & aksesuar</div>
+      </div>
     </a>
   </div>
 
