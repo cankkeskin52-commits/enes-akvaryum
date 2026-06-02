@@ -2,330 +2,270 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<!-- Google tag (gtag.js) -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WNGFX6SBDF"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WNGFX6SBDF');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Balıklar | Enes Akvaryum — Tatlı Su & Tuzlu Su</title>
-<meta name="description" content="Enes Akvaryum'da tatlı su ve tuzlu su balıkları. Japon, Betta, Koi, Oscar, Diskus, Neon Tetra, Cichlid ve daha fazlası. Eyüpsultan İstanbul.">
-<meta name="keywords" content="balık satışı istanbul, tatlı su balığı, tuzlu su balığı, japon balığı, betta balığı, koi balığı, oscar balığı, diskus balığı, neon tetra, cichlid, plati balığı, goldfish, tropik balık, eyüpsultan balık, deniz balığı satışı, akvaryum balığı istanbul">
+<meta name="description" content="Enes Akvaryum'da tatlı su ve tuzlu su balıkları. Japon, Betta, Koi, Oscar, Diskus, Neon Tetra ve daha fazlası. Eyüpsultan İstanbul.">
 <link rel="canonical" href="https://enesakvaryum.com.tr/baliklar.html">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#020810;--bg2:#040f1c;--card:#060e1c;
-  --border:#0a1e35;--border2:#102840;--border3:#1a3f60;
-  --teal:#2de0cc;--teal2:#1ab8a8;--blue:#3a9fd4;--blue2:#2280b8;
-  --cyan:#00f5ff;--text:#cce8f8;--text-mid:#6aaec8;--text-dim:#1e4060;
-  --green:#20c45a;--gold:#f0c060;
+  --blue:#1246B5;--blue-dark:#0D3285;--blue-light:#2563EB;
+  --blue-pale:#EBF2FF;--coral:#FF7878;--coral-dark:#E85555;
+  --purple:#565FCA;--cream:#F2E8D5;--white:#FFFFFF;
+  --bg:#F8FAFF;--dark:#0F1729;--text:#2D3748;
+  --text-mid:#6B7280;--text-dim:#9CA3AF;
+  --stroke:#E5E7EB;--stroke-blue:#C7D7F8;--green:#22C55E;
+  --shadow:0 2px 16px rgba(18,70,181,0.08);
+  --shadow-lg:0 8px 40px rgba(18,70,181,0.14);
+  --r:16px;--r-lg:24px;
 }
-html{scroll-behavior:smooth;}
-html,body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;width:100%;overflow-x:hidden;}
-#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
-#ambientOrbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
-.orb-teal{width:400px;height:400px;background:radial-gradient(circle,rgba(45,224,204,0.06),transparent 70%);top:20%;left:-10%;}
-.orb-blue{width:500px;height:500px;background:radial-gradient(circle,rgba(58,159,212,0.05),transparent 70%);top:60%;right:-15%;}
-/* ── LOADING SCREEN ── */
-#loader{position:fixed;inset:0;background:#020810;z-index:3000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transform-origin:top;}
-#loaderTitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(48px,10vw,110px);color:#fff;letter-spacing:0.1em;line-height:1;display:flex;gap:0.04em;}
-#loaderTitle span{display:inline-block;opacity:0;transform:translateY(30px);transition:opacity 0.5s cubic-bezier(0.16,1,0.3,1),transform 0.5s cubic-bezier(0.16,1,0.3,1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;background:var(--white);}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+h1,h2,h3{font-family:'Sora',sans-serif;}
+
+/* LOADING */
+#loader{position:fixed;inset:0;z-index:10000;background:var(--blue-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease;}
+#loader.hidden{opacity:0;pointer-events:none;}
+#loaderTitle{font-family:'Sora',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:700;color:#fff;letter-spacing:0.08em;margin-bottom:8px;}
+#loaderTitle span{display:inline-block;opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);}
 #loaderTitle span.show{opacity:1;transform:translateY(0);}
-#loaderSub{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.55em;text-transform:uppercase;color:var(--teal);opacity:0;animation:fadeUp 0.7s ease 0.95s forwards;}
-.loader-bar{width:180px;height:1px;background:rgba(45,224,204,0.12);position:relative;overflow:hidden;}
-#loaderFill{position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--cyan));box-shadow:0 0 10px rgba(45,224,204,0.8);transition:width 0.08s linear;}
-#loaderPct{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.25em;color:var(--text-dim);}
-/* ── STICKY NAV ── */
-#stickyNav{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-80px);z-index:100;display:flex;align-items:center;background:rgba(2,8,16,0.88);border:0.5px solid rgba(45,224,204,0.2);border-radius:0 0 16px 16px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:0 4px 4px;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:calc(100vw - 24px);}
-#stickyNav.show{transform:translateX(-50%) translateY(0);}
-.snav-links{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
-.snav-links::-webkit-scrollbar{display:none;}
-.snav-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--teal);letter-spacing:0.12em;padding:10px 16px 6px;border-right:0.5px solid rgba(45,224,204,0.12);white-space:nowrap;cursor:pointer;}
-.snav-link{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);padding:10px 14px 6px;cursor:pointer;transition:color 0.2s;white-space:nowrap;text-decoration:none;}
-.snav-link:hover{color:var(--teal);}
-.snav-link.active{color:var(--teal);}
-/* ── HERO (smaller) ── */
-.cat-hero{position:relative;width:100%;height:52vh;min-height:300px;max-height:480px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:1;}
-.water-distort{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,20,50,0.6) 0%,rgba(0,10,30,0.3) 50%,rgba(0,20,50,0.7) 100%);animation:waterBreath 8s ease-in-out infinite;}
-@keyframes waterBreath{0%,100%{opacity:0.8;}50%{opacity:1;}}
-.hero-bubs{position:absolute;inset:0;pointer-events:none;z-index:2;}
-@keyframes bubRise{0%{transform:translateY(100vh) translateX(0) scale(1);opacity:0;}5%{opacity:1;}90%{opacity:0.3;}100%{transform:translateY(-60px) translateX(var(--dx,10px)) scale(var(--ds,0.9));opacity:0;}}
-.hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;text-align:center;padding:2rem;}
-.cat-page-badge{text-decoration:none;cursor:pointer;font-size:9px;letter-spacing:0.5em;text-transform:uppercase;color:var(--teal);border:0.5px solid rgba(45,224,204,0.3);padding:6px 18px;border-radius:20px;margin-bottom:1.4rem;backdrop-filter:blur(10px);background:rgba(45,224,204,0.05);animation:fadeDown 1s ease 0.2s both;}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
-.cat-page-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(52px,11vw,100px);color:#fff;letter-spacing:0.1em;line-height:1;text-shadow:0 0 30px rgba(255,255,255,0.3),0 0 60px rgba(45,224,204,0.15);animation:scaleIn 1s cubic-bezier(0.16,1,0.3,1) 0.3s both;}
-@keyframes scaleIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
-.cat-page-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blue);letter-spacing:0.06em;animation:fadeUp 1s ease 0.7s both;}
-.hero-divider{width:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--teal),transparent);margin:1rem auto;animation:divGrow 1.5s ease 0.8s forwards;}
-@keyframes divGrow{to{width:100px;height:0.5px;}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
-/* ── PAGE WRAPPER ── */
-.page{position:relative;z-index:2;}
-.content{width:100%;max-width:900px;margin:0 auto;padding:0 1.5rem 6rem;}
-.sec-header{display:flex;align-items:center;gap:16px;margin:3rem 0 0.5rem;}
-.sec-line{flex:1;height:0.5px;background:linear-gradient(90deg,var(--border2),transparent);}
-.sec-label{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--teal);opacity:0.8;white-space:nowrap;}
-.sec-line-r{flex:1;height:0.5px;background:linear-gradient(90deg,transparent,var(--border2));}
-/* ── CATEGORY FILTER ── */
-.cat-filter{display:flex;flex-wrap:wrap;gap:8px;padding:16px 0 12px;}
-.cat-btn{background:rgba(6,14,28,0.7);border:0.5px solid var(--border2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:7px 16px;border-radius:20px;cursor:pointer;transition:all 0.25s;}
-.cat-btn:hover{border-color:rgba(45,224,204,0.4);color:var(--teal);}
-.cat-btn.active{background:rgba(45,224,204,0.12);border-color:rgba(45,224,204,0.5);color:var(--teal);box-shadow:0 0 12px rgba(45,224,204,0.1);}
-.sub-cat-filter{display:none;flex-wrap:wrap;align-items:center;gap:6px;padding:10px 0 14px 4px;margin-bottom:16px;border-bottom:0.5px solid var(--border2);}
+#loaderSub{font-size:12px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:32px;}
+.loader-bar{width:180px;height:2px;background:rgba(255,255,255,0.12);border-radius:99px;overflow:hidden;}
+#loaderFill{height:100%;background:var(--coral);border-radius:99px;width:0%;transition:width .1s;}
+#loaderPct{font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;letter-spacing:0.1em;}
+
+/* SCROLL BAR */
+#scrollBar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--coral));z-index:9999;width:0%;transition:width .1s;}
+
+/* SOUND BTN */
+#soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(255,255,255,0.9);border:1px solid var(--stroke);border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow);}
+
+/* HIDDEN */
+#bgCanvas{display:none;}#ambientOrbs{display:none;}
+.hero-bubs{display:none;}#beams{display:none;}
+
+/* NAVBAR */
+#stickyNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);height:64px;background:rgba(255,255,255,0.95);border-bottom:1px solid var(--stroke);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(18,70,181,0.06);}
+.snav-logo{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--blue);letter-spacing:0.02em;cursor:pointer;}
+.snav-links{display:flex;align-items:center;gap:clamp(10px,2vw,24px);}
+.snav-link{font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:color .2s;padding:4px 0;text-decoration:none;}
+.snav-link:hover,.snav-link.active{color:var(--blue);}
+@media(max-width:639px){.snav-links{gap:8px;}.snav-link{font-size:10px;}}
+
+/* PAGE HERO */
+.cat-hero{position:relative;background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 60%,var(--purple) 100%);padding:clamp(100px,14vw,160px) clamp(20px,5vw,60px) clamp(60px,8vw,100px);margin-top:64px;text-align:center;overflow:hidden;}
+.cat-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=1400&auto=format&fit=crop&q=60') center/cover;opacity:0.12;}
+.cat-hero-inner{position:relative;z-index:1;}
+.cat-page-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:6px 18px;border-radius:99px;margin-bottom:20px;transition:all .2s;}
+.cat-page-badge:hover{background:rgba(255,255,255,0.2);color:#fff;}
+.cat-page-title{font-family:'Sora',sans-serif;font-size:clamp(44px,10vw,100px);font-weight:700;color:#fff;letter-spacing:-0.02em;line-height:1;margin-bottom:16px;}
+.cat-page-sub{font-size:clamp(14px,2vw,18px);color:rgba(255,255,255,0.65);}
+.hero-wave{margin-top:-1px;}
+.hero-wave svg{display:block;width:100%;}
+
+/* CONTENT */
+.page{background:var(--white);}
+.content{padding:0 clamp(16px,4vw,48px);max-width:1200px;margin:0 auto;}
+.sec-header{display:flex;align-items:center;gap:16px;padding:clamp(40px,6vw,64px) 0 clamp(20px,3vw,28px);}
+.sec-label{font-family:'Sora',sans-serif;font-size:clamp(18px,3vw,26px);font-weight:700;color:var(--dark);white-space:nowrap;}
+.sec-line{flex:1;height:1px;background:var(--stroke);}
+.sec-line-r{width:40px;height:1px;background:var(--blue);}
+
+/* CAT FILTER */
+.cat-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.cat-btn{background:var(--white);border:1px solid var(--stroke);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:7px 16px;border-radius:99px;cursor:pointer;transition:all .2s;}
+.cat-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.cat-btn:hover:not(.active){border-color:var(--blue);color:var(--blue);}
+.sub-cat-filter{display:none;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px;padding-left:8px;}
 .sub-cat-filter.visible{display:flex;}
-.sub-cat-arrow{color:rgba(45,224,204,0.5);font-size:12px;margin-right:4px;}
-.sub-cat-btn{background:rgba(45,224,204,0.04);border:0.5px solid rgba(45,224,204,0.2);color:var(--text-mid);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;cursor:pointer;transition:all 0.2s;}
-.sub-cat-btn:hover{border-color:rgba(45,224,204,0.5);color:var(--teal);}
-.sub-cat-btn.active{background:rgba(45,224,204,0.15);border-color:var(--teal);color:var(--teal);}
-/* ── FISH CARDS ── */
-.fish-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-@media(min-width:1024px){.fish-grid{grid-template-columns:1fr 1fr 1fr;gap:16px;}}
-.fish-card{--fc:45,224,204;}
-.fish-card.type-tatli{--fc:45,224,204;}
-.fish-card.type-tuzlu{--fc:107,140,255;}
-.fish-card.type-bitki{--fc:32,196,90;}
-.fish-card.type-aksesuar{--fc:240,192,96;}
-.fish-card.type-diger{--fc:58,159,212;}
-.fish-card{background:rgba(6,14,28,0.8);border:0.5px solid var(--border2);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.3s,box-shadow 0.3s;cursor:default;position:relative;will-change:transform;}
-.fish-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(var(--fc),0.8),transparent);opacity:0;transition:opacity 0.4s;z-index:3;}
-.fish-card:hover::before{opacity:1;}
-.fish-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(var(--fc),0.06),transparent 65%);opacity:0;transition:opacity 0.4s;pointer-events:none;z-index:1;}
-.fish-card:hover::after{opacity:1;}
-.fish-card:hover{border-color:rgba(var(--fc),0.35);box-shadow:0 24px 60px rgba(0,8,24,0.7),0 0 0 0.5px rgba(var(--fc),0.15),0 0 40px rgba(var(--fc),0.06);}
-.fish-card.in-cart{border-color:rgba(var(--fc),0.5);box-shadow:0 0 25px rgba(var(--fc),0.18);}
-.fish-card.out-of-stock{opacity:0.65;}
-.fish-img-wrap{position:relative;width:100%;height:180px;overflow:hidden;background:#060e1c;}
-.fish-img{width:100%;height:100%;object-fit:cover;display:block;transition:none;filter:saturate(1.15);}
-.fish-card:hover .fish-img{animation:fishFloat 3s ease-in-out infinite;filter:saturate(1.2) brightness(1.05);}
-@keyframes fishFloat{0%,100%{transform:scale(1.06) translateY(0px);}50%{transform:scale(1.075) translateY(-9px);}}
-.fish-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(4,12,26,0.9) 100%);}
-.fish-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.07) 50%,transparent 65%);background-size:250% 100%;background-position:200% 0;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:2;}
-.fish-card:hover .fish-shimmer{opacity:1;animation:shimmerScan 1.8s ease-in-out infinite;}
-@keyframes shimmerScan{0%{background-position:250% 0;}100%{background-position:-250% 0;}}
-.fish-img-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#060e1c,#0a1e35);font-size:48px;}
-.fish-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1;position:relative;z-index:2;}
-.fish-info-row{display:flex;justify-content:space-between;align-items:flex-start;}
-.fish-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;color:var(--text);transition:color 0.3s;}
-.fish-card:hover .fish-name{color:#fff;}
-.fish-type-badge{display:inline-block;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(var(--fc),1);background:rgba(var(--fc),0.08);border:0.5px solid rgba(var(--fc),0.25);padding:2px 8px;border-radius:20px;margin-top:4px;}
-.fish-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(var(--fc),1);white-space:nowrap;text-shadow:0 0 20px rgba(var(--fc),0.4);transition:text-shadow 0.3s;}
-.fish-card:hover .fish-price{text-shadow:0 0 30px rgba(var(--fc),0.7);}
-.fish-price span{font-size:11px;color:var(--text-dim);}
-.stock-badge{display:inline-flex;align-items:center;gap:4px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-top:4px;}
-.stock-low{background:rgba(240,192,96,0.12);border:0.5px solid rgba(240,192,96,0.3);color:#f0c060;}
-.stock-critical{background:rgba(220,50,50,0.12);border:0.5px solid rgba(220,50,50,0.3);color:#e05555;animation:stockPulse 2s ease-in-out infinite;}
-@keyframes stockPulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
-.cart-controls{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
-.qty-wrap{display:flex;align-items:center;gap:10px;}
-.qty-btn{background:rgba(var(--fc),0.08);border:0.5px solid rgba(var(--fc),0.2);color:rgba(var(--fc),1);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.qty-btn:hover{background:rgba(var(--fc),0.2);border-color:rgba(var(--fc),1);}
-.qty-num{font-family:'Jost',sans-serif;font-size:14px;font-weight:400;color:var(--text);min-width:18px;text-align:center;}
-.add-cart-btn{background:linear-gradient(135deg,rgba(var(--fc),0.12),rgba(var(--fc),0.06));border:0.5px solid rgba(var(--fc),0.3);color:rgba(var(--fc),1);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;transition:all 0.3s;}
-.add-cart-btn:hover{background:rgba(var(--fc),0.22);border-color:rgba(var(--fc),1);box-shadow:0 0 18px rgba(var(--fc),0.2);}
-.remove-cart-btn{background:rgba(220,50,50,0.08);border:0.5px solid rgba(220,50,50,0.2);color:#e05555;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
-.remove-cart-btn:hover{background:rgba(220,50,50,0.15);}
-.no-fish{width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-dim);padding:3rem;font-size:16px;grid-column:1/-1;}
-/* ── RIPPLE ── */
-.ripple-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:18px;}
-.water-ripple{position:absolute;border-radius:50%;border:1.5px solid rgba(45,224,204,0.5);animation:rippleOut 0.8s ease-out forwards;}
-@keyframes rippleOut{0%{width:0;height:0;opacity:0.8;transform:translate(-50%,-50%);}100%{width:120px;height:120px;opacity:0;transform:translate(-50%,-50%);}}
-/* ── CART ── */
-.cart-summary{width:100%;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.3);border-radius:16px;overflow:hidden;display:none;backdrop-filter:blur(20px);box-shadow:0 0 40px rgba(45,224,204,0.08);}
-.cart-summary.visible{display:block;animation:cartAppear 0.4s cubic-bezier(0.16,1,0.3,1);}
-@keyframes cartAppear{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.cart-header{padding:16px 20px;border-bottom:0.5px solid var(--border2);display:flex;justify-content:space-between;align-items:center;background:rgba(45,224,204,0.04);}
-.cart-title{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal);}
-.cart-count{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--text-dim);}
-.cart-items{padding:12px 20px;}
-.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border);}
-.cart-item:last-child{border-bottom:none;}
-.cart-item-name{font-size:13px;color:var(--text);font-weight:400;}
-.cart-item-qty{font-size:12px;color:var(--text-dim);margin-left:6px;}
-.cart-item-price{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--teal);}
-.cart-footer{padding:16px 20px;border-top:0.5px solid var(--border2);display:flex;justify-content:space-between;align-items:center;gap:14px;background:rgba(45,224,204,0.03);}
-.cart-total{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);}
-.clear-cart-btn{background:none;border:0.5px solid rgba(220,80,80,0.3);color:rgba(220,80,80,0.75);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:6px 12px;border-radius:8px;cursor:pointer;transition:border-color 0.2s,color 0.2s;white-space:nowrap;}
-.clear-cart-btn:hover{border-color:rgba(220,80,80,0.6);color:rgba(220,80,80,1);}
-.whatsapp-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:12px 22px;border-radius:10px;cursor:pointer;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 20px rgba(32,196,90,0.25);flex-shrink:0;}
-.whatsapp-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(32,196,90,0.35);}
+.sub-cat-arrow{color:var(--text-dim);font-size:14px;}
+.sub-cat-btn{background:none;border:1px solid var(--stroke-blue);color:var(--blue);font-size:11px;padding:5px 14px;border-radius:99px;cursor:pointer;transition:all .2s;}
+.sub-cat-btn.active{background:var(--blue);color:#fff;}
+
+/* FISH GRID */
+.fish-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;margin-bottom:32px;}
+@media(max-width:639px){.fish-grid{grid-template-columns:1fr 1fr;gap:10px;}}
+@media(min-width:640px) and (max-width:1023px){.fish-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:1024px){.fish-grid{grid-template-columns:repeat(4,1fr);}}
+.fish-card{background:var(--white);border:1px solid var(--stroke);border-radius:var(--r);overflow:hidden;transition:all .25s;box-shadow:var(--shadow);}
+.fish-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--stroke-blue);}
+.fish-card.in-cart{border-color:var(--blue);box-shadow:0 4px 20px rgba(18,70,181,0.15);}
+.fish-card.out-of-stock{opacity:0.7;}
+.fish-img-wrap{position:relative;height:180px;background:var(--blue-pale);overflow:hidden;}
+@media(max-width:639px){.fish-img-wrap{height:130px;}}
+.fish-img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.fish-card:hover .fish-img{transform:scale(1.05);}
+.fish-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(18,70,181,0.1),transparent);}
+.fish-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;}
+.fish-shimmer{display:none;}
+.fish-body{padding:12px;display:flex;flex-direction:column;gap:8px;}
+.fish-name{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--dark);line-height:1.3;}
+.fish-type-badge{display:inline-block;font-size:10px;font-weight:500;background:var(--blue-pale);color:var(--blue);padding:2px 10px;border-radius:99px;margin-top:2px;}
+.fish-price{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:var(--coral);}
+.fish-price span{font-size:12px;}
+.fish-info-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.cart-controls{display:flex;justify-content:space-between;align-items:center;}
+.add-cart-btn{background:var(--blue);color:#fff;border:none;font-size:11px;font-weight:600;padding:7px 14px;border-radius:99px;cursor:pointer;transition:all .2s;}
+.add-cart-btn:hover{background:var(--blue-dark);}
+.remove-cart-btn{background:none;border:1px solid var(--stroke);color:var(--text-mid);font-size:11px;padding:6px 12px;border-radius:99px;cursor:pointer;transition:all .2s;}
+.remove-cart-btn:hover{border-color:var(--coral);color:var(--coral);}
+.qty-wrap{display:flex;align-items:center;gap:6px;}
+.qty-btn{background:var(--blue-pale);border:none;color:var(--blue);width:26px;height:26px;border-radius:50%;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.qty-btn:hover{background:var(--blue);color:#fff;}
+.qty-num{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);min-width:18px;text-align:center;}
+.stock-badge{font-size:10px;font-weight:600;margin-top:2px;}
+.stock-critical{color:var(--coral);}.stock-low{color:#F59E0B;}
+.no-fish{text-align:center;padding:3rem;color:var(--text-dim);font-size:14px;}
+
+/* CART */
+.cart-summary{background:var(--blue-pale);border:1px solid var(--stroke-blue);border-radius:var(--r);padding:clamp(16px,3vw,28px);margin-bottom:clamp(24px,4vw,40px);display:none;}
+.cart-summary.visible{display:block;}
+.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.cart-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--dark);}
+.cart-count{font-size:13px;color:var(--text-mid);}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--stroke);}
+.cart-item-name{font-size:13px;font-weight:500;color:var(--dark);}
+.cart-item-qty{font-size:12px;color:var(--text-mid);}
+.cart-item-price{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--coral);}
+.cart-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:14px;}
+.cart-total{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--blue);}
+.clear-cart-btn{background:none;border:1px solid var(--stroke);color:var(--text-mid);font-size:12px;padding:7px 16px;border-radius:99px;cursor:pointer;margin-top:6px;}
+.whatsapp-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;border:none;font-size:13px;font-weight:600;padding:12px 24px;border-radius:99px;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(34,197,94,0.3);}
 .whatsapp-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
-/* ── SCROLL BAR ── */
-#scrollBar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--teal),var(--blue),var(--cyan));z-index:200;transition:width 0.05s linear;box-shadow:0 0 8px rgba(45,224,204,0.6);}
-/* ── FLOAT BUTTONS ── */
-.cart-float{position:fixed;bottom:2rem;left:2rem;background:linear-gradient(135deg,var(--teal2),var(--blue2));color:var(--bg);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 18px;border-radius:12px;cursor:pointer;z-index:50;border:none;display:none;gap:10px;align-items:center;box-shadow:0 4px 20px rgba(45,224,204,0.3);transition:transform 0.2s,box-shadow 0.2s;}
+
+/* CART FLOAT */
+.cart-float{position:fixed;bottom:1.8rem;right:5.5rem;z-index:50;display:none;align-items:center;gap:8px;background:var(--blue);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:11px 18px;border-radius:99px;cursor:pointer;box-shadow:0 4px 20px rgba(18,70,181,0.3);}
 .cart-float.visible{display:flex;}
-.cart-float:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(45,224,204,0.4);}
-.cart-float-count{background:var(--bg);color:var(--teal);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;}
-#soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(6,14,28,0.85);border:0.5px solid rgba(45,224,204,0.25);color:var(--teal);font-size:15px;width:36px;height:36px;border-radius:50%;cursor:pointer;backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,transform 0.2s;}
-#soundBtn:hover{border-color:var(--teal);transform:scale(1.1);}
-/* ── FOOTER ── */
-.site-footer{padding:3rem 1.5rem 2rem;border-top:0.5px solid var(--border);}
-.footer-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--text-mid);margin-bottom:6px;text-align:center;}
-.footer-divider{height:0.5px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:1.6rem 0;}
-.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:780px;margin:0 auto;}
-.footer-col-title{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
-.footer-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text-mid);margin-bottom:7px;letter-spacing:0.04em;}
-.footer-row span:last-child{color:var(--text);font-weight:400;}
-.footer-addr{font-size:13px;color:var(--text);margin-bottom:10px;letter-spacing:0.04em;}
-.footer-map-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);text-decoration:none;transition:opacity 0.2s;}
-.footer-map-link:hover{opacity:0.7;}
-.footer-contact-btns{display:flex;gap:8px;margin-bottom:10px;}
-.footer-call-btn{display:flex;align-items:center;gap:6px;background:rgba(45,224,204,0.08);border:0.5px solid rgba(45,224,204,0.3);color:var(--teal);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 14px;border-radius:8px;text-decoration:none;transition:all 0.25s;}
-.footer-call-btn:hover{background:rgba(45,224,204,0.14);}
-.footer-wa-btn{display:flex;align-items:center;gap:6px;background:rgba(37,211,102,0.08);border:0.5px solid rgba(37,211,102,0.3);color:#25d366;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:9px 14px;border-radius:8px;text-decoration:none;transition:all 0.25s;}
-.footer-wa-btn:hover{background:rgba(37,211,102,0.14);}
-.footer-phone{font-size:13px;color:var(--text-mid);letter-spacing:0.06em;}
-.footer-copy{font-size:11px;color:var(--text-dim);letter-spacing:0.1em;}
-/* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
+.cart-float-count{background:#fff;color:var(--blue);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+
+/* WHATSAPP FLOAT */
+#waFloat{position:fixed;bottom:1.8rem;right:2rem;z-index:150;background:var(--green);color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(34,197,94,0.4);transition:all .2s;text-decoration:none;}
+#waFloat:hover{transform:scale(1.1);}
+
+/* FOOTER */
+.site-footer{background:var(--dark);color:rgba(255,255,255,0.7);padding:clamp(40px,6vw,64px) 0 32px;margin-top:clamp(40px,6vw,64px);}
+.footer-brand{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;}
+.footer-divider{height:1px;background:rgba(255,255,255,0.08);margin:20px 0;}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;}
+.footer-col-title{font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.footer-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:rgba(255,255,255,0.6);}
+.footer-addr{font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:6px;}
+.footer-map-link{font-size:11px;color:var(--blue-light);display:flex;align-items:center;gap:4px;}
+.footer-contact-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.footer-call-btn,.footer-wa-btn{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:99px;transition:all .2s;}
+.footer-call-btn{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.15);}
+.footer-wa-btn{background:rgba(34,197,94,0.2);color:#4ADE80;border:1px solid rgba(34,197,94,0.3);}
+.footer-phone{font-size:12px;color:rgba(255,255,255,0.4);}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.25);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.sec-header{position:relative;opacity:0;transform:translateX(-50px);transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1),transform 0.85s cubic-bezier(0.16,1,0.3,1);}
+.sec-header{opacity:0;transform:translateX(-50px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .sec-header.in-view{opacity:1;transform:translateX(0);}
-/* ── RESPONSIVE ── */
-@media(max-width:639px){
-  .content{padding:0 1rem 4rem;}
-  .fish-grid{grid-template-columns:1fr 1fr;gap:10px;}
-  .fish-img-wrap,.fish-img-placeholder{height:130px;}
-  .cart-footer{flex-direction:column;align-items:stretch;}
-  .whatsapp-btn{justify-content:center;}
-  .footer-grid{grid-template-columns:1fr;gap:1.4rem;}
-  .footer-contact-btns{flex-direction:column;}
-  .footer-call-btn,.footer-wa-btn{justify-content:center;}
-  #stickyNav{padding:0 2px 3px;}
-  .snav-logo{font-size:12px;padding:8px 10px 4px;}
-  .snav-link{font-size:8px;padding:8px 8px 4px;letter-spacing:0.14em;}
-}
-body.day-theme{--bg:#0a1628;--bg2:#0d1e38;--border:#1a3560;--border2:#204070;--teal:#20d4c0;--blue:#3090c8;--text:#d0e8f8;--text-mid:#6aa8c8;--text-dim:#2a5070;}
-body.day-theme #bgCanvas{filter:brightness(1.3) saturate(1.2);}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* RIPPLE */
+.ripple-wrap{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;}
+.water-ripple{position:absolute;width:40px;height:40px;margin:-20px;border-radius:50%;border:2px solid rgba(18,70,181,0.3);animation:rippleAnim .8s ease-out forwards;}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
 </style>
 </head>
 <body>
-
-<div id="loader">
-  <div id="loaderTitle"></div>
-  <div id="loaderSub">Tatlı Su & Tuzlu Su</div>
-  <div class="loader-bar"><div id="loaderFill"></div></div>
-  <div id="loaderPct">0%</div>
-</div>
-
-<button id="soundBtn" onclick="toggleSound()" title="Ses">🔊</button>
+<canvas id="bgCanvas" style="display:none;"></canvas>
+<div id="ambientOrbs" style="display:none;"></div>
+<div id="loader"><div id="loaderTitle"></div><div id="loaderSub">Tatlı Su & Tuzlu Su</div><div class="loader-bar"><div id="loaderFill"></div></div><div id="loaderPct">0%</div></div>
 <div id="scrollBar"></div>
-
+<button id="soundBtn" onclick="toggleSound()">🔊</button>
 <div id="stickyNav">
-  <div class="snav-logo" onclick="location.href='index.html'">← Enes Akvaryum</div>
+  <div class="snav-logo" onclick="location.href='index.html'">🐠 Enes Akvaryum</div>
   <div class="snav-links">
-    <span class="snav-link active">🐠 Balıklar</span>
-    <a class="snav-link" href="bitkiler.html">🌿 Bitkiler</a>
-    <a class="snav-link" href="akvaryumlar.html">🔲 Akvaryum</a>
-    <a class="snav-link" href="taslar.html">🪨 Taşlar</a>
+    <span class="snav-link active">Balıklar</span>
+    <a class="snav-link" href="bitkiler.html">Bitkiler</a>
+    <a class="snav-link" href="akvaryumlar.html">Akvaryum</a>
+    <a class="snav-link" href="taslar.html">Taşlar</a>
   </div>
 </div>
-
-<div id="ambientOrbs">
-  <div class="orb orb-teal"></div>
-  <div class="orb orb-blue"></div>
-</div>
-<canvas id="bgCanvas"></canvas>
-
 <div class="page">
   <div class="cat-hero">
-    <div class="water-distort"></div>
-    <div class="hero-bubs" id="heroBubs"></div>
-    <div class="hero-content">
-      <a class="cat-page-badge" href="index.html">← Enes Akvaryum</a>
+    <div class="cat-hero-inner">
+      <a class="cat-page-badge" href="index.html">← Ana Sayfa</a>
       <div class="cat-page-title">Balıklar</div>
-      <div class="hero-divider"></div>
       <div class="cat-page-sub">Tatlı su & tuzlu su koleksiyonu</div>
     </div>
+    <div class="hero-wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,15 1440,30 L1440,60 L0,60 Z" fill="#ffffff"/></svg></div>
   </div>
-
+  <div id="heroBubs"></div><div id="beams"></div>
   <div class="content">
     <div class="sec-header"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut</div><div class="sec-line-r"></div></div>
-
     <div class="cat-filter reveal" id="catFilter">
       <button class="cat-btn active" onclick="filterFish('Tümü')">Tümü</button>
-      <button class="cat-btn" onclick="filterFish('CANLI DOĞURANLAR')">Canlı Doğuranlar</button>
-      <button class="cat-btn" onclick="filterFish('VATOZ TÜRLERİ')">Vatoz Türleri</button>
-      <button class="cat-btn" onclick="filterFish('TETRA TÜRLERİ')">Tetra Türleri</button>
-      <button class="cat-btn" onclick="filterFish('CİKLET TÜRLERİ')">Ciklet Türleri</button>
-      <button class="cat-btn" onclick="filterFish('DİSCUS TÜRLERİ')">Discus Türleri</button>
-      <button class="cat-btn" onclick="filterFish('MELEK TÜRLERİ')">Melek Türleri</button>
-      <button class="cat-btn" onclick="filterFish('JAPON TÜRLERİ')">Japon Türleri</button>
-      <button class="cat-btn" onclick="filterFish('ORANDA JAPON TÜRLERİ')">Oranda Japon</button>
-      <button class="cat-btn" onclick="filterFish('KOI TÜRLERİ')">Koi Türleri</button>
-      <button class="cat-btn" onclick="filterFish('BETTA TÜRLERİ')">Betta Türleri</button>
-      <button class="cat-btn" onclick="filterFish('Diğer')">Diğer</button>
     </div>
     <div class="sub-cat-filter" id="subCatFilter">
       <span class="sub-cat-arrow">↳</span>
       <button class="sub-cat-btn active" onclick="filterSub('Tümü')">Tümü</button>
-      <button class="sub-cat-btn" onclick="filterSub('MOLLY TÜRLERİ')">Molly Türleri</button>
-      <button class="sub-cat-btn" onclick="filterSub('LEPİSTES TÜRLERİ')">Lepistes Türleri</button>
+      <button class="sub-cat-btn" onclick="filterSub('MOLLY TÜRLERİ')">Molly</button>
+      <button class="sub-cat-btn" onclick="filterSub('LEPİSTES TÜRLERİ')">Lepistes</button>
     </div>
-
-    <div class="fish-grid reveal" id="fishGrid">
-      <div class="no-fish">Yükleniyor...</div>
-    </div>
-
-    <div class="cart-summary reveal" id="cartSummary" style="margin-top:16px;">
-      <div class="cart-header">
-        <div class="cart-title">🛒 Sepetim</div>
-        <div class="cart-count" id="cartCount"></div>
-      </div>
+    <div class="fish-grid reveal" id="fishGrid"><div class="no-fish">Yükleniyor...</div></div>
+    <div class="cart-summary reveal" id="cartSummary">
+      <div class="cart-header"><div class="cart-title">🛒 Sepetim</div><div class="cart-count" id="cartCount"></div></div>
       <div class="cart-items" id="cartItems"></div>
       <div class="cart-footer">
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div class="cart-total" id="cartTotal"></div>
-          <button class="clear-cart-btn" onclick="clearCart()">🗑 Sepeti Boşalt</button>
-        </div>
+        <div><div class="cart-total" id="cartTotal"></div><button class="clear-cart-btn" onclick="clearCart()">🗑 Sepeti Boşalt</button></div>
         <a class="whatsapp-btn" id="whatsappBtn" href="#" target="_blank">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
           Sipariş Ver
         </a>
       </div>
     </div>
-
+    
     <div class="site-footer reveal">
-      <div class="footer-brand">Enes Akvaryum</div>
-      <div class="footer-divider"></div>
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="footer-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Çalışma Saatleri</div>
-          <div class="footer-row"><span>Pzt – Cmt</span><span>09:00 – 20:00</span></div>
-          <div class="footer-row"><span>Pazar</span><span>10:00 – 18:00</span></div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Konum</div>
-          <div class="footer-addr">Eyüpsultan, İstanbul</div>
-          <a href="https://maps.app.goo.gl/6dZxrJeD63xBHjVj7" target="_blank" class="footer-map-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Google Maps</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>İletişim</div>
-          <div class="footer-contact-btns">
-            <a href="tel:+905383279980" class="footer-call-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Bizi Arayın</a>
-            <a href="https://wa.me/905383279980" target="_blank" class="footer-wa-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+      <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px);">
+        <div class="footer-brand">🐠 Enes Akvaryum</div>
+        <div class="footer-divider"></div>
+        <div class="footer-grid">
+          <div class="footer-col">
+            <div class="footer-col-title">Çalışma Saatleri</div>
+            <div class="footer-row"><span>Pzt – Cmt</span><span>09:00 – 20:00</span></div>
+            <div class="footer-row"><span>Pazar</span><span>10:00 – 18:00</span></div>
           </div>
-          <div class="footer-phone">0538 327 99 80</div>
+          <div class="footer-col">
+            <div class="footer-col-title">Konum</div>
+            <div class="footer-addr">Eyüpsultan, İstanbul</div>
+            <a href="https://maps.app.goo.gl/6dZxrJeD63xBHjVj7" target="_blank" class="footer-map-link">Google Maps'te Aç</a>
+          </div>
+          <div class="footer-col">
+            <div class="footer-col-title">İletişim</div>
+            <div class="footer-contact-btns">
+              <a href="tel:+905383279980" class="footer-call-btn">Bizi Arayın</a>
+              <a href="https://wa.me/905383279980" target="_blank" class="footer-wa-btn">WhatsApp</a>
+            </div>
+            <div class="footer-phone">0538 327 99 80</div>
+          </div>
         </div>
-      </div>
-      <div class="footer-divider"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-        <div class="footer-copy">© 2026 Enes Akvaryum · Tüm hakları saklıdır</div>
-        <a href="index.html" style="color:var(--teal);text-decoration:none;font-size:11px;letter-spacing:0.1em;">← Ana Sayfa</a>
+        <div class="footer-divider"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div class="footer-copy">© 2026 Enes Akvaryum · Tüm hakları saklıdır</div>
+          <a href="index.html" style="color:var(--blue-light);font-size:12px;">← Ana Sayfa</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
-<a href="https://wa.me/905383279980" target="_blank" id="waFloat" style="position:fixed;bottom:5rem;right:2rem;z-index:50;background:linear-gradient(135deg,#20c45a,#18a048);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(32,196,90,0.4);text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+<a href="https://wa.me/905383279980" target="_blank" id="waFloat">
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
 </a>
-
 <script>
 /* ── CONFIG ── */
 const WA='905383279980';
@@ -395,7 +335,8 @@ function filterFish(cat){
 function filterSub(sub){activeSubCategory=sub;document.querySelectorAll('#subCatFilter .sub-cat-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick')===`filterSub('${sub}')`));renderFishGrid();}
 
 /* ── RENDER FISH ── */
-function renderFishGrid(){
+function buildCatFilter(){const cf=document.getElementById('catFilter');if(!cf||!fishList.length)return;const displayList=fishList.filter(f=>f.type==='Tatlı Su'||f.type==='Tuzlu Su'||!f.type);const cats=['Tümü',...new Set(displayList.map(f=>f.category).filter(Boolean))];cf.innerHTML=cats.map(c=>`<button class="cat-btn${c===activeCategory?' active':''}" onclick="filterFish('${c}')">${c}</button>`).join('');}
+function renderFishGrid(){buildCatFilter();
   const g=document.getElementById('fishGrid');if(!g)return;
   const displayList=fishList.filter(f=>f.type==='Tatlı Su'||f.type==='Tuzlu Su'||!f.type);
   if(!displayList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
@@ -517,5 +458,8 @@ function playCartAdd(){if(!_actx||!_soundOn)return;const t=_actx.currentTime;con
 document.addEventListener('click',e=>{if(e.target.closest('.add-cart-btn'))_play(playCartAdd);});
 function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
 </script>
+</body>
+</html>
+
 </body>
 </html>
