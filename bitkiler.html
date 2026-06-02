@@ -381,9 +381,7 @@ function renderPlantGrid(){
 function addToCart(i,name,price){
   if(!cart[name]) cart[name]={qty:0,price:price};
   cart[name].qty++;
-  saveCart();renderGrid();renderCart();openCartDrawer();
-};
-  cart[name].qty++;saveCart();renderPlantGrid();renderCart();
+  saveCart();renderPlantGrid();renderCart();
 }
 function removeFromCart(name){delete cart[name];saveCart();renderPlantGrid();renderCart();}
 function changeQty(name,d){
@@ -425,21 +423,6 @@ function renderCart(){
   document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
 }
 function scrollToCart(){openCartDrawer();}
-  sum.classList.add('visible');fl.classList.add('visible');
-  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan sipariş vermek istiyorum 🐠%0A%0A';
-  items.forEach(item=>{
-    const sub=item.price*item.qty;total+=sub;
-    html+=`<div class="cart-item"><div><span class="cart-item-name">${item.label||''} ${item.name}</span><span class="cart-item-qty"> ×${item.qty}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
-    msg+=`• ${item.name} ×${item.qty} — ${sub.toLocaleString('tr-TR')}₺%0A`;
-  });
-  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler!`;
-  document.getElementById('cartItems').innerHTML=html;
-  const totalQty=items.reduce((s,v)=>s+v.qty,0);
-  document.getElementById('cartCount').textContent=`${totalQty} ürün`;
-  document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
-  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
-  document.getElementById('cartFloatCount').textContent=totalItems();
-}
 
 async function fetchData(){
   try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.plants){plantList=cached.plants;renderPlantGrid();}}catch(e){}
