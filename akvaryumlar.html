@@ -3,8 +3,22 @@
 <head>
 <meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WNGFX6SBDF">
-function openDrawer(){document.getElementById('mobileDrawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');document.body.style.overflow='hidden';}
-function closeDrawer(){document.getElementById('mobileDrawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
+
+function openDrawer(){
+  document.getElementById('mobileDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){var i=document.getElementById('drawerSearchInput');if(i)i.focus();},350);
+}
+function closeDrawer(){
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  var inp=document.getElementById('drawerSearchInput');
+  var res=document.getElementById('drawerSearchResults');
+  if(inp)inp.value='';
+  if(res){res.style.display='none';res.innerHTML='';}
+}
 function toggleAcc(btn){btn.classList.toggle('open');btn.nextElementSibling.classList.toggle('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 
@@ -239,9 +253,9 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .snav-wa-btn:hover{background:#16A34A;}
 .snav-burger{display:none;background:none;border:1px solid var(--stroke);border-radius:8px;padding:7px;cursor:pointer;color:var(--text);transition:all .2s;align-items:center;justify-content:center;margin-left:auto;}
 .snav-burger:hover{border-color:var(--blue);color:var(--blue);}
-#mobileDrawer{position:fixed;inset-y:0;right:0;z-index:300;width:min(320px,90vw);background:#fff;box-shadow:-8px 0 40px rgba(18,70,181,0.15);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);overflow-y:auto;display:flex;flex-direction:column;}
-#mobileDrawer.open{transform:translateX(0);}
-#drawerOverlay{position:fixed;inset:0;z-index:290;background:rgba(15,23,41,0.5);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;}
+#mobileDrawer{position:fixed;bottom:0;left:0;right:0;z-index:300;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 48px rgba(18,70,181,0.18);transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;max-height:88svh;overflow:hidden;}
+#mobileDrawer.open{transform:translateY(0);}
+#drawerOverlay{position:fixed;inset:0;z-index:290;background:rgba(15,23,41,0.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s;}
 #drawerOverlay.open{opacity:1;pointer-events:all;}
 .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--stroke);}
 .drawer-close{background:none;border:1px solid var(--stroke);border-radius:8px;padding:6px;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;transition:all .2s;}
@@ -310,6 +324,25 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .sdr-price{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--coral);white-space:nowrap;}
 .sdr-empty{padding:24px;text-align:center;color:var(--text-dim);font-size:13px;}.sdr-empty span{font-size:24px;display:block;margin-bottom:8px;}
 .sdr-footer{padding:10px 14px;text-align:center;font-size:12px;color:var(--text-dim);border-top:1px solid var(--stroke);background:var(--bg);}
+/* ══ LIMELIGHT BOTTOM NAV ══ */
+#limelightNav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;height:64px;background:rgba(255,255,255,0.97);border-top:1px solid var(--stroke);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 -4px 24px rgba(18,70,181,0.08);align-items:center;justify-content:space-around;padding:0 4px;padding-bottom:env(safe-area-inset-bottom,0);}
+@media(max-width:959px){#limelightNav{display:flex;}.cart-float{bottom:calc(env(safe-area-inset-bottom,0px)+74px)!important;}#waFloat{bottom:calc(env(safe-area-inset-bottom,0px)+74px)!important;}body{padding-bottom:64px;}}
+.ll-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;height:100%;position:relative;border:none;background:none;padding:0;-webkit-tap-highlight-color:transparent;}
+.ll-icon{width:22px;height:22px;transition:opacity .2s ease,transform .2s cubic-bezier(.34,1.56,.64,1);color:var(--text-mid);}
+.ll-item.active .ll-icon{color:var(--blue);transform:scale(1.1);}
+.ll-item:not(.active) .ll-icon{opacity:0.4;}
+.ll-label{font-size:9px;font-weight:600;letter-spacing:0.04em;color:var(--text-dim);transition:color .2s;text-transform:uppercase;white-space:nowrap;}
+.ll-item.active .ll-label{color:var(--blue);}
+#llLimelight{position:absolute;top:0;width:44px;height:3px;border-radius:0 0 99px 99px;background:var(--blue);box-shadow:0 8px 20px var(--blue),0 16px 40px rgba(18,70,181,0.3);transition:left .35s cubic-bezier(.34,1.2,.64,1);pointer-events:none;left:-999px;}
+#llLimelight::after{content:'';position:absolute;top:3px;left:-60%;width:220%;height:52px;clip-path:polygon(8% 100%,28% 0,72% 0,92% 100%);background:linear-gradient(to bottom,rgba(18,70,181,0.22),transparent);pointer-events:none;}
+#mobileSearchDrawer{position:fixed;top:0;left:0;right:0;z-index:310;background:rgba(255,255,255,0.98);backdrop-filter:blur(16px);padding:clamp(14px,4vw,20px) 16px;box-shadow:0 4px 24px rgba(18,70,181,0.12);transform:translateY(-100%);transition:transform .35s cubic-bezier(.16,1,.3,1);border-bottom:1px solid var(--stroke);}
+#mobileSearchDrawer.open{transform:translateY(0);}
+#mobileSearchDrawer form{display:flex;align-items:center;gap:10px;background:var(--blue-pale);border-radius:14px;padding:0 14px;height:46px;border:1.5px solid transparent;transition:border-color .2s;}
+#mobileSearchDrawer form:focus-within{border-color:var(--blue);}
+#mobileSearchInput{flex:1;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--dark);}
+#mobileSearchInput::placeholder{color:var(--text-dim);}
+#mobileSearchClose{background:none;border:none;cursor:pointer;color:var(--text-dim);padding:4px;display:flex;align-items:center;border-radius:50%;}
+#mobileSearchResults{margin-top:8px;border-radius:14px;overflow:hidden;border:1px solid var(--stroke);max-height:60vh;overflow-y:auto;background:#fff;}
 </style>
 </head>
 <body>
@@ -360,33 +393,45 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   </button>
 </div>
 <div id="drawerOverlay" onclick="closeDrawer()"></div>
+<!-- MOBILE BOTTOM SHEET DRAWER -->
 <div id="mobileDrawer">
-  <div class="drawer-header">
-    <a class="snav-logo" href="index.html">🐠 Enes Akvaryum</a>
-    <button class="drawer-close" onclick="closeDrawer()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  </div>
-  <div class="drawer-body">
-    <a class="drawer-link" href="index.html"><span class="drawer-link-icon">🏠</span> Ana Sayfa</a>
-    <div class="drawer-section-label">Ürünler</div>
-    <div>
-      <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-        <span style="display:flex;align-items:center;gap:8px;"><span>🛍️</span> Tüm Ürünler</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="drawer-acc-content">
-        <a class="drawer-sub-link" href="baliklar.html"><span class="drawer-sub-icon">🐠</span> Balıklar</a>
-        <a class="drawer-sub-link" href="bitkiler.html"><span class="drawer-sub-icon">🌿</span> Bitkiler</a>
-        <a class="drawer-sub-link" href="akvaryumlar.html"><span class="drawer-sub-icon">🔲</span> Akvaryumlar</a>
-        <a class="drawer-sub-link" href="taslar.html"><span class="drawer-sub-icon">🪨</span> Taşlar & Dekor</a>
-      </div>
+  <div style="width:40px;height:4px;background:var(--stroke);border-radius:99px;margin:12px auto 0;flex-shrink:0;"></div>
+  <div style="padding:14px 16px 0;">
+    <div id="drawerSearch" style="display:flex;align-items:center;gap:10px;background:var(--blue-pale);border-radius:14px;padding:0 14px;height:46px;border:1.5px solid transparent;transition:border-color .2s;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--text-dim);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="drawerSearchInput" type="search" placeholder="Balık, bitki, akvaryum ara..." autocomplete="off" style="flex:1;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);"/>
     </div>
-    <div class="drawer-section-label">Diğer</div>
-    <a class="drawer-link" href="index.html#hizmetler"><span class="drawer-link-icon">🔧</span> Hizmetler</a>
-    <a class="drawer-link" href="index.html#iletisim"><span class="drawer-link-icon">📍</span> İletişim</a>
+    <div id="drawerSearchResults" style="margin-top:8px;border-radius:14px;overflow:hidden;border:1px solid var(--stroke);display:none;background:#fff;max-height:40vh;overflow-y:auto;"></div>
   </div>
-  <div class="drawer-footer">
-    <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!" target="_blank" style="width:100%;justify-content:center;">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+  <div style="padding:16px 16px 8px;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;">Kategoriler</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <a href="baliklar.html" onclick="closeDrawer()" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:linear-gradient(135deg,#EBF2FF,#dbeafe);border-radius:16px;padding:16px;text-decoration:none;border:1px solid var(--stroke-blue);" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''">
+        <span style="font-size:28px;">🐠</span>
+        <div><div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);">Balıklar</div><div style="font-size:11px;color:var(--text-mid);">Tatlı & tuzlu su</div></div>
+      </a>
+      <a href="bitkiler.html" onclick="closeDrawer()" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:16px;padding:16px;text-decoration:none;border:1px solid #bbf7d0;" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''">
+        <span style="font-size:28px;">🌿</span>
+        <div><div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);">Bitkiler</div><div style="font-size:11px;color:var(--text-mid);">Canlı akvaryum</div></div>
+      </a>
+      <a href="akvaryumlar.html" onclick="closeDrawer()" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-radius:16px;padding:16px;text-decoration:none;border:1px solid #ddd6fe;" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''">
+        <span style="font-size:28px;">🔲</span>
+        <div><div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);">Akvaryumlar</div><div style="font-size:11px;color:var(--text-mid);">Hazır & özel</div></div>
+      </a>
+      <a href="taslar.html" onclick="closeDrawer()" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:linear-gradient(135deg,#fefce8,#fef9c3);border-radius:16px;padding:16px;text-decoration:none;border:1px solid #fde68a;" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform=''">
+        <span style="font-size:28px;">🪨</span>
+        <div><div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark);">Taşlar</div><div style="font-size:11px;color:var(--text-mid);">Doğal & dekor</div></div>
+      </a>
+    </div>
+  </div>
+  <div style="padding:4px 16px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;">
+    <a href="index.html" onclick="closeDrawer()" style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;color:var(--text);text-decoration:none;">
+      <span style="font-size:17px;width:26px;text-align:center;">🏠</span> Ana Sayfa
+    </a>
+  </div>
+  <div style="padding:12px 16px 20px;flex-shrink:0;">
+    <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!" target="_blank" style="width:100%;justify-content:center;font-size:14px;padding:13px;">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
       WhatsApp'tan Yaz
     </a>
   </div>
@@ -570,6 +615,8 @@ function renderCart(){
   document.getElementById('cartBadge').textContent=keys.length;
   document.getElementById('cartFloatCount').textContent=keys.length;
   document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+  const llBadge=document.getElementById('llCartBadge');
+  if(llBadge){const n=keys.length;llBadge.textContent=n;llBadge.style.display=n?'flex':'none';}
 }
 function scrollToCart(){openCartDrawer();}
 
@@ -594,9 +641,54 @@ renderCart();
 
 let _soundOn=true;
 function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
+/* ══ LIMELIGHT NAV ══ */
+function llMoveLimelight(idx){const nav=document.getElementById('limelightNav');const ll=document.getElementById('llLimelight');if(!nav||!ll)return;const items=nav.querySelectorAll('.ll-item');items.forEach(it=>it.classList.remove('active'));if(items[idx]){items[idx].classList.add('active');const navRect=nav.getBoundingClientRect();const itemRect=items[idx].getBoundingClientRect();const centerX=itemRect.left-navRect.left+itemRect.width/2;ll.style.left=(centerX-22)+'px';}}
+function llNavigate(idx,page){llMoveLimelight(idx);if(page)setTimeout(()=>{window.location.href=page;},180);}
+function llToggleSearch(idx){const drawer=document.getElementById('mobileSearchDrawer');if(!drawer)return;if(drawer.classList.contains('open')){llCloseSearch();}else{llMoveLimelight(idx);drawer.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>{const inp=document.getElementById('mobileSearchInput');if(inp)inp.focus();},150);}}
+function llCloseSearch(){const drawer=document.getElementById('mobileSearchDrawer');if(drawer)drawer.classList.remove('open');document.body.style.overflow='';llMoveLimelight(3);}
+function llOpenCart(idx){llMoveLimelight(idx);openCartDrawer();}
+function llOpenMenu(idx){llMoveLimelight(idx);openDrawer();}
+function llDoSearch(q){const el=document.getElementById('mobileSearchResults');if(!el)return;q=(q||'').trim();if(!q){el.innerHTML='';return;}const ql=q.toLowerCase();const list=typeof aqList!=='undefined'?aqList:[];const results=[];list.forEach(it=>{if(!it||it.outOfStock)return;const nm=(it.name||'').toLowerCase();const ct=(it.category||it.type||'').toLowerCase();if(nm.indexOf(ql)>=0||ct.indexOf(ql)>=0)results.push(it);});if(!results.length){el.innerHTML='<div class="sdr-empty"><span>🔍</span>"'+q+'" için sonuç bulunamadı</div>';return;}const shown=results.slice(0,10);let html='<div class="sdr-header">'+results.length+' sonuç bulundu</div>';shown.forEach(it=>{const img=it.img?'<img class="sdr-img" src="'+it.img+'" alt="" loading="lazy">':"<div class='sdr-img-ph'>🔲</div>";const pr=it.price?'<span class="sdr-price">'+Number(it.price).toLocaleString('tr-TR')+' ₺</span>':'';const bg='<span class="sdr-badge">'+(it.category||it.type||'Akvaryum')+'</span>';html+='<div class="sdr-item" onclick="llCloseSearch()">'+img+'<div class="sdr-info"><div class="sdr-name">'+it.name+'</div><div class="sdr-meta">'+bg+pr+'</div></div></div>';});if(results.length>10)html+='<div class="sdr-footer">+'+(results.length-10)+' daha var</div>';el.innerHTML=html;}
+document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){llMoveLimelight(3);},50);const msInp=document.getElementById('mobileSearchInput');if(msInp)msInp.addEventListener('input',function(e){llDoSearch(e.target.value);});document.addEventListener('keydown',function(e){if(e.key==='Escape'){const d=document.getElementById('mobileSearchDrawer');if(d&&d.classList.contains('open'))llCloseSearch();}});});
 </script>
-</body>
-</html>
+
+<nav id="limelightNav" aria-label="Alt navigasyon">
+  <div id="llLimelight"></div>
+  <button class="ll-item" onclick="llNavigate(0,'index.html')" aria-label="Ana Sayfa">
+    <svg class="ll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span class="ll-label">Ana Sayfa</span>
+  </button>
+  <button class="ll-item" onclick="llToggleSearch(1)" aria-label="Ara">
+    <svg class="ll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span class="ll-label">Ara</span>
+  </button>
+  <button class="ll-item" onclick="llOpenCart(2)" aria-label="Sepet" style="position:relative;">
+    <div style="position:relative;">
+      <svg class="ll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span id="llCartBadge" style="display:none;position:absolute;top:-6px;right:-8px;background:var(--coral);color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:700;align-items:center;justify-content:center;border:1.5px solid #fff;">0</span>
+    </div>
+    <span class="ll-label">Sepet</span>
+  </button>
+  <button class="ll-item active" onclick="llNavigate(3,'baliklar.html')" aria-label="Ürünler">
+    <svg class="ll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/><circle cx="7" cy="6" r="1" fill="currentColor"/><circle cx="7" cy="12" r="1" fill="currentColor"/><circle cx="7" cy="18" r="1" fill="currentColor"/></svg>
+    <span class="ll-label">Ürünler</span>
+  </button>
+  <button class="ll-item" onclick="llOpenMenu(4)" aria-label="Menü">
+    <svg class="ll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <span class="ll-label">Menü</span>
+  </button>
+</nav>
+
+<div id="mobileSearchDrawer">
+  <form onsubmit="return false;">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--blue);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="mobileSearchInput" type="search" placeholder="Akvaryum ara..." autocomplete="off"/>
+    <button id="mobileSearchClose" type="button" onclick="llCloseSearch()" aria-label="Kapat">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </form>
+  <div id="mobileSearchResults"></div>
+</div>
 
 </body>
 </html>
