@@ -259,9 +259,15 @@ a{text-decoration:none;color:inherit;}
   border-bottom:1px solid var(--stroke);
   backdrop-filter:blur(12px);
   box-shadow:0 1px 20px rgba(18,70,181,0.06);
-  transition:all .3s;
-  position:relative;
+  transition:opacity .3s, transform .3s;
+  opacity:0;
+  transform:translateY(-100%);
+  pointer-events:none;
+}
+#stickyNav.show{
   opacity:1;
+  transform:translateY(0);
+  pointer-events:all;
 }
 .snav-inner{
   display:flex;align-items:center;justify-content:space-between;
