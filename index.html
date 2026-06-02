@@ -172,106 +172,173 @@ a{text-decoration:none;color:inherit;}
 }
 
 /* ══ HERO ══ */
+/* ══ HERO — Sinematik Tam Ekran ══ */
 .hero{
-  position:relative;height:100svh;min-height:580px;
+  position:relative;height:100svh;min-height:600px;
   overflow:hidden;margin-top:64px;
-  display:grid;grid-template-columns:1fr 1fr;
-  background:linear-gradient(135deg,#05113a 0%,#0a1e5e 60%,#0d2870 100%);
+  background:#010a18;
 }
-@media(max-width:768px){.hero{grid-template-columns:1fr;}}
+
+/* Balık fotoğrafı */
 .hero-img{
-  position:absolute;right:0;top:0;width:52%;height:100%;
-  object-fit:cover;object-position:center 30%;
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 40%;
+  transform:scale(1.06);
+  animation:heroImgZoom 12s ease-out forwards;
 }
-@media(max-width:768px){
-  .hero-img{width:100%;opacity:0.18;}
-}
+@keyframes heroImgZoom{from{transform:scale(1.12);}to{transform:scale(1.02);}}
+
+/* Katmanlı overlay */
 .hero-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(to right,#05113a 35%,rgba(5,17,58,0.7) 60%,transparent 100%);
+  background:
+    linear-gradient(to top, rgba(1,10,24,0.95) 0%, rgba(1,10,24,0.5) 45%, rgba(1,10,24,0.2) 100%),
+    linear-gradient(to right, rgba(1,10,24,0.6) 0%, transparent 60%);
 }
-@media(max-width:768px){
-  .hero-overlay{background:rgba(5,17,58,0.55);}
-}
-.hero-content{
-  position:relative;z-index:2;height:100%;
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
-  text-align:left;padding:0 clamp(28px,6vw,80px);
-}
-@media(max-width:768px){
-  .hero-content{align-items:center;text-align:center;padding:0 clamp(20px,5vw,40px);}
-}
-.hero-label{
-  font-size:11px;letter-spacing:0.45em;text-transform:uppercase;
-  color:rgba(255,255,255,0.65);margin-bottom:20px;
-  background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,0.2);padding:6px 20px;border-radius:99px;
-  display:inline-block;
-}
-/* Hero animations */
-@keyframes heroSlideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
-@keyframes heroSlideLeft{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
-@keyframes heroSlideRight{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
-@keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes heroScale{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
-@keyframes letterPop{from{opacity:0;transform:translateY(60px) rotateX(-30deg);}to{opacity:1;transform:translateY(0) rotateX(0);}}
-@keyframes underlineGrow{from{width:0;}to{width:100%;}}
 
-.hero h1{
-  font-size:clamp(52px,7vw,96px);font-weight:700;
-  color:#fff;line-height:1.0;letter-spacing:-0.02em;
-  margin-bottom:8px;
-  text-shadow:0 4px 30px rgba(0,0,0,0.3);
-  opacity:0;animation:heroSlideLeft .9s cubic-bezier(.16,1,.3,1) 2.8s forwards;
+/* Işık huzmesi animasyonu */
+.hero-rays{
+  position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
 }
-@media(max-width:768px){.hero h1{font-size:clamp(48px,12vw,72px);}}
-.hero h1 span{color:var(--coral);}
-#brandSub{
-  font-family:'Sora',sans-serif;
-  font-size:inherit;font-weight:700;
-  color:#fff;letter-spacing:inherit;
+.hero-rays::before,.hero-rays::after{
+  content:'';position:absolute;
+  top:-20%;left:50%;width:2px;
+  background:linear-gradient(to bottom,rgba(100,200,255,0.12),transparent);
+  transform-origin:top center;
 }
+.hero-rays::before{
+  height:130%;transform:rotate(-15deg) translateX(-120px);
+  width:120px;
+  background:linear-gradient(to bottom,rgba(100,200,255,0.06) 0%,transparent 80%);
+  animation:rayShift 8s ease-in-out infinite;
+}
+.hero-rays::after{
+  height:110%;transform:rotate(10deg) translateX(80px);
+  width:80px;
+  background:linear-gradient(to bottom,rgba(120,220,255,0.05) 0%,transparent 70%);
+  animation:rayShift 11s ease-in-out infinite reverse;
+}
+@keyframes rayShift{0%,100%{opacity:.6;transform:rotate(-15deg) translateX(-120px);}50%{opacity:1;transform:rotate(-8deg) translateX(-80px);}}
+
+/* Kabarcıklar */
+.hero-bubbles{position:absolute;inset:0;z-index:1;pointer-events:none;}
+.bubble{
+  position:absolute;bottom:-20px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.5),rgba(255,255,255,0.05));
+  border:0.5px solid rgba(255,255,255,0.2);
+  animation:bubbleRise linear infinite;
+}
+@keyframes bubbleRise{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:0.4;}
+  100%{transform:translateY(-110vh) translateX(30px);opacity:0;}
+}
+
+/* İçerik */
+.hero-content{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 clamp(20px,5vw,60px);
+}
+
+/* Animasyonlar */
+@keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes heroSlideUp{from{opacity:0;transform:translateY(50px);filter:blur(8px);}to{opacity:1;transform:translateY(0);filter:blur(0);}}
+@keyframes heroCharIn{from{opacity:0;transform:translateY(40px);filter:blur(6px);}to{opacity:1;transform:translateY(0);filter:blur(0);}}
+@keyframes scrollPulse{0%,100%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);}100%{transform:scaleY(0);transform-origin:bottom;}}
+@keyframes underlineIn{from{scaleX:0;opacity:0;}to{transform:scaleX(1);opacity:1;}}
+@keyframes heroImgFade{from{opacity:0;}to{opacity:1;}}
+
+/* Etiket */
 .hero-label{
+  font-size:10px;letter-spacing:0.5em;text-transform:uppercase;
+  color:rgba(255,255,255,0.55);margin-bottom:28px;
+  background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);
+  border:0.5px solid rgba(255,255,255,0.15);padding:7px 22px;border-radius:99px;
   opacity:0;animation:heroFadeIn .8s ease 2.5s forwards;
 }
-.hero-tagline{
-  font-size:clamp(13px,1.4vw,16px);color:rgba(255,255,255,0.6);
-  max-width:420px;line-height:1.7;margin-bottom:40px;
-  opacity:0;animation:heroSlideLeft .9s cubic-bezier(.16,1,.3,1) 3.1s forwards;
+
+/* Başlık */
+.hero-title-wrap{
+  overflow:hidden;margin-bottom:4px;
 }
-.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-start;opacity:0;animation:heroSlideLeft .9s cubic-bezier(.16,1,.3,1) 3.4s forwards;}
-@media(max-width:768px){.hero-ctas{justify-content:center;}}
+.hero-title-line{
+  display:block;
+  font-family:'Sora',sans-serif;
+  font-size:clamp(60px,11vw,130px);
+  font-weight:800;line-height:0.95;letter-spacing:-0.03em;
+  color:#fff;
+  opacity:0;animation:heroCharIn 1s cubic-bezier(.16,1,.3,1) forwards;
+  text-shadow:0 0 60px rgba(100,200,255,0.15);
+}
+.hero-title-line:nth-child(1){animation-delay:2.7s;}
+.hero-title-line:nth-child(2){
+  animation-delay:2.95s;
+  color:var(--coral);
+  text-shadow:0 0 60px rgba(255,120,120,0.25);
+}
+@media(max-width:639px){.hero-title-line{font-size:clamp(52px,16vw,90px);}}
+
+/* Alt çizgi */
+.hero-divider-line{
+  width:60px;height:2px;
+  background:linear-gradient(to right,var(--coral),rgba(255,120,120,0.2));
+  margin:20px auto;
+  transform:scaleX(0);transform-origin:left;
+  animation:underlineIn .8s cubic-bezier(.16,1,.3,1) 3.5s forwards;
+}
+
+/* Tagline */
+.hero-tagline{
+  font-size:clamp(13px,1.6vw,17px);color:rgba(255,255,255,0.55);
+  max-width:440px;line-height:1.7;margin-bottom:44px;
+  opacity:0;animation:heroSlideUp .9s cubic-bezier(.16,1,.3,1) 3.6s forwards;
+}
+/* CTA */
+.hero-ctas{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:heroSlideUp .9s cubic-bezier(.16,1,.3,1) 3.9s forwards;
+}
 .hero-cta-primary{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--coral);color:#fff;
   font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.06em;
   padding:14px 32px;border-radius:99px;border:none;cursor:pointer;
-  box-shadow:0 8px 30px rgba(255,120,120,0.35);transition:all .25s;
+  box-shadow:0 8px 30px rgba(255,120,120,0.4);transition:all .3s;
 }
-.hero-cta-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,120,120,0.5);}
+.hero-cta-primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(255,120,120,0.55);}
 .hero-cta-wa{
   display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,0.3);color:#fff;
+  background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.2);color:#fff;
   font-size:13px;font-weight:500;padding:14px 28px;border-radius:99px;
-  transition:all .25s;
+  transition:all .3s;
 }
-.hero-cta-wa:hover{background:rgba(255,255,255,0.25);}
-.hero-wave{
-  position:absolute;bottom:-1px;left:0;right:0;z-index:3;
-}
+.hero-cta-wa:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.4);}
+
+/* Wave */
+.hero-wave{position:absolute;bottom:-1px;left:0;right:0;z-index:4;}
 .hero-wave svg{display:block;width:100%;}
+
+/* Scroll */
 .hero-scroll{
-  position:absolute;bottom:80px;left:clamp(28px,6vw,80px);
-  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:3;
-  opacity:0;animation:heroFadeIn 1s ease 3.8s forwards;
+  position:absolute;bottom:88px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:4;
+  opacity:0;animation:heroFadeIn 1s ease 4.2s forwards;
 }
-@media(max-width:768px){
-  .hero-scroll{left:50%;transform:translateX(-50%);}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,0.5),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+.scroll-text{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+
+/* Köşe dekor */
+.hero-badge{
+  position:absolute;top:clamp(16px,3vw,32px);right:clamp(16px,3vw,40px);z-index:4;
+  font-size:8px;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  border:0.5px solid rgba(255,255,255,0.1);padding:6px 14px;border-radius:4px;
+  opacity:0;animation:heroFadeIn .8s ease 4s forwards;
 }
-.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,0.6),transparent);animation:scrollPulse 2s ease-in-out infinite;}
-.scroll-text{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(255,255,255,0.4);}
-@keyframes scrollPulse{0%,100%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);}100%{transform:scaleY(0);transform-origin:bottom;}}
+#brandSub{display:none;}
 
 /* ══ SECTION COMMON ══ */
 .page{background:var(--white);}
@@ -753,20 +820,36 @@ a{text-decoration:none;color:inherit;}
 
 <!-- ══ HERO ══ -->
 <div class="hero">
+  <!-- Çarpıcı su altı/balık fotoğrafı -->
   <img class="hero-img"
-    src="https://images.unsplash.com/photo-1571752726703-5e7d1f6a986d?w=1200&auto=format&fit=crop&q=90"
-    alt="Enes Akvaryum — Betta Balığı"
+    src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1800&auto=format&fit=crop&q=90"
+    alt="Enes Akvaryum — Su altı dünyası"
   />
   <div class="hero-overlay"></div>
-  <div class="hero-bubs" id="heroBubs"></div>
+
+  <!-- Işık huzmesi -->
+  <div class="hero-rays"></div>
+
+  <!-- Kabarcıklar -->
+  <div class="hero-bubbles" id="heroBubs"></div>
   <div id="beams"></div>
 
+  <!-- Köşe rozet -->
+  <div class="hero-badge">Eyüpsultan · İstanbul</div>
+
+  <!-- Ana içerik -->
   <div class="hero-content">
-    <div class="hero-label">İstanbul Eyüpsultan</div>
-    <div class="brand-main">
-      <h1>ENES<br/><span><span id="brandSub">AKVARYUM</span></span></h1>
+    <div class="hero-label">Balık &amp; Akvaryum Dünyası</div>
+
+    <div class="hero-title-wrap">
+      <span class="hero-title-line">ENES</span>
+      <span class="hero-title-line">AKVARYUM</span>
     </div>
-    <div class="hero-tagline">Balık &amp; akvaryum dünyasına hoş geldiniz</div>
+
+    <div class="hero-divider-line"></div>
+
+    <div class="hero-tagline">İstanbul Eyüpsultan'da tatlı su, tuzlu su<br/>ve canlı bitki koleksiyonu</div>
+
     <div class="hero-ctas">
       <a class="hero-cta-primary" href="#catHub" onclick="event.preventDefault();document.getElementById('catHub').scrollIntoView({behavior:'smooth',block:'start'})">
         Ürünleri Keşfet
@@ -779,7 +862,7 @@ a{text-decoration:none;color:inherit;}
     </div>
   </div>
 
-  <!-- Wave bottom -->
+  <!-- Dalga geçişi -->
   <div class="hero-wave">
     <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,30 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
@@ -1258,14 +1341,16 @@ for(let i=0;i<8;i++){
   beamsEl.appendChild(b);
 }
 
-// Hero bubbles
+// Hero bubbles — yeni tasarım
 const heroBubs=document.getElementById('heroBubs');
-for(let i=0;i<35;i++){
+for(let i=0;i<28;i++){
   const d=document.createElement('div');
-  const s=Math.random()*16+3;
-  const isGlow=s>12;
-  d.style.cssText=`position:absolute;width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${-s}px;border-radius:50%;border:${isGlow?'1px':'0.5px'} solid rgba(45,224,204,${isGlow?0.2:0.3});background:rgba(45,224,204,${isGlow?0.03:0.06});--dx:${(Math.random()-0.5)*30}px;--ds:${0.8+Math.random()*0.4};animation:bubRise ${6+Math.random()*10}s linear ${Math.random()*8}s infinite;`;
-  if(isGlow) d.style.boxShadow='0 0 6px rgba(45,224,204,0.15)';
+  d.className='bubble';
+  const s=Math.random()*14+3;
+  const dur=10+Math.random()*18;
+  const delay=Math.random()*12;
+  const left=Math.random()*95;
+  d.style.cssText=`width:${s}px;height:${s}px;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;`;
   heroBubs.appendChild(d);
 }
 
