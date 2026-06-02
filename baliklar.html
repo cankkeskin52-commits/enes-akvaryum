@@ -759,3 +759,6 @@ function _play(fn){if(!_actx||!_soundOn)return;if(_actx.state==='running'){fn();
 function playCartAdd(){if(!_actx||!_soundOn)return;const t=_actx.currentTime;const m=_actx.createGain();m.gain.value=0.2;m.connect(_actx.destination);[0,0.12].forEach((d,i)=>{const o=_actx.createOscillator(),g=_actx.createGain();o.connect(g);g.connect(m);o.type='sine';o.frequency.setValueAtTime(i===0?520:780,t+d);g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(0.12,t+d+0.03);g.gain.exponentialRampToValueAtTime(0.001,t+d+0.25);o.start(t+d);o.stop(t+d+0.28);});}
 document.addEventListener('click',e=>{if(e.target.closest('.add-cart-btn'))_play(playCartAdd);});
 function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
+</script>
+</body>
+</html>
