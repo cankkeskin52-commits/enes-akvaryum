@@ -92,8 +92,6 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .stock-badge{font-size:10px;font-weight:600;margin-top:2px;}
 .stock-critical{color:var(--coral);}.stock-low{color:#F59E0B;}
 .no-fish{text-align:center;padding:3rem;color:var(--text-dim);font-size:14px;}
-.cart-summary{background:var(--blue-pale);border:1px solid var(--stroke-blue);border-radius:var(--r);padding:clamp(16px,3vw,28px);margin-bottom:clamp(24px,4vw,40px);display:none;}
-.cart-summary.visible{display:block;}
 .cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .cart-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--dark);}
 .cart-count{font-size:13px;color:var(--text-mid);}
@@ -160,8 +158,7 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <div class="content">
     <div class="sec-header"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut</div><div class="sec-line-r"></div></div>
     <div class="fish-grid reveal" id="stoneGrid"><div class="no-fish">Yükleniyor...</div></div>
-    <div class="cart-summary reveal" id="cartSummary">
-      <div class="cart-header"><div class="cart-title">🛒 Sepetim</div><div class="cart-count" id="cartCount"></div></div>
+<div class="cart-count" id="cartCount"></div></div>
       <div class="cart-items" id="cartItems"></div>
       <div class="cart-footer">
         <div><div class="cart-total" id="cartTotal"></div><button class="clear-cart-btn" onclick="clearCart()">🗑 Sepeti Boşalt</button></div>
@@ -189,7 +186,34 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
     </div>
   </div>
 </div>
-<button class="cart-float" id="cartFloat" onclick="scrollToCart()">🛒 Sepet<div class="cart-float-count" id="cartFloatCount">0</div></button>
+<!-- CART FLOAT -->
+<button class="cart-float" id="cartFloat" onclick="openCartDrawer()">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  Sepetim
+  <div class="cart-float-count" id="cartFloatCount">0</div>
+</button>
+<div id="cartOverlay" onclick="closeCartDrawer()"></div>
+<div id="cartDrawer">
+  <div class="cart-drawer-handle"></div>
+  <div class="cart-drawer-header">
+    <div class="cart-drawer-title">🛒 Sepetim <span class="cart-badge" id="cartBadge">0</span></div>
+    <button class="cart-drawer-close" onclick="closeCartDrawer()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-drawer-body" id="cartItems"></div>
+  <div class="cart-drawer-footer">
+    <div class="cart-total-row">
+      <div><div class="cart-count-sub" id="cartCount">0 ürün</div><div class="cart-total-label">Toplam Tutar</div></div>
+      <div id="cartTotal" class="cart-total">0 ₺</div>
+    </div>
+    <a id="whatsappBtn" class="cart-wa-btn" href="#" target="_blank">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+      WhatsApp ile Sipariş Ver
+    </a>
+    <button class="cart-clear-btn" onclick="clearCart()">Sepeti temizle</button>
+  </div>
+</div>
 <a href="https://wa.me/905383279980" target="_blank" id="waFloat">
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
 </a>
@@ -266,7 +290,10 @@ function renderDkGrid(){
 }
 
 function addToCart(i,name,price){
-  if(!cart[name])cart[name]={name,price,qty:0,img:dkList[i]?.img||'',label:'🪨 Aksesuar'};
+  if(!cart[name]) cart[name]={qty:0,price:price};
+  cart[name].qty++;
+  saveCart();renderGrid();renderCart();openCartDrawer();
+};
   cart[name].qty++;saveCart();renderDkGrid();renderCart();
 }
 function removeFromCart(name){delete cart[name];saveCart();renderDkGrid();renderCart();}
@@ -275,13 +302,40 @@ function changeQty(name,d){
   saveCart();renderDkGrid();renderCart();
 }
 function clearCart(){cart={};saveCart();renderDkGrid();renderCart();}
-function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
 
+function openCartDrawer(){
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCartDrawer(){
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
 function renderCart(){
-  const items=Object.values(cart);
-  const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
-  if(!sum||!fl)return;
-  if(!items.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  const keys=Object.keys(cart);
+  const fl=document.getElementById('cartFloat');
+  if(!fl)return;
+  if(!keys.length){fl.classList.remove('visible');closeCartDrawer();return;}
+  fl.classList.add('visible');
+  fl.classList.remove('bounce');void fl.offsetWidth;fl.classList.add('bounce');
+  let total=0,html='',msg='Merhaba! Enes Akvaryum sipariş vermek istiyorum 🐠%0A%0A';
+  keys.forEach(name=>{
+    const item=cart[name];if(!item)return;
+    const q=item.qty,sub=item.price*q;total+=sub;
+    html+=`<div class="cart-item"><div class="cart-item-left"><div class="cart-item-emoji">🐠</div><div><div class="cart-item-name">${name}</div><div class="cart-item-qty">×${q} adet</div></div></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  });
+  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler, siparişimi onaylayabilir misiniz?`;
+  document.getElementById('cartItems').innerHTML=html;
+  document.getElementById('cartCount').textContent=`${keys.length} ürün`;
+  document.getElementById('cartTotal').textContent=`${total.toLocaleString('tr-TR')} ₺`;
+  document.getElementById('cartBadge').textContent=keys.length;
+  document.getElementById('cartFloatCount').textContent=keys.length;
+  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+}
+function scrollToCart(){openCartDrawer();}
   sum.classList.add('visible');fl.classList.add('visible');
   let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan sipariş vermek istiyorum 🐠%0A%0A';
   items.forEach(item=>{

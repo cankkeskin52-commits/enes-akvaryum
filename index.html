@@ -2518,7 +2518,10 @@ function clearCart(){
   renderFishGrid();renderPlantGrid();renderAqGrid();renderCart();
 }
 function addToCart(i,name,price){
-  cart[i]=(cart[i]||0)+1;updateCartControls(i);renderCart();
+  cart[i]=(cart[i]||0)+1;
+  updateCartControls(i);
+  renderCart();
+  openCartDrawer();
 }
 function removeFromCart(i){
   delete cart[i];updateCartControls(i);renderCart();
