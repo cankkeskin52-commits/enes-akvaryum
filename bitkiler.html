@@ -34,34 +34,61 @@ function clearSearch(){
   doSearch('');
 }
 
-function doSearch(q){
-  q=q.trim().toLowerCase();
-  const grid=document.getElementById('plantGrid');
-  if(!grid)return;
-  const cards=grid.querySelectorAll('.fish-card,.aq-card');
-  let visible=0;
-  cards.forEach(card=>{
-    const txt=card.textContent.toLowerCase();
-    const show=!q||txt.includes(q);
-    card.style.display=show?'':'none';
-    if(show)visible++;
-  });
-  let noRes=grid.querySelector('.search-no-result');
-  if(!noRes){noRes=document.createElement('div');noRes.className='search-no-result';grid.appendChild(noRes);}
-  noRes.textContent=visible===0&&q?`"${q}" için sonuç bulunamadı 🔍`:'';
-  noRes.style.display=visible===0&&q?'block':'none';
+
+function closeSearch(){
+  var ib=document.getElementById('snavSearchIconBtn');
+  var fm=document.getElementById('snavSearchForm');
+  var ip=document.getElementById('snavSearchInput');
+  if(fm) fm.classList.remove('open');
+  hideDropdown();
+  setTimeout(function(){if(ib)ib.classList.remove('hidden');},200);
+  if(ip) ip.value='';
 }
-document.addEventListener('DOMContentLoaded',()=>{
-  const inp=document.getElementById('snavSearchInput');
-  const dinp=document.getElementById('drawerSearchInput');
-  if(inp) inp.addEventListener('input',e=>doSearch(e.target.value));
-  if(dinp) dinp.addEventListener('input',e=>doSearch(e.target.value));
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){
-      const w=document.getElementById('snavSearch');
-      if(w&&w.classList.contains('open')){w.classList.remove('open');inp.value='';doSearch('');}
-    }
+function hideDropdown(){
+  var d=document.getElementById('searchDropdown');
+  if(d) d.classList.remove('show');
+}
+
+function doSearch(q){
+  var dd=document.getElementById('searchDropdown');
+  if(!dd) return;
+  q=(q||'').trim();
+  if(!q){hideDropdown();return;}
+  var ql=q.toLowerCase();
+  var list=typeof plantList!=='undefined'?plantList:[];
+  var res=[];
+  list.forEach(function(it,i){
+    if(!it||it.outOfStock) return;
+    var nm=(it.name||'').toLowerCase();
+    var ct=(it.category||it.type||'').toLowerCase();
+    if(nm.indexOf(ql)>=0||ct.indexOf(ql)>=0) res.push(it);
   });
+  if(!res.length){
+    dd.innerHTML='<div class="sdr-empty"><span>🔍</span>&quot;'+q+'&quot; için sonuç bulunamadı</div>';
+    dd.classList.add('show');return;
+  }
+  var shown=res.slice(0,8);
+  var html='<div class="sdr-header">'+res.length+' sonuç bulundu</div>';
+  shown.forEach(function(it){
+    var img=it.img?'<img class="sdr-img" src="'+it.img+'" alt="" loading="lazy">'
+                  :'<div class="sdr-img-ph">🌿</div>';
+    var pr=it.price?'<span class="sdr-price">'+Number(it.price).toLocaleString('tr-TR')+' ₺</span>':'';
+    var bg='<span class="sdr-badge">'+(it.category||it.type||'Ürün')+'</span>';
+    html+='<div class="sdr-item" onclick="hideDropdown()">'+img+'<div class="sdr-info"><div class="sdr-name">'+it.name+'</div><div class="sdr-meta">'+bg+pr+'</div></div></div>';
+  });
+  if(res.length>8) html+='<div class="sdr-footer">+'+(res.length-8)+' daha var</div>';
+  dd.innerHTML=html;
+  dd.classList.add('show');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var inp=document.getElementById('snavSearchInput');
+  var dinp=document.getElementById('drawerSearchInput');
+  if(inp) inp.addEventListener('input',function(e){doSearch(e.target.value);});
+  if(dinp) dinp.addEventListener('input',function(e){doSearch(e.target.value);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSearch();});
+  document.addEventListener('click',function(e){if(!e.target.closest('#snavSearch'))hideDropdown();});
+});
 });
 
 </script>
@@ -270,6 +297,19 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   }
   #drawerSearch svg{color:var(--text-dim);flex-shrink:0;}
 }
+
+#searchDropdown{position:absolute;top:calc(100% + 10px);right:0;width:clamp(260px,36vw,400px);background:#fff;border:1px solid var(--stroke);border-radius:16px;box-shadow:0 12px 48px rgba(18,70,181,0.16);overflow:hidden;opacity:0;transform:translateY(-8px) scale(0.98);pointer-events:none;transition:opacity .22s ease,transform .22s cubic-bezier(.16,1,.3,1);z-index:500;max-height:72vh;overflow-y:auto;}
+#searchDropdown.show{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.sdr-header{padding:10px 14px 6px;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);border-bottom:1px solid var(--stroke);}
+.sdr-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;transition:background .15s;text-decoration:none;color:var(--text);border-bottom:1px solid var(--stroke);}
+.sdr-item:last-child{border-bottom:none;}.sdr-item:hover{background:var(--blue-pale);}
+.sdr-img{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--blue-pale);}
+.sdr-img-ph{width:44px;height:44px;border-radius:10px;background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.sdr-info{flex:1;min-width:0;}.sdr-name{font-size:13px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sdr-meta{display:flex;align-items:center;gap:6px;margin-top:3px;}.sdr-badge{font-size:10px;background:var(--blue-pale);color:var(--blue);padding:1px 8px;border-radius:99px;font-weight:500;}
+.sdr-price{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--coral);white-space:nowrap;}
+.sdr-empty{padding:24px;text-align:center;color:var(--text-dim);font-size:13px;}.sdr-empty span{font-size:24px;display:block;margin-bottom:8px;}
+.sdr-footer{padding:10px 14px;text-align:center;font-size:12px;color:var(--text-dim);border-top:1px solid var(--stroke);background:var(--bg);}
 </style>
 </head>
 <body>
