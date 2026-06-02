@@ -228,9 +228,8 @@ a{text-decoration:none;color:inherit;}
 .hero h1 span{color:var(--coral);}
 #brandSub{
   font-family:'Sora',sans-serif;
-  font-size:clamp(24px,4vw,40px);font-weight:300;
-  color:rgba(255,255,255,0.85);letter-spacing:0.06em;
-  margin-bottom:28px;
+  font-size:inherit;font-weight:700;
+  color:#fff;letter-spacing:inherit;
 }
 .hero-label{
   opacity:0;animation:heroFadeIn .8s ease 2.5s forwards;
@@ -536,7 +535,7 @@ a{text-decoration:none;color:inherit;}
   border-radius:var(--r);padding:clamp(20px,3vw,32px);
   margin:clamp(32px,4vw,48px) 0;display:none;
 }
-#cartSummary.active{display:block;}
+#cartSummary.active,#cartSummary.visible{display:block;}
 .cart-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:16px;}
 .cart-item{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
@@ -765,7 +764,7 @@ a{text-decoration:none;color:inherit;}
   <div class="hero-content">
     <div class="hero-label">İstanbul Eyüpsultan</div>
     <div class="brand-main">
-      <h1>ENES<br/><span>AKV<span id="brandSub" style="color:rgba(255,255,255,0.9);font-style:normal;">ARYUM</span></span></h1>
+      <h1>ENES<br/><span><span id="brandSub">AKVARYUM</span></span></h1>
     </div>
     <div class="hero-tagline">Balık &amp; akvaryum dünyasına hoş geldiniz</div>
     <div class="hero-ctas">
