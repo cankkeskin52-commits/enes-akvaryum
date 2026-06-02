@@ -131,108 +131,65 @@ a{text-decoration:none;color:inherit;}
 /* ══ LOADER ══ */
 #loader{
   position:fixed;inset:0;z-index:10000;
-  background:#07122b;
+  background:#071325;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:0;overflow:hidden;
 }
-/* Üç kase sahne */
-#loaderBowls{
-  display:flex;align-items:flex-end;justify-content:center;
-  gap:clamp(20px,4vw,48px);
-  margin-bottom:36px;
-  opacity:0;animation:lFadeUp .8s cubic-bezier(.16,1,.3,1) .2s forwards;
+/* Fanus wrapper */
+#loaderBowlWrap{
+  opacity:0;transform:translateY(16px);
+  animation:lFadeUp .7s cubic-bezier(.16,1,.3,1) .15s forwards;
+  position:relative;
 }
-@keyframes lFadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes lFadeUp{to{opacity:1;transform:translateY(0);}}
+#loaderBowlSvg{overflow:visible;display:block;}
 
-/* Kase SVG ortak */
-.l-bowl{overflow:visible;}
-.l-bowl-glass{
-  fill:none;stroke:#FF7878;stroke-width:2;
-  filter:drop-shadow(0 0 6px rgba(255,120,120,0.6));
-}
-/* Su maskeleme */
-.l-water{
-  fill:url(#waterGrad);opacity:0.85;
-  clip-path:url(#bowlClip);
-}
-/* Dalga animasyonu */
-.l-wave-path{
-  fill:url(#waveGrad);opacity:0.7;
-  animation:waveFlow 2.4s ease-in-out infinite;
-}
-@keyframes waveFlow{
-  0%,100%{transform:translateX(0);}
-  50%{transform:translateX(-18px);}
-}
-/* Balık — sarı tang */
-.l-fish{
-  opacity:0;
-  transition:opacity .5s ease, transform .6s cubic-bezier(.16,1,.3,1);
-}
-.l-fish.show{opacity:1;}
+/* Dalga */
+@keyframes waveShift{0%,100%{transform:translateX(0);}50%{transform:translateX(-22px);}}
+#lWave1{animation:waveShift 2.2s ease-in-out infinite;}
+#lWave2{animation:waveShift 2.8s ease-in-out infinite reverse;}
 
-/* Dolum animasyonu — clip-path height */
-@keyframes fillBowl1{
-  0%{clip-path:inset(88% 0 0 0 round 0);}
-  100%{clip-path:inset(55% 0 0 0 round 0);}
+/* Balık yüzme */
+@keyframes fishSwim{
+  0%,100%{transform:translateX(0) translateY(0);}
+  25%{transform:translateX(6px) translateY(-3px);}
+  75%{transform:translateX(-6px) translateY(3px);}
 }
-@keyframes fillBowl2{
-  0%{clip-path:inset(55% 0 0 0 round 0);}
-  100%{clip-path:inset(20% 0 0 0 round 0);}
+#lFish{
+  opacity:0;transition:opacity .8s ease;
+  animation:fishSwim 3.2s ease-in-out infinite;
+  transform-origin:center center;
 }
-@keyframes fillBowl3{
-  0%{clip-path:inset(20% 0 0 0 round 0);}
-  100%{clip-path:inset(2% 0 0 0 round 0);}
-}
-.fill-1{animation:fillBowl1 1.2s cubic-bezier(.4,0,.2,1) .4s both;}
-.fill-2{animation:fillBowl2 1.2s cubic-bezier(.4,0,.2,1) 1.6s both;}
-.fill-3{animation:fillBowl3 1.2s cubic-bezier(.4,0,.2,1) 2.8s both;}
+#lFish.show{opacity:1;}
 
-/* Pulse — 3. kase tamamlandığında */
-.l-bowl-pulse{
-  fill:none;stroke:rgba(255,120,120,0);stroke-width:2;r:52;
-  animation:bowlPulse 1.2s ease-out 4s infinite;
-}
-@keyframes bowlPulse{
-  0%{r:52;stroke:rgba(255,120,120,0.7);stroke-width:2;}
-  100%{r:72;stroke:rgba(100,200,255,0);stroke-width:0;}
-}
-.l-bowl-pulse2{
-  fill:none;stroke:rgba(100,200,255,0);stroke-width:1.5;r:52;
-  animation:bowlPulse2 1.2s ease-out 4.3s infinite;
-}
-@keyframes bowlPulse2{
-  0%{r:52;stroke:rgba(100,200,255,0.5);stroke-width:1.5;}
-  100%{r:78;stroke:rgba(100,200,255,0);stroke-width:0;}
-}
+/* Glow tamamlandığında */
+#lGlow{opacity:0;transition:opacity .6s ease;}
+#lGlow.show{opacity:1;}
 
 /* Başlık */
 #loaderTitle{
   font-family:'Sora',sans-serif;
-  font-size:clamp(28px,6vw,52px);
+  font-size:clamp(24px,5.5vw,48px);
   font-weight:800;color:#fff;
-  letter-spacing:0.1em;line-height:1;
-  margin-bottom:8px;perspective:600px;
+  letter-spacing:0.12em;line-height:1;
+  margin-bottom:6px;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
 }
-#loaderTitle span{
-  display:inline-block;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
-}
-#loaderTitle span.show{opacity:1;transform:translateY(0);}
+#loaderTitle.show{opacity:1;transform:translateY(0);}
 #loaderSub{
-  font-size:10px;letter-spacing:0.4em;text-transform:uppercase;
-  color:rgba(255,255,255,0.3);margin-bottom:32px;
-  opacity:0;transition:opacity .8s ease;
+  font-size:10px;letter-spacing:0.38em;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  opacity:0;transform:translateY(8px);
+  transition:opacity .7s ease .1s, transform .7s ease .1s;
+  margin-bottom:28px;
 }
-#loaderSub.show{opacity:1;}
-.loader-bar{
-  width:min(140px,38vw);height:1px;
-  background:rgba(255,255,255,0.08);
-  overflow:hidden;margin-bottom:10px;
+#loaderSub.show{opacity:1;transform:translateY(0);}
+#loaderPct{
+  font-family:'Sora',sans-serif;
+  font-size:11px;color:rgba(255,255,255,0.22);
+  letter-spacing:0.2em;margin-top:6px;
 }
-#loaderFill{height:100%;width:0%;background:linear-gradient(90deg,#2563EB,#FF7878);transition:width .2s ease;}
-#loaderPct{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:0.2em;}
 
 /* ══ SOUND BTN ══ */
 #soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(255,255,255,0.9);border:1px solid var(--stroke);border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow);backdrop-filter:blur(8px);transition:all .2s;}
@@ -1077,101 +1034,94 @@ a{text-decoration:none;color:inherit;}
 
 <!-- LOADING SCREEN -->
 <div id="loader">
-  <!-- Üç kase animasyonu -->
-  <div id="loaderBowls">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 120" width="90" height="100" class="l-bowl" id="bowl1">
+  <div id="loaderBowlWrap">
+    <svg id="loaderBowlSvg" xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 220 240"
+         width="clamp(180px,40vw,260px)" height="clamp(196px,43vw,283px)">
       <defs>
-        <clipPath id="bClip1"><ellipse cx="55" cy="62" rx="42" ry="44"/></clipPath>
-        <linearGradient id="wg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#40c8f4" stop-opacity=".9"/><stop offset="100%" stop-color="#1246B5" stop-opacity=".8"/></linearGradient>
+        <!-- Fanus iç clipPath -->
+        <clipPath id="lBowlClip">
+          <path d="M34,52 Q18,80 18,118 Q18,182 110,196 Q202,182 202,118 Q202,80 186,52 Z"/>
+        </clipPath>
+        <!-- Su gradyanı -->
+        <linearGradient id="lWaterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4DD9F0" stop-opacity=".92"/>
+          <stop offset="100%" stop-color="#1B6FBF" stop-opacity=".88"/>
+        </linearGradient>
+        <!-- Dalga gradyanı -->
+        <linearGradient id="lWaveGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#6EEAFF" stop-opacity=".7"/>
+          <stop offset="100%" stop-color="#4DD9F0" stop-opacity=".0"/>
+        </linearGradient>
+        <!-- Glow filtre -->
+        <filter id="lGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
-      <!-- Su -->
-      <g clip-path="url(#bClip1)" class="fill-1" style="clip-path:inset(88% 0 0 0 round 0)">
-        <ellipse cx="55" cy="62" rx="42" ry="44" fill="url(#wg1)"/>
-        <path d="M13,62 Q24,54 35,62 Q46,70 57,62 Q68,54 79,62 Q90,70 97,62 L97,106 Q55,110 13,106 Z" fill="#40c8f4" opacity=".5" class="l-wave-path"/>
-      </g>
-      <!-- Balık (az su — sadece kafa görünür) -->
-      <g class="l-fish" id="fish1" style="transform:translate(28px,82px)">
-        <g transform="scale(0.5)">
-          <ellipse cx="20" cy="0" rx="22" ry="11" fill="#f5c518"/>
-          <ellipse cx="20" cy="0" rx="10" ry="9" fill="#e8a800" opacity=".6"/>
-          <path d="M-4,-8 L-18,0 L-4,8 Z" fill="#f5c518"/>
-          <circle cx="28" cy="-3" r="3" fill="#222"/>
-          <path d="M14,-10 Q20,-16 26,-10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
-          <path d="M14,10 Q20,16 26,10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
-        </g>
-      </g>
-      <!-- Kase çerçevesi -->
-      <ellipse cx="55" cy="62" rx="42" ry="44" class="l-bowl-glass"/>
-      <path d="M30,106 Q55,116 80,106" fill="none" stroke="#FF7878" stroke-width="2" opacity=".5"/>
-      <line x1="40" y1="18" x2="70" y2="18" stroke="#FF7878" stroke-width="1.5" opacity=".4"/>
-    </svg>
 
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 120" width="90" height="100" class="l-bowl" id="bowl2">
-      <defs>
-        <clipPath id="bClip2"><ellipse cx="55" cy="62" rx="42" ry="44"/></clipPath>
-        <linearGradient id="wg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#40c8f4" stop-opacity=".9"/><stop offset="100%" stop-color="#1246B5" stop-opacity=".8"/></linearGradient>
-      </defs>
-      <g clip-path="url(#bClip2)" class="fill-2" style="clip-path:inset(55% 0 0 0 round 0)">
-        <ellipse cx="55" cy="62" rx="42" ry="44" fill="url(#wg2)"/>
-        <path d="M13,62 Q24,54 35,62 Q46,70 57,62 Q68,54 79,62 Q90,70 97,62 L97,106 Q55,110 13,106 Z" fill="#40c8f4" opacity=".5" class="l-wave-path" style="animation-delay:-.4s"/>
+      <!-- === Su dolum grubu (clipPath ile kaseye kısıtlı) === -->
+      <g clip-path="url(#lBowlClip)">
+        <!-- Ana su dolgu rect — y JS ile kontrol ediyor -->
+        <rect id="lWaterRect" x="15" y="196" width="190" height="200" fill="url(#lWaterGrad)"/>
+        <!-- Dalga 1 -->
+        <path id="lWave1"
+          d="M-20,0 Q10,-14 40,0 Q70,14 100,0 Q130,-14 160,0 Q190,14 220,0 Q250,-14 260,0 L260,60 L-20,60 Z"
+          fill="url(#lWaveGrad)" opacity=".8"/>
+        <!-- Dalga 2 -->
+        <path id="lWave2"
+          d="M-30,6 Q5,-8 40,6 Q75,20 110,6 Q145,-8 180,6 Q215,20 250,6 L260,60 L-30,60 Z"
+          fill="#4DD9F0" opacity=".35"/>
       </g>
-      <!-- Balık (yarı su — tam balık görünür) -->
-      <g class="l-fish" id="fish2" style="transform:translate(20px,60px)">
-        <g transform="scale(0.65)">
-          <ellipse cx="20" cy="0" rx="22" ry="11" fill="#f5c518"/>
-          <ellipse cx="20" cy="0" rx="10" ry="9" fill="#e8a800" opacity=".6"/>
-          <path d="M-4,-8 L-18,0 L-4,8 Z" fill="#f5c518"/>
-          <circle cx="28" cy="-3" r="3" fill="#222"/>
-          <path d="M14,-10 Q20,-16 26,-10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
-          <path d="M14,10 Q20,16 26,10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
-          <!-- Balık yüzgeçleri -->
-          <path d="M10,-11 Q16,-20 22,-11" fill="#f5c518" opacity=".8"/>
-          <path d="M8,0 Q4,8 10,11" fill="#f5c518" opacity=".6"/>
-        </g>
-      </g>
-      <ellipse cx="55" cy="62" rx="42" ry="44" class="l-bowl-glass"/>
-      <path d="M30,106 Q55,116 80,106" fill="none" stroke="#FF7878" stroke-width="2" opacity=".5"/>
-      <line x1="40" y1="18" x2="70" y2="18" stroke="#FF7878" stroke-width="1.5" opacity=".4"/>
-    </svg>
 
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 120" width="90" height="100" class="l-bowl" id="bowl3">
-      <defs>
-        <clipPath id="bClip3"><ellipse cx="55" cy="62" rx="42" ry="44"/></clipPath>
-        <linearGradient id="wg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#40c8f4" stop-opacity=".9"/><stop offset="100%" stop-color="#1246B5" stop-opacity=".8"/></linearGradient>
-      </defs>
-      <g clip-path="url(#bClip3)" class="fill-3" style="clip-path:inset(20% 0 0 0 round 0)">
-        <ellipse cx="55" cy="62" rx="42" ry="44" fill="url(#wg3)"/>
-        <path d="M13,50 Q24,42 35,50 Q46,58 57,50 Q68,42 79,50 Q90,58 97,50 L97,106 Q55,110 13,106 Z" fill="#40c8f4" opacity=".5" class="l-wave-path" style="animation-delay:-.8s"/>
+      <!-- === Balık (referans: yuvarlak gövde, sarı-turuncu, yüzgeçli) === -->
+      <g id="lFish">
+        <!-- Kuyruk -->
+        <path d="M68,118 L44,104 L44,132 Z" fill="#E8920A"/>
+        <path d="M68,118 L46,108 L46,128 Z" fill="#F5A623" opacity=".7"/>
+        <!-- Ana gövde -->
+        <ellipse cx="102" cy="118" rx="40" ry="28" fill="#F5A623"/>
+        <!-- Gövde desenler -->
+        <ellipse cx="102" cy="118" rx="26" ry="20" fill="#E8920A" opacity=".45"/>
+        <ellipse cx="108" cy="115" rx="14" ry="11" fill="#FBBC1E" opacity=".35"/>
+        <!-- Sırt yüzgeci -->
+        <path d="M78,91 Q95,76 122,90" stroke="#E8920A" stroke-width="2" fill="#F5A623" opacity=".9"/>
+        <path d="M78,91 Q95,78 122,90 L118,96 Q95,85 82,96 Z" fill="#F5A623" opacity=".85"/>
+        <!-- Alt yüzgeç -->
+        <path d="M86,143 Q96,156 108,143" fill="#E8920A" opacity=".8"/>
+        <!-- Yan yüzgeç -->
+        <path d="M100,118 Q112,108 118,120 Q112,130 100,122 Z" fill="#FBBC1E" opacity=".6"/>
+        <!-- Göz -->
+        <circle cx="130" cy="112" r="7" fill="#fff"/>
+        <circle cx="131" cy="113" r="4.5" fill="#1a1a1a"/>
+        <circle cx="133" cy="111" r="1.5" fill="#fff" opacity=".9"/>
+        <!-- Ağız -->
+        <path d="M140,118 Q144,122 140,124" stroke="#c97010" stroke-width="1.5" fill="none"/>
+        <!-- Kabarcıklar -->
+        <circle cx="152" cy="96" r="3.5" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.2"/>
+        <circle cx="160" cy="80" r="2.2" fill="none" stroke="rgba(255,255,255,0.38)" stroke-width="1"/>
+        <circle cx="148" cy="68" r="1.4" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="0.8"/>
       </g>
-      <!-- Balık (dolu su — tam yüzüyor) -->
-      <g class="l-fish" id="fish3" style="transform:translate(18px,52px)">
-        <g transform="scale(0.72)">
-          <ellipse cx="20" cy="0" rx="22" ry="11" fill="#f5c518"/>
-          <ellipse cx="20" cy="0" rx="10" ry="9" fill="#e8a800" opacity=".6"/>
-          <path d="M-4,-8 L-18,0 L-4,8 Z" fill="#f5c518"/>
-          <circle cx="28" cy="-3" r="3" fill="#222"/>
-          <path d="M14,-10 Q20,-16 26,-10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
-          <path d="M14,10 Q20,16 26,10" stroke="#FF7878" stroke-width="1.5" fill="none" opacity=".7"/>
-          <path d="M10,-11 Q16,-20 22,-11" fill="#f5c518" opacity=".8"/>
-          <path d="M8,0 Q4,8 10,11" fill="#f5c518" opacity=".6"/>
-          <!-- Kabarcık -->
-          <circle cx="34" cy="-18" r="2.5" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
-          <circle cx="30" cy="-28" r="1.5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        </g>
-      </g>
-      <!-- Pulse halkaları -->
-      <circle cx="55" cy="62" class="l-bowl-pulse"/>
-      <circle cx="55" cy="62" class="l-bowl-pulse2"/>
-      <ellipse cx="55" cy="62" rx="42" ry="44" class="l-bowl-glass" style="filter:drop-shadow(0 0 10px rgba(255,120,120,0.8))"/>
-      <path d="M30,106 Q55,116 80,106" fill="none" stroke="#FF7878" stroke-width="2" opacity=".5"/>
-      <line x1="40" y1="18" x2="70" y2="18" stroke="#FF7878" stroke-width="1.5" opacity=".4"/>
+
+      <!-- === Fanus çerçevesi (en üstte, suyu örter) === -->
+      <!-- Gövde outline -->
+      <path d="M34,52 Q18,80 18,118 Q18,182 110,196 Q202,182 202,118 Q202,80 186,52 Z"
+            fill="none" stroke="#FF7878" stroke-width="2.5"
+            id="lGlow"
+            style="filter:drop-shadow(0 0 0px rgba(255,120,120,0))"/>
+      <!-- Ağız elips üst -->
+      <ellipse cx="110" cy="50" rx="78" ry="16"
+               fill="none" stroke="#FF7878" stroke-width="2.5"
+               style="filter:drop-shadow(0 0 6px rgba(255,120,120,0.5))"/>
+      <!-- İnce iç kontur shine -->
+      <path d="M42,62 Q28,88 28,118 Q28,172 110,185"
+            fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
     </svg>
   </div>
 
-  <!-- Metin + progress -->
-  <div id="loaderTitle"></div>
+  <!-- Başlık + alt yazı -->
+  <div id="loaderTitle">ENES AKVARYUM</div>
   <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
-  <div class="loader-bar"><div id="loaderFill"></div></div>
   <div id="loaderPct">0%</div>
 </div>
 
@@ -3034,52 +2984,77 @@ fetchFish();
 /* ══ LOADING SCREEN ══ */
 (function(){
   const loader=document.getElementById('loader');
-  const fill=document.getElementById('loaderFill');
   const pctEl=document.getElementById('loaderPct');
   const titleEl=document.getElementById('loaderTitle');
   const subEl=document.getElementById('loaderSub');
+  const waterRect=document.getElementById('lWaterRect');
+  const wave1=document.getElementById('lWave1');
+  const wave2=document.getElementById('lWave2');
+  const fish=document.getElementById('lFish');
+  const glowPath=document.getElementById('lGlow');
   if(!loader) return;
 
   // Scroll kilitle
   document.body.style.overflow='hidden';
   document.documentElement.style.overflow='hidden';
 
-  // Balıkları sıralı göster (kase dolumuna paralel)
-  setTimeout(()=>document.getElementById('fish1')?.classList.add('show'), 600);
-  setTimeout(()=>document.getElementById('fish2')?.classList.add('show'), 1800);
-  setTimeout(()=>document.getElementById('fish3')?.classList.add('show'), 3000);
+  // Fanus iç alanı: y=196 (boş) → y=52 (dolu) — 144px range
+  const WATER_EMPTY=196, WATER_FULL=52, WATER_RANGE=WATER_EMPTY-WATER_FULL;
+  // Balık başlangıç ve bitiş y offset (SVG transform)
+  const FISH_START_Y=40, FISH_END_Y=-12;
 
-  // "ENES AKVARYUM" harf harf — kaseler dolduktan sonra
-  const words=['ENES','AKVARYUM'];
-  let delay=3600;
-  words.forEach((word,wi)=>{
-    word.split('').forEach((l,li)=>{
-      const s=document.createElement('span');
-      s.textContent=l;
-      if(li===0&&wi===1) s.style.marginLeft='0.35em';
-      titleEl.appendChild(s);
-      setTimeout(()=>s.classList.add('show'), delay);
-      delay+=70;
-    });
-  });
-  setTimeout(()=>subEl?.classList.add('show'), delay+100);
+  function updateWater(pct){
+    const waterY=WATER_EMPTY - (pct/100)*WATER_RANGE;
+    if(waterRect) waterRect.setAttribute('y', waterY);
+    // Dalga pozisyonu
+    const waveY=waterY+2;
+    if(wave1) wave1.setAttribute('transform',`translate(0,${waveY})`);
+    if(wave2) wave2.setAttribute('transform',`translate(10,${waveY+4})`);
+    // Balık suyla birlikte yükseliyor
+    const fishY=FISH_START_Y+(FISH_END_Y-FISH_START_Y)*(pct/100);
+    if(fish) fish.setAttribute('transform',`translate(0,${fishY})`);
+    // Balık %20'den sonra görünür
+    if(fish&&pct>20) fish.classList.add('show');
+    // %100'de glow
+    if(glowPath&&pct>=100){
+      glowPath.style.stroke='#FF7878';
+      glowPath.style.filter='drop-shadow(0 0 12px rgba(255,120,120,0.8)) drop-shadow(0 0 24px rgba(100,200,255,0.4))';
+    }
+  }
 
-  // Progress — kaselerle senkron
+  // Başlangıç su seviyesi
+  updateWater(0);
+
+  // Yazılar — %60'dan sonra başlasın
+  let titleShown=false, subShown=false;
+
+  // Progress
   let p=0;
   const iv=setInterval(()=>{
-    p+=Math.random()*4+1.5;
+    p+=Math.random()*3.5+1.5;
     if(p>=100){p=100;clearInterval(iv);}
-    fill.style.width=p+'%';
+    updateWater(p);
     pctEl.textContent=Math.floor(p)+'%';
-    if(p===100){
+
+    // %60 → başlık
+    if(p>=60&&!titleShown){
+      titleShown=true;
+      titleEl.classList.add('show');
+    }
+    // %80 → alt yazı
+    if(p>=80&&!subShown){
+      subShown=true;
+      subEl.classList.add('show');
+    }
+
+    if(p>=100){
       setTimeout(()=>{
-        loader.style.transition='opacity 0.8s ease';
+        loader.style.transition='opacity 0.9s ease';
         loader.style.opacity='0';
         setTimeout(()=>{
           loader.style.display='none';
           document.body.style.overflow='';
           document.documentElement.style.overflow='';
-          // Hero elementlerini göster
           requestAnimationFrame(()=>{
             document.querySelector('.hero-label')?.classList.add('visible');
             setTimeout(()=>document.querySelectorAll('.hero-title-line').forEach(el=>el.classList.add('visible')),100);
@@ -3087,11 +3062,11 @@ fetchFish();
             setTimeout(()=>document.querySelector('.hero-tagline')?.classList.add('visible'),400);
             setTimeout(()=>document.querySelector('.hero-ctas')?.classList.add('visible'),600);
           });
-        },900);
+        },1000);
         if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
-      },600);
+      },700);
     }
-  },70);
+  },65);
 })();
 
 
