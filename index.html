@@ -119,8 +119,8 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;background:var(--white);overflow-x:hidden;max-width:100%;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:hidden;max-width:100%;}
+html{scroll-behavior:smooth;background:var(--white);overflow-x:clip;}
+body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:clip;}
 h1,h2,h3,h4{font-family:'Sora',sans-serif;}
 a{text-decoration:none;color:inherit;}
 
@@ -2898,6 +2898,10 @@ fetchFish();
   const lineEl=document.getElementById('loaderLine');
   if(!loader) return;
 
+  // Loader açıkken scroll'u kilitle
+  document.body.style.overflow='hidden';
+  document.documentElement.style.overflow='hidden';
+
   // Üst çizgi
   setTimeout(()=>lineEl&&lineEl.classList.add('show'), 100);
 
@@ -2931,7 +2935,11 @@ fetchFish();
         loader.style.transition='opacity 0.7s ease, transform 1s cubic-bezier(.76,0,.24,1)';
         loader.style.opacity='0';
         loader.style.transform='translateY(-3%)';
-        setTimeout(()=>{loader.style.display='none';},800);
+        setTimeout(()=>{
+          loader.style.display='none';
+          document.body.style.overflow='';
+          document.documentElement.style.overflow='';
+        },800);
         if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
       },500);
     }
