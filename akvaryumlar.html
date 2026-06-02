@@ -2,7 +2,13 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WNGFX6SBDF"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WNGFX6SBDF">
+function openDrawer(){document.getElementById('mobileDrawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeDrawer(){document.getElementById('mobileDrawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
+function toggleAcc(btn){btn.classList.toggle('open');btn.nextElementSibling.classList.toggle('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WNGFX6SBDF');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akvaryumlar | Enes Akvaryum — Hazır Set & Özel Tasarım</title>
@@ -129,6 +135,52 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .ripple-wrap{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;}
 .water-ripple{position:absolute;width:40px;height:40px;margin:-20px;border-radius:50%;border:2px solid rgba(18,70,181,0.3);animation:rippleAnim .8s ease-out forwards;}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
+
+/* ══ NAVBAR ══ */
+#stickyNav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.97);border-bottom:1px solid var(--stroke);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(18,70,181,0.06);}
+.snav-inner{display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);height:64px;}
+.snav-logo{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--blue);letter-spacing:0.02em;display:flex;align-items:center;gap:6px;text-decoration:none;}
+.snav-links{display:flex;align-items:center;gap:4px;}
+.snav-link{font-size:12px;font-weight:500;color:var(--text-mid);padding:6px 12px;border-radius:8px;display:flex;align-items:center;gap:4px;white-space:nowrap;transition:color .2s,background .2s;text-decoration:none;}
+.snav-link:hover{color:var(--blue);background:var(--blue-pale);}
+.snav-dropdown{position:relative;}
+.snav-dropdown:hover .snav-drop-menu,.snav-dropdown:focus-within .snav-drop-menu{opacity:1;pointer-events:all;transform:translateY(0);}
+.snav-drop-menu{position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--stroke);border-radius:var(--r);padding:8px;min-width:240px;box-shadow:0 8px 32px rgba(18,70,181,0.12);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .18s,transform .18s;z-index:200;}
+.snav-drop-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--text);font-size:13px;font-weight:500;transition:background .15s,color .15s;text-decoration:none;}
+.snav-drop-item:hover{background:var(--blue-pale);color:var(--blue);}
+.snav-drop-icon{width:36px;height:36px;border-radius:8px;background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.snav-drop-title{font-weight:600;font-size:13px;line-height:1.2;}
+.snav-drop-desc{font-size:11px;color:var(--text-dim);margin-top:1px;}
+.snav-right{display:flex;align-items:center;gap:8px;}
+.snav-wa-btn{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:8px 16px;border-radius:99px;cursor:pointer;transition:all .2s;text-decoration:none;}
+.snav-wa-btn:hover{background:#16A34A;}
+.snav-burger{display:none;background:none;border:1px solid var(--stroke);border-radius:8px;padding:7px;cursor:pointer;color:var(--text);transition:all .2s;align-items:center;justify-content:center;}
+.snav-burger:hover{border-color:var(--blue);color:var(--blue);}
+#mobileDrawer{position:fixed;inset-y:0;right:0;z-index:300;width:min(320px,90vw);background:#fff;box-shadow:-8px 0 40px rgba(18,70,181,0.15);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);overflow-y:auto;display:flex;flex-direction:column;}
+#mobileDrawer.open{transform:translateX(0);}
+#drawerOverlay{position:fixed;inset:0;z-index:290;background:rgba(15,23,41,0.5);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;}
+#drawerOverlay.open{opacity:1;pointer-events:all;}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--stroke);}
+.drawer-close{background:none;border:1px solid var(--stroke);border-radius:8px;padding:6px;cursor:pointer;color:var(--text-mid);display:flex;align-items:center;transition:all .2s;}
+.drawer-close:hover{border-color:var(--blue);color:var(--blue);}
+.drawer-body{padding:12px;display:flex;flex-direction:column;gap:2px;flex:1;}
+.drawer-link{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--text);transition:background .15s,color .15s;text-decoration:none;}
+.drawer-link:hover{background:var(--blue-pale);color:var(--blue);}
+.drawer-link-icon{font-size:18px;width:26px;text-align:center;}
+.drawer-section-label{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);padding:12px 14px 4px;}
+.drawer-acc-trigger{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;transition:background .15s;background:none;border:none;width:100%;text-align:left;}
+.drawer-acc-trigger:hover{background:var(--blue-pale);color:var(--blue);}
+.drawer-acc-trigger svg{transition:transform .25s;flex-shrink:0;}
+.drawer-acc-trigger.open svg{transform:rotate(180deg);}
+.drawer-acc-content{overflow:hidden;max-height:0;transition:max-height .3s ease;}
+.drawer-acc-content.open{max-height:500px;}
+.drawer-sub-link{display:flex;align-items:center;gap:10px;padding:10px 14px 10px 26px;border-radius:10px;font-size:13px;color:var(--text-mid);transition:background .15s,color .15s;text-decoration:none;}
+.drawer-sub-link:hover{background:var(--blue-pale);color:var(--blue);}
+.drawer-sub-icon{font-size:16px;width:22px;text-align:center;}
+.drawer-footer{padding:16px;border-top:1px solid var(--stroke);}
+@media(max-width:767px){.snav-links,.snav-right{display:none;}.snav-burger{display:flex;}}
+@media(min-width:768px){#mobileDrawer,#drawerOverlay{display:none!important;}}
+
 </style>
 </head>
 <body>
@@ -138,12 +190,63 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 <div id="scrollBar"></div>
 <button id="soundBtn" onclick="toggleSound()">🔊</button>
 <div id="stickyNav">
-  <div class="snav-logo" onclick="location.href='index.html'">🐠 Enes Akvaryum</div>
-  <div class="snav-links">
-    <a class="snav-link" href="baliklar.html">Balıklar</a>
-    <a class="snav-link" href="bitkiler.html">Bitkiler</a>
-    <span class="snav-link active">Akvaryum</span>
-    <a class="snav-link" href="taslar.html">Taşlar</a>
+  <div class="snav-inner">
+    <a class="snav-logo" href="index.html">🐠 Enes Akvaryum</a>
+    <nav class="snav-links">
+      <a class="snav-link" href="index.html">Ana Sayfa</a>
+      <div class="snav-dropdown">
+        <button class="snav-link" onclick="return false;">Ürünler<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="snav-drop-menu">
+          <a class="snav-drop-item" href="baliklar.html"><div class="snav-drop-icon">🐠</div><div><div class="snav-drop-title">Balıklar</div><div class="snav-drop-desc">Tatlı su & tuzlu su balıkları</div></div></a>
+          <a class="snav-drop-item" href="bitkiler.html"><div class="snav-drop-icon">🌿</div><div><div class="snav-drop-title">Bitkiler</div><div class="snav-drop-desc">Canlı akvaryum bitkileri</div></div></a>
+          <a class="snav-drop-item" href="akvaryumlar.html"><div class="snav-drop-icon">🔲</div><div><div class="snav-drop-title">Akvaryumlar</div><div class="snav-drop-desc">Hazır setler & özel tasarım</div></div></a>
+          <a class="snav-drop-item" href="taslar.html"><div class="snav-drop-icon">🪨</div><div><div class="snav-drop-title">Taşlar & Dekor</div><div class="snav-drop-desc">Doğal taşlar & aksesuar</div></div></a>
+        </div>
+      </div>
+      <a class="snav-link" href="index.html#hizmetler">Hizmetler</a>
+      <a class="snav-link" href="index.html#iletisim">İletişim</a>
+    </nav>
+    <div class="snav-right">
+      <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!%20Bilgi%20almak%20istiyorum." target="_blank">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+        WhatsApp
+      </a>
+      <button class="snav-burger" onclick="openDrawer()" aria-label="Menü">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<div id="drawerOverlay" onclick="closeDrawer()"></div>
+<div id="mobileDrawer">
+  <div class="drawer-header">
+    <a class="snav-logo" href="index.html">🐠 Enes Akvaryum</a>
+    <button class="drawer-close" onclick="closeDrawer()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="drawer-body">
+    <a class="drawer-link" href="index.html"><span class="drawer-link-icon">🏠</span> Ana Sayfa</a>
+    <div class="drawer-section-label">Ürünler</div>
+    <div>
+      <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+        <span style="display:flex;align-items:center;gap:8px;"><span>🛍️</span> Tüm Ürünler</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="drawer-acc-content">
+        <a class="drawer-sub-link" href="baliklar.html"><span class="drawer-sub-icon">🐠</span> Balıklar</a>
+        <a class="drawer-sub-link" href="bitkiler.html"><span class="drawer-sub-icon">🌿</span> Bitkiler</a>
+        <a class="drawer-sub-link" href="akvaryumlar.html"><span class="drawer-sub-icon">🔲</span> Akvaryumlar</a>
+        <a class="drawer-sub-link" href="taslar.html"><span class="drawer-sub-icon">🪨</span> Taşlar & Dekor</a>
+      </div>
+    </div>
+    <div class="drawer-section-label">Diğer</div>
+    <a class="drawer-link" href="index.html#hizmetler"><span class="drawer-link-icon">🔧</span> Hizmetler</a>
+    <a class="drawer-link" href="index.html#iletisim"><span class="drawer-link-icon">📍</span> İletişim</a>
+  </div>
+  <div class="drawer-footer">
+    <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!" target="_blank" style="width:100%;justify-content:center;">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+      WhatsApp'tan Yaz
+    </a>
   </div>
 </div>
 <div class="page">
