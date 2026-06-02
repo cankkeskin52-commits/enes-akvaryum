@@ -11,17 +11,29 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 
 /* ══ SEARCH ══ */
 function toggleSearch(){
-  const w=document.getElementById('snavSearch');
-  const inp=document.getElementById('snavSearchInput');
-  w.classList.toggle('open');
-  if(w.classList.contains('open')){setTimeout(()=>inp.focus(),350);}
-  else{inp.value='';doSearch('');}
+  var iconBtn=document.getElementById('snavSearchIconBtn');
+  var form=document.getElementById('snavSearchForm');
+  var inp=document.getElementById('snavSearchInput');
+  if(!iconBtn||!form||!inp)return;
+  if(form.classList.contains('open')){
+    form.classList.remove('open');
+    iconBtn.classList.remove('hidden');
+    inp.value='';doSearch('');return;
+  }
+  iconBtn.classList.add('hidden');
+  setTimeout(function(){form.classList.add('open');setTimeout(function(){inp.focus();},80);},120);
 }
 function clearSearch(){
-  const inp=document.getElementById('snavSearchInput');
-  inp.value='';doSearch('');
-  inp.focus();
+  var iconBtn=document.getElementById('snavSearchIconBtn');
+  var form=document.getElementById('snavSearchForm');
+  var inp=document.getElementById('snavSearchInput');
+  if(!inp)return;
+  if(inp.value){inp.value='';doSearch('');inp.focus();return;}
+  if(form)form.classList.remove('open');
+  setTimeout(function(){if(iconBtn)iconBtn.classList.remove('hidden');},200);
+  doSearch('');
 }
+
 function doSearch(q){
   q=q.trim().toLowerCase();
   const grid=document.getElementById('dkGrid');
@@ -227,33 +239,19 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 
 
 /* ══ SEARCH ══ */
-.snav-search-wrap{display:flex;align-items:center;gap:0;position:relative;}
-.snav-search-btn{
-  background:none;border:none;cursor:pointer;
-  color:var(--text-mid);padding:8px;border-radius:8px;
-  display:flex;align-items:center;transition:color .2s,background .2s;
-  flex-shrink:0;
-}
-.snav-search-btn:hover{color:var(--blue);background:var(--blue-pale);}
-.snav-search-input{
-  width:0;opacity:0;border:none;outline:none;
-  background:var(--blue-pale);border-radius:20px;
-  font-family:'DM Sans',sans-serif;font-size:13px;color:var(--dark);
-  padding:0;height:34px;transition:width .35s cubic-bezier(.16,1,.3,1),opacity .25s,padding .35s;
-  pointer-events:none;
-}
-.snav-search-wrap.open .snav-search-input{
-  width:clamp(140px,22vw,240px);opacity:1;
-  padding:0 14px;pointer-events:all;
-}
-.snav-search-wrap.open .snav-search-btn{color:var(--blue);}
-.snav-search-clear{
-  display:none;background:none;border:none;cursor:pointer;
-  color:var(--text-dim);padding:4px;position:absolute;right:6px;
-  font-size:14px;transition:color .2s;
-}
-.snav-search-wrap.open .snav-search-clear{display:flex;align-items:center;}
-.snav-search-clear:hover{color:var(--blue);}
+.snav-search-dock{position:relative;display:flex;align-items:center;}
+.snav-search-icon-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--stroke);background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-mid);transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .2s,color .2s,opacity .15s;transform-origin:center;flex-shrink:0;}
+.snav-search-icon-btn:hover{border-color:var(--blue);color:var(--blue);transform:scale(1.08);}
+.snav-search-icon-btn.hidden{transform:scale(0);opacity:0;pointer-events:none;position:absolute;right:0;}
+.snav-search-form{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid var(--stroke-blue);border-radius:99px;overflow:hidden;width:0;opacity:0;transition:width .4s cubic-bezier(.34,1.26,.64,1),opacity .2s ease,border-color .3s;pointer-events:none;box-shadow:0 4px 20px rgba(18,70,181,0.12);}
+.snav-search-form.open{width:clamp(180px,24vw,300px);opacity:1;pointer-events:all;border-color:var(--blue);}
+.snav-search-form-icon{margin-left:12px;color:var(--text-dim);flex-shrink:0;transition:color .2s;}
+.snav-search-form.open .snav-search-form-icon{color:var(--blue);}
+.snav-search-input{flex:1;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--dark);height:38px;min-width:0;}
+.snav-search-input::placeholder{color:var(--text-dim);}
+.snav-search-close{width:28px;height:28px;border-radius:50%;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-dim);margin-right:5px;flex-shrink:0;transition:background .2s,color .2s,transform .2s cubic-bezier(.34,1.56,.64,1);transform:scale(0);}
+.snav-search-form.open .snav-search-close{transform:scale(1);}
+.snav-search-close:hover{background:var(--blue-pale);color:var(--blue);}
 /* Sonuç yok mesajı */
 .search-no-result{
   text-align:center;padding:3rem 1rem;color:var(--text-dim);font-size:14px;display:none;
@@ -298,14 +296,17 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
       <a class="snav-link" href="index.html#iletisim">İletişim</a>
     </nav>
     <div class="snav-right">
-      <div class="snav-search-wrap" id="snavSearch">
-        <input class="snav-search-input" id="snavSearchInput" type="search" placeholder="Ara..." autocomplete="off"/>
-        <button class="snav-search-btn" onclick="toggleSearch()" aria-label="Ara">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div class="snav-search-dock" id="snavSearch">
+        <button class="snav-search-icon-btn" id="snavSearchIconBtn" onclick="toggleSearch()" aria-label="Ara">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
-        <button class="snav-search-clear" onclick="clearSearch()" aria-label="Temizle">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+        <div class="snav-search-form" id="snavSearchForm">
+          <svg class="snav-search-form-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="snav-search-input" id="snavSearchInput" type="search" placeholder="Ara..." autocomplete="off"/>
+          <button class="snav-search-close" onclick="clearSearch()" type="button" aria-label="Kapat">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
       </div>
       <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!%20Bilgi%20almak%20istiyorum." target="_blank">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
