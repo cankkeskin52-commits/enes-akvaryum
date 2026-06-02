@@ -194,5 +194,129 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
 </a>
 
+<script>
+
+
+const WA='905383279980';
+const WORKER='https://enes-api.cankkeskin-52.workers.dev';
+let plantList=[];
+const CART_KEY='enes_cart';
+function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
+function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
+function totalItems(){return Object.values(cart).reduce((s,v)=>s+(v.qty||0),0)}
+let cart=loadCart();
+
+(function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
+
+const canvas=document.getElementById('bgCanvas');const ctx=canvas.getContext('2d');let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}resize();window.addEventListener('resize',resize);
+class Particle{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=H+Math.random()*100;this.r=Math.random()*3+0.5;this.speed=Math.random()*0.4+0.1;this.dx=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.5+0.1;this.color=Math.random()>0.5?'76,175,125':'45,224,204';}update(){this.y-=this.speed;this.x+=this.dx;this.opacity-=0.0008;if(this.y<-10||this.opacity<=0)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${this.opacity})`;ctx.fill();}}
+const isMobile=window.innerWidth<640;for(let i=0;i<(isMobile?40:80);i++)particles.push(new Particle());
+function animateCanvas(){ctx.clearRect(0,0,W,H);const grad=ctx.createLinearGradient(0,0,0,H);grad.addColorStop(0,'#020810');grad.addColorStop(1,'#020a10');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animateCanvas);}animateCanvas();
+
+(function(){const b=document.getElementById('heroBubs');for(let i=0;i<20;i++){const d=document.createElement('div');const s=Math.random()*14+3;d.style.cssText=`position:absolute;width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${-s}px;border-radius:50%;border:0.5px solid rgba(76,175,125,0.4);background:rgba(76,175,125,0.08);--dx:${(Math.random()-0.5)*30}px;--ds:${0.8+Math.random()*0.4};animation:bubRise ${6+Math.random()*10}s linear ${Math.random()*8}s infinite;`;b.appendChild(d);}})();
+
+const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*60);});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const secObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');secObs.unobserve(e.target);}});},{threshold:0.15});
+document.querySelectorAll('.sec-header').forEach(el=>secObs.observe(el));
+
+(function(){const sb=document.getElementById('scrollBar');const nav=document.getElementById('stickyNav');const hero=document.querySelector('.cat-hero');function update(){const sy=window.scrollY;const dH=document.documentElement.scrollHeight-window.innerHeight;sb.style.width=(dH>0?sy/dH*100:0)+'%';const hH=hero?hero.offsetHeight:300;if(sy>hH*0.5)nav.classList.add('show');else nav.classList.remove('show');}window.addEventListener('scroll',update,{passive:true});})();
+
+function addCardTilt(){document.querySelectorAll('.fish-card').forEach(card=>{let raf=null;card.addEventListener('mousemove',e=>{if(raf)return;raf=requestAnimationFrame(()=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-0.5;const y=(e.clientY-r.top)/r.height-0.5;card.style.transform=`perspective(900px) rotateX(${-y*10}deg) rotateY(${x*10}deg) translateY(-8px) scale(1.02)`;raf=null;});});card.addEventListener('mouseleave',()=>{if(raf){cancelAnimationFrame(raf);raf=null;}card.style.transform='';});})}
+document.addEventListener('click',e=>{const card=e.target.closest('.fish-card');if(!card)return;let wrap=card.querySelector('.ripple-wrap');if(!wrap){wrap=document.createElement('div');wrap.className='ripple-wrap';card.appendChild(wrap);}const r=card.getBoundingClientRect();const ripple=document.createElement('div');ripple.className='water-ripple';ripple.style.left=(e.clientX-r.left)+'px';ripple.style.top=(e.clientY-r.top)+'px';wrap.appendChild(ripple);setTimeout(()=>ripple.remove(),800);});
+
+function renderPlantGrid(){
+  const g=document.getElementById('plantGrid');if(!g)return;
+  if(!plantList.length){g.innerHTML='<div class="no-fish">Henüz bitki eklenmemiş.</div>';return;}
+  g.innerHTML=plantList.map((f,i)=>{
+    const qty=cart[f.name]?.qty||0,inCart=qty>0;
+    const esc=f.name.replace(/'/g,"\\'");
+    return`<div class="fish-card ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
+      <div class="fish-img-wrap">
+        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
+        ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-family:'Jost',sans-serif;">Stokta Yok</div>`:''}
+      </div>
+      <div class="fish-body">
+        <div class="fish-info-row">
+          <div>
+            <div class="fish-name">${f.name}</div>
+            <div class="fish-type-badge">${f.type}</div>
+            ${!f.outOfStock&&f.stock!=null?(f.stock<=2?`<div class="stock-badge stock-critical">🔴 Son ${f.stock} adet!</div>`:f.stock<=5?`<div class="stock-badge stock-low">⚡ Son ${f.stock} adet</div>`:''):''}
+            ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
+          </div>
+          <div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+        </div>
+        <div class="cart-controls">
+          ${f.outOfStock
+            ?`<div></div><div style="font-size:10px;color:#e05555;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;">Stokta Yok</div>`
+            :inCart
+              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('${esc}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('${esc}',1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart('${esc}')">Çıkar</button>`
+              :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${esc}',${f.price})">+ Sepete Ekle</button>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  addCardTilt();
+}
+
+function addToCart(i,name,price){
+  if(!cart[name])cart[name]={name,price,qty:0,img:plantList[i]?.img||'',label:'🌿 Bitki'};
+  cart[name].qty++;saveCart();renderPlantGrid();renderCart();
+}
+function removeFromCart(name){delete cart[name];saveCart();renderPlantGrid();renderCart();}
+function changeQty(name,d){
+  if(cart[name]){cart[name].qty+=d;if(cart[name].qty<=0)delete cart[name];}
+  saveCart();renderPlantGrid();renderCart();
+}
+function clearCart(){cart={};saveCart();renderPlantGrid();renderCart();}
+function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
+
+function renderCart(){
+  const items=Object.values(cart);
+  const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
+  if(!items.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  sum.classList.add('visible');fl.classList.add('visible');
+  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan sipariş vermek istiyorum 🐠%0A%0A';
+  items.forEach(item=>{
+    const sub=item.price*item.qty;total+=sub;
+    html+=`<div class="cart-item"><div><span class="cart-item-name">${item.label||''} ${item.name}</span><span class="cart-item-qty"> ×${item.qty}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${item.name} ×${item.qty} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  });
+  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler!`;
+  document.getElementById('cartItems').innerHTML=html;
+  const totalQty=items.reduce((s,v)=>s+v.qty,0);
+  document.getElementById('cartCount').textContent=`${totalQty} ürün`;
+  document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
+  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+  document.getElementById('cartFloatCount').textContent=totalItems();
+}
+
+async function fetchData(){
+  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.plants){plantList=cached.plants;renderPlantGrid();}}catch(e){}
+  try{
+    const r=await fetch(WORKER,{cache:'no-cache'});
+    const d=await r.json();
+    plantList=d.plants||[];
+    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),plants:plantList}));
+    renderPlantGrid();
+  }catch(e){const g=document.getElementById('plantGrid');if(g&&!plantList.length)g.innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
+}
+fetchData();
+renderCart();
+
+(function(){
+  const loader=document.getElementById('loader');const fill=document.getElementById('loaderFill');const pctEl=document.getElementById('loaderPct');const titleEl=document.getElementById('loaderTitle');if(!loader)return;
+  'BİTKİ'.split('').forEach((l,i)=>{const s=document.createElement('span');s.textContent=l;titleEl.appendChild(s);setTimeout(()=>s.classList.add('show'),200+i*130);});
+  let p=0;const iv=setInterval(()=>{p+=Math.random()*10+5;if(p>=100){p=100;clearInterval(iv);}fill.style.width=p+'%';pctEl.textContent=Math.floor(p)+'%';if(p===100){setTimeout(()=>{loader.style.transition='transform 0.9s cubic-bezier(0.76,0,0.24,1),opacity 0.4s ease 0.4s';loader.style.transform='scaleY(0)';loader.style.opacity='0';setTimeout(()=>loader.style.display='none',1000);},280);}},55);
+})();
+
+let _actx=null,_soundOn=true;
+try{_actx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
+</script>
+</body>
+</html>
+
 </body>
 </html>

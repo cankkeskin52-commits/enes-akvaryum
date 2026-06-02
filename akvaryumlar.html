@@ -194,5 +194,135 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
 </a>
 
+<script>
+
+
+const WA='905383279980';
+const WORKER='https://enes-api.cankkeskin-52.workers.dev';
+let aqList=[];
+const CART_KEY='enes_cart';
+function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
+function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
+function totalItems(){return Object.values(cart).reduce((s,v)=>s+(v.qty||0),0)}
+let cart=loadCart();
+
+(function(){const h=new Date().getHours();if(h>=6&&h<20)document.body.classList.add('day-theme');})();
+
+const canvas=document.getElementById('bgCanvas');const ctx=canvas.getContext('2d');let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}resize();window.addEventListener('resize',resize);
+class Particle{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=H+Math.random()*100;this.r=Math.random()*3+0.5;this.speed=Math.random()*0.4+0.1;this.dx=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.5+0.1;this.color=Math.random()>0.5?'58,159,212':'45,224,204';}update(){this.y-=this.speed;this.x+=this.dx;this.opacity-=0.0008;if(this.y<-10||this.opacity<=0)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(${this.color},${this.opacity})`;ctx.fill();}}
+const isMobile=window.innerWidth<640;for(let i=0;i<(isMobile?40:80);i++)particles.push(new Particle());
+function animateCanvas(){ctx.clearRect(0,0,W,H);const grad=ctx.createLinearGradient(0,0,0,H);grad.addColorStop(0,'#020810');grad.addColorStop(1,'#030c1a');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animateCanvas);}animateCanvas();
+
+(function(){const b=document.getElementById('heroBubs');for(let i=0;i<20;i++){const d=document.createElement('div');const s=Math.random()*14+3;d.style.cssText=`position:absolute;width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${-s}px;border-radius:50%;border:0.5px solid rgba(58,159,212,0.3);background:rgba(58,159,212,0.06);--dx:${(Math.random()-0.5)*30}px;--ds:${0.8+Math.random()*0.4};animation:bubRise ${6+Math.random()*10}s linear ${Math.random()*8}s infinite;`;b.appendChild(d);}})();
+
+const observer=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*60);});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const secObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');secObs.unobserve(e.target);}});},{threshold:0.15});
+document.querySelectorAll('.sec-header').forEach(el=>secObs.observe(el));
+
+(function(){const sb=document.getElementById('scrollBar');const nav=document.getElementById('stickyNav');const hero=document.querySelector('.cat-hero');function update(){const sy=window.scrollY;const dH=document.documentElement.scrollHeight-window.innerHeight;sb.style.width=(dH>0?sy/dH*100:0)+'%';const hH=hero?hero.offsetHeight:300;if(sy>hH*0.5)nav.classList.add('show');else nav.classList.remove('show');}window.addEventListener('scroll',update,{passive:true});})();
+
+document.addEventListener('click',e=>{const card=e.target.closest('.aq-card');if(!card)return;let wrap=card.querySelector('.ripple-wrap');if(!wrap){wrap=document.createElement('div');wrap.className='ripple-wrap';card.appendChild(wrap);}const r=card.getBoundingClientRect();const ripple=document.createElement('div');ripple.className='water-ripple';ripple.style.left=(e.clientX-r.left)+'px';ripple.style.top=(e.clientY-r.top)+'px';wrap.appendChild(ripple);setTimeout(()=>ripple.remove(),800);});
+
+function renderAqGrid(){
+  const g=document.getElementById('aqGrid');if(!g)return;
+  let html='';
+  if(aqList.length){
+    html+=aqList.map((a,i)=>{
+      const qty=cart[a.name]?.qty||0,inCart=qty>0;
+      const esc=a.name.replace(/'/g,"\\'");
+      return`<div class="aq-card ${inCart?'in-cart':''}">
+        <div class="aq-img-wrap">
+          ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🔲</div>`}
+        </div>
+        <div class="aq-body">
+          <div>
+            <div class="aq-name">${a.name}</div>
+            <div class="aq-badge">Hazır Akvaryum</div>
+            ${a.size?`<div class="aq-size">${a.size}</div>`:''}
+            ${a.note?`<div class="aq-size">${a.note}</div>`:''}
+          </div>
+          <div class="aq-footer">
+            ${a.price?`<div class="aq-price">${Number(a.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div class="aq-price" style="font-size:14px;color:var(--text-dim);">Fiyat için ara</div>`}
+            ${a.price
+              ?(inCart
+                ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty('${esc}',-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty('${esc}',1)">+</button></div>`
+                :`<button class="add-cart-btn" onclick="addToCart(${i},'${esc}',${a.price})">+ Sepete Ekle</button>`)
+              :`<a class="aq-wa-btn" href="https://wa.me/${WA}?text=${encodeURIComponent(a.name+' hakkında bilgi almak istiyorum.')}" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#20c45a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>Sor</a>`}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  html+=`<div class="aq-custom-card">
+    <div style="font-size:32px;margin-bottom:12px;position:relative;">✨</div>
+    <div class="aq-custom-title">Özel Tasarım Akvaryum</div>
+    <div class="aq-custom-desc">İstediğiniz boyut, şekil ve dekorasyona göre size özel akvaryum tasarlıyoruz. Fiyat için bizimle iletişime geçin.</div>
+    <a class="aq-custom-btn" href="https://wa.me/${WA}?text=${encodeURIComponent('Özel tasarım akvaryum hakkında bilgi almak istiyorum.')}" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+      WhatsApp'tan Sor
+    </a>
+  </div>`;
+  g.innerHTML=html;
+}
+
+function addToCart(i,name,price){
+  if(!cart[name])cart[name]={name,price,qty:0,img:aqList[i]?.img||'',label:'🐟 Akvaryum'};
+  cart[name].qty++;saveCart();renderAqGrid();renderCart();
+}
+function removeFromCart(name){delete cart[name];saveCart();renderAqGrid();renderCart();}
+function changeQty(name,d){
+  if(cart[name]){cart[name].qty+=d;if(cart[name].qty<=0)delete cart[name];}
+  saveCart();renderAqGrid();renderCart();
+}
+function clearCart(){cart={};saveCart();renderAqGrid();renderCart();}
+function scrollToCart(){document.getElementById('cartSummary').scrollIntoView({behavior:'smooth',block:'center'});}
+
+function renderCart(){
+  const items=Object.values(cart);
+  const sum=document.getElementById('cartSummary'),fl=document.getElementById('cartFloat');
+  if(!items.length){sum.classList.remove('visible');fl.classList.remove('visible');return;}
+  sum.classList.add('visible');fl.classList.add('visible');
+  let total=0,html='',msg='Merhaba! Enes Akvaryum\'dan sipariş vermek istiyorum 🐠%0A%0A';
+  items.forEach(item=>{
+    const sub=item.price*item.qty;total+=sub;
+    html+=`<div class="cart-item"><div><span class="cart-item-name">${item.label||''} ${item.name}</span><span class="cart-item-qty"> ×${item.qty}</span></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    msg+=`• ${item.name} ×${item.qty} — ${sub.toLocaleString('tr-TR')}₺%0A`;
+  });
+  msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler!`;
+  document.getElementById('cartItems').innerHTML=html;
+  const totalQty=items.reduce((s,v)=>s+v.qty,0);
+  document.getElementById('cartCount').textContent=`${totalQty} ürün`;
+  document.getElementById('cartTotal').textContent=`Toplam: ${total.toLocaleString('tr-TR')} ₺`;
+  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
+  document.getElementById('cartFloatCount').textContent=totalItems();
+}
+
+async function fetchData(){
+  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.aquariums){aqList=cached.aquariums;renderAqGrid();}}catch(e){}
+  try{
+    const r=await fetch(WORKER,{cache:'no-cache'});
+    const d=await r.json();
+    aqList=d.aquariums||[];
+    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),aquariums:aqList}));
+    renderAqGrid();
+  }catch(e){renderAqGrid();}
+}
+fetchData();
+renderCart();
+
+(function(){
+  const loader=document.getElementById('loader');const fill=document.getElementById('loaderFill');const pctEl=document.getElementById('loaderPct');const titleEl=document.getElementById('loaderTitle');if(!loader)return;
+  'AKVARYUM'.split('').forEach((l,i)=>{const s=document.createElement('span');s.textContent=l;titleEl.appendChild(s);setTimeout(()=>s.classList.add('show'),150+i*100);});
+  let p=0;const iv=setInterval(()=>{p+=Math.random()*10+5;if(p>=100){p=100;clearInterval(iv);}fill.style.width=p+'%';pctEl.textContent=Math.floor(p)+'%';if(p===100){setTimeout(()=>{loader.style.transition='transform 0.9s cubic-bezier(0.76,0,0.24,1),opacity 0.4s ease 0.4s';loader.style.transform='scaleY(0)';loader.style.opacity='0';setTimeout(()=>loader.style.display='none',1000);},280);}},55);
+})();
+
+let _soundOn=true;
+function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
+</script>
+</body>
+</html>
+
 </body>
 </html>
