@@ -3429,6 +3429,7 @@ fetchFish();
 
 /* ══ LOADING SCREEN ══ */
 (function(){
+  try{
   const loader=document.getElementById('loader');
   const pctEl=document.getElementById('loaderPct');
   const titleEl=document.getElementById('loaderTitle');
@@ -3440,7 +3441,7 @@ fetchFish();
   const fish=document.getElementById('lFish');
   const glowPath=document.getElementById('lBowlOutline');
   const caustic=document.getElementById('lCaustic');
-  if(!loader) return;
+  if(!loader||!pctEl) return;
 
   // Scroll kilitle
   document.body.style.overflow='hidden';
@@ -3515,6 +3516,12 @@ fetchFish();
       },700);
     }
   },65);
+  }catch(e){
+    // Loader hata verse bile kapat
+    var l=document.getElementById('loader');
+    if(l){l.style.opacity='0';setTimeout(function(){l.style.display='none';document.body.style.overflow='';document.documentElement.style.overflow='';},800);}
+    console.error('Loader error:',e);
+  }
 })();
 
 
