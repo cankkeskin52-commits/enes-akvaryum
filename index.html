@@ -2664,7 +2664,7 @@ function addToCart(i,name,price){
   cart[i]=(cart[i]||0)+1;
   updateCartControls(i);
   renderCart();
-  openCartDrawer();
+  // Drawer otomatik açılmıyor — kullanıcı sepet butonuna basınca açılır
 }
 function removeFromCart(i){
   delete cart[i];updateCartControls(i);renderCart();
