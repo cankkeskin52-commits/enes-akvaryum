@@ -741,18 +741,19 @@ a{text-decoration:none;color:inherit;}
 }
 .hub-card{
   position:relative;height:130px;border-radius:var(--r-lg);overflow:hidden;
-  text-decoration:none;display:block;
+  text-decoration:none;display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:flex-end;padding:14px;
+  background:linear-gradient(135deg,#0d2a6e,#1246B5,#1d4ed8);
   transition:transform .18s cubic-bezier(.34,1.36,.64,1);
   box-shadow:var(--shadow);
 }
 .hub-card:hover{transform:scale(1.03);}
-.hub-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.hub-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,25,80,0.88) 0%,rgba(10,25,80,0.2) 60%,transparent 100%);}
-.hub-content{position:absolute;bottom:10px;left:12px;}
-.hub-icon{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border-radius:8px;padding:4px 8px;font-size:16px;}
+.hub-icon{position:absolute;top:12px;left:12px;font-size:28px;}
+.hub-content{position:relative;}
 .hub-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;}
 .hub-desc{font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;}
 .hub-badge{display:none;}
+.hub-overlay{display:none;}
 
 /* ══ FISH GRID ══ */
 .fish-grid{
@@ -1483,40 +1484,28 @@ a{text-decoration:none;color:inherit;}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
 
       <!-- Balıklar -->
-      <a href="baliklar.html" onclick="closeDrawer()" style="position:relative;height:110px;border-radius:16px;overflow:hidden;text-decoration:none;display:block;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&auto=format&fit=crop&q=70" alt="Balıklar" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
-        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,36,96,0.85) 0%,rgba(10,36,96,0.2) 60%,transparent 100%);"></div>
-        <div style="position:absolute;bottom:10px;left:12px;">
-          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Balıklar</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:1px;">Tatlı & tuzlu su</div>
-        </div>
-        <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border-radius:8px;padding:4px 8px;font-size:10px;color:#fff;font-weight:600;">🐠</div>
+      <a href="baliklar.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#0d2a6e,#1246B5,#1d4ed8);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
+        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🐠</span>
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Balıklar</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;">Tatlı & tuzlu su</div>
       </a>
 
       <!-- Bitkiler -->
-      <a href="bitkiler.html" onclick="closeDrawer()" style="position:relative;height:110px;border-radius:16px;overflow:hidden;text-decoration:none;display:block;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <img src="https://images.unsplash.com/photo-1520301255226-bf5f144451c1?w=400&auto=format&fit=crop&q=70" alt="Bitkiler" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
-        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(5,46,22,0.85) 0%,rgba(5,46,22,0.2) 60%,transparent 100%);"></div>
-        <div style="position:absolute;bottom:10px;left:12px;">
-          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Bitkiler</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:1px;">Canlı akvaryum</div>
-        </div>
-        <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border-radius:8px;padding:4px 8px;font-size:10px;color:#fff;font-weight:600;">🌿</div>
+      <a href="bitkiler.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#14532d,#166534,#15803d);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
+        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🌿</span>
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Bitkiler</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;">Canlı akvaryum</div>
       </a>
 
       <!-- Akvaryumlar -->
-      <a href="akvaryumlar.html" onclick="closeDrawer()" style="position:relative;height:110px;border-radius:16px;overflow:hidden;text-decoration:none;display:block;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=400&auto=format&fit=crop&q=70&v=2" alt="Akvaryumlar" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
-        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,50,133,0.85) 0%,rgba(13,50,133,0.2) 60%,transparent 100%);"></div>
-        <div style="position:absolute;bottom:10px;left:12px;">
-          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Akvaryumlar</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:1px;">Hazır & özel</div>
-        </div>
-        <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border-radius:8px;padding:4px 8px;font-size:10px;color:#fff;font-weight:600;">🔲</div>
+      <a href="akvaryumlar.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#312e81,#4338ca,#6366f1);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
+        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🔲</span>
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Akvaryumlar</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;">Hazır & özel</div>
       </a>
 
       <!-- Taşlar -->
-      <a href="taslar.html" onclick="closeDrawer()" style="position:relative;height:110px;border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#78350f,#92400e,#b45309);transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
+      <a href="taslar.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#78350f,#92400e,#b45309);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
         <span style="font-size:28px;position:absolute;top:12px;left:12px;">🪨</span>
         <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Taşlar & Dekor</div>
         <div style="font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;">Doğal & aksesuar</div>
@@ -1617,35 +1606,29 @@ a{text-decoration:none;color:inherit;}
   </div>
   <div class="cat-hub reveal" id="catHub">
     <a class="hub-card" href="baliklar.html">
-      <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&auto=format&fit=crop&q=70" alt="Balıklar" loading="lazy"/>
-      <div class="hub-overlay"></div>
       <div class="hub-icon">🐠</div>
       <div class="hub-content">
         <div class="hub-title">Balıklar</div>
         <div class="hub-desc">Tatlı su & tuzlu su</div>
       </div>
     </a>
-    <a class="hub-card" href="bitkiler.html">
-      <img src="https://images.unsplash.com/photo-1520301255226-bf5f144451c1?w=400&auto=format&fit=crop&q=70" alt="Bitkiler" loading="lazy"/>
-      <div class="hub-overlay" style="background:linear-gradient(to top,rgba(5,46,22,0.88) 0%,rgba(5,46,22,0.2) 60%,transparent 100%);"></div>
+    <a class="hub-card" href="bitkiler.html" style="background:linear-gradient(135deg,#14532d,#166534,#15803d);">
       <div class="hub-icon">🌿</div>
       <div class="hub-content">
         <div class="hub-title">Bitkiler</div>
         <div class="hub-desc">Canlı akvaryum bitkileri</div>
       </div>
     </a>
-    <a class="hub-card" href="akvaryumlar.html">
-      <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=400&auto=format&fit=crop&q=70&v=2" alt="Akvaryumlar" loading="lazy"/>
-      <div class="hub-overlay" style="background:linear-gradient(to top,rgba(13,50,133,0.88) 0%,rgba(13,50,133,0.2) 60%,transparent 100%);"></div>
+    <a class="hub-card" href="akvaryumlar.html" style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8,#2563eb);">
       <div class="hub-icon">🔲</div>
       <div class="hub-content">
         <div class="hub-title">Akvaryumlar</div>
         <div class="hub-desc">Hazır setler & özel tasarım</div>
       </div>
     </a>
-    <a class="hub-card" href="taslar.html" style="background:linear-gradient(135deg,#78350f,#92400e,#b45309);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;">
-      <div class="hub-icon" style="position:absolute;top:10px;left:12px;font-size:28px;background:none;border:none;padding:0;">🪨</div>
-      <div class="hub-content" style="position:relative;">
+    <a class="hub-card" href="taslar.html" style="background:linear-gradient(135deg,#78350f,#92400e,#b45309);">
+      <div class="hub-icon">🪨</div>
+      <div class="hub-content">
         <div class="hub-title">Taşlar & Dekor</div>
         <div class="hub-desc">Doğal taşlar & aksesuar</div>
       </div>
