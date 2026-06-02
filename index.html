@@ -131,74 +131,71 @@ a{text-decoration:none;color:inherit;}
 /* ══ LOADER ══ */
 #loader{
   position:fixed;inset:0;z-index:10000;
-  background:linear-gradient(180deg,#010f2e 0%,#0a2460 60%,#0d3585 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#010a18;
+  display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
-/* Su dalgası geçiş */
-#loaderWave{
-  position:absolute;bottom:-2px;left:0;right:0;z-index:1;
-  opacity:0;transition:opacity 0.4s;
+/* Arka plan resim — soluk su altı */
+#loaderBg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1200&auto=format&fit=crop&q=60') center/cover;
+  opacity:0;
+  animation:loaderBgFade 1.2s ease 0.3s forwards;
+  filter:blur(2px) brightness(0.25);
+  transform:scale(1.04);
 }
-#loaderWave svg{display:block;width:100%;}
-/* Balık kabarcıkları */
-.l-bubble{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.6),rgba(255,255,255,0.05));
-  border:0.5px solid rgba(255,255,255,0.25);
-  animation:lBubbleRise linear infinite;pointer-events:none;
+@keyframes loaderBgFade{to{opacity:1;}}
+/* Merkez panel */
+#loaderContent{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 24px;
 }
-@keyframes lBubbleRise{
-  0%{transform:translateY(0) translateX(0);opacity:0;}
-  15%{opacity:0.9;}85%{opacity:0.4;}
-  100%{transform:translateY(-100vh) translateX(20px);opacity:0;}
+/* Logo çizgisi */
+#loaderLine{
+  width:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
+  margin-bottom:28px;
+  transition:width 1s cubic-bezier(.16,1,.3,1);
 }
-/* Işık huzmesi */
-#loaderRays{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
-#loaderRays::before{
-  content:'';position:absolute;top:-10%;left:50%;
-  width:200px;height:120%;
-  background:linear-gradient(to bottom,rgba(100,200,255,0.07) 0%,transparent 70%);
-  transform:rotate(-15deg) translateX(-180px);
-  animation:lRayShift 6s ease-in-out infinite;
-}
-#loaderRays::after{
-  content:'';position:absolute;top:-10%;left:50%;
-  width:140px;height:100%;
-  background:linear-gradient(to bottom,rgba(120,220,255,0.05) 0%,transparent 60%);
-  transform:rotate(12deg) translateX(60px);
-  animation:lRayShift 9s ease-in-out infinite reverse;
-}
-@keyframes lRayShift{0%,100%{opacity:.5;transform:rotate(-15deg) translateX(-180px);}50%{opacity:1;transform:rotate(-8deg) translateX(-120px);}}
-/* Merkez içerik */
-#loaderContent{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;}
-#loaderIcon{font-size:clamp(40px,8vw,64px);margin-bottom:16px;opacity:0;transform:translateY(20px);transition:opacity 0.8s ease,transform 0.8s cubic-bezier(.16,1,.3,1);}
-#loaderIcon.show{opacity:1;transform:translateY(0);}
+#loaderLine.show{width:min(280px,60vw);}
+/* Ana başlık */
 #loaderTitle{
-  font-family:'Sora',sans-serif;font-size:clamp(28px,6vw,52px);
-  font-weight:800;color:#fff;letter-spacing:0.08em;margin-bottom:6px;
-  min-height:1.2em;
+  font-family:'Sora',sans-serif;
+  font-size:clamp(36px,8vw,72px);
+  font-weight:800;color:#fff;
+  letter-spacing:0.06em;
+  line-height:1;
+  margin-bottom:10px;
 }
 #loaderTitle span{
-  display:inline-block;opacity:0;transform:translateY(24px);
-  transition:opacity 0.5s cubic-bezier(.16,1,.3,1),transform 0.5s cubic-bezier(.16,1,.3,1);
+  display:inline-block;
+  opacity:0;transform:translateY(30px) rotateX(40deg);
+  transition:opacity 0.7s cubic-bezier(.16,1,.3,1),transform 0.7s cubic-bezier(.16,1,.3,1);
 }
-#loaderTitle span.show{opacity:1;transform:translateY(0);}
+#loaderTitle span.show{opacity:1;transform:translateY(0) rotateX(0);}
+/* Alt yazı */
 #loaderSub{
-  font-size:11px;letter-spacing:0.35em;text-transform:uppercase;
-  color:rgba(255,255,255,0.35);margin-bottom:36px;
-  opacity:0;transition:opacity 0.6s ease;
+  font-size:10px;letter-spacing:0.4em;text-transform:uppercase;
+  color:rgba(255,255,255,0);margin-bottom:48px;
+  transition:color 1s ease 0.8s;
 }
-#loaderSub.show{opacity:1;}
-#loaderPhrase{
-  font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;
-  margin-bottom:28px;min-height:20px;
-  opacity:0;transition:opacity 0.5s ease;
+#loaderSub.show{color:rgba(255,255,255,0.35);}
+/* Progress */
+.loader-bar{
+  width:min(160px,40vw);height:1px;
+  background:rgba(255,255,255,0.1);
+  overflow:hidden;margin-bottom:14px;
 }
-#loaderPhrase.show{opacity:1;}
-.loader-bar{width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:10px;}
-#loaderFill{height:100%;background:linear-gradient(90deg,var(--blue-light),var(--coral));border-radius:99px;width:0%;transition:width .15s ease;}
-#loaderPct{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.12em;}
+#loaderFill{
+  height:100%;width:0%;
+  background:#fff;
+  transition:width .2s ease;
+}
+#loaderPct{
+  font-size:10px;color:rgba(255,255,255,0.2);
+  letter-spacing:0.2em;font-variant-numeric:tabular-nums;
+}
 
 /* ══ SOUND BTN ══ */
 #soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(255,255,255,0.9);border:1px solid var(--stroke);border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow);backdrop-filter:blur(8px);transition:all .2s;}
@@ -1025,19 +1022,13 @@ a{text-decoration:none;color:inherit;}
 
 <!-- LOADING SCREEN -->
 <div id="loader">
-  <div id="loaderRays"></div>
+  <div id="loaderBg"></div>
   <div id="loaderContent">
-    <div id="loaderIcon">🐠</div>
+    <div id="loaderLine"></div>
     <div id="loaderTitle"></div>
     <div id="loaderSub">Balık &amp; Akvaryum Dünyası</div>
-    <div id="loaderPhrase"></div>
     <div class="loader-bar"><div id="loaderFill"></div></div>
     <div id="loaderPct">0%</div>
-  </div>
-  <div id="loaderWave">
-    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,30 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
-    </svg>
   </div>
 </div>
 
@@ -2903,97 +2894,48 @@ fetchFish();
   const fill=document.getElementById('loaderFill');
   const pctEl=document.getElementById('loaderPct');
   const titleEl=document.getElementById('loaderTitle');
-  const iconEl=document.getElementById('loaderIcon');
   const subEl=document.getElementById('loaderSub');
-  const phraseEl=document.getElementById('loaderPhrase');
-  const waveEl=document.getElementById('loaderWave');
+  const lineEl=document.getElementById('loaderLine');
   if(!loader) return;
 
-  // Akvaryum temalı yükleme mesajları
-  const phrases=[
-    'Su hazırlanıyor... 💧',
-    'Balıklar yüzüyor... 🐟',
-    'Bitkiler büyüyor... 🌿',
-    'Akvaryum dolduruluyor... 🔲',
-    'Hazır! Dalmaya hazır mısın? 🤿',
-  ];
+  // Üst çizgi
+  setTimeout(()=>lineEl&&lineEl.classList.add('show'), 100);
 
-  // Kabarcıklar oluştur
-  for(let i=0;i<14;i++){
-    const b=document.createElement('div');
-    b.className='l-bubble';
-    const size=Math.random()*10+4;
-    b.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:${Math.random()*20}%;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s;`;
-    loader.appendChild(b);
-  }
-
-  // İkon — hemen göster
-  setTimeout(()=>iconEl.classList.add('show'),100);
-
-  // İkonları değiştir
-  const icons=['🐠','🌊','🐟','🌿','🔲','✨'];
-  let iconIdx=0;
-  const iconTimer=setInterval(()=>{
-    iconIdx=(iconIdx+1)%icons.length;
-    iconEl.style.transform='translateY(-10px)';
-    iconEl.style.opacity='0';
-    setTimeout(()=>{
-      iconEl.textContent=icons[iconIdx];
-      iconEl.style.transform='translateY(0)';
-      iconEl.style.opacity='1';
-    },300);
-  },600);
-
-  // Harf harf "ENES" — biraz bekleyerek, dramatik
-  setTimeout(()=>{
-    'ENES'.split('').forEach((l,i)=>{
+  // "ENES AKVARYUM" — kelime kelime
+  const words=['ENES','AKVARYUM'];
+  let delay=250;
+  words.forEach((word,wi)=>{
+    word.split('').forEach((l,li)=>{
       const s=document.createElement('span');
       s.textContent=l;
+      if(li===0&&wi===1) s.style.marginLeft='0.4em'; // boşluk
       titleEl.appendChild(s);
-      setTimeout(()=>s.classList.add('show'),i*120);
+      setTimeout(()=>s.classList.add('show'), delay);
+      delay+=80;
     });
-  },300);
+  });
 
-  // Alt başlık
-  setTimeout(()=>subEl.classList.add('show'),800);
+  // Alt yazı
+  setTimeout(()=>subEl&&subEl.classList.add('show'), delay+100);
 
-  // Phrase rotasyonu
-  let phraseIdx=0;
-  phraseEl.textContent=phrases[0];
-  setTimeout(()=>phraseEl.classList.add('show'),900);
-  const phraseTimer=setInterval(()=>{
-    phraseEl.style.opacity='0';
-    setTimeout(()=>{
-      phraseIdx=(phraseIdx+1)%phrases.length;
-      phraseEl.textContent=phrases[phraseIdx];
-      phraseEl.style.opacity='1';
-    },300);
-  },700);
-
-  // İlerleme çubuğu — yavaş ve organik
+  // Progress — akışkan, organik
   let p=0;
   const iv=setInterval(()=>{
-    p+=Math.random()*6+3;
-    if(p>=100){p=100;clearInterval(iv);clearInterval(iconTimer);clearInterval(phraseTimer);}
+    p+=Math.random()*5+2;
+    if(p>=100){p=100;clearInterval(iv);}
     fill.style.width=p+'%';
     pctEl.textContent=Math.floor(p)+'%';
     if(p===100){
-      // Son phrase
-      phraseEl.textContent='Hoş geldiniz! 🐠';
-      // Dalga göster
       setTimeout(()=>{
-        if(waveEl) waveEl.style.opacity='1';
-      },200);
-      // Loader kapat
-      setTimeout(()=>{
-        loader.style.transition='transform 0.9s cubic-bezier(0.76,0,0.24,1),opacity 0.5s ease 0.3s';
-        loader.style.transform='translateY(-100%)';
+        // Zarif fade-out + yukarı çıkış
+        loader.style.transition='opacity 0.7s ease, transform 1s cubic-bezier(.76,0,.24,1)';
         loader.style.opacity='0';
-        setTimeout(()=>loader.style.display='none',1000);
+        loader.style.transform='translateY(-3%)';
+        setTimeout(()=>{loader.style.display='none';},800);
         if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
-      },600);
+      },500);
     }
-  },55);
+  },60);
 })();
 
 
