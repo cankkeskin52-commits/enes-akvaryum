@@ -671,6 +671,12 @@ function changeQty(name,d){
   if(cart[name]){cart[name].qty+=d;if(cart[name].qty<=0)delete cart[name];}
   saveCart();renderDkGrid();renderCart();
 }
+function cartQty(name,d){
+  if(!cart[name])return;
+  cart[name].qty+=d;
+  if(cart[name].qty<=0)delete cart[name];
+  saveCart();renderCart();
+}
 function clearCart(){cart={};saveCart();renderDkGrid();renderCart();}
 
 function openCartDrawer(){
@@ -694,7 +700,24 @@ function renderCart(){
   keys.forEach(name=>{
     const item=cart[name];if(!item)return;
     const q=item.qty,sub=item.price*q;total+=sub;
-    html+=`<div class="cart-item"><div class="cart-item-left"><div class="cart-item-emoji">🐠</div><div><div class="cart-item-name">${name}</div><div class="cart-item-qty">×${q} adet</div></div></div><div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div></div>`;
+    const esc=name.replace(/'/g,"\\'");
+    html+=`<div class="cart-item">
+      <div class="cart-item-left">
+        <div class="cart-item-emoji">🐠</div>
+        <div>
+          <div class="cart-item-name">${name}</div>
+          <div class="cart-item-qty">${item.price.toLocaleString('tr-TR')} ₺ / adet</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;align-items:center;gap:6px;background:var(--blue-pale);border-radius:99px;padding:4px 8px;">
+          <button onclick="cartQty('${esc}',-1)" style="background:none;border:none;color:var(--blue);font-size:18px;font-weight:700;cursor:pointer;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;line-height:1;">−</button>
+          <span style="font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--dark);min-width:16px;text-align:center;">${q}</span>
+          <button onclick="cartQty('${esc}',1)" style="background:none;border:none;color:var(--blue);font-size:18px;font-weight:700;cursor:pointer;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;line-height:1;">+</button>
+        </div>
+        <div class="cart-item-price">${sub.toLocaleString('tr-TR')} ₺</div>
+      </div>
+    </div>`;
     msg+=`• ${name} ×${q} — ${sub.toLocaleString('tr-TR')}₺%0A`;
   });
   msg+=`%0A━━━━━━━━━━━━━━━━%0A💰 *TOPLAM: ${total.toLocaleString('tr-TR')} ₺*%0A%0ATeşekkürler, siparişimi onaylayabilir misiniz?`;
