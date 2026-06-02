@@ -3207,14 +3207,8 @@ function renderCart(){
   document.getElementById('cartTotal').textContent=`${total.toLocaleString('tr-TR')} ₺`;
   document.getElementById('cartBadge').textContent=keys.length;
   document.getElementById('cartFloatCount').textContent=keys.length;
-  document.getElementById('whatsappBtn').href=`https://wa.me/${WA}?text=${msg}`;
-  // LimelightNav sepet badge güncelle
-  const llBadge=document.getElementById('llCartBadge');
-  if(llBadge){
-    const n=keys.length;
-    llBadge.textContent=n;
-    llBadge.style.display=n?'flex':'none';
-  }
+  const wb=document.getElementById('whatsappBtn');if(wb)wb.href=`https://wa.me/${WA}?text=${msg}`;
+
 }
 
 function scrollToCart(){openCartDrawer();}
