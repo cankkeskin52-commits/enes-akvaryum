@@ -37,9 +37,10 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .snav-link{font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:color .2s;text-decoration:none;}
 .snav-link:hover,.snav-link.active{color:var(--blue);}
 @media(max-width:639px){.snav-links{gap:8px;}.snav-link{font-size:10px;}}
-.cat-hero{position:relative;background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 60%,var(--purple) 100%);padding:clamp(100px,14vw,160px) clamp(20px,5vw,60px) clamp(60px,8vw,100px);margin-top:64px;text-align:center;overflow:hidden;}
-.cat-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=1400&auto=format&fit=crop&q=60') center/cover;opacity:0.12;}
-.cat-hero-inner{position:relative;z-index:1;}
+.cat-hero{position:relative;background:linear-gradient(135deg,#010f2e 0%,#0D3285 50%,#565FCA 100%);padding:clamp(100px,14vw,160px) clamp(20px,5vw,60px) clamp(60px,8vw,100px);margin-top:64px;text-align:center;overflow:hidden;}
+.cat-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,#fff);z-index:0;}
+.cat-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.22;}
+.cat-hero-inner{position:relative;z-index:2;}
 .cat-page-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:6px 18px;border-radius:99px;margin-bottom:20px;transition:all .2s;}
 .cat-page-badge:hover{background:rgba(255,255,255,0.2);color:#fff;}
 .cat-page-title{font-family:'Sora',sans-serif;font-size:clamp(44px,10vw,100px);font-weight:700;color:#fff;letter-spacing:-0.02em;line-height:1;margin-bottom:16px;}
@@ -152,7 +153,6 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
       <div class="cat-page-title">Akvaryumlar</div>
       <div class="cat-page-sub">Hazır set ve özel tasarım akvaryumlar</div>
     </div>
-    <div class="hero-wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,15 1440,30 L1440,60 L0,60 Z" fill="#ffffff"/></svg></div>
   </div>
   <div id="heroBubs"></div><div id="beams"></div>
   <div class="content">
