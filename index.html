@@ -464,10 +464,11 @@ a{text-decoration:none;color:inherit;}
 
 /* Tagline */
 .hero-tagline{
-  font-size:clamp(13px,1.6vw,17px);color:rgba(255,255,255,0.55);
-  max-width:440px;line-height:1.7;margin-bottom:44px;
+  font-size:clamp(16px,2.2vw,24px);color:rgba(255,255,255,0.75);
+  max-width:520px;line-height:1.65;margin-bottom:44px;
+  font-weight:300;letter-spacing:0.02em;
   opacity:0;transform:translateY(20px);
-  transition:opacity 1s cubic-bezier(.16,1,.3,1) .4s, transform 1s cubic-bezier(.16,1,.3,1) .4s;
+  transition:opacity 1s cubic-bezier(.16,1,.3,1) .2s, transform 1s cubic-bezier(.16,1,.3,1) .2s;
 }
 .hero-tagline.visible{opacity:1;transform:translateY(0);}
 /* CTA */
@@ -1282,13 +1283,6 @@ a{text-decoration:none;color:inherit;}
   <!-- Ana içerik -->
   <div class="hero-content">
     <div class="hero-label">Balık &amp; Akvaryum Dünyası</div>
-
-    <div class="hero-title-wrap">
-      <span class="hero-title-line">ENES</span>
-      <span class="hero-title-line">AKVARYUM</span>
-    </div>
-
-    <div class="hero-divider-line"></div>
 
     <div class="hero-tagline">İstanbul Eyüpsultan'da tatlı su, tuzlu su<br/>ve canlı bitki koleksiyonu</div>
 
@@ -3057,10 +3051,8 @@ fetchFish();
           document.documentElement.style.overflow='';
           requestAnimationFrame(()=>{
             document.querySelector('.hero-label')?.classList.add('visible');
-            setTimeout(()=>document.querySelectorAll('.hero-title-line').forEach(el=>el.classList.add('visible')),100);
-            setTimeout(()=>document.querySelector('.hero-divider-line')?.classList.add('visible'),280);
-            setTimeout(()=>document.querySelector('.hero-tagline')?.classList.add('visible'),400);
-            setTimeout(()=>document.querySelector('.hero-ctas')?.classList.add('visible'),600);
+            setTimeout(()=>document.querySelector('.hero-tagline')?.classList.add('visible'),150);
+            setTimeout(()=>document.querySelector('.hero-ctas')?.classList.add('visible'),350);
           });
         },1000);
         if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
