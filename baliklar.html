@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WNGFX6SBDF">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WNGFX6SBDF"></script>
+<script>
 
 function openDrawer(){
   document.getElementById('mobileDrawer').classList.add('open');
@@ -103,7 +104,6 @@ document.addEventListener('DOMContentLoaded',function(){
   if(dinp) dinp.addEventListener('input',function(e){doSearch(e.target.value);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSearch();});
   document.addEventListener('click',function(e){if(!e.target.closest('#snavSearch'))hideDropdown();});
-});
 });
 
 </script>
