@@ -806,10 +806,6 @@ a{text-decoration:none;color:inherit;}
   <!-- Kategori filtresi -->
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="catFilter">
     <button class="cat-btn active" onclick="filterFish('Tümü')">Tümü</button>
-    <button class="cat-btn" onclick="filterFish('CANLI DOĞURANLAR')">Canlı Doğuranlar</button>
-    <button class="cat-btn" onclick="filterFish('CİCHLİD')">Cichlid</button>
-    <button class="cat-btn" onclick="filterFish('TETRAS')">Tetralar</button>
-    <button class="cat-btn" onclick="filterFish('GOLD FİSH')">Gold Fish</button>
   </div>
 
   <!-- Alt kategori filtresi -->
@@ -1986,9 +1982,17 @@ function filterSub(sub){
   renderFishGrid();
 }
 
+function buildCatFilter(){
+  const cf=document.getElementById('catFilter');
+  if(!cf||!fishList.length)return;
+  const cats=['Tümü',...new Set(fishList.map(f=>f.category).filter(Boolean))];
+  cf.innerHTML=cats.map(c=>`<button class="cat-btn${c===activeCategory?' active':''}" onclick="filterFish('${c}')">${c}</button>`).join('');
+}
+
 function renderFishGrid(){
   const g=document.getElementById('fishGrid');
   if(!g)return;
+  buildCatFilter();
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
   const filtered=fishList.map((f,i)=>({f,i})).filter(({f})=>{
     if(activeCategory==='Tümü') return true;
