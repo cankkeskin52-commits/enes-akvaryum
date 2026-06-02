@@ -99,8 +99,8 @@ function doSearch(q){
 document.addEventListener('DOMContentLoaded',function(){
   var inp=document.getElementById('snavSearchInput');
   var dinp=document.getElementById('drawerSearchInput');
-  if(inp) inp.addEventListener('input',function(e){doSearch(e.target.value);});
-  if(dinp) dinp.addEventListener('input',function(e){doSearch(e.target.value);});
+  if(inp) inp.addEventListener('input',function(e){doSearch(e.target.value,false);});
+  if(dinp) dinp.addEventListener('input',function(e){doSearch(e.target.value,true);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSearch();});
   document.addEventListener('click',function(e){if(!e.target.closest('#snavSearch'))hideDropdown();});
 });

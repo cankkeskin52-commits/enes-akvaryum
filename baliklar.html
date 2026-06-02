@@ -65,43 +65,58 @@ function hideDropdown(){
   if(d) d.classList.remove('show');
 }
 
-function doSearch(q){
-  var dd=document.getElementById('searchDropdown');
-  if(!dd) return;
-  q=(q||'').trim();
-  if(!q){hideDropdown();return;}
-  var ql=q.toLowerCase();
-  var list=typeof fishList!=='undefined'?fishList:[];
-  var res=[];
-  list.forEach(function(it,i){
-    if(!it||it.outOfStock) return;
-    var nm=(it.name||'').toLowerCase();
-    var ct=(it.category||it.type||'').toLowerCase();
-    if(nm.indexOf(ql)>=0||ct.indexOf(ql)>=0) res.push(it);
-  });
-  if(!res.length){
-    dd.innerHTML='<div class="sdr-empty"><span>🔍</span>&quot;'+q+'&quot; için sonuç bulunamadı</div>';
-    dd.classList.add('show');return;
-  }
+function _buildSearchHTML(res,q,emj){
+  if(!res.length) return '<div class="sdr-empty"><span>🔍</span>&quot;'+q+'&quot; için sonuç bulunamadı</div>';
   var shown=res.slice(0,8);
   var html='<div class="sdr-header">'+res.length+' sonuç bulundu</div>';
   shown.forEach(function(it){
     var img=it.img?'<img class="sdr-img" src="'+it.img+'" alt="" loading="lazy">'
-                  :'<div class="sdr-img-ph">🐠</div>';
+                  :'<div class="sdr-img-ph">'+emj+'</div>';
     var pr=it.price?'<span class="sdr-price">'+Number(it.price).toLocaleString('tr-TR')+' ₺</span>':'';
     var bg='<span class="sdr-badge">'+(it.category||it.type||'Ürün')+'</span>';
-    html+='<div class="sdr-item" onclick="hideDropdown()">'+img+'<div class="sdr-info"><div class="sdr-name">'+it.name+'</div><div class="sdr-meta">'+bg+pr+'</div></div></div>';
+    html+='<div class="sdr-item">'+img+'<div class="sdr-info"><div class="sdr-name">'+it.name+'</div><div class="sdr-meta">'+bg+pr+'</div></div></div>';
   });
   if(res.length>8) html+='<div class="sdr-footer">+'+(res.length-8)+' daha var</div>';
-  dd.innerHTML=html;
-  dd.classList.add('show');
+  return html;
+}
+function _getList(){
+  if(typeof fishList!=='undefined'&&fishList.length) return {list:fishList,emj:'🐠'};
+  if(typeof plantList!=='undefined'&&plantList.length) return {list:plantList,emj:'🌿'};
+  if(typeof dkList!=='undefined'&&dkList.length) return {list:dkList,emj:'🪨'};
+  if(typeof aqList!=='undefined'&&aqList.length) return {list:aqList,emj:'🔲'};
+  return {list:[],emj:'🔍'};
+}
+function doSearch(q,isDrawer){
+  q=(q||'').trim();
+  var dd=document.getElementById('searchDropdown');
+  var dr=document.getElementById('drawerSearchResults');
+  if(!q){
+    if(dd){dd.classList.remove('show');}
+    if(dr){dr.style.display='none';dr.innerHTML='';}
+    return;
+  }
+  var ql=q.toLowerCase();
+  var src=_getList();
+  var res=[];
+  src.list.forEach(function(it){
+    if(!it) return;
+    var nm=(it.name||'').toLowerCase();
+    var ct=(it.category||it.subcategory||it.type||'').toLowerCase();
+    if(nm.indexOf(ql)>=0||ct.indexOf(ql)>=0) res.push(it);
+  });
+  var html=_buildSearchHTML(res,q,src.emj);
+  if(isDrawer){
+    if(dr){dr.innerHTML=html;dr.style.display='block';}
+  } else {
+    if(dd){dd.innerHTML=html;dd.classList.add('show');}
+  }
 }
 
 document.addEventListener('DOMContentLoaded',function(){
   var inp=document.getElementById('snavSearchInput');
   var dinp=document.getElementById('drawerSearchInput');
-  if(inp) inp.addEventListener('input',function(e){doSearch(e.target.value);});
-  if(dinp) dinp.addEventListener('input',function(e){doSearch(e.target.value);});
+  if(inp) inp.addEventListener('input',function(e){doSearch(e.target.value,false);});
+  if(dinp) dinp.addEventListener('input',function(e){doSearch(e.target.value,true);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSearch();});
   document.addEventListener('click',function(e){if(!e.target.closest('#snavSearch'))hideDropdown();});
 });
