@@ -3036,13 +3036,13 @@ fetchFish();
     updateWater(p);
     pctEl.textContent=Math.floor(p)+'%';
 
-    // %60 → başlık
-    if(p>=60&&!titleShown){
+    // %10 → başlık
+    if(p>=10&&!titleShown){
       titleShown=true;
       titleEl.classList.add('show');
     }
-    // %80 → alt yazı
-    if(p>=80&&!subShown){
+    // %25 → alt yazı
+    if(p>=25&&!subShown){
       subShown=true;
       subEl.classList.add('show');
     }
