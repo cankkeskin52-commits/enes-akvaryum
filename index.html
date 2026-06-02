@@ -424,9 +424,7 @@ a{text-decoration:none;color:inherit;}
   color:rgba(255,255,255,0.55);margin-bottom:28px;
   background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);
   border:0.5px solid rgba(255,255,255,0.15);padding:7px 22px;border-radius:99px;
-  opacity:0;transition:opacity .9s ease;
 }
-.hero-label.visible{opacity:1;}
 
 /* Başlık */
 .hero-title-wrap{
@@ -438,14 +436,9 @@ a{text-decoration:none;color:inherit;}
   font-size:clamp(60px,11vw,130px);
   font-weight:800;line-height:0.95;letter-spacing:-0.03em;
   color:#fff;
-  opacity:0;transform:translateY(40px);
-  transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
   text-shadow:0 0 60px rgba(100,200,255,0.15);
 }
-.hero-title-line.visible{opacity:1;transform:translateY(0);}
-.hero-title-line:nth-child(1){transition-delay:0s;}
 .hero-title-line:nth-child(2){
-  transition-delay:0.18s;
   color:var(--coral);
   text-shadow:0 0 60px rgba(255,120,120,0.25);
 }
@@ -457,9 +450,7 @@ a{text-decoration:none;color:inherit;}
   background:linear-gradient(to right,var(--coral),rgba(255,120,120,0.2));
   margin:20px auto;
   transform:scaleX(0);transform-origin:left;
-  transition:transform .8s cubic-bezier(.16,1,.3,1) .28s, opacity .8s ease .28s;
 }
-.hero-divider-line.visible{transform:scaleX(1);opacity:1;
 }
 
 /* Tagline */
@@ -467,17 +458,11 @@ a{text-decoration:none;color:inherit;}
   font-size:clamp(16px,2.2vw,24px);color:rgba(255,255,255,0.75);
   max-width:520px;line-height:1.65;margin-bottom:44px;
   font-weight:300;letter-spacing:0.02em;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 1s cubic-bezier(.16,1,.3,1) .2s, transform 1s cubic-bezier(.16,1,.3,1) .2s;
 }
-.hero-tagline.visible{opacity:1;transform:translateY(0);}
 /* CTA */
 .hero-ctas{
   display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 1s cubic-bezier(.16,1,.3,1) .6s, transform 1s cubic-bezier(.16,1,.3,1) .6s;
 }
-.hero-ctas.visible{opacity:1;transform:translateY(0);}
 .hero-cta-primary{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--coral);color:#fff;
@@ -1283,6 +1268,13 @@ a{text-decoration:none;color:inherit;}
   <!-- Ana içerik -->
   <div class="hero-content">
     <div class="hero-label">Balık &amp; Akvaryum Dünyası</div>
+
+    <div class="hero-title-wrap">
+      <span class="hero-title-line">ENES</span>
+      <span class="hero-title-line">AKVARYUM</span>
+    </div>
+
+    <div class="hero-divider-line"></div>
 
     <div class="hero-tagline">İstanbul Eyüpsultan'da tatlı su, tuzlu su<br/>ve canlı bitki koleksiyonu</div>
 
@@ -3048,11 +3040,7 @@ fetchFish();
           loader.style.display='none';
           document.body.style.overflow='';
           document.documentElement.style.overflow='';
-          requestAnimationFrame(()=>{
-            document.querySelector('.hero-label')?.classList.add('visible');
-            setTimeout(()=>document.querySelector('.hero-tagline')?.classList.add('visible'),150);
-            setTimeout(()=>document.querySelector('.hero-ctas')?.classList.add('visible'),350);
-          });
+          // hero direkt görünür, animasyon yok
         },1000);
         if(typeof _actx!=='undefined'&&_actx) _actx.resume().catch(()=>{});
       },700);
