@@ -53,11 +53,11 @@ a{text-decoration:none;color:inherit;}
 /* ── MOBILE BOTTOM NAV ── */
 .mobile-bnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--stroke);z-index:200;height:var(--bnav-h);padding-bottom:env(safe-area-inset-bottom);}
 .mobile-bnav-inner{display:flex;height:100%;}
-.mbnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:none;color:var(--text-dim);transition:color .2s;padding:0;}
+.mbnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:none;color:var(--text-dim);transition:color .2s;padding:0 2px;overflow:hidden;min-width:0;}
 .mbnav-item svg{transition:transform .2s;}
 .mbnav-item.active{color:var(--blue);}
 .mbnav-item.active svg{transform:scale(1.15);}
-.mbnav-label{font-size:9px;font-weight:600;letter-spacing:.02em;}
+.mbnav-label{font-size:9px;font-weight:600;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
 
 /* ── MAIN ── */
 .main{min-width:0;}
@@ -167,19 +167,19 @@ textarea.form-input{resize:vertical;}
   <div class="mobile-bnav-inner">
     <button class="mbnav-item active" id="mbn-orders" onclick="goSection('orders')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
-      <span class="mbnav-label">Siparişler</span>
+      <span class="mbnav-label">Sipariş</span>
     </button>
     <button class="mbnav-item" id="mbn-favorites" onclick="goSection('favorites')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      <span class="mbnav-label">Favoriler</span>
+      <span class="mbnav-label">Favori</span>
     </button>
     <button class="mbnav-item" id="mbn-campaigns" onclick="goSection('campaigns')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span class="mbnav-label">Kampanya</span>
+      <span class="mbnav-label">Kampan.</span>
     </button>
     <button class="mbnav-item" id="mbn-addresses" onclick="goSection('addresses')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span class="mbnav-label">Adresler</span>
+      <span class="mbnav-label">Adres</span>
     </button>
     <button class="mbnav-item" id="mbn-settings" onclick="goSection('settings')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
