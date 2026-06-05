@@ -32,8 +32,6 @@ a{text-decoration:none;color:inherit;}
 .topbar-right{display:flex;align-items:center;gap:10px;}
 .topbar-user{font-size:13px;color:var(--text-mid);}
 .topbar-user strong{color:var(--text);}
-.btn-logout{padding:7px 13px;border:1.5px solid var(--stroke);border-radius:10px;background:none;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-mid);cursor:pointer;transition:all .2s;}
-.btn-logout:hover{border-color:var(--coral);color:var(--coral);}
 .topbar-home{font-size:13px;color:var(--blue);font-weight:500;}
 .topbar-home:hover{text-decoration:underline;}
 
@@ -123,10 +121,6 @@ a{text-decoration:none;color:inherit;}
 .form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(18,70,181,0.07);}
 .form-input:disabled{background:var(--bg);color:var(--text-mid);}
 textarea.form-input{resize:vertical;}
-.btn-save{padding:11px 24px;background:var(--blue);color:var(--white);border:none;border-radius:12px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;}
-.btn-save:hover{background:var(--blue-dark);}
-.btn-save:disabled{opacity:.6;cursor:not-allowed;}
-.btn-danger{padding:11px 24px;background:none;color:var(--coral);border:1.5px solid var(--coral);border-radius:12px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
 .save-msg{font-size:12px;margin-left:10px;display:none;}
 .save-msg.ok{color:var(--green);display:inline;}
 .save-msg.err{color:var(--coral);display:inline;}
@@ -136,7 +130,6 @@ textarea.form-input{resize:vertical;}
 .empty-icon{font-size:44px;margin-bottom:12px;}
 .empty-title{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:5px;}
 .empty-sub{font-size:13px;color:var(--text-mid);}
-.btn-go{display:inline-block;margin-top:18px;padding:11px 22px;background:var(--blue);color:var(--white);border-radius:12px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;}
 .loading{text-align:center;padding:36px;color:var(--text-dim);font-size:13px;}
 
 /* ── MOBILE ── */
@@ -165,7 +158,7 @@ textarea.form-input{resize:vertical;}
   <div class="topbar-right">
     <a class="topbar-home" href="index.html">← Ana Sayfa</a>
     <div class="topbar-user">Merhaba, <strong id="topbarName">...</strong></div>
-    <button class="btn-logout" onclick="logout()">Çıkış</button>
+    <button class="btn btn-sm btn-outline" onclick="logout()">Çıkış</button>
   </div>
 </div>
 
@@ -287,7 +280,7 @@ textarea.form-input{resize:vertical;}
             <textarea class="form-input" id="adr-full" rows="3" placeholder="Mahalle, sokak, bina no, daire..."></textarea>
           </div>
           <div style="display:flex;align-items:center;">
-            <button class="btn-save" onclick="saveAddress()">Adresi Kaydet</button>
+            <button class="btn btn-md btn-primary" onclick="saveAddress()">Adresi Kaydet</button>
             <span id="adrMsg" style="font-size:12px;margin-left:10px;display:none;"></span>
           </div>
         </div>
@@ -319,7 +312,7 @@ textarea.form-input{resize:vertical;}
             <input class="form-input" id="set-email" type="email" disabled>
           </div>
           <div style="display:flex;align-items:center;">
-            <button class="btn-save" onclick="saveProfile()">Kaydet</button>
+            <button class="btn btn-md btn-primary" onclick="saveProfile()">Kaydet</button>
             <span id="profileMsg" style="font-size:12px;margin-left:10px;display:none;"></span>
           </div>
         </div>
@@ -344,7 +337,7 @@ textarea.form-input{resize:vertical;}
             </div>
           </div>
           <div style="display:flex;align-items:center;">
-            <button class="btn-save" onclick="changePassword()">Şifreyi Güncelle</button>
+            <button class="btn btn-md btn-primary" onclick="changePassword()">Şifreyi Güncelle</button>
             <span id="pwMsg" style="font-size:12px;margin-left:10px;display:none;"></span>
           </div>
         </div>
@@ -371,7 +364,7 @@ textarea.form-input{resize:vertical;}
 
       <!-- Çıkış -->
       <div class="card" style="margin-top:14px;">
-        <button class="btn-danger" style="width:100%;" onclick="logout()">Hesaptan Çıkış Yap</button>
+        <button class="btn btn-lg btn-destructive" style="width:100%;justify-content:center;" onclick="logout()">Hesaptan Çıkış Yap</button>
       </div>
     </div>
 
@@ -449,7 +442,7 @@ async function loadOrders() {
     const res    = await fetch(WORKER + '/me/orders', { headers: authHeaders() });
     const orders = await res.json();
     if (!orders.length) {
-      el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div><div class="empty-title">Henüz sipariş yok</div><div class="empty-sub">WhatsApp ile sipariş verince buraya düşer.</div><a class="btn-go" href="https://wa.me/905383279980">WhatsApp ile Sipariş Ver</a></div>`;
+      el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div><div class="empty-title">Henüz sipariş yok</div><div class="empty-sub">WhatsApp ile sipariş verince buraya düşer.</div><a class="btn btn-lg btn-primary" style="margin-top:18px;" href="https://wa.me/905383279980">WhatsApp ile Sipariş Ver</a></div>`;
       return;
     }
     el.innerHTML = orders.map(o => {
@@ -489,7 +482,7 @@ async function loadFavorites() {
     ];
     const favs = favIds.map(id=>all.find(p=>p.id===id)).filter(Boolean);
     if (!favs.length) {
-      el.innerHTML=`<div class="empty"><div class="empty-icon">🤍</div><div class="empty-title">Favori yok</div><div class="empty-sub">Ürün sayfalarında kalp ikonuna tıklayarak ekleyebilirsiniz.</div><a class="btn-go" href="baliklar.html">Ürünlere Göz At</a></div>`;
+      el.innerHTML=`<div class="empty"><div class="empty-icon">🤍</div><div class="empty-title">Favori yok</div><div class="empty-sub">Ürün sayfalarında kalp ikonuna tıklayarak ekleyebilirsiniz.</div><a class="btn btn-lg btn-outline" style="margin-top:18px;" href="baliklar.html">Ürünlere Göz At</a></div>`;
       return;
     }
     el.innerHTML=`<div class="fav-grid">${favs.map(p=>{
