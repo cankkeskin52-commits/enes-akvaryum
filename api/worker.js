@@ -185,6 +185,24 @@ export default {
       return json({ ok: true, user: { email: user.email, name: user.name, phone: user.phone } });
     }
 
+    // ── Şifre değiştir ────────────────────────────────────────────────────────
+    if (path === '/me/password' && method === 'PUT') {
+      const payload = await requireAuth(request, env);
+      if (!payload) return json({ error: 'Giriş gerekli' }, 401);
+      const user = await getUser(env, payload.email);
+      if (!user) return json({ error: 'Kullanıcı bulunamadı' }, 404);
+      const { currentPassword, newPassword } = await request.json();
+      if (!currentPassword || !newPassword) return json({ error: 'Mevcut ve yeni şifre zorunludur' }, 400);
+      if (newPassword.length < 6) return json({ error: 'Yeni şifre en az 6 karakter olmalıdır' }, 400);
+      const checkHash = await hashPassword(currentPassword, user.salt);
+      if (checkHash !== user.passwordHash) return json({ error: 'Mevcut şifre hatalı' }, 401);
+      const newSalt = crypto.randomUUID();
+      user.salt = newSalt;
+      user.passwordHash = await hashPassword(newPassword, newSalt);
+      await env.ENES_USERS.put(`user:${payload.email}`, JSON.stringify(user));
+      return json({ ok: true });
+    }
+
     // ── Favoriler ────────────────────────────────────────────────────────────
     if (path === '/me/favorites') {
       const payload = await requireAuth(request, env);
