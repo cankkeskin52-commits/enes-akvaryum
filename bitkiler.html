@@ -369,6 +369,11 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .sdr-price{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--coral);white-space:nowrap;}
 .sdr-empty{padding:24px;text-align:center;color:var(--text-dim);font-size:13px;}.sdr-empty span{font-size:24px;display:block;margin-bottom:8px;}
 .sdr-footer{padding:10px 14px;text-align:center;font-size:12px;color:var(--text-dim);border-top:1px solid var(--stroke);background:var(--bg);}
+.subcat-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px;}
+.subcat-tabs::-webkit-scrollbar{display:none;}
+.sct{flex-shrink:0;background:var(--white);border:1.5px solid var(--stroke);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;border-radius:99px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.sct.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.sct:hover:not(.active){border-color:var(--blue);color:var(--blue);}
 
 </style>
 
@@ -498,6 +503,14 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <div id="heroBubs"></div><div id="beams"></div>
   <div class="content">
     <div class="sec-header"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut</div><div class="sec-line-r"></div></div>
+    <div class="subcat-tabs" id="plantTabs">
+      <button class="sct active" data-cat="canli" onclick="setPlantTab('canli')">🌿 Canlı Bitkiler</button>
+      <button class="sct" data-cat="yapay" onclick="setPlantTab('yapay')">🎋 Yapay Bitkiler</button>
+      <button class="sct" data-cat="gübre" onclick="setPlantTab('gübre')">🧪 Gübre & CO2</button>
+      <button class="sct" data-cat="co2" onclick="setPlantTab('co2')">💨 CO2 Sistemi</button>
+      <button class="sct" data-cat="bakım_seti" onclick="setPlantTab('bakım_seti')">✂️ Bakım Seti</button>
+      <button class="sct" data-cat="substrat" onclick="setPlantTab('substrat')">🪨 Substrat</button>
+    </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:10px;">
       <button id="stockToggleBtn" onclick="toggleStock()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1.5px solid var(--stroke);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -561,6 +574,8 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let plantList=[];
+let plantProducts=[];
+let activePlantTab='canli';
 const CART_KEY='enes_cart';
 function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
 function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
@@ -587,8 +602,44 @@ document.querySelectorAll('.sec-header').forEach(el=>secObs.observe(el));
 function addCardTilt(){document.querySelectorAll('.fish-card').forEach(card=>{let raf=null;card.addEventListener('mousemove',e=>{if(raf)return;raf=requestAnimationFrame(()=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-0.5;const y=(e.clientY-r.top)/r.height-0.5;card.style.transform=`perspective(900px) rotateX(${-y*10}deg) rotateY(${x*10}deg) translateY(-8px) scale(1.02)`;raf=null;});});card.addEventListener('mouseleave',()=>{if(raf){cancelAnimationFrame(raf);raf=null;}card.style.transform='';});})}
 document.addEventListener('click',e=>{const card=e.target.closest('.fish-card');if(!card)return;let wrap=card.querySelector('.ripple-wrap');if(!wrap){wrap=document.createElement('div');wrap.className='ripple-wrap';card.appendChild(wrap);}const r=card.getBoundingClientRect();const ripple=document.createElement('div');ripple.className='water-ripple';ripple.style.left=(e.clientX-r.left)+'px';ripple.style.top=(e.clientY-r.top)+'px';wrap.appendChild(ripple);setTimeout(()=>ripple.remove(),800);});
 
+function setPlantTab(cat){
+  activePlantTab=cat;
+  document.querySelectorAll('#plantTabs .sct').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  renderPlantGrid();
+}
+
 function renderPlantGrid(){
   const g=document.getElementById('plantGrid');if(!g)return;
+  if(activePlantTab!=='canli'){
+    const list=plantProducts.filter(p=>p.subcategory===activePlantTab);
+    if(!list.length){g.innerHTML=`<div class="no-fish">Bu kategoride ürün yok. <a href="https://wa.me/${WA}?text=${encodeURIComponent('Bitki ürünleri hakkında bilgi almak istiyorum.')}" target="_blank" style="color:var(--blue);">WhatsApp'tan sor</a></div>`;return;}
+    const filtered=list.filter(f=>!(hideOutOfStock&&f.outOfStock));
+    if(!filtered.length){g.innerHTML='<div class="no-fish">Stokta ürün bulunamadı.</div>';return;}
+    g.innerHTML=filtered.map((f,i)=>{
+      const esc=f.name.replace(/'/g,"\\'");
+      return`<div class="fish-card ${f.outOfStock?'out-of-stock':''}">
+        <div class="fish-img-wrap">
+          ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌱</div>`}
+          ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Stokta Yok</div>`:''}
+        </div>
+        <div class="fish-body">
+          <div class="fish-info-row">
+            <div>
+              <div class="fish-name">${f.name}</div>
+              <div class="fish-type-badge">${f.subcategory||''}</div>
+              ${f.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:3px;font-style:italic;">${f.note}</div>`:''}
+            </div>
+            ${f.price?`<div class="fish-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>`:`<div style="font-size:12px;color:var(--text-dim);">Fiyat için ara</div>`}
+          </div>
+          <div style="text-align:right;">
+            ${f.outOfStock?`<span style="font-size:10px;color:#e05555;">Stokta Yok</span>`
+              :`<a href="https://wa.me/${WA}?text=${encodeURIComponent(f.name+' hakkında bilgi almak istiyorum.')}" target="_blank" class="aq-wa-btn">WhatsApp'tan Sor</a>`}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    addCardTilt();return;
+  }
   if(!plantList.length){g.innerHTML='<div class="no-fish">Henüz bitki eklenmemiş.</div>';return;}
   const filteredList=plantList.filter(f=>!(hideOutOfStock&&f.outOfStock));
   if(!filteredList.length){g.innerHTML='<div class="no-fish">Stokta ürün bulunamadı.</div>';return;}
@@ -695,12 +746,13 @@ function renderCart(){
 function scrollToCart(){openCartDrawer();}
 
 async function fetchData(){
-  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.plants){plantList=cached.plants;renderPlantGrid();}}catch(e){}
+  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.plants){plantList=cached.plants;plantProducts=cached.plant_products||[];renderPlantGrid();}}catch(e){}
   try{
     const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
     plantList=d.plants||[];
-    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),plants:plantList}));
+    plantProducts=d.plant_products||[];
+    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),plants:plantList,plant_products:plantProducts}));
     renderPlantGrid();
   }catch(e){const g=document.getElementById('plantGrid');if(g&&!plantList.length)g.innerHTML='<div class="no-fish">Yüklenemedi.</div>';}
 }

@@ -123,7 +123,7 @@ export default {
     if (path === '/' || path === '') {
       if (method === 'GET') {
         const raw  = await env.ENES_DATA.get(KV_KEY);
-        const data = raw || JSON.stringify({ fish: [], aquariums: [], reviews: [], plants: [], subscribers: [], visits: 0 });
+        const data = raw || JSON.stringify({ fish: [], aquariums: [], reviews: [], plants: [], subscribers: [], visits: 0, plant_products: [], stone_products: [], equipment: [] });
         return new Response(data, { status: 200, headers: corsHeaders({ 'Content-Type': 'application/json' }) });
       }
       if (method === 'PUT') {

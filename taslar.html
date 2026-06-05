@@ -444,6 +444,11 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .sdr-price{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--coral);white-space:nowrap;}
 .sdr-empty{padding:24px;text-align:center;color:var(--text-dim);font-size:13px;}.sdr-empty span{font-size:24px;display:block;margin-bottom:8px;}
 .sdr-footer{padding:10px 14px;text-align:center;font-size:12px;color:var(--text-dim);border-top:1px solid var(--stroke);background:var(--bg);}
+.subcat-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px;}
+.subcat-tabs::-webkit-scrollbar{display:none;}
+.sct{flex-shrink:0;background:var(--white);border:1.5px solid var(--stroke);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:8px 16px;border-radius:99px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.sct.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.sct:hover:not(.active){border-color:var(--blue);color:var(--blue);}
 </style>
 
 <script type="application/ld+json">
@@ -572,6 +577,13 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <div id="heroBubs"></div><div id="beams"></div>
   <div class="content">
     <div class="sec-header"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut</div><div class="sec-line-r"></div></div>
+    <div class="subcat-tabs" id="stoneTabs">
+      <button class="sct active" data-cat="doğal_taş" onclick="setStoneTab('doğal_taş')">🗿 Doğal Taşlar</button>
+      <button class="sct" data-cat="çakıl_kum" onclick="setStoneTab('çakıl_kum')">⚪ Çakıl & Kum</button>
+      <button class="sct" data-cat="kök_ağaç" onclick="setStoneTab('kök_ağaç')">🪵 Kökler & Ağaç</button>
+      <button class="sct" data-cat="dekor" onclick="setStoneTab('dekor')">🏺 Dekor Objeleri</button>
+      <button class="sct" data-cat="arka_plan" onclick="setStoneTab('arka_plan')">🖼️ Arka Plan</button>
+    </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:10px;">
       <button id="stockToggleBtn" onclick="toggleStock()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1.5px solid var(--stroke);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -635,6 +647,8 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let dkList=[];
+let stoneProducts=[];
+let activeStoneTab='doğal_taş';
 const CART_KEY='enes_cart';
 function loadCart(){try{return JSON.parse(localStorage.getItem(CART_KEY)||'{}')}catch(e){return{}}}
 function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart))}
@@ -660,10 +674,16 @@ document.querySelectorAll('.sec-header').forEach(el=>secObs.observe(el));
 
 document.addEventListener('click',e=>{const card=e.target.closest('.dk-card');if(!card)return;let wrap=card.querySelector('.ripple-wrap');if(!wrap){wrap=document.createElement('div');wrap.className='ripple-wrap';card.appendChild(wrap);}const r=card.getBoundingClientRect();const ripple=document.createElement('div');ripple.className='water-ripple';ripple.style.left=(e.clientX-r.left)+'px';ripple.style.top=(e.clientY-r.top)+'px';wrap.appendChild(ripple);setTimeout(()=>ripple.remove(),800);});
 
+function setStoneTab(cat){
+  activeStoneTab=cat;
+  document.querySelectorAll('#stoneTabs .sct').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  renderDkGrid();
+}
+
 function renderDkGrid(){
   const g=document.getElementById('stoneGrid');if(!g)return;
-  if(!dkList.length){
-    // Animated bubbles
+  const list=stoneProducts.filter(p=>p.subcategory===activeStoneTab);
+  if(!list.length){
     const bubbles = Array.from({length:8},(_,i)=>{
       const s=20+Math.random()*40;
       return `<div class="empty-cta-bubble" style="width:${s}px;height:${s}px;left:${Math.random()*90}%;bottom:-${s}px;animation-duration:${5+Math.random()*6}s;animation-delay:${Math.random()*4}s;"></div>`;
@@ -687,7 +707,9 @@ function renderDkGrid(){
     </div>`;
     return;
   }
-  g.innerHTML=dkList.map((d,i)=>{
+  const filtered=list.filter(f=>!(hideOutOfStock&&f.outOfStock));
+  if(!filtered.length){g.innerHTML='<div class="no-fish">Stokta ürün bulunamadı.</div>';return;}
+  g.innerHTML=filtered.map((d,i)=>{
     const qty=cart[d.name]?.qty||0,inCart=qty>0;
     const esc=d.name.replace(/'/g,"\\'");
     return`<div class="dk-card ${inCart?'in-cart':''}">
@@ -697,7 +719,7 @@ function renderDkGrid(){
       <div class="dk-body">
         <div>
           <div class="dk-name">${d.name}</div>
-          <div class="dk-badge">Aksesuar & Dekor</div>
+          <div class="dk-badge">${d.subcategory||'Dekor'}</div>
           ${d.note?`<div class="dk-note">${d.note}</div>`:''}
         </div>
         <div class="dk-footer">
@@ -783,13 +805,12 @@ function renderCart(){
 function scrollToCart(){openCartDrawer();}
 
 async function fetchData(){
-  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.fish){dkList=(cached.fish||[]).filter(f=>f.type==='Aksesuar');renderDkGrid();}}catch(e){}
+  try{const cached=JSON.parse(localStorage.getItem('enes_cache')||'{}');if(cached.stone_products){stoneProducts=cached.stone_products||[];renderDkGrid();}}catch(e){}
   try{
     const r=await fetch(WORKER,{cache:'no-cache'});
     const d=await r.json();
-    const allFish=d.fish||[];
-    dkList=allFish.filter(f=>f.type==='Aksesuar');
-    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),fish:allFish}));
+    stoneProducts=d.stone_products||[];
+    localStorage.setItem('enes_cache',JSON.stringify({...JSON.parse(localStorage.getItem('enes_cache')||'{}'),stone_products:stoneProducts}));
     renderDkGrid();
   }catch(e){renderDkGrid();}
 }
