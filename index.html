@@ -4034,7 +4034,7 @@ function showQuizResults(){
   }
 
 window.hideOutOfStock = false;
-function toggleStockFilter() {
+window.toggleStockFilter = function toggleStockFilter() {
   window.hideOutOfStock = !window.hideOutOfStock;
   const btn = document.getElementById('stockToggleBtn');
   if (!btn) return;
