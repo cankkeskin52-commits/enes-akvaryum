@@ -3039,7 +3039,7 @@ function renderFishGrid(){
   buildCatFilter();
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
   const filtered=fishList.map((f,i)=>({f,i})).filter(({f})=>{
-    if(hideOutOfStock&&f.outOfStock) return false;
+    if(window.hideOutOfStock&&f.outOfStock) return false;
     if(activeCategory==='Tümü') return true;
     if(f.category!==activeCategory) return false;
     if(activeSubCategory==='Tümü') return true;
@@ -4032,6 +4032,25 @@ function showQuizResults(){
     if(dBtn){dBtn.href='hesabim.html';dBtn.style.background='var(--blue)';dBtn.style.color='#fff';dBtn.style.borderColor='var(--blue)';}
     if(dTxt)dTxt.textContent=first+' — Hesabım';
   }
+
+window.hideOutOfStock = false;
+function toggleStockFilter() {
+  window.hideOutOfStock = !window.hideOutOfStock;
+  const btn = document.getElementById('stockToggleBtn');
+  if (!btn) return;
+  if (window.hideOutOfStock) {
+    btn.style.background = 'var(--blue)';
+    btn.style.color = '#fff';
+    btn.style.borderColor = 'var(--blue)';
+    btn.querySelector('svg').style.stroke = '#fff';
+  } else {
+    btn.style.background = 'var(--white)';
+    btn.style.color = 'var(--text-mid)';
+    btn.style.borderColor = 'var(--stroke)';
+    btn.querySelector('svg').style.stroke = 'currentColor';
+  }
+  renderFishGrid();
+}
 })();
 </script>
 <script type="application/ld+json">
@@ -4065,25 +4084,6 @@ function showQuizResults(){
       "acceptedAnswer":{"@type":"Answer","text":"Evet, 0538 327 99 80 numaralı WhatsApp hattımızdan kolayca sipariş verebilir veya bilgi alabilirsiniz."}
     }
   ]
-}
-
-let hideOutOfStock = false;
-function toggleStockFilter() {
-  hideOutOfStock = !hideOutOfStock;
-  const btn = document.getElementById('stockToggleBtn');
-  if (!btn) return;
-  if (hideOutOfStock) {
-    btn.style.background = 'var(--blue)';
-    btn.style.color = '#fff';
-    btn.style.borderColor = 'var(--blue)';
-    btn.querySelector('svg').style.stroke = '#fff';
-  } else {
-    btn.style.background = 'var(--white)';
-    btn.style.color = 'var(--text-mid)';
-    btn.style.borderColor = 'var(--stroke)';
-    btn.querySelector('svg').style.stroke = 'currentColor';
-  }
-  renderFishGrid();
 }
 </script>
 </body>
