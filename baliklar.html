@@ -330,6 +330,9 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 .snav-drop-title{font-weight:600;font-size:13px;line-height:1.2;}
 .snav-drop-desc{font-size:11px;color:var(--text-dim);margin-top:1px;}
 .snav-right{display:flex;align-items:center;gap:8px;}
+
+.snav-login-btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue-pale);color:var(--blue);border:1.5px solid var(--stroke-blue);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:8px 14px;border-radius:99px;cursor:pointer;transition:all .2s;text-decoration:none;}
+.snav-login-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
 .snav-wa-btn{display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:8px 16px;border-radius:99px;cursor:pointer;transition:all .2s;text-decoration:none;}
 .snav-wa-btn:hover{background:#16A34A;}
 .snav-burger{display:none;background:none;border:1px solid var(--stroke);border-radius:8px;padding:7px;cursor:pointer;color:var(--text);transition:all .2s;align-items:center;justify-content:center;}
@@ -443,10 +446,14 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
-      </div>
-      <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!%20Bilgi%20almak%20istiyorum." target="_blank">
+      </div>      <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!%20Bilgi%20almak%20istiyorum." target="_blank">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
         WhatsApp
+      </a>
+
+      <a class="snav-login-btn" id="navLoginBtn" href="uye.html">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span id="navLoginText">Giriş Yap</span>
       </a>
     </div>
   </div>
@@ -493,6 +500,12 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <div style="padding:4px 16px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;">
     <a href="index.html" onclick="closeDrawer()" style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;color:var(--text);text-decoration:none;">
       <span style="font-size:17px;width:26px;text-align:center;">🏠</span> Ana Sayfa
+    </a>
+  </div>
+  <div style="padding:0 16px 8px;flex-shrink:0;">
+    <a id="drawerLoginBtn" href="uye.html" onclick="closeDrawer()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:14px;background:var(--blue-pale);border:1.5px solid var(--stroke-blue);color:var(--blue);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="drawerLoginText">Giriş Yap / Üye Ol</span>
     </a>
   </div>
   <div style="padding:12px 16px 20px;flex-shrink:0;">
@@ -819,6 +832,23 @@ function _play(fn){if(!_actx||!_soundOn)return;if(_actx.state==='running'){fn();
 function playCartAdd(){if(!_actx||!_soundOn)return;const t=_actx.currentTime;const m=_actx.createGain();m.gain.value=0.2;m.connect(_actx.destination);[0,0.12].forEach((d,i)=>{const o=_actx.createOscillator(),g=_actx.createGain();o.connect(g);g.connect(m);o.type='sine';o.frequency.setValueAtTime(i===0?520:780,t+d);g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(0.12,t+d+0.03);g.gain.exponentialRampToValueAtTime(0.001,t+d+0.25);o.start(t+d);o.stop(t+d+0.28);});}
 document.addEventListener('click',e=>{if(e.target.closest('.add-cart-btn'))_play(playCartAdd);});
 function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('soundBtn');if(btn)btn.textContent=_soundOn?'🔊':'🔇';}
+</script>
+
+<script>
+(function(){
+  var u=JSON.parse(localStorage.getItem('ea_user')||'null');
+  var btn=document.getElementById('navLoginBtn');
+  var txt=document.getElementById('navLoginText');
+  var dBtn=document.getElementById('drawerLoginBtn');
+  var dTxt=document.getElementById('drawerLoginText');
+  if(u&&u.name){
+    var first=u.name.split(' ')[0];
+    if(btn){btn.href='hesabim.html';btn.style.background='var(--blue)';btn.style.color='#fff';btn.style.borderColor='var(--blue)';}
+    if(txt)txt.textContent=first;
+    if(dBtn){dBtn.href='hesabim.html';dBtn.style.background='var(--blue)';dBtn.style.color='#fff';dBtn.style.borderColor='var(--blue)';}
+    if(dTxt)dTxt.textContent=first+' — Hesabım';
+  }
+})();
 </script>
 </body>
 </html>

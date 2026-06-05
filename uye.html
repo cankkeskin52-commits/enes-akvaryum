@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giriş Yap / Kayıt Ol | Enes Akvaryum</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1246B5;--blue-dark:#0D3285;--blue-light:#2563EB;--blue-pale:#EBF2FF;
+  --coral:#FF7878;--cream:#F2E8D5;--white:#FFFFFF;--bg:#F8FAFF;--dark:#0F1729;
+  --text:#2D3748;--text-mid:#6B7280;--text-dim:#9CA3AF;--stroke:#E5E7EB;
+  --stroke-blue:#C7D7F8;--green:#22C55E;--shadow:0 2px 16px rgba(18,70,181,0.08);
+  --shadow-lg:0 8px 40px rgba(18,70,181,0.14);--r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--bg);}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+h1,h2,h3{font-family:'Sora',sans-serif;}
+a{text-decoration:none;color:inherit;}
+
+.page-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;cursor:pointer;}
+.page-logo svg{width:36px;height:36px;}
+.page-logo-text{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--blue);}
+.page-logo-sub{font-size:11px;color:var(--text-dim);margin-top:1px;}
+
+.card{background:var(--white);border-radius:24px;box-shadow:var(--shadow-lg);padding:40px;width:100%;max-width:440px;}
+
+.tabs{display:flex;gap:4px;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:28px;}
+.tab-btn{flex:1;padding:10px;border:none;background:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:all .2s;}
+.tab-btn.active{background:var(--white);color:var(--blue);box-shadow:0 1px 8px rgba(18,70,181,0.12);font-weight:600;}
+
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.form-title{font-size:22px;font-weight:700;color:var(--dark);margin-bottom:6px;}
+.form-sub{font-size:13px;color:var(--text-mid);margin-bottom:24px;}
+
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;}
+.form-input{width:100%;padding:13px 16px;border:1.5px solid var(--stroke);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);transition:border-color .2s,box-shadow .2s;outline:none;}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(18,70,181,0.08);}
+.form-input::placeholder{color:var(--text-dim);}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+.btn-primary{width:100%;padding:14px;background:var(--blue);color:var(--white);border:none;border-radius:12px;font-family:'Sora',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;margin-top:4px;}
+.btn-primary:hover{background:var(--blue-dark);}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;}
+
+.form-error{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626;border-radius:10px;padding:11px 14px;font-size:13px;margin-bottom:16px;display:none;}
+.form-error.show{display:block;}
+.form-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A;border-radius:10px;padding:11px 14px;font-size:13px;margin-bottom:16px;display:none;}
+.form-success.show{display:block;}
+
+.form-footer{text-align:center;margin-top:20px;font-size:13px;color:var(--text-mid);}
+.form-footer a{color:var(--blue);font-weight:500;}
+.form-footer a:hover{text-decoration:underline;}
+
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider-line{flex:1;height:1px;background:var(--stroke);}
+.divider-text{font-size:12px;color:var(--text-dim);}
+
+@media(max-width:480px){
+  .card{padding:28px 20px;}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-logo" onclick="location.href='index.html'">
+  <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="18" fill="#EBF2FF"/><path d="M7 18c2-5 5-8 11-8s9 3 11 8c-2 5-5 8-11 8S9 23 7 18z" fill="#1246B5" opacity=".15"/><path d="M7 18c2-5 5-8 11-8s9 3 11 8" stroke="#1246B5" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="18" r="3.5" fill="#1246B5"/><circle cx="16.5" cy="16.5" r="1" fill="white"/></svg>
+  <div><div class="page-logo-text">Enes Akvaryum</div><div class="page-logo-sub">Üyelik</div></div>
+</div>
+
+<div class="card">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('login')">Giriş Yap</button>
+    <button class="tab-btn" onclick="switchTab('register')">Kayıt Ol</button>
+  </div>
+
+  <!-- GİRİŞ -->
+  <div class="tab-panel active" id="tab-login">
+    <div class="form-title">Tekrar hoş geldiniz</div>
+    <div class="form-sub">Hesabınıza giriş yapın</div>
+    <div class="form-error" id="loginError"></div>
+    <div class="form-success" id="loginSuccess"></div>
+    <div class="form-group">
+      <label class="form-label">E-posta</label>
+      <input class="form-input" id="loginEmail" type="email" placeholder="ornek@email.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Şifre</label>
+      <input class="form-input" id="loginPassword" type="password" placeholder="Şifreniz" autocomplete="current-password">
+    </div>
+    <button class="btn-primary" id="loginBtn" onclick="doLogin()">Giriş Yap</button>
+    <div class="form-footer">Hesabınız yok mu? <a href="#" onclick="switchTab('register');return false;">Kayıt olun</a></div>
+  </div>
+
+  <!-- KAYIT -->
+  <div class="tab-panel" id="tab-register">
+    <div class="form-title">Hesap oluşturun</div>
+    <div class="form-sub">Siparişlerinizi ve favorilerinizi takip edin</div>
+    <div class="form-error" id="regError"></div>
+    <div class="form-success" id="regSuccess"></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Ad Soyad</label>
+        <input class="form-input" id="regName" type="text" placeholder="Adınız Soyadınız" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefon (isteğe bağlı)</label>
+        <input class="form-input" id="regPhone" type="tel" placeholder="05xx xxx xx xx" autocomplete="tel">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-posta</label>
+      <input class="form-input" id="regEmail" type="email" placeholder="ornek@email.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Şifre</label>
+      <input class="form-input" id="regPassword" type="password" placeholder="En az 6 karakter" autocomplete="new-password">
+    </div>
+    <button class="btn-primary" id="regBtn" onclick="doRegister()">Hesap Oluştur</button>
+    <div class="form-footer">Zaten hesabınız var mı? <a href="#" onclick="switchTab('login');return false;">Giriş yapın</a></div>
+  </div>
+</div>
+
+<script>
+const WORKER = 'https://enes-api.cankkeskin-52.workers.dev';
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (tab==='login'?0:1)===i));
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+}
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideMsg(errorId, successId) {
+  document.getElementById(errorId).classList.remove('show');
+  if (successId) document.getElementById(successId).classList.remove('show');
+}
+
+async function doLogin() {
+  hideMsg('loginError', 'loginSuccess');
+  const email    = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) { showErr('loginError', 'E-posta ve şifre zorunludur.'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.textContent = 'Giriş yapılıyor...';
+  try {
+    const res  = await fetch(WORKER + '/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) { showErr('loginError', data.error || 'Giriş başarısız.'); return; }
+    localStorage.setItem('ea_token', data.token);
+    localStorage.setItem('ea_user', JSON.stringify(data.user));
+    const redir = new URLSearchParams(location.search).get('from') || 'hesabim.html';
+    location.href = redir;
+  } catch { showErr('loginError', 'Bağlantı hatası. Lütfen tekrar deneyin.'); }
+  finally { btn.disabled = false; btn.textContent = 'Giriş Yap'; }
+}
+
+async function doRegister() {
+  hideMsg('regError', 'regSuccess');
+  const name     = document.getElementById('regName').value.trim();
+  const phone    = document.getElementById('regPhone').value.trim();
+  const email    = document.getElementById('regEmail').value.trim();
+  const password = document.getElementById('regPassword').value;
+  if (!name || !email || !password) { showErr('regError', 'Ad, e-posta ve şifre zorunludur.'); return; }
+  if (password.length < 6) { showErr('regError', 'Şifre en az 6 karakter olmalıdır.'); return; }
+  const btn = document.getElementById('regBtn');
+  btn.disabled = true; btn.textContent = 'Kayıt yapılıyor...';
+  try {
+    const res  = await fetch(WORKER + '/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) { showErr('regError', data.error || 'Kayıt başarısız.'); return; }
+    localStorage.setItem('ea_token', data.token);
+    localStorage.setItem('ea_user', JSON.stringify(data.user));
+    location.href = 'hesabim.html';
+  } catch { showErr('regError', 'Bağlantı hatası. Lütfen tekrar deneyin.'); }
+  finally { btn.disabled = false; btn.textContent = 'Hesap Oluştur'; }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (document.getElementById('tab-login').classList.contains('active')) doLogin();
+  else doRegister();
+});
+
+// Zaten giriş yaptıysa direkt gönder
+if (localStorage.getItem('ea_token')) location.href = 'hesabim.html';
+</script>
+</body>
+</html>

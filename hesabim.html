@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hesabım | Enes Akvaryum</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1246B5;--blue-dark:#0D3285;--blue-light:#2563EB;--blue-pale:#EBF2FF;
+  --coral:#FF7878;--coral-dark:#E85555;--white:#FFFFFF;--bg:#F8FAFF;--dark:#0F1729;
+  --text:#2D3748;--text-mid:#6B7280;--text-dim:#9CA3AF;--stroke:#E5E7EB;
+  --stroke-blue:#C7D7F8;--green:#22C55E;--shadow:0 2px 16px rgba(18,70,181,0.08);
+  --shadow-lg:0 8px 40px rgba(18,70,181,0.14);--r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--bg);}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;}
+a{text-decoration:none;color:inherit;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--white);border-bottom:1px solid var(--stroke);padding:0 clamp(16px,4vw,48px);display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;}
+.topbar-logo{display:flex;align-items:center;gap:9px;cursor:pointer;}
+.topbar-logo svg{width:30px;height:30px;}
+.topbar-logo-text{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--blue);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-user{font-size:13px;color:var(--text-mid);}
+.topbar-user strong{color:var(--text);}
+.btn-logout{padding:8px 14px;border:1.5px solid var(--stroke);border-radius:10px;background:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-mid);cursor:pointer;transition:all .2s;}
+.btn-logout:hover{border-color:var(--coral);color:var(--coral);}
+.topbar-home{font-size:13px;color:var(--blue);font-weight:500;}
+.topbar-home:hover{text-decoration:underline;}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:220px 1fr;gap:24px;max-width:1080px;margin:32px auto;padding:0 clamp(16px,3vw,40px);}
+
+/* ── SIDEBAR ── */
+.sidebar{position:sticky;top:88px;align-self:start;}
+.sidebar-avatar{width:68px;height:68px;border-radius:50%;background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--blue);margin-bottom:14px;}
+.sidebar-name{font-size:15px;font-weight:600;color:var(--dark);}
+.sidebar-email{font-size:12px;color:var(--text-mid);margin-top:2px;margin-bottom:20px;word-break:break-all;}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;}
+.snav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;font-size:14px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;}
+.snav-item svg{flex-shrink:0;opacity:.6;}
+.snav-item:hover{background:var(--blue-pale);color:var(--blue);}
+.snav-item.active{background:var(--blue-pale);color:var(--blue);font-weight:600;}
+.snav-item.active svg{opacity:1;}
+
+/* ── MAIN ── */
+.main{min-width:0;}
+.section{display:none;}
+.section.active{display:block;}
+
+.section-title{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:20px;}
+.section-sub{font-size:13px;color:var(--text-mid);margin-top:-14px;margin-bottom:20px;}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;}
+.card+.card{margin-top:16px;}
+
+/* ── ORDERS ── */
+.order-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:12px;}
+.order-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.order-id{font-size:12px;color:var(--text-dim);font-family:monospace;}
+.order-date{font-size:12px;color:var(--text-mid);}
+.order-status{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.status-pending{background:#FEF3C7;color:#D97706;}
+.status-confirmed{background:#DBEAFE;color:var(--blue);}
+.status-ready{background:#D1FAE5;color:#059669;}
+.status-done{background:#F3F4F6;color:var(--text-mid);}
+.order-items{font-size:13px;color:var(--text);line-height:1.8;}
+.order-note{font-size:12px;color:var(--text-mid);margin-top:8px;padding-top:8px;border-top:1px solid var(--stroke);}
+.order-total{font-size:15px;font-weight:700;color:var(--blue);margin-top:10px;}
+
+/* ── FAVORITES ── */
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;}
+.fav-card{background:var(--white);border:1.5px solid var(--stroke);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;transition:box-shadow .2s;}
+.fav-card:hover{box-shadow:var(--shadow);}
+.fav-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--bg);}
+.fav-img-ph{width:100%;aspect-ratio:1;background:var(--blue-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;}
+.fav-name{font-size:13px;font-weight:600;color:var(--dark);}
+.fav-price{font-size:12px;color:var(--blue);font-weight:500;}
+.fav-remove{font-size:11px;color:var(--coral);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0;text-align:left;}
+.fav-remove:hover{text-decoration:underline;}
+
+/* ── CAMPAIGNS ── */
+.camp-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px;}
+.camp-banner{width:100%;height:140px;object-fit:cover;display:block;background:linear-gradient(135deg,var(--blue-pale),var(--blue));}
+.camp-banner-ph{height:140px;background:linear-gradient(135deg,var(--blue-pale) 0%,var(--blue) 100%);display:flex;align-items:center;justify-content:center;font-size:48px;}
+.camp-body{padding:18px 20px;}
+.camp-badge{display:inline-block;padding:3px 10px;border-radius:100px;background:var(--blue-pale);color:var(--blue);font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:8px;}
+.camp-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:6px;}
+.camp-desc{font-size:13px;color:var(--text-mid);line-height:1.6;}
+.camp-expires{font-size:11px;color:var(--text-dim);margin-top:10px;}
+.camp-code{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:1.5px dashed var(--stroke-blue);border-radius:10px;padding:8px 14px;margin-top:12px;cursor:pointer;}
+.camp-code-text{font-family:monospace;font-size:14px;font-weight:700;color:var(--blue);}
+.camp-code-copy{font-size:11px;color:var(--text-dim);}
+
+/* ── PROFILE ── */
+.profile-form{display:grid;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.4px;}
+.form-input{padding:12px 14px;border:1.5px solid var(--stroke);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--white);outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--blue);}
+.form-input:disabled{background:var(--bg);color:var(--text-mid);}
+.btn-save{padding:12px 28px;background:var(--blue);color:var(--white);border:none;border-radius:12px;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;}
+.btn-save:hover{background:var(--blue-dark);}
+.profile-success{color:var(--green);font-size:13px;margin-left:12px;display:none;}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 20px;}
+.empty-icon{font-size:48px;margin-bottom:14px;}
+.empty-title{font-size:16px;font-weight:600;color:var(--dark);margin-bottom:6px;}
+.empty-sub{font-size:13px;color:var(--text-mid);}
+.btn-go{display:inline-block;margin-top:20px;padding:11px 24px;background:var(--blue);color:var(--white);border-radius:12px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:40px;color:var(--text-dim);font-size:14px;}
+
+/* ── MOBILE ── */
+@media(max-width:700px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{position:static;display:flex;flex-direction:column;}
+  .sidebar-avatar{width:52px;height:52px;font-size:18px;}
+  .sidebar-nav{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px;}
+  .snav-item{white-space:nowrap;flex-shrink:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo" onclick="location.href='index.html'">
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="18" fill="#EBF2FF"/><circle cx="18" cy="18" r="3.5" fill="#1246B5"/><circle cx="16.5" cy="16.5" r="1" fill="white"/></svg>
+    <span class="topbar-logo-text">Enes Akvaryum</span>
+  </div>
+  <div class="topbar-right">
+    <a class="topbar-home" href="index.html">← Ana Sayfa</a>
+    <div class="topbar-user">Merhaba, <strong id="topbarName">...</strong></div>
+    <button class="btn-logout" onclick="logout()">Çıkış</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-avatar" id="avatarInitials">?</div>
+    <div class="sidebar-name" id="sidebarName">Yükleniyor...</div>
+    <div class="sidebar-email" id="sidebarEmail"></div>
+    <nav class="sidebar-nav">
+      <button class="snav-item active" onclick="goSection('orders')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        Siparişlerim
+      </button>
+      <button class="snav-item" onclick="goSection('favorites')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Favorilerim
+      </button>
+      <button class="snav-item" onclick="goSection('campaigns')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Kampanyalar
+      </button>
+      <button class="snav-item" onclick="goSection('profile')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profilim
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- SİPARİŞLER -->
+    <div class="section active" id="sec-orders">
+      <div class="section-title">Siparişlerim</div>
+      <div class="section-sub">WhatsApp üzerinden verdiğiniz siparişler burada görünür.</div>
+      <div id="ordersContent"><div class="loading">Yükleniyor...</div></div>
+    </div>
+
+    <!-- FAVORİLER -->
+    <div class="section" id="sec-favorites">
+      <div class="section-title">Favorilerim</div>
+      <div id="favsContent"><div class="loading">Yükleniyor...</div></div>
+    </div>
+
+    <!-- KAMPANYALAR -->
+    <div class="section" id="sec-campaigns">
+      <div class="section-title">Kampanyalar</div>
+      <div id="campsContent"><div class="loading">Yükleniyor...</div></div>
+    </div>
+
+    <!-- PROFİL -->
+    <div class="section" id="sec-profile">
+      <div class="section-title">Profilim</div>
+      <div class="card">
+        <div class="profile-form">
+          <div class="form-group">
+            <label class="form-label">Ad Soyad</label>
+            <input class="form-input" id="profName" type="text">
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-posta</label>
+            <input class="form-input" id="profEmail" type="email" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon</label>
+            <input class="form-input" id="profPhone" type="tel" placeholder="05xx xxx xx xx">
+          </div>
+          <div style="display:flex;align-items:center;">
+            <button class="btn-save" onclick="saveProfile()">Kaydet</button>
+            <span class="profile-success" id="profSuccess">Kaydedildi!</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div style="font-size:14px;font-weight:600;color:var(--dark);margin-bottom:8px;">Üyelik Bilgileri</div>
+        <div style="font-size:13px;color:var(--text-mid);">Üye olma tarihi: <span id="profJoined">—</span></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const WORKER = 'https://enes-api.cankkeskin-52.workers.dev';
+let TOKEN = localStorage.getItem('ea_token');
+let USER  = JSON.parse(localStorage.getItem('ea_user') || 'null');
+let allProducts = null;
+let userFavs = [];
+
+if (!TOKEN) { location.href = 'uye.html?from=hesabim.html'; }
+
+function authHeaders() {
+  return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` };
+}
+
+function logout() {
+  localStorage.removeItem('ea_token');
+  localStorage.removeItem('ea_user');
+  location.href = 'index.html';
+}
+
+// ── Navigasyon ────────────────────────────────────────────────────────────────
+const loaders = { orders: loadOrders, favorites: loadFavorites, campaigns: loadCampaigns, profile: loadProfile };
+const loaded  = {};
+
+function goSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.snav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  document.querySelectorAll('.snav-item')[['orders','favorites','campaigns','profile'].indexOf(name)].classList.add('active');
+  if (!loaded[name]) { loaded[name] = true; loaders[name](); }
+}
+
+// ── Baş kısmı ─────────────────────────────────────────────────────────────────
+async function initUser() {
+  try {
+    const res  = await fetch(WORKER + '/me', { headers: authHeaders() });
+    if (res.status === 401) { logout(); return; }
+    const user = await res.json();
+    USER = user;
+    localStorage.setItem('ea_user', JSON.stringify(user));
+    const initials = user.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('avatarInitials').textContent = initials;
+    document.getElementById('sidebarName').textContent    = user.name;
+    document.getElementById('sidebarEmail').textContent   = user.email;
+    document.getElementById('topbarName').textContent     = user.name.split(' ')[0];
+  } catch {
+    if (USER) {
+      const initials = USER.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      document.getElementById('avatarInitials').textContent = initials;
+      document.getElementById('sidebarName').textContent    = USER.name;
+      document.getElementById('sidebarEmail').textContent   = USER.email;
+      document.getElementById('topbarName').textContent     = USER.name.split(' ')[0];
+    }
+  }
+}
+
+// ── Siparişler ────────────────────────────────────────────────────────────────
+const STATUS_MAP = {
+  pending:   { label: 'Bekliyor',   cls: 'status-pending'   },
+  confirmed: { label: 'Onaylandı',  cls: 'status-confirmed' },
+  ready:     { label: 'Hazır',      cls: 'status-ready'     },
+  done:      { label: 'Tamamlandı', cls: 'status-done'      },
+};
+
+async function loadOrders() {
+  const el = document.getElementById('ordersContent');
+  try {
+    const res    = await fetch(WORKER + '/me/orders', { headers: authHeaders() });
+    const orders = await res.json();
+    if (!orders.length) {
+      el.innerHTML = `<div class="empty"><div class="empty-icon">📦</div><div class="empty-title">Henüz sipariş yok</div><div class="empty-sub">WhatsApp üzerinden sipariş verdiğinizde burada görünür.</div><a class="btn-go" href="https://wa.me/905383279980">WhatsApp ile Sipariş Ver</a></div>`;
+      return;
+    }
+    el.innerHTML = orders.map(o => {
+      const s   = STATUS_MAP[o.status] || STATUS_MAP.pending;
+      const dt  = new Date(o.createdAt).toLocaleDateString('tr-TR', { day:'2-digit', month:'long', year:'numeric' });
+      const items = Array.isArray(o.items)
+        ? o.items.map(i => `${i.name}${i.qty > 1 ? ' × ' + i.qty : ''}${i.price ? ' — ' + Number(i.price).toLocaleString('tr-TR') + ' ₺' : ''}`).join('<br>')
+        : (o.items || '—');
+      const total = o.total ? `<div class="order-total">${Number(o.total).toLocaleString('tr-TR')} ₺</div>` : '';
+      const note  = o.note ? `<div class="order-note">Not: ${o.note}</div>` : '';
+      return `<div class="order-card">
+        <div class="order-header">
+          <span class="order-id">#${o.id.slice(0,8).toUpperCase()}</span>
+          <span class="order-date">${dt}</span>
+          <span class="order-status ${s.cls}">${s.label}</span>
+        </div>
+        <div class="order-items">${items}</div>${total}${note}
+      </div>`;
+    }).join('');
+  } catch {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-title">Yüklenemedi</div></div>';
+  }
+}
+
+// ── Favoriler ─────────────────────────────────────────────────────────────────
+async function loadFavorites() {
+  const el = document.getElementById('favsContent');
+  try {
+    const [favsRes, prodsRes] = await Promise.all([
+      fetch(WORKER + '/me/favorites', { headers: authHeaders() }),
+      allProducts ? Promise.resolve({ json: () => Promise.resolve(allProducts) }) : fetch(WORKER + '/'),
+    ]);
+    userFavs = await favsRes.json();
+    if (!allProducts) allProducts = await prodsRes.json();
+
+    const all = [
+      ...(allProducts.fish       || []).map(p => ({ ...p, _cat: 'Balık' })),
+      ...(allProducts.plants     || []).map(p => ({ ...p, _cat: 'Bitki' })),
+      ...(allProducts.aquariums  || []).map(p => ({ ...p, _cat: 'Akvaryum' })),
+      ...(allProducts.decorations|| []).map(p => ({ ...p, _cat: 'Dekor' })),
+    ];
+    const favProducts = userFavs.map(id => all.find(p => p.id === id)).filter(Boolean);
+
+    if (!favProducts.length) {
+      el.innerHTML = `<div class="empty"><div class="empty-icon">🤍</div><div class="empty-title">Favori ürün yok</div><div class="empty-sub">Ürünleri incelerken kalp ikonuna tıklayarak favorilere ekleyebilirsiniz.</div><a class="btn-go" href="baliklar.html">Ürünlere Göz At</a></div>`;
+      return;
+    }
+    el.innerHTML = `<div class="fav-grid">${favProducts.map(p => {
+      const img = p.img
+        ? `<img class="fav-img" src="${p.img}" alt="${p.name}" loading="lazy">`
+        : `<div class="fav-img-ph">🐠</div>`;
+      const price = p.price ? `<div class="fav-price">${Number(p.price).toLocaleString('tr-TR')} ₺</div>` : '';
+      return `<div class="fav-card">
+        ${img}
+        <div class="fav-name">${p.name}</div>
+        ${price}
+        <button class="fav-remove" onclick="removeFav('${p.id}', this)">♡ Favoriden çıkar</button>
+      </div>`;
+    }).join('')}</div>`;
+  } catch {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-title">Yüklenemedi</div></div>';
+  }
+}
+
+async function removeFav(productId, btn) {
+  btn.disabled = true;
+  try {
+    await fetch(WORKER + '/me/favorites', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ productId }),
+    });
+    loaded.favorites = false;
+    loadFavorites();
+  } catch { btn.disabled = false; }
+}
+
+// ── Kampanyalar ───────────────────────────────────────────────────────────────
+async function loadCampaigns() {
+  const el = document.getElementById('campsContent');
+  try {
+    const res  = await fetch(WORKER + '/campaigns');
+    const camps = await res.json();
+    if (!camps.length) {
+      el.innerHTML = `<div class="empty"><div class="empty-icon">🌟</div><div class="empty-title">Şu an aktif kampanya yok</div><div class="empty-sub">Yeni kampanyalar burada görünecek. Takipte kalın!</div></div>`;
+      return;
+    }
+    const now = Date.now();
+    el.innerHTML = camps.filter(c => !c.expiresAt || c.expiresAt > now).map(c => {
+      const banner = c.image
+        ? `<img class="camp-banner" src="${c.image}" alt="${c.title}">`
+        : `<div class="camp-banner-ph">${c.emoji || '🎉'}</div>`;
+      const expires = c.expiresAt ? `<div class="camp-expires">Son geçerlilik: ${new Date(c.expiresAt).toLocaleDateString('tr-TR')}</div>` : '';
+      const code = c.code ? `<div class="camp-code" onclick="copyCode('${c.code}', this)"><span class="camp-code-text">${c.code}</span><span class="camp-code-copy">Kopyala</span></div>` : '';
+      return `<div class="camp-card">
+        ${banner}
+        <div class="camp-body">
+          <div class="camp-badge">${c.badge || 'Kampanya'}</div>
+          <div class="camp-title">${c.title}</div>
+          <div class="camp-desc">${c.description || ''}</div>
+          ${expires}${code}
+        </div>
+      </div>`;
+    }).join('') || `<div class="empty"><div class="empty-icon">🌟</div><div class="empty-title">Aktif kampanya yok</div></div>`;
+  } catch {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-title">Yüklenemedi</div></div>';
+  }
+}
+
+function copyCode(code, el) {
+  navigator.clipboard.writeText(code).then(() => {
+    const copy = el.querySelector('.camp-code-copy');
+    copy.textContent = 'Kopyalandı!';
+    setTimeout(() => { copy.textContent = 'Kopyala'; }, 2000);
+  });
+}
+
+// ── Profil ────────────────────────────────────────────────────────────────────
+async function loadProfile() {
+  try {
+    const res  = await fetch(WORKER + '/me', { headers: authHeaders() });
+    const user = await res.json();
+    document.getElementById('profName').value  = user.name || '';
+    document.getElementById('profEmail').value = user.email || '';
+    document.getElementById('profPhone').value = user.phone || '';
+    document.getElementById('profJoined').textContent = user.createdAt
+      ? new Date(user.createdAt).toLocaleDateString('tr-TR', { day:'2-digit', month:'long', year:'numeric' })
+      : '—';
+  } catch {}
+}
+
+async function saveProfile() {
+  const name  = document.getElementById('profName').value.trim();
+  const phone = document.getElementById('profPhone').value.trim();
+  if (!name) return;
+  try {
+    const res = await fetch(WORKER + '/me', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ name, phone }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      USER.name = data.user.name;
+      localStorage.setItem('ea_user', JSON.stringify(USER));
+      document.getElementById('sidebarName').textContent = data.user.name;
+      document.getElementById('topbarName').textContent  = data.user.name.split(' ')[0];
+      const avatarInitials = data.user.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      document.getElementById('avatarInitials').textContent = avatarInitials;
+      const s = document.getElementById('profSuccess');
+      s.style.display = 'inline';
+      setTimeout(() => { s.style.display = 'none'; }, 2500);
+    }
+  } catch {}
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+initUser();
+loaded.orders = true;
+loadOrders();
+</script>
+</body>
+</html>
