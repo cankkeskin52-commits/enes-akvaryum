@@ -234,6 +234,38 @@ export default {
       return json({ ok: true, order: newOrder });
     }
 
+    // ── Adresler ─────────────────────────────────────────────────────────────
+    if (path === '/me/addresses') {
+      const payload = await requireAuth(request, env);
+      if (!payload) return json({ error: 'Giriş gerekli' }, 401);
+      const key = `addresses:${payload.email}`;
+      if (method === 'GET') {
+        const raw = await env.ENES_USERS.get(key);
+        return json(raw ? JSON.parse(raw) : []);
+      }
+      if (method === 'POST') {
+        const { title, name, phone, city, district, fullAddress } = await request.json();
+        if (!title || !fullAddress) return json({ error: 'Başlık ve adres zorunludur' }, 400);
+        const raw  = await env.ENES_USERS.get(key);
+        const list = raw ? JSON.parse(raw) : [];
+        const item = { id: crypto.randomUUID(), title, name: name || '', phone: phone || '', city: city || '', district: district || '', fullAddress, createdAt: Date.now() };
+        list.push(item);
+        await env.ENES_USERS.put(key, JSON.stringify(list));
+        return json({ ok: true, address: item });
+      }
+    }
+    if (path.startsWith('/me/addresses/') && method === 'DELETE') {
+      const payload = await requireAuth(request, env);
+      if (!payload) return json({ error: 'Giriş gerekli' }, 401);
+      const id  = path.split('/').pop();
+      const key = `addresses:${payload.email}`;
+      const raw = await env.ENES_USERS.get(key);
+      let list  = raw ? JSON.parse(raw) : [];
+      list      = list.filter(a => a.id !== id);
+      await env.ENES_USERS.put(key, JSON.stringify(list));
+      return json({ ok: true });
+    }
+
     // ── Admin: Kayıtlı üyeler ────────────────────────────────────────────────
     if (path === '/admin/users' && method === 'GET') {
       if (request.headers.get('X-Api-Key') !== API_KEY) return json({ error: 'Unauthorized' }, 401);

@@ -168,6 +168,10 @@ a{text-decoration:none;color:inherit;}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         Kampanyalar
       </button>
+      <button class="snav-item" onclick="goSection('addresses')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Adreslerim
+      </button>
       <button class="snav-item" onclick="goSection('profile')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Profilim
@@ -195,6 +199,53 @@ a{text-decoration:none;color:inherit;}
     <div class="section" id="sec-campaigns">
       <div class="section-title">Kampanyalar</div>
       <div id="campsContent"><div class="loading">Yükleniyor...</div></div>
+    </div>
+
+    <!-- ADRESLER -->
+    <div class="section" id="sec-addresses">
+      <div class="section-title">Adreslerim</div>
+
+      <!-- Yeni adres formu -->
+      <div class="card" style="margin-bottom:20px;">
+        <div style="font-size:14px;font-weight:600;color:var(--dark);margin-bottom:16px;">+ Yeni Adres Ekle</div>
+        <div class="profile-form">
+          <div class="form-group">
+            <label class="form-label">Adres Başlığı *</label>
+            <input class="form-input" id="adr-title" type="text" placeholder="Ev, İş, Annem...">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group">
+              <label class="form-label">Ad Soyad</label>
+              <input class="form-input" id="adr-name" type="text" placeholder="Teslimat alacak kişi">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefon</label>
+              <input class="form-input" id="adr-phone" type="tel" placeholder="05xx xxx xx xx">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group">
+              <label class="form-label">İl</label>
+              <input class="form-input" id="adr-city" type="text" placeholder="İstanbul">
+            </div>
+            <div class="form-group">
+              <label class="form-label">İlçe</label>
+              <input class="form-input" id="adr-district" type="text" placeholder="Eyüpsultan">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Açık Adres *</label>
+            <textarea class="form-input" id="adr-full" rows="3" placeholder="Mahalle, sokak, bina no, daire..." style="resize:vertical;"></textarea>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn-save" onclick="saveAddress()">Kaydet</button>
+            <span id="adrMsg" style="font-size:13px;display:none;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kayıtlı adresler -->
+      <div id="addrContent"><div class="loading">Yükleniyor...</div></div>
     </div>
 
     <!-- PROFİL -->
@@ -249,14 +300,14 @@ function logout() {
 }
 
 // ── Navigasyon ────────────────────────────────────────────────────────────────
-const loaders = { orders: loadOrders, favorites: loadFavorites, campaigns: loadCampaigns, profile: loadProfile };
+const loaders = { orders: loadOrders, favorites: loadFavorites, campaigns: loadCampaigns, addresses: loadAddresses, profile: loadProfile };
 const loaded  = {};
 
 function goSection(name) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.snav-item').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-' + name).classList.add('active');
-  document.querySelectorAll('.snav-item')[['orders','favorites','campaigns','profile'].indexOf(name)].classList.add('active');
+  document.querySelectorAll('.snav-item')[['orders','favorites','campaigns','addresses','profile'].indexOf(name)].classList.add('active');
   if (!loaded[name]) { loaded[name] = true; loaders[name](); }
 }
 
@@ -414,6 +465,70 @@ function copyCode(code, el) {
     copy.textContent = 'Kopyalandı!';
     setTimeout(() => { copy.textContent = 'Kopyala'; }, 2000);
   });
+}
+
+// ── Adresler ──────────────────────────────────────────────────────────────
+async function loadAddresses() {
+  const el = document.getElementById('addrContent');
+  try {
+    const res  = await fetch(WORKER + '/me/addresses', { headers: authHeaders() });
+    const list = await res.json();
+    if (!list.length) {
+      el.innerHTML = `<div class="empty"><div class="empty-icon">📍</div><div class="empty-title">Kayıtlı adres yok</div><div class="empty-sub">Yukarıdaki formu kullanarak adres ekleyebilirsiniz.</div></div>`;
+      return;
+    }
+    el.innerHTML = list.map(a => `
+      <div class="card" style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <span style="background:var(--blue-pale);color:var(--blue);padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;">${a.title}</span>
+            </div>
+            ${a.name ? `<div style="font-size:13px;font-weight:600;color:var(--dark);">${a.name}</div>` : ''}
+            ${a.phone ? `<div style="font-size:12px;color:var(--text-mid);">${a.phone}</div>` : ''}
+            <div style="font-size:13px;color:var(--text);margin-top:4px;line-height:1.6;">
+              ${[a.district, a.city].filter(Boolean).join(' / ')}<br>
+              ${a.fullAddress}
+            </div>
+          </div>
+          <button onclick="deleteAddress('${a.id}', this)" style="flex-shrink:0;border:none;background:none;color:var(--text-dim);cursor:pointer;font-size:18px;padding:4px;" title="Sil">×</button>
+        </div>
+      </div>`).join('');
+  } catch {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-title">Yüklenemedi</div></div>';
+  }
+}
+
+async function saveAddress() {
+  const title       = document.getElementById('adr-title').value.trim();
+  const name        = document.getElementById('adr-name').value.trim();
+  const phone       = document.getElementById('adr-phone').value.trim();
+  const city        = document.getElementById('adr-city').value.trim();
+  const district    = document.getElementById('adr-district').value.trim();
+  const fullAddress = document.getElementById('adr-full').value.trim();
+  const msg         = document.getElementById('adrMsg');
+  if (!title || !fullAddress) { msg.textContent = 'Başlık ve açık adres zorunludur.'; msg.style.color = 'var(--coral)'; msg.style.display = 'inline'; return; }
+  try {
+    const res = await fetch(WORKER + '/me/addresses', {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({ title, name, phone, city, district, fullAddress }),
+    });
+    if (!res.ok) { msg.textContent = 'Hata oluştu.'; msg.style.color = 'var(--coral)'; msg.style.display = 'inline'; return; }
+    ['adr-title','adr-name','adr-phone','adr-city','adr-district','adr-full'].forEach(id => document.getElementById(id).value = '');
+    msg.textContent = 'Adres kaydedildi ✓'; msg.style.color = 'var(--green)'; msg.style.display = 'inline';
+    setTimeout(() => { msg.style.display = 'none'; }, 2500);
+    loaded.addresses = false;
+    loadAddresses();
+  } catch { msg.textContent = 'Bağlantı hatası.'; msg.style.color = 'var(--coral)'; msg.style.display = 'inline'; }
+}
+
+async function deleteAddress(id, btn) {
+  btn.disabled = true;
+  try {
+    await fetch(WORKER + `/me/addresses/${id}`, { method: 'DELETE', headers: authHeaders() });
+    loaded.addresses = false;
+    loadAddresses();
+  } catch { btn.disabled = false; }
 }
 
 // ── Profil ────────────────────────────────────────────────────────────────────
