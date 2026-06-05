@@ -1,0 +1,224 @@
+/* ============================================================
+   ENES AKVARYUM — Button System
+   Vanilla CSS karşılığı: base-button.tsx varyantları
+   ============================================================ */
+
+/* ── BASE ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s, border-color 0.15s, opacity 0.15s;
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+}
+.btn:disabled,
+.btn[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.btn svg {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+/* ── SIZES ── */
+.btn-lg {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 0.875rem;
+  gap: 6px;
+  border-radius: 10px;
+}
+.btn-lg svg { width: 16px; height: 16px; }
+
+.btn-md {
+  height: 34px;
+  padding: 0 12px;
+  font-size: 0.8125rem;
+  gap: 6px;
+  border-radius: 8px;
+}
+.btn-md svg { width: 15px; height: 15px; }
+
+.btn-sm {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 0.75rem;
+  gap: 5px;
+  border-radius: 7px;
+}
+.btn-sm svg { width: 13px; height: 13px; }
+
+/* ── ICON MODE ── */
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.btn-icon svg { width: 16px; height: 16px; }
+.btn-icon.btn-sm { width: 28px; height: 28px; border-radius: 7px; }
+.btn-icon.btn-sm svg { width: 13px; height: 13px; }
+.btn-icon.btn-lg { width: 40px; height: 40px; border-radius: 10px; }
+.btn-icon.btn-lg svg { width: 17px; height: 17px; }
+
+/* ── CIRCLE SHAPE ── */
+.btn-circle { border-radius: 9999px; }
+.btn-icon.btn-circle { border-radius: 9999px; }
+
+/* ── VARIANTS ── */
+
+/* Primary */
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.btn-primary:hover { background: var(--blue-dark); }
+.btn-primary:active { background: var(--blue-dark); }
+.btn-primary[data-state="open"] { background: var(--blue-dark); }
+
+/* Mono */
+.btn-mono {
+  background: #18181b;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.btn-mono:hover { background: #27272a; }
+
+/* Destructive */
+.btn-destructive {
+  background: var(--coral-dark);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.btn-destructive:hover { background: #c0392b; }
+
+/* Secondary */
+.btn-secondary {
+  background: var(--blue-pale);
+  color: var(--blue);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.btn-secondary:hover { background: #dbeafe; }
+.btn-secondary svg { opacity: 0.7; }
+
+/* Outline */
+.btn-outline {
+  background: #fff;
+  color: var(--text);
+  border: 1.5px solid var(--stroke);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.btn-outline:hover { background: var(--bg); }
+.btn-outline svg { opacity: 0.6; }
+
+/* Dashed */
+.btn-dashed {
+  background: #fff;
+  color: var(--text);
+  border: 1.5px dashed var(--stroke);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.btn-dashed:hover { background: var(--bg); }
+.btn-dashed svg { opacity: 0.6; }
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+}
+.btn-ghost:hover { background: var(--bg); }
+.btn-ghost svg { opacity: 0.6; }
+
+/* Ghost icon */
+.btn-ghost.btn-icon {
+  color: var(--text-mid);
+}
+.btn-ghost.btn-icon:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Dim */
+.btn-dim {
+  background: transparent;
+  color: var(--text-mid);
+}
+.btn-dim:hover { color: var(--text); }
+
+/* Ghost appearance (primary rengi, şeffaf bg) */
+.btn-primary-ghost {
+  background: transparent;
+  color: var(--blue);
+}
+.btn-primary-ghost:hover { background: rgba(18,70,181,0.06); }
+
+/* Destructive ghost */
+.btn-destructive-ghost {
+  background: transparent;
+  color: var(--coral-dark);
+}
+.btn-destructive-ghost:hover { background: rgba(232,85,85,0.06); }
+
+/* ── LINK MODE ── */
+.btn-link {
+  background: transparent;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  color: var(--blue);
+  font-weight: 500;
+  font-size: inherit;
+}
+.btn-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.btn-link.btn-underlined { text-decoration: underline; text-underline-offset: 4px; }
+.btn-link.btn-dashed-underline { text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 4px; }
+
+/* ── INPUT MODE ── */
+.btn-input {
+  justify-content: flex-start;
+  font-weight: 400;
+  background: #fff;
+  color: var(--text);
+  border: 1.5px solid var(--stroke);
+  border-radius: 10px;
+  width: 100%;
+}
+.btn-input:hover { background: #fff; border-color: #c0c0c0; }
+.btn-input:focus-visible {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(18,70,181,0.1);
+}
+.btn-input.placeholder { color: var(--text-dim); }
+.btn-input svg { opacity: 0.6; }
+
+/* Arrow icon (dropdown gibi) */
+.btn-arrow {
+  margin-left: auto;
+  margin-right: -4px;
+  opacity: 0.5;
+  transition: transform 0.2s;
+}
+[data-state="open"] .btn-arrow,
+.btn-arrow.open {
+  transform: rotate(180deg);
+}
