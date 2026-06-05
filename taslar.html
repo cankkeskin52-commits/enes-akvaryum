@@ -105,6 +105,24 @@ document.addEventListener('DOMContentLoaded',function(){
   document.addEventListener('click',function(e){if(!e.target.closest('#snavSearch'))hideDropdown();});
 });
 
+let hideOutOfStock = false;
+function toggleStock() {
+  hideOutOfStock = !hideOutOfStock;
+  const btn = document.getElementById('stockToggleBtn');
+  if (hideOutOfStock) {
+    btn.style.background = 'var(--blue)';
+    btn.style.color = '#fff';
+    btn.style.borderColor = 'var(--blue)';
+    btn.querySelector('svg').style.stroke = '#fff';
+  } else {
+    btn.style.background = 'var(--white)';
+    btn.style.color = 'var(--text-mid)';
+    btn.style.borderColor = 'var(--stroke)';
+    btn.querySelector('svg').style.stroke = 'currentColor';
+  }
+  renderDkGrid();
+}
+
 </script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-WNGFX6SBDF');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -539,6 +557,12 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
   <div id="heroBubs"></div><div id="beams"></div>
   <div class="content">
     <div class="sec-header"><div class="sec-line"></div><div class="sec-label">Şu An Mevcut</div><div class="sec-line-r"></div></div>
+    <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:10px;">
+      <button id="stockToggleBtn" onclick="toggleStock()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1.5px solid var(--stroke);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        Stokta Olmayanları Gizle
+      </button>
+    </div>
     <div class="fish-grid reveal" id="stoneGrid"><div class="no-fish">Yükleniyor...</div></div>
 
     <div class="site-footer reveal">
