@@ -1185,6 +1185,34 @@ a{text-decoration:none;color:inherit;}
   box-shadow:0 4px 20px rgba(34,197,94,0.4);transition:all .2s;
 }
 #waFloat:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(34,197,94,0.5);}
+#igFloat{
+  position:fixed;bottom:1.8rem;right:6.2rem;z-index:150;
+  background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+  color:#fff;width:54px;height:54px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(220,39,67,0.4);transition:all .2s;text-decoration:none;
+}
+#igFloat:hover{transform:scale(1.1);}
+
+/* ── INSTAGRAM GRID ── */
+.ig-section{padding:clamp(40px,6vw,64px) 0 0;}
+.ig-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.ig-follow-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:10px 20px;border-radius:99px;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(220,39,67,0.3);}
+.ig-follow-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(220,39,67,0.4);}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+@media(max-width:639px){.ig-grid{gap:4px;}}
+.ig-post{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--blue-pale);cursor:pointer;group:hover;}
+.ig-post img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.ig-post:hover img{transform:scale(1.06);}
+.ig-post-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,23,41,0.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;}
+.ig-post:hover .ig-post-overlay{opacity:1;}
+.ig-caption{font-size:11px;color:#fff;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ig-post-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text-dim);font-size:13px;}
+.ig-empty{text-align:center;padding:40px 20px;color:var(--text-dim);}
+.ig-empty-icon{font-size:48px;margin-bottom:12px;}
+.ig-cta{display:block;text-align:center;margin-top:4px;}
+.ig-cta a{display:inline-flex;align-items:center;gap:6px;color:var(--text-mid);font-size:13px;font-weight:500;text-decoration:none;transition:color .2s;}
+.ig-cta a:hover{color:#dc2743;}
 
 /* ══ NOTIFY MODAL ══ */
 .overlay{display:none;position:fixed;inset:0;background:rgba(15,23,41,0.8);z-index:100;overflow-y:auto;padding:2rem 1.5rem;backdrop-filter:blur(8px);}
@@ -1814,6 +1842,28 @@ a{text-decoration:none;color:inherit;}
   </div>
 
   <!-- FOOTER -->
+  <!-- INSTAGRAM GRID -->
+  <div class="ig-section content reveal">
+    <div class="ig-header">
+      <div class="sec-header" style="padding:0;margin:0;opacity:1;transform:none;flex:1;">
+        <div class="sec-line"></div>
+        <div class="sec-label">📸 Instagram</div>
+        <div class="sec-line-r"></div>
+      </div>
+      <a class="ig-follow-btn" href="https://www.instagram.com/enesakvaryum_/" target="_blank" style="margin-left:16px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Takip Et
+      </a>
+    </div>
+    <div class="ig-grid" id="igGrid"><div class="ig-empty"><div class="ig-empty-icon">📸</div><div>Yükleniyor...</div></div></div>
+    <div class="ig-cta">
+      <a href="https://www.instagram.com/enesakvaryum_/" target="_blank">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @enesakvaryum_ — Tüm gönderileri görüntüle
+      </a>
+    </div>
+  </div>
+
   <div class="site-footer reveal">
     <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px);">
       <div class="footer-brand">🐠 Enes Akvaryum</div>
@@ -1844,6 +1894,10 @@ a{text-decoration:none;color:inherit;}
             İletişim
           </div>
           <div class="footer-contact-btns">
+            <a href="https://www.instagram.com/enesakvaryum_/" target="_blank" class="footer-call-btn" style="background:linear-gradient(135deg,rgba(240,148,51,.15),rgba(188,24,136,.15));border-color:rgba(220,39,67,.3);color:#e6683c;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              Instagram
+            </a>
             <a href="tel:+905383279980" class="footer-call-btn">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               Bizi Arayın
@@ -1930,6 +1984,9 @@ a{text-decoration:none;color:inherit;}
 </div>
 
 <!-- WHATSAPP FLOAT -->
+<a href="https://www.instagram.com/enesakvaryum_/" target="_blank" id="igFloat" aria-label="Instagram">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+</a>
 <a href="https://wa.me/905383279980" target="_blank" id="waFloat">
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
 </a>
@@ -3013,6 +3070,7 @@ async function fetchFish(){
     renderReviews();
     renderPlantGrid();
     loadCampaigns();
+    loadInstagram();
   }catch(e){
     const fg=document.getElementById('fishGrid');if(fg&&!fishList.length)fg.innerHTML='<div class="no-fish">Yüklenemedi, sayfayı yenile.</div>';
   }
@@ -3035,6 +3093,39 @@ function priceInRange(price){
   if(activePriceFilter==='300-500') return price>300&&price<=500;
   if(activePriceFilter==='500+') return price>500;
   return true;
+}
+
+/* ══ INSTAGRAM ══ */
+let igPosts = [];
+
+function renderIgGrid() {
+  const g = document.getElementById('igGrid');
+  if (!g) return;
+  if (!igPosts.length) {
+    g.innerHTML = `<div class="ig-empty" style="grid-column:1/-1;">
+      <div class="ig-empty-icon">📸</div>
+      <div style="font-size:13px;color:var(--text-dim);">Henüz fotoğraf eklenmemiş.<br>Admin panelinden ekleyebilirsiniz.</div>
+    </div>`;
+    return;
+  }
+  g.innerHTML = igPosts.slice(0, 6).map(p => `
+    <a class="ig-post" href="${p.url||'https://www.instagram.com/enesakvaryum_/'}" target="_blank">
+      ${p.img
+        ? `<img src="${cdnImg(p.img,400)}" alt="${p.caption||'Instagram'}" loading="lazy">`
+        : `<div class="ig-post-placeholder"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></div>`}
+      <div class="ig-post-overlay">
+        ${p.caption ? `<div class="ig-caption">${p.caption}</div>` : ''}
+      </div>
+    </a>`).join('');
+}
+
+async function loadInstagram() {
+  try {
+    const r = await fetch(WORKER + '/instagram', { cache: 'no-cache' });
+    if (!r.ok) return;
+    igPosts = await r.json();
+    renderIgGrid();
+  } catch {}
 }
 
 async function loadCampaigns(){

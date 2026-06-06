@@ -296,6 +296,25 @@ export default {
       return json(raw ? JSON.parse(raw) : [], 200, origin);
     }
 
+    // ── Instagram posts ──────────────────────────────────────────────────────
+    if (path === '/instagram' && method === 'GET') {
+      const raw = await env.ENES_USERS.get('instagram');
+      return json(raw ? JSON.parse(raw) : [], 200, origin);
+    }
+    if (path === '/admin/instagram') {
+      if (!await verifyAdminJWT(request, env)) return json({ error: 'Unauthorized' }, 401, origin);
+      if (method === 'GET') {
+        const raw = await env.ENES_USERS.get('instagram');
+        return json(raw ? JSON.parse(raw) : [], 200, origin);
+      }
+      if (method === 'PUT') {
+        const body = await request.text();
+        try { JSON.parse(body); } catch { return json({ error: 'Invalid JSON' }, 400, origin); }
+        await env.ENES_USERS.put('instagram', body);
+        return json({ ok: true }, 200, origin);
+      }
+    }
+
     // ── Admin: Sipariş ekle ──────────────────────────────────────────────────
     if (path === '/admin/orders' && method === 'POST') {
       if (!await verifyAdminJWT(request, env)) return json({ error: 'Unauthorized' }, 401, origin);
