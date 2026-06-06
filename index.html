@@ -832,6 +832,18 @@ a{text-decoration:none;color:inherit;}
 }
 .cat-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
 .cat-btn:hover:not(.active){border-color:var(--blue);color:var(--blue);}
+.pf-btn{background:var(--white);border:1px solid var(--stroke);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:6px 12px;border-radius:99px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.pf-btn.active{background:var(--coral);border-color:var(--coral);color:#fff;}
+.pf-btn:hover:not(.active){border-color:var(--coral);color:var(--coral);}
+.new-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border-radius:20px;z-index:2;}
+.camp-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;border-radius:16px;padding:16px 20px;margin-bottom:10px;position:relative;overflow:hidden;}
+.camp-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(255,255,255,0.08),transparent 60%);pointer-events:none;}
+.camp-emoji{font-size:32px;flex-shrink:0;}
+.camp-info{flex:1;min-width:0;}
+.camp-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:3px;}
+.camp-desc{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.4;}
+.camp-badge-pill{background:var(--coral);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap;flex-shrink:0;}
+.camp-code{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;background:rgba(255,255,255,0.15);border:1px dashed rgba(255,255,255,0.4);padding:3px 10px;border-radius:8px;letter-spacing:0.1em;margin-top:5px;display:inline-block;}
 .sub-cat-btn{
   background:none;border:1px solid var(--stroke-blue);
   color:var(--blue);font-size:11px;padding:5px 14px;border-radius:99px;cursor:pointer;
@@ -1653,6 +1665,9 @@ a{text-decoration:none;color:inherit;}
     </a>
   </div>
 
+  <!-- KAMPANYA BANNER -->
+  <div id="campaignBanner" style="display:none;margin-bottom:24px;"></div>
+
   <!-- BALİKLAR -->
   <div class="sec-header">
     <div class="sec-line"></div>
@@ -1668,8 +1683,15 @@ a{text-decoration:none;color:inherit;}
   <!-- Alt kategori filtresi -->
   <div id="subCatFilter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;"></div>
 
-
-  <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:10px;">
+  <!-- Fiyat & stok filtreleri -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;" id="priceFilter">
+      <button class="pf-btn active" onclick="setPriceFilter('tümü')">💰 Tümü</button>
+      <button class="pf-btn" onclick="setPriceFilter('0-100')">0–100 ₺</button>
+      <button class="pf-btn" onclick="setPriceFilter('100-300')">100–300 ₺</button>
+      <button class="pf-btn" onclick="setPriceFilter('300-500')">300–500 ₺</button>
+      <button class="pf-btn" onclick="setPriceFilter('500+')">500 ₺+</button>
+    </div>
     <button id="stockToggleBtn" onclick="toggleStockFilter()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1.5px solid var(--stroke);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
       Stokta Olmayanları Gizle
@@ -2995,6 +3017,7 @@ async function fetchFish(){
     renderAqGrid();
     renderReviews();
     renderPlantGrid();
+    loadCampaigns();
   }catch(e){
     const fg=document.getElementById('fishGrid');if(fg&&!fishList.length)fg.innerHTML='<div class="no-fish">Yüklenemedi, sayfayı yenile.</div>';
   }
@@ -3002,7 +3025,45 @@ async function fetchFish(){
 
 
 
-let activeCategory='Tümü',activeSubCategory='Tümü';
+let activeCategory='Tümü',activeSubCategory='Tümü',activePriceFilter='tümü';
+
+window.setPriceFilter=function(range){
+  activePriceFilter=range;
+  document.querySelectorAll('#priceFilter .pf-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick')===`setPriceFilter('${range}')`));
+  renderFishGrid();
+};
+
+function priceInRange(price){
+  if(activePriceFilter==='tümü') return true;
+  if(activePriceFilter==='0-100') return price<=100;
+  if(activePriceFilter==='100-300') return price>100&&price<=300;
+  if(activePriceFilter==='300-500') return price>300&&price<=500;
+  if(activePriceFilter==='500+') return price>500;
+  return true;
+}
+
+async function loadCampaigns(){
+  try{
+    const r=await fetch(WORKER+'/campaigns',{cache:'no-cache'});
+    const camps=await r.json();
+    if(!Array.isArray(camps)||!camps.length){document.getElementById('campaignBanner').style.display='none';return;}
+    const now=Date.now();
+    const active=camps.filter(c=>!c.expiresAt||c.expiresAt>now);
+    if(!active.length){document.getElementById('campaignBanner').style.display='none';return;}
+    const el=document.getElementById('campaignBanner');
+    el.style.display='block';
+    el.innerHTML=active.map(c=>`
+      <div class="camp-banner">
+        <div class="camp-emoji">${c.emoji||'🎉'}</div>
+        <div class="camp-info">
+          <div class="camp-title">${c.title}</div>
+          ${c.description?`<div class="camp-desc">${c.description}</div>`:''}
+          ${c.code?`<div class="camp-code">Kod: ${c.code}</div>`:''}
+        </div>
+        <div class="camp-badge-pill">${c.badge||'Kampanya'}</div>
+      </div>`).join('');
+  }catch(e){}
+}
 function filterFish(cat){
   activeCategory=cat;
   activeSubCategory='Tümü';
@@ -3040,6 +3101,7 @@ function renderFishGrid(){
   if(!fishList.length){g.innerHTML='<div class="no-fish">Henüz balık eklenmemiş.</div>';return;}
   const filtered=fishList.map((f,i)=>({f,i})).filter(({f})=>{
     if(window.hideOutOfStock&&f.outOfStock) return false;
+    if(!priceInRange(f.price||0)) return false;
     if(activeCategory==='Tümü') return true;
     if(f.category!==activeCategory) return false;
     if(activeSubCategory==='Tümü') return true;
@@ -3055,6 +3117,7 @@ function renderFishGrid(){
         ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy" style="${f.outOfStock?'filter:grayscale(0.6)':''}"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
         <div class="fish-shimmer"></div>
         ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-family:'Jost',sans-serif;backdrop-filter:blur(4px);">Stokta Yok</div>`:''}
+        ${f.createdAt&&(Date.now()-f.createdAt)<7*24*60*60*1000?`<div class="new-badge">✨ Yeni</div>`:''}
       </div>
       <div class="fish-body">
         <div class="fish-info-row">
