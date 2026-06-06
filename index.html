@@ -2102,7 +2102,6 @@ function toggleAcc(btn){
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 
 /* ══ CONFIG ══ */
-const PASS='Enesakvaryum2024';
 const CLOUD_NAME='dhxxsm5ec';
 const UPLOAD_PRESET='enes_akvaryum';
 const WA='905383279980';
@@ -2364,9 +2363,9 @@ async function fetchSubscribers(){
 }
 
 async function saveSubscribers(){
-  const r=await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList})});
-  return r.ok;
+  // Aboneler artık sadece admin panelinden yönetilir
+  console.warn('saveSubscribers: yazma yetkisi kaldırıldı');
+  return false;
 }
 
 async function subscribe(){
@@ -2683,12 +2682,9 @@ async function fetchAquariums(){
 }
 
 async function saveAll(){
-  const r=await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
-    body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
-  if(r.ok){
-    try{localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));}catch(e){}
-  }
-  return r.ok;
+  // Yazma yetkisi kaldırıldı — sadece admin paneli üzerinden değişiklik yapılabilir
+  console.warn('saveAll: yazma yetkisi kaldırıldı');
+  return false;
 }
 
 async function recoverFromLocalStorage(){
@@ -2705,15 +2701,9 @@ async function recoverFromLocalStorage(){
     aqList=src.aquariums||[];
     reviewList=src.reviews||[];
     plantList=src.plants||[];
-    const r=await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
-      body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
-    if(r.ok){
-      localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
-      renderFishGrid();renderAqGrid();renderReviews();renderPlantGrid();
-      _showBackupStatus(`✓ Kurtarıldı! ${fishList.length} balık, ${plantList.length} bitki, ${aqList.length} akvaryum Cloudflare'e yüklendi.`,true);
-    }else{
-      _showBackupStatus('✗ Yükleme başarısız, tekrar dene.',false);
-    }
+    localStorage.setItem('enes_cache',JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList}));
+    renderFishGrid();renderAqGrid();renderReviews();renderPlantGrid();
+    _showBackupStatus(`Veriler yerel depodan yüklendi. Cloudflare'e yüklemek için admin panelini kullanın.`,true);
   }catch(e){_showBackupStatus('✗ Hata: '+e.message,false);}
 }
 
@@ -3005,9 +2995,7 @@ async function fetchFish(){
           aqList=src.aquariums||[];
           reviewList=src.reviews||[];
           plantList=src.plants||[];
-          await fetch(WORKER,{method:'PUT',headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
-            body:JSON.stringify({fish:fishList,aquariums:aqList,reviews:reviewList,plants:plantList,subscribers:subList,visits:_visits})});
-          setStatus('✓ Veriler otomatik kurtarıldı ve Cloudflare\'a yüklendi!',true);
+          // Otomatik yazma yetkisi kaldırıldı — veriler sadece yerel önbellekten okundu
         }
       }catch(re){}
     }
@@ -3348,10 +3336,7 @@ async function togglePlantStock(i){
       if(!sessionStorage.getItem('v_counted')){
         visits++;_visits=visits;
         sessionStorage.setItem('v_counted','1');
-        await fetch(WORKER,{method:'PUT',
-          headers:{'Content-Type':'application/json','X-Api-Key':'Enesakvaryum2024'},
-          body:JSON.stringify({...d,visits})
-        });
+        // Ziyaret sayacı yazma yetkisi kaldırıldı
       }
       animateCount(visits);
     }catch(e){
