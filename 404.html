@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sayfa Bulunamadı | Enes Akvaryum</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--blue:#1246B5;--coral:#FF7878;--dark:#0F1729;--text:#2D3748;--text-mid:#6B7280;--stroke:#E5E7EB;--bg:#F8FAFF;}
+body{background:var(--dark);color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;overflow:hidden;}
+canvas{position:fixed;inset:0;z-index:0;}
+.content{position:relative;z-index:1;max-width:480px;}
+.fish-anim{font-size:80px;margin-bottom:16px;animation:swim 3s ease-in-out infinite;}
+@keyframes swim{0%,100%{transform:translateX(-10px) rotate(-5deg);}50%{transform:translateX(10px) rotate(5deg);}}
+.code{font-family:'Sora',sans-serif;font-size:120px;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--blue),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.title{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:12px;}
+.desc{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:32px;}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-home{background:var(--blue);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px 24px;border-radius:99px;text-decoration:none;transition:all .2s;}
+.btn-home:hover{background:#0d3285;transform:translateY(-2px);}
+.btn-wa{background:rgba(37,211,102,0.15);color:#4ADE80;border:1px solid rgba(37,211,102,0.3);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px 24px;border-radius:99px;text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.btn-wa:hover{background:rgba(37,211,102,0.25);}
+.suggestions{margin-top:40px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.sug-link{color:rgba(255,255,255,0.5);font-size:13px;text-decoration:none;padding:6px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:99px;transition:all .2s;}
+.sug-link:hover{color:#fff;border-color:rgba(255,255,255,0.3);}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="content">
+  <div class="fish-anim">🐠</div>
+  <div class="code">404</div>
+  <div class="title">Bu sayfa kayboldu!</div>
+  <div class="desc">Aradığınız sayfa bulunamadı. Belki balıklar yedi 🐟<br>Ana sayfaya dönerek devam edebilirsiniz.</div>
+  <div class="btns">
+    <a class="btn-home" href="/">🏠 Ana Sayfaya Dön</a>
+    <a class="btn-wa" href="https://wa.me/905383279980?text=Merhaba! Yardım lazım." target="_blank">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
+      WhatsApp Yardım
+    </a>
+  </div>
+  <div class="suggestions">
+    <a class="sug-link" href="/baliklar.html">🐟 Balıklar</a>
+    <a class="sug-link" href="/bitkiler.html">🌿 Bitkiler</a>
+    <a class="sug-link" href="/akvaryumlar.html">🔲 Akvaryumlar</a>
+    <a class="sug-link" href="/taslar.html">🪨 Taşlar</a>
+  </div>
+</div>
+<script>
+const c=document.getElementById('c');const ctx=c.getContext('2d');
+let W,H,particles=[];
+function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=H+20;this.r=Math.random()*2+0.5;this.s=Math.random()*0.3+0.1;this.dx=(Math.random()-.5)*.3;this.o=Math.random()*.4+.1;}update(){this.y-=this.s;this.x+=this.dx;this.o-=.0005;if(this.y<-10||this.o<=0)this.reset();}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(18,70,181,${this.o})`;ctx.fill();}}
+for(let i=0;i<60;i++)particles.push(new P());
+(function loop(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0F1729';ctx.fillRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(loop);})();
+</script>
+</body>
+</html>

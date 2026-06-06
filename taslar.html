@@ -177,7 +177,7 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 @media(max-width:639px){.snav-links{gap:8px;}.snav-link{font-size:10px;}}
 .cat-hero{position:relative;background:linear-gradient(135deg,#1a1208 0%,#3d2b0e 50%,#6b4c1e 100%);padding:clamp(100px,14vw,160px) clamp(20px,5vw,60px) clamp(60px,8vw,100px);margin-top:64px;text-align:center;overflow:hidden;}
 .cat-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,#fff);z-index:0;}
-.cat-hero::before{content:'';position:absolute;inset:0;background:url('https://res.cloudinary.com/dhxxsm5ec/image/upload/v1780416135/enes-akvaryum/jukq6yrjncswfdibwdjs.png') center/cover;opacity:0.22;}
+.cat-hero::before{content:'';position:absolute;inset:0;background:url('https://res.cloudinary.com/dhxxsm5ec/image/upload/f_auto,q_auto,w_600/v1780416135/enes-akvaryum/jukq6yrjncswfdibwdjs.png') center/cover;opacity:0.22;}
 .cat-hero-inner{position:relative;z-index:2;}
 .cat-page-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:6px 18px;border-radius:99px;margin-bottom:20px;transition:all .2s;}
 .cat-page-badge:hover{background:rgba(255,255,255,0.2);color:#fff;}
@@ -242,7 +242,7 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 }
 .empty-cta::before{
   content:'';position:absolute;inset:0;
-  background:url('https://res.cloudinary.com/dhxxsm5ec/image/upload/v1780416135/enes-akvaryum/jukq6yrjncswfdibwdjs.png') center/cover no-repeat;
+  background:url('https://res.cloudinary.com/dhxxsm5ec/image/upload/f_auto,q_auto,w_600/v1780416135/enes-akvaryum/jukq6yrjncswfdibwdjs.png') center/cover no-repeat;
   opacity:0.12;
 }
 .empty-cta-bubbles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
@@ -657,6 +657,13 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 <script>
 
 
+
+/* Cloudinary otomatik optimizasyon */
+function cdnImg(url, w=500) {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
+}
+
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let dkList=[];
@@ -727,7 +734,7 @@ function renderDkGrid(){
     const esc=d.name.replace(/'/g,"\\'");
     return`<div class="dk-card ${inCart?'in-cart':''}">
       <div class="dk-img-wrap">
-        ${d.img?`<img class="dk-img" src="${d.img}" alt="${d.name}" loading="lazy"><div class="dk-img-overlay"></div>`:`<div class="dk-img-placeholder">🪨</div>`}
+        ${d.img?`<img class="dk-img" src="${cdnImg(d.img)}" alt="${d.name}" loading="lazy"><div class="dk-img-overlay"></div>`:`<div class="dk-img-placeholder">🪨</div>`}
       </div>
       <div class="dk-body">
         <div>

@@ -661,6 +661,13 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 <script>
 
 
+
+/* Cloudinary otomatik optimizasyon */
+function cdnImg(url, w=500) {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
+}
+
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let aqList=[];
@@ -710,7 +717,7 @@ function renderAqGrid(){
       const esc=a.name.replace(/'/g,"\\'");
       return`<div class="aq-card ${inCart?'in-cart':''}">
         <div class="aq-img-wrap">
-          ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">⚙️</div>`}
+          ${a.img?`<img class="aq-img" src="${cdnImg(a.img)}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">⚙️</div>`}
           ${a.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Stokta Yok</div>`:''}
         </div>
         <div class="aq-body">
@@ -760,7 +767,7 @@ function renderAqGrid(){
       const esc=a.name.replace(/'/g,"\\'");
       return`<div class="aq-card ${inCart?'in-cart':''}">
         <div class="aq-img-wrap">
-          ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🔲</div>`}
+          ${a.img?`<img class="aq-img" src="${cdnImg(a.img)}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🔲</div>`}
         </div>
         <div class="aq-body">
           <div>

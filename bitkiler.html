@@ -584,6 +584,13 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 <script>
 
 
+
+/* Cloudinary otomatik optimizasyon */
+function cdnImg(url, w=500) {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
+}
+
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 let plantList=[];
@@ -632,7 +639,7 @@ function renderPlantGrid(){
       const esc=f.name.replace(/'/g,"\\'");
       return`<div class="fish-card ${f.outOfStock?'out-of-stock':''}">
         <div class="fish-img-wrap">
-          ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌱</div>`}
+          ${f.img?`<img class="fish-img" src="${cdnImg(f.img)}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌱</div>`}
           ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Stokta Yok</div>`:''}
         </div>
         <div class="fish-body">
@@ -661,7 +668,7 @@ function renderPlantGrid(){
     const esc=f.name.replace(/'/g,"\\'");
     return`<div class="fish-card ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
       <div class="fish-img-wrap">
-        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
+        ${f.img?`<img class="fish-img" src="${cdnImg(f.img)}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
         ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-family:'Jost',sans-serif;">Stokta Yok</div>`:''}
       </div>
       <div class="fish-body">

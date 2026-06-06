@@ -2104,6 +2104,13 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 /* ══ CONFIG ══ */
 const CLOUD_NAME='dhxxsm5ec';
 const UPLOAD_PRESET='enes_akvaryum';
+
+/* Cloudinary otomatik optimizasyon */
+function cdnImg(url, w=500) {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  return url.replace('/upload/', `/upload/f_auto,q_auto,w_${w}/`);
+}
+
 const WA='905383279980';
 const WORKER='https://enes-api.cankkeskin-52.workers.dev';
 
@@ -2615,7 +2622,7 @@ function renderPlantGrid(){
       : '';
     return`<div class="fish-card ${inCart?'in-cart':''}">
       <div class="fish-img-wrap">
-        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
+        ${f.img?`<img class="fish-img" src="${cdnImg(f.img)}" alt="${f.name}" loading="lazy"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🌿</div>`}
       </div>
       <div class="fish-body">
         <div class="fish-info-row">
@@ -2820,7 +2827,7 @@ function renderAqGrid(){
       const qty=cart['aq_'+i]||0,inCart=qty>0;
       return`<div class="aq-card ${inCart?'in-cart':''}">
         <div class="aq-img-wrap">
-          ${a.img?`<img class="aq-img" src="${a.img}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🐟</div>`}
+          ${a.img?`<img class="aq-img" src="${cdnImg(a.img)}" alt="${a.name}" loading="lazy"><div class="aq-img-overlay"></div>`:`<div class="aq-img-placeholder">🐟</div>`}
         </div>
         <div class="aq-body">
           <div>
@@ -3103,7 +3110,7 @@ function renderFishGrid(){
     const badgeLabel=f.category||f.type;
     return`<div class="fish-card ${typeClass} ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
       <div class="fish-img-wrap">
-        ${f.img?`<img class="fish-img" src="${f.img}" alt="${f.name}" loading="lazy" style="${f.outOfStock?'filter:grayscale(0.6)':''}"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
+        ${f.img?`<img class="fish-img" src="${cdnImg(f.img)}" alt="${f.name}" loading="lazy" style="${f.outOfStock?'filter:grayscale(0.6)':''}"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
         <div class="fish-shimmer"></div>
         ${f.outOfStock?`<div style="position:absolute;top:10px;right:10px;background:rgba(220,50,50,0.85);color:#fff;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;font-family:'Jost',sans-serif;backdrop-filter:blur(4px);">Stokta Yok</div>`:''}
         ${f.createdAt&&(Date.now()-f.createdAt)<7*24*60*60*1000?`<div class="new-badge">✨ Yeni</div>`:''}
@@ -4064,7 +4071,7 @@ function showQuizResults(){
     <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;margin-bottom:1rem;">Sana özel ${results.length} öneri ↓</div>
     ${results.map(f=>`
       <div class="qr-card">
-        ${f.img?`<img class="qr-img" src="${f.img}" alt="${f.name}">`:`<div class="qr-img-ph">🐠</div>`}
+        ${f.img?`<img class="qr-img" src="${cdnImg(f.img)}" alt="${f.name}">`:`<div class="qr-img-ph">🐠</div>`}
         <div style="flex:1;min-width:0;">
           <div class="qr-name">${f.name}</div>
           <div class="qr-type">${f.type||''} ${f.category?'· '+f.category:''}</div>

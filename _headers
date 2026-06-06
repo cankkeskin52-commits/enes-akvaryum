@@ -4,6 +4,8 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
+  X-XSS-Protection: 1; mode=block
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self)
 
 /
   Cache-Control: no-cache, no-store, must-revalidate
@@ -35,3 +37,7 @@
 # Sitemap — 1 saat
 /sitemap.xml
   Cache-Control: public, max-age=3600
+
+# 404
+/404.html
+  Cache-Control: no-cache
