@@ -3070,6 +3070,7 @@ function filterFish(cat){
   document.querySelectorAll('#catFilter .cat-btn').forEach(b=>{
     b.classList.toggle('active',b.getAttribute('onclick')===`filterFish('${cat}')`);
   });
+  if(typeof gtag!=='undefined') gtag('event','filter_category',{event_category:'engagement',event_label:cat});
   const sub=document.getElementById('subCatFilter');
   if(cat==='CANLI DOĞURANLAR'){
     sub.classList.add('visible');
@@ -3141,6 +3142,10 @@ function renderFishGrid(){
   }).join('');
   addCardTilt();
   if(window._gsapRefresh) window._gsapRefresh();
+  // GA: görüntülenen ürünleri kaydet
+  if(typeof gtag!=='undefined'&&filtered.length){
+    gtag('event','view_item_list',{item_list_name:'Balıklar - '+(activeCategory==='Tümü'?'Tümü':activeCategory),items:filtered.slice(0,10).map(({f,i})=>({item_id:'fish_'+i,item_name:f.name,item_category:f.category||f.type,price:f.price||0}))});
+  }
 }
 
 function updateCartControls(i){
@@ -3190,7 +3195,9 @@ function addToCart(i,name,price){
   cart[i]=(cart[i]||0)+1;
   updateCartControls(i);
   renderCart();
-  // Drawer otomatik açılmıyor — kullanıcı sepet butonuna basınca açılır
+  if(typeof gtag!=='undefined'){
+    gtag('event','add_to_cart',{currency:'TRY',value:price,items:[{item_id:'fish_'+i,item_name:name,price:price,quantity:1}]});
+  }
 }
 function removeFromCart(i){
   delete cart[i];updateCartControls(i);renderCart();
@@ -3276,8 +3283,17 @@ function renderCart(){
   document.getElementById('cartTotal').textContent=`${total.toLocaleString('tr-TR')} ₺`;
   document.getElementById('cartBadge').textContent=keys.length;
   document.getElementById('cartFloatCount').textContent=keys.length;
-  const wb=document.getElementById('whatsappBtn');if(wb)wb.href=`https://wa.me/${WA}?text=${msg}`;
-
+  const wb=document.getElementById('whatsappBtn');
+  if(wb){
+    wb.href=`https://wa.me/${WA}?text=${msg}`;
+    wb.onclick=function(){
+      if(typeof gtag!=='undefined'){
+        const cartItems=Object.keys(cart).map(k=>({item_name:fishList[k]?.name||k,quantity:cart[k],price:fishList[k]?.price||0}));
+        gtag('event','begin_checkout',{currency:'TRY',value:total,items:cartItems});
+        gtag('event','whatsapp_order',{event_category:'engagement',event_label:'cart_checkout',value:total});
+      }
+    };
+  }
 }
 
 function scrollToCart(){openCartDrawer();}

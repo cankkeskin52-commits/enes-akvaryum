@@ -133,6 +133,19 @@ function toggleStock() {
 <title>Akvaryumlar | Enes Akvaryum — Hazır Set & Özel Tasarım</title>
 <meta name="description" content="Hazır akvaryum setleri ve özel tasarım akvaryumlar. İstanbul Eyüpsultan'da kurulum ve bakım dahil hizmet.">
 <link rel="canonical" href="https://enesakvaryum.com.tr/akvaryumlar.html">
+<meta property="og:title" content="Akvaryumlar | Enes Akvaryum">
+<meta property="og:description" content="Hazır akvaryum setleri, filtreler, ısıtıcılar ve ekipmanlar. İstanbul Eyüpsultan.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://enesakvaryum.com.tr/akvaryumlar.html">
+<meta property="og:image" content="https://enesakvaryum.com.tr/og-akvaryum.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:site_name" content="Enes Akvaryum">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Akvaryumlar | Enes Akvaryum">
+<meta name="twitter:description" content="Hazır akvaryum setleri, filtreler, ısıtıcılar ve ekipmanlar. İstanbul Eyüpsultan.">
+<meta name="twitter:image" content="https://enesakvaryum.com.tr/og-akvaryum.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -783,7 +796,8 @@ function renderAqGrid(){
 function addToCart(i,name,price){
   if(!cart[name]) cart[name]={qty:0,price:price};
   cart[name].qty++;
-  saveCart();renderAqGrid();renderCart();
+  saveCart();
+  if(typeof gtag!=="undefined") gtag("event","add_to_cart",{currency:"TRY",value:price,items:[{item_name:name,price:price,quantity:1}]});renderAqGrid();renderCart();
 }
 function removeFromCart(name){delete cart[name];saveCart();renderAqGrid();renderCart();}
 function changeQty(name,d){
