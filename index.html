@@ -129,8 +129,9 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;background:var(--white);overflow-x:clip;}
-body{background:var(--white);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:clip;}
+html{scroll-behavior:smooth;background:var(--dark);overflow-x:clip;}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:clip;}
+.page{background:var(--white);}
 h1,h2,h3,h4{font-family:'Sora',sans-serif;}
 a{text-decoration:none;color:inherit;}
 
@@ -688,8 +689,8 @@ a{text-decoration:none;color:inherit;}
 /* ══ HERO — Sinematik Tam Ekran ══ */
 .hero{
   position:relative;height:100svh;min-height:620px;
-  overflow:hidden;margin-top:98px;
-  background:#010a18;
+  overflow:hidden;margin-top:0;padding-top:98px;
+  background:#020C1E;
 }
 
 /* Balık fotoğrafı */
@@ -2066,8 +2067,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
-<div class="page">
-
 <!-- ══ HERO ══ -->
 <div class="hero">
   <!-- Çarpıcı su altı/balık fotoğrafı -->
@@ -2125,6 +2124,7 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
+<div class="page">
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stat-item">
