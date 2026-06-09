@@ -1024,15 +1024,13 @@ a{text-decoration:none;color:inherit;}
   box-shadow:0 12px 40px rgba(0,89,179,0.28);
   border-color:var(--teal);
 }
-.pop-cat-circle img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .5s cubic-bezier(.16,1,.3,1);
+.pop-cat-emoji{
+  font-size:clamp(32px,4.5vw,44px);
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
 }
-.pop-cat-item:hover .pop-cat-circle img{transform:scale(1.12);}
-.pop-cat-circle-overlay{
-  position:absolute;inset:0;border-radius:50%;
-  background:linear-gradient(to top,rgba(0,30,70,0.35),transparent 60%);
-}
+.pop-cat-item:hover .pop-cat-emoji{transform:scale(1.18) rotate(-5deg);}
 .pop-cat-label{
   font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
   color:var(--text);text-align:center;transition:color .2s;
@@ -2528,49 +2526,43 @@ a{text-decoration:none;color:inherit;}
   <div class="pop-cats-grid reveal">
 
     <a class="pop-cat-item" href="baliklar.html">
-      <div class="pop-cat-circle">
-        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&q=80" alt="Balıklar" loading="lazy">
-        <div class="pop-cat-circle-overlay"></div>
+      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0059B3,#2B87D8);">
+        <div class="pop-cat-emoji">🐠</div>
       </div>
       <div class="pop-cat-label">Balıklar</div>
     </a>
 
     <a class="pop-cat-item" href="bitkiler.html">
-      <div class="pop-cat-circle">
-        <img src="https://images.unsplash.com/photo-1585504198199-20277593b94f?w=300&q=80" alt="Canlı Bitkiler" loading="lazy">
-        <div class="pop-cat-circle-overlay"></div>
+      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#16a34a,#4ade80);">
+        <div class="pop-cat-emoji">🌿</div>
       </div>
       <div class="pop-cat-label">Canlı Bitkiler</div>
     </a>
 
     <a class="pop-cat-item" href="akvaryumlar.html">
-      <div class="pop-cat-circle">
-        <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=300&q=80" alt="Akvaryumlar" loading="lazy">
-        <div class="pop-cat-circle-overlay"></div>
+      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0891b2,#22d3ee);">
+        <div class="pop-cat-emoji">🔲</div>
       </div>
       <div class="pop-cat-label">Akvaryumlar</div>
     </a>
 
-    <a class="pop-cat-item" href="#fishGrid" onclick="event.preventDefault();filterFish('Ekipman');document.getElementById('fishGrid').scrollIntoView({behavior:'smooth'})">
-      <div class="pop-cat-circle">
-        <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=300&q=80" alt="Filtreler" loading="lazy">
-        <div class="pop-cat-circle-overlay"></div>
+    <a class="pop-cat-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Filtre')">
+      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
+        <div class="pop-cat-emoji">⚙️</div>
       </div>
       <div class="pop-cat-label">Filtreler</div>
     </a>
 
-    <a class="pop-cat-item" href="#fishGrid" onclick="event.preventDefault();filterFish('Su Düzenleyici');document.getElementById('fishGrid').scrollIntoView({behavior:'smooth'})">
-      <div class="pop-cat-circle">
-        <img src="https://images.unsplash.com/photo-1559738442-b3e9e1ed6e69?w=300&q=80" alt="Su Düzenleyici" loading="lazy">
-        <div class="pop-cat-circle-overlay"></div>
+    <a class="pop-cat-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Su Düzenleyici')">
+      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0e7490,#67e8f9);">
+        <div class="pop-cat-emoji">💧</div>
       </div>
       <div class="pop-cat-label">Su Düzenleyici</div>
     </a>
 
     <a class="pop-cat-item" href="taslar.html">
-      <div class="pop-cat-circle">
-        <img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=300&q=80" alt="Akvaryum Aksesuarları" loading="lazy">
-        <div class="pop-cat-circle-overlay"></div>
+      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#92400e,#fbbf24);">
+        <div class="pop-cat-emoji">🪨</div>
       </div>
       <div class="pop-cat-label">Aksesuarlar</div>
     </a>
@@ -2589,7 +2581,7 @@ a{text-decoration:none;color:inherit;}
   </div>
   <div class="cat-hub reveal" id="catHub">
     <a class="hub-card" href="baliklar.html">
-      <img class="hub-bg" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&q=80" alt="Balıklar" loading="lazy">
+      <img class="hub-bg" src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=500&q=80" alt="Balıklar" loading="lazy">
       <div class="hub-overlay"></div>
       <div class="hub-icon">🐠</div>
       <div class="hub-content">
@@ -2601,7 +2593,7 @@ a{text-decoration:none;color:inherit;}
       </div>
     </a>
     <a class="hub-card" href="bitkiler.html">
-      <img class="hub-bg" src="https://images.unsplash.com/photo-1585504198199-20277593b94f?w=500&q=80" alt="Bitkiler" loading="lazy">
+      <img class="hub-bg" src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=500&q=80" alt="Bitkiler" loading="lazy">
       <div class="hub-overlay" style="background:linear-gradient(to top,rgba(5,46,22,0.88) 0%,rgba(20,83,45,0.3) 55%,transparent 100%);"></div>
       <div class="hub-icon">🌿</div>
       <div class="hub-content">
@@ -2613,7 +2605,7 @@ a{text-decoration:none;color:inherit;}
       </div>
     </a>
     <a class="hub-card" href="akvaryumlar.html">
-      <img class="hub-bg" src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=500&q=80" alt="Akvaryumlar" loading="lazy">
+      <img class="hub-bg" src="https://images.unsplash.com/photo-1520694478166-daaaaec95b69?w=500&q=80" alt="Akvaryumlar" loading="lazy">
       <div class="hub-overlay" style="background:linear-gradient(to top,rgba(2,20,60,0.9) 0%,rgba(10,40,100,0.3) 55%,transparent 100%);"></div>
       <div class="hub-icon">🔲</div>
       <div class="hub-content">
@@ -2625,7 +2617,7 @@ a{text-decoration:none;color:inherit;}
       </div>
     </a>
     <a class="hub-card" href="taslar.html">
-      <img class="hub-bg" src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=500&q=80" alt="Taşlar ve Dekor" loading="lazy">
+      <img class="hub-bg" src="https://images.unsplash.com/photo-1571550055812-f7d25c4d9b4d?w=500&q=80" alt="Taşlar ve Dekor" loading="lazy">
       <div class="hub-overlay" style="background:linear-gradient(to top,rgba(30,15,5,0.9) 0%,rgba(80,40,10,0.3) 55%,transparent 100%);"></div>
       <div class="hub-icon">🪨</div>
       <div class="hub-content">
@@ -5377,25 +5369,25 @@ window.toggleStockFilter = function toggleStockFilter() {
 <div id="floatingNav">
   <div class="fnav-inner" id="fnavInner">
 
-    <button class="fnav-btn active" id="fnavBtn0" onclick="fnavActivate(0);scrollToTop()">
+    <a class="fnav-btn active" id="fnavBtn0" href="index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span class="fnav-label">Ana Sayfa</span>
-    </button>
+    </a>
 
-    <button class="fnav-btn" id="fnavBtn1" onclick="fnavActivate(1);fnavScrollTo('fishGrid','Tümü')">
+    <a class="fnav-btn" id="fnavBtn1" href="baliklar.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
       <span class="fnav-label">Balıklar</span>
-    </button>
+    </a>
 
-    <button class="fnav-btn" id="fnavBtn2" onclick="fnavActivate(2);fnavScrollTo('plantGrid',null)">
+    <a class="fnav-btn" id="fnavBtn2" href="bitkiler.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22V12"/><path d="M5 12c0-4.4 3.1-8 7-8 3.9 0 7 3.6 7 8H5z"/><path d="M5 12c-2.2 0-4-1.8-4-4 0-2.2 1.8-4 4-4h7"/></svg>
       <span class="fnav-label">Bitkiler</span>
-    </button>
+    </a>
 
-    <button class="fnav-btn" id="fnavBtn3" onclick="fnavActivate(3);fnavScrollTo('aqGrid',null)">
+    <a class="fnav-btn" id="fnavBtn3" href="akvaryumlar.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
       <span class="fnav-label">Akvaryum</span>
-    </button>
+    </a>
 
     <button class="fnav-btn" id="fnavBtn4" onclick="fnavActivate(4);openCartDrawer()">
       <div style="position:relative;display:inline-flex;">

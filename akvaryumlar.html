@@ -912,5 +912,43 @@ function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('sou
   }
 })();
 </script>
+
+<!-- ══ MOBİL FLOATING NAV ══ -->
+<style>
+#floatingNav{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:400;width:calc(100% - 24px);max-width:420px;}
+@media(max-width:959px){#floatingNav{display:block;}}
+.fnav-inner{position:relative;display:flex;align-items:center;justify-content:space-around;background:#fff;border:1px solid rgba(0,89,179,0.1);border-radius:99px;padding:6px;box-shadow:0 8px 40px rgba(0,89,179,0.18),0 2px 8px rgba(0,0,0,0.08);}
+.fnav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:3px;padding:8px 4px;background:none;border:none;cursor:pointer;color:#6b8fa8;font-size:9px;font-weight:600;position:relative;z-index:2;transition:color .2s;min-width:0;text-decoration:none;}
+.fnav-btn.active{color:#0059B3;}
+.fnav-btn svg{width:20px;height:20px;stroke-width:2;}
+.fnav-indicator{position:absolute;top:4px;bottom:4px;border-radius:99px;background:linear-gradient(135deg,rgba(0,89,179,0.1),rgba(0,180,204,0.1));transition:left .35s cubic-bezier(.34,1.56,.64,1),width .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:1;}
+.fnav-cart-badge{position:absolute;top:4px;right:calc(50% - 18px);background:#FF6B6B;color:#fff;font-size:8px;font-weight:800;min-width:16px;height:16px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;opacity:0;transform:scale(0.6);transition:opacity .2s,transform .2s;pointer-events:none;}
+.fnav-cart-badge.show{opacity:1;transform:scale(1);}
+</style>
+<div id="floatingNav">
+  <div class="fnav-inner" id="fnavInner">
+    <a class="fnav-btn" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Ana Sayfa</span></a>
+    <a class="fnav-btn" href="baliklar.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg><span>Balıklar</span></a>
+    <a class="fnav-btn" href="bitkiler.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22V12"/><path d="M5 12c0-4.4 3.1-8 7-8 3.9 0 7 3.6 7 8H5z"/><path d="M5 12c-2.2 0-4-1.8-4-4 0-2.2 1.8-4 4-4h7"/></svg><span>Bitkiler</span></a>
+    <a class="fnav-btn active" id="fnavBtn3" href="akvaryumlar.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg><span>Akvaryum</span></a>
+    <button class="fnav-btn" onclick="if(typeof openCartDrawer==='function')openCartDrawer()"><div style="position:relative;display:inline-flex;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="fnav-cart-badge" id="fnavCartBadge">0</span></div><span>Sepetim</span></button>
+    <div class="fnav-indicator" id="fnavIndicator"></div>
+  </div>
+</div>
+<script>
+(function(){
+  function fnavInit(){
+    const inner=document.getElementById('fnavInner');
+    const active=document.getElementById('fnavBtn3');
+    const ind=document.getElementById('fnavIndicator');
+    if(!inner||!active||!ind)return;
+    const ir=inner.getBoundingClientRect(),br=active.getBoundingClientRect();
+    ind.style.width=br.width+'px';ind.style.left=(br.left-ir.left)+'px';
+  }
+  document.addEventListener('DOMContentLoaded',fnavInit);
+  window.addEventListener('resize',fnavInit,{passive:true});
+  setTimeout(fnavInit,150);
+})();
+</script>
 </body>
 </html>
