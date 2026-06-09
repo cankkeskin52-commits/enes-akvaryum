@@ -918,6 +918,198 @@ a{text-decoration:none;color:inherit;}
 }
 #brandSub{display:none;}
 
+/* ══ HERO LOGO ICON ══ */
+.hero-logo-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(16px);
+  border:1.5px solid rgba(255,255,255,0.25);
+  margin:0 auto 20px;
+  animation:heroFadeIn 1s ease 0.5s both;
+}
+.hero-logo-icon svg{width:38px;height:38px;filter:drop-shadow(0 0 12px rgba(0,180,204,0.6));}
+.hero-desc-text{
+  font-size:clamp(15px,1.8vw,20px);color:rgba(255,255,255,0.72);
+  max-width:560px;line-height:1.7;margin:0 auto 44px;
+  font-weight:400;letter-spacing:0.01em;
+  animation:heroSlideUp 1s ease 2.8s both;
+}
+
+/* ══ POPÜLER KATEGORİLER (DAİRESEL) ══ */
+.pop-cats-section{
+  background:var(--white);
+  padding:clamp(40px,6vw,72px) clamp(20px,4vw,60px);
+}
+.pop-cats-title{
+  text-align:center;margin-bottom:clamp(28px,4vw,44px);
+}
+.pop-cats-title h2{
+  font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);
+  font-weight:700;color:var(--dark);margin-bottom:6px;
+}
+.pop-cats-title p{
+  font-size:14px;color:var(--text-mid);font-weight:400;
+}
+.pop-cats-grid{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  gap:clamp(20px,3vw,40px);max-width:1100px;margin:0 auto;
+}
+.pop-cat-item{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  cursor:pointer;text-decoration:none;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.pop-cat-item:hover{transform:translateY(-6px);}
+.pop-cat-circle{
+  width:clamp(100px,11vw,140px);height:clamp(100px,11vw,140px);
+  border-radius:50%;overflow:hidden;position:relative;
+  border:3px solid var(--white);
+  box-shadow:0 6px 28px rgba(0,89,179,0.14);
+  transition:box-shadow .3s,border-color .3s;
+}
+.pop-cat-item:hover .pop-cat-circle{
+  box-shadow:0 12px 40px rgba(0,89,179,0.28);
+  border-color:var(--teal);
+}
+.pop-cat-circle img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.pop-cat-item:hover .pop-cat-circle img{transform:scale(1.12);}
+.pop-cat-circle-overlay{
+  position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(to top,rgba(0,30,70,0.35),transparent 60%);
+}
+.pop-cat-label{
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--text);text-align:center;transition:color .2s;
+}
+.pop-cat-item:hover .pop-cat-label{color:var(--blue);}
+@media(max-width:639px){
+  .pop-cats-grid{gap:16px;}
+  .pop-cat-circle{width:82px;height:82px;}
+  .pop-cat-label{font-size:11px;}
+}
+
+/* ══ ÜRÜN DETAY MODAL ══ */
+#fishDetailModal{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(2,12,30,0.88);backdrop-filter:blur(8px);
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+#fishDetailModal.open{opacity:1;pointer-events:all;}
+.fdm-sheet{
+  background:#fff;
+  border-radius:24px 24px 0 0;
+  width:100%;max-width:640px;
+  max-height:92vh;overflow-y:auto;
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  padding:0 0 env(safe-area-inset-bottom,16px);
+}
+#fishDetailModal.open .fdm-sheet{transform:translateY(0);}
+.fdm-handle{
+  width:36px;height:4px;border-radius:99px;
+  background:rgba(0,0,0,0.12);margin:12px auto 0;
+}
+.fdm-img-wrap{
+  position:relative;width:100%;height:260px;overflow:hidden;
+  background:var(--blue-pale);
+}
+.fdm-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.fdm-img-wrap .fdm-badge{
+  position:absolute;top:14px;left:14px;
+  background:var(--teal);color:#fff;
+  font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 12px;border-radius:99px;
+}
+.fdm-close{
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--dark);
+  box-shadow:0 2px 12px rgba(0,0,0,0.15);
+}
+.fdm-body{padding:20px 20px 12px;}
+.fdm-name{
+  font-family:'Sora',sans-serif;font-size:22px;font-weight:700;
+  color:var(--dark);margin-bottom:6px;
+}
+.fdm-meta{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.fdm-type-tag{
+  font-size:11px;font-weight:600;color:var(--teal);
+  background:var(--teal-pale);padding:4px 10px;border-radius:99px;
+}
+.fdm-stock-tag{
+  font-size:11px;font-weight:600;
+  padding:4px 10px;border-radius:99px;
+}
+.fdm-stock-tag.ok{color:#16a34a;background:#dcfce7;}
+.fdm-stock-tag.low{color:#d97706;background:#fef3c7;}
+.fdm-stock-tag.out{color:#dc2626;background:#fee2e2;}
+.fdm-note{
+  font-size:13px;color:var(--text-mid);line-height:1.6;
+  margin-bottom:20px;padding:12px 14px;
+  background:var(--blue-pale);border-radius:10px;
+  border-left:3px solid var(--teal);
+}
+.fdm-price-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.fdm-price{
+  font-family:'Sora',sans-serif;font-size:32px;font-weight:800;
+  color:var(--blue);
+}
+.fdm-price span{font-size:18px;color:var(--text-mid);font-weight:600;}
+.fdm-qty-wrap{
+  display:flex;align-items:center;gap:0;
+  border:1.5px solid var(--stroke);border-radius:10px;overflow:hidden;
+}
+.fdm-qty-btn{
+  width:40px;height:40px;border:none;background:var(--bg);
+  font-size:20px;cursor:pointer;color:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.fdm-qty-btn:hover{background:var(--stroke);}
+.fdm-qty-num{
+  width:44px;text-align:center;font-family:'Sora',sans-serif;
+  font-size:16px;font-weight:700;color:var(--dark);
+}
+.fdm-add-btn{
+  width:100%;padding:16px;border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--blue),var(--blue-light));
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:0.04em;transition:all .25s;margin-bottom:24px;
+  box-shadow:0 6px 24px rgba(0,89,179,0.3);
+}
+.fdm-add-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,89,179,0.4);}
+.fdm-add-btn.added{background:linear-gradient(135deg,#16a34a,#22c55e);}
+.fdm-similar-title{
+  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
+  color:var(--dark);margin-bottom:12px;
+}
+.fdm-similar-scroll{
+  display:flex;gap:10px;overflow-x:auto;padding-bottom:16px;
+  scrollbar-width:none;
+}
+.fdm-similar-scroll::-webkit-scrollbar{display:none;}
+.fdm-sim-card{
+  flex:0 0 110px;border-radius:12px;border:1.5px solid var(--stroke);
+  overflow:hidden;cursor:pointer;text-decoration:none;
+  transition:transform .2s,border-color .2s;
+}
+.fdm-sim-card:hover{transform:translateY(-3px);border-color:var(--teal);}
+.fdm-sim-img{width:110px;height:80px;object-fit:cover;display:block;background:var(--blue-pale);}
+.fdm-sim-name{font-size:10px;font-weight:600;color:var(--dark);padding:6px 7px 2px;line-height:1.3;}
+.fdm-sim-price{font-size:11px;color:var(--blue);font-weight:700;padding:0 7px 7px;}
+
 /* ══ SECTION COMMON ══ */
 .page{background:var(--white);}
 .content{padding:0 clamp(16px,4vw,48px);max-width:1200px;margin:0 auto;}
@@ -2173,6 +2365,14 @@ a{text-decoration:none;color:inherit;}
 
 </div>
 
+<!-- ══ ÜRÜN DETAY MODAL ══ -->
+<div id="fishDetailModal" onclick="if(event.target===this)closeFishDetail()">
+  <div class="fdm-sheet" id="fdmSheet">
+    <div class="fdm-handle"></div>
+    <div id="fdmContent"></div>
+  </div>
+</div>
+
 <!-- ══ HERO ══ -->
 <div class="hero">
   <!-- Çarpıcı su altı/balık fotoğrafı -->
@@ -2194,7 +2394,18 @@ a{text-decoration:none;color:inherit;}
 
   <!-- Ana içerik -->
   <div class="hero-content">
-    <div class="hero-label">Balık &amp; Akvaryum Dünyası</div>
+    <!-- Balık ikon rozeti -->
+    <div class="hero-logo-icon">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 24C6 24 12 10 24 10C36 10 42 24 42 24C42 24 36 38 24 38C12 38 6 24 6 24Z" fill="rgba(0,180,204,0.25)" stroke="rgba(0,180,204,0.8)" stroke-width="1.5"/>
+        <circle cx="30" cy="19" r="3" fill="rgba(0,180,204,0.9)"/>
+        <path d="M6 24C2 20 2 16 4 13L8 18" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M6 24C2 28 2 32 4 35L8 30" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M18 24C18 24 22 20 26 24C22 28 18 24 18 24Z" fill="rgba(255,255,255,0.2)"/>
+      </svg>
+    </div>
+
+    <div class="hero-label">Eyüpsultan · İstanbul</div>
 
     <div class="hero-title-wrap">
       <span class="hero-title-line">ENES</span>
@@ -2203,7 +2414,7 @@ a{text-decoration:none;color:inherit;}
 
     <div class="hero-divider-line"></div>
 
-    <div class="hero-tagline">İstanbul Eyüpsultan'da tatlı su, tuzlu su<br/>ve canlı bitki koleksiyonu</div>
+    <div class="hero-desc-text">200'den fazla balık türü, canlı aquascape bitkileri ve profesyonel akvaryum kurulum hizmetiyle sualtının büyüleyici dünyasını evinize taşıyoruz.</div>
 
     <div class="hero-ctas">
       <a class="hero-cta-primary" href="#catHub" onclick="event.preventDefault();document.getElementById('catHub').scrollIntoView({behavior:'smooth',block:'start'})">
@@ -2252,6 +2463,65 @@ a{text-decoration:none;color:inherit;}
     <span class="stat-icon">🏆</span>
     <div class="stat-num">10<span>+</span></div>
     <div class="stat-label">Yıl Deneyim</div>
+  </div>
+</div>
+
+<!-- ══ POPÜLER KATEGORİLER (DAİRESEL) ══ -->
+<div class="pop-cats-section">
+  <div class="pop-cats-title">
+    <h2>Popüler Kategoriler</h2>
+    <p>İhtiyacınız olan her şey tek çatı altında</p>
+  </div>
+  <div class="pop-cats-grid reveal">
+
+    <a class="pop-cat-item" href="baliklar.html">
+      <div class="pop-cat-circle">
+        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&q=80" alt="Balıklar" loading="lazy">
+        <div class="pop-cat-circle-overlay"></div>
+      </div>
+      <div class="pop-cat-label">Balıklar</div>
+    </a>
+
+    <a class="pop-cat-item" href="bitkiler.html">
+      <div class="pop-cat-circle">
+        <img src="https://images.unsplash.com/photo-1585504198199-20277593b94f?w=300&q=80" alt="Canlı Bitkiler" loading="lazy">
+        <div class="pop-cat-circle-overlay"></div>
+      </div>
+      <div class="pop-cat-label">Canlı Bitkiler</div>
+    </a>
+
+    <a class="pop-cat-item" href="akvaryumlar.html">
+      <div class="pop-cat-circle">
+        <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=300&q=80" alt="Akvaryumlar" loading="lazy">
+        <div class="pop-cat-circle-overlay"></div>
+      </div>
+      <div class="pop-cat-label">Akvaryumlar</div>
+    </a>
+
+    <a class="pop-cat-item" href="#fishGrid" onclick="event.preventDefault();filterFish('Ekipman');document.getElementById('fishGrid').scrollIntoView({behavior:'smooth'})">
+      <div class="pop-cat-circle">
+        <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=300&q=80" alt="Filtreler" loading="lazy">
+        <div class="pop-cat-circle-overlay"></div>
+      </div>
+      <div class="pop-cat-label">Filtreler</div>
+    </a>
+
+    <a class="pop-cat-item" href="#fishGrid" onclick="event.preventDefault();filterFish('Su Düzenleyici');document.getElementById('fishGrid').scrollIntoView({behavior:'smooth'})">
+      <div class="pop-cat-circle">
+        <img src="https://images.unsplash.com/photo-1559738442-b3e9e1ed6e69?w=300&q=80" alt="Su Düzenleyici" loading="lazy">
+        <div class="pop-cat-circle-overlay"></div>
+      </div>
+      <div class="pop-cat-label">Su Düzenleyici</div>
+    </a>
+
+    <a class="pop-cat-item" href="taslar.html">
+      <div class="pop-cat-circle">
+        <img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=300&q=80" alt="Akvaryum Aksesuarları" loading="lazy">
+        <div class="pop-cat-circle-overlay"></div>
+      </div>
+      <div class="pop-cat-label">Aksesuarlar</div>
+    </a>
+
   </div>
 </div>
 
@@ -3888,7 +4158,7 @@ function renderFishGrid(){
     const qty=cart[i]||0,inCart=qty>0;
     const typeClass=f.type==='Tatlı Su'?'type-tatli':f.type==='Tuzlu Su'?'type-tuzlu':f.type==='Canlı Bitki'?'type-bitki':f.type==='Aksesuar'?'type-aksesuar':'type-diger';
     const badgeLabel=f.category||f.type;
-    return`<div class="fish-card ${typeClass} ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}">
+    return`<div class="fish-card ${typeClass} ${inCart?'in-cart':''} ${f.outOfStock?'out-of-stock':''}" onclick="openFishDetail(${i})">
       <div class="fish-img-wrap">
         ${f.img?`<img class="fish-img" src="${cdnImg(f.img)}" alt="${f.name}" loading="lazy" style="${f.outOfStock?'filter:grayscale(0.6)':''}"><div class="fish-img-overlay"></div>`:`<div class="fish-img-placeholder">🐠</div>`}
         <div class="fish-shimmer"></div>
@@ -3909,8 +4179,8 @@ function renderFishGrid(){
           ${f.outOfStock
             ?`<div></div><div style="font-size:10px;color:#e05555;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif;">Stokta Yok</div>`
             :inCart
-              ?`<div class="qty-wrap"><button class="qty-btn" onclick="changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="removeFromCart(${i})">${_removeText()}</button>`
-              :`<div></div><button class="add-cart-btn" onclick="addToCart(${i},'${f.name}',${f.price})">${_addCartText()}</button>`}
+              ?`<div class="qty-wrap"><button class="qty-btn" onclick="event.stopPropagation();changeQty(${i},-1)">−</button><span class="qty-num">${qty}</span><button class="qty-btn" onclick="event.stopPropagation();changeQty(${i},1)">+</button></div><button class="remove-cart-btn" onclick="event.stopPropagation();removeFromCart(${i})">${_removeText()}</button>`
+              :`<div></div><button class="add-cart-btn" onclick="event.stopPropagation();addToCart(${i},'${f.name}',${f.price})">${_addCartText()}</button>`}
         </div>
       </div>
     </div>`;
@@ -3966,6 +4236,107 @@ function clearCart(){
   cart={};
   renderFishGrid();renderPlantGrid();renderAqGrid();renderCart();
 }
+/* ══ ÜRÜN DETAY MODAL ══ */
+let fdmQty=1;
+let fdmIdx=null;
+
+function openFishDetail(i){
+  const f=fishList[i];
+  if(!f)return;
+  fdmIdx=i;fdmQty=1;
+
+  // Benzer ürünler (aynı kategori, max 6, kendisi hariç)
+  const similar=fishList
+    .map((x,idx)=>({x,idx}))
+    .filter(({x,idx})=>idx!==i&&(x.category===f.category||x.type===f.type)&&!x.outOfStock)
+    .slice(0,6);
+
+  // Stok durumu
+  let stockTag='';
+  if(f.outOfStock){
+    stockTag=`<span class="fdm-stock-tag out">Stokta Yok</span>`;
+  } else if(f.stock!==null&&f.stock!==undefined&&f.stock<=5){
+    stockTag=`<span class="fdm-stock-tag low">Son ${f.stock} adet!</span>`;
+  } else {
+    stockTag=`<span class="fdm-stock-tag ok">Stokta Var</span>`;
+  }
+
+  const imgUrl=f.img?cdnImg(f.img):'';
+
+  document.getElementById('fdmContent').innerHTML=`
+    <div class="fdm-img-wrap">
+      ${imgUrl?`<img src="${imgUrl}" alt="${f.name}">`:`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;">🐠</div>`}
+      <span class="fdm-badge">${f.category||f.type||'Balık'}</span>
+      <button class="fdm-close" onclick="closeFishDetail()">✕</button>
+    </div>
+    <div class="fdm-body">
+      <div class="fdm-name">${f.name}</div>
+      <div class="fdm-meta">
+        <span class="fdm-type-tag">${f.type||f.category||'Balık'}</span>
+        ${stockTag}
+      </div>
+      ${f.note?`<div class="fdm-note">${f.note}</div>`:''}
+      <div class="fdm-price-row">
+        <div class="fdm-price">${Number(f.price).toLocaleString('tr-TR')} <span>₺</span></div>
+        ${!f.outOfStock?`<div class="fdm-qty-wrap">
+          <button class="fdm-qty-btn" onclick="fdmChangeQty(-1)">−</button>
+          <div class="fdm-qty-num" id="fdmQtyNum">1</div>
+          <button class="fdm-qty-btn" onclick="fdmChangeQty(1)">+</button>
+        </div>`:''}
+      </div>
+      ${!f.outOfStock
+        ?`<button class="fdm-add-btn" id="fdmAddBtn" onclick="fdmAddToCart()">
+            🛒 Sepete Ekle — ${Number(f.price).toLocaleString('tr-TR')} ₺
+          </button>`
+        :`<div style="text-align:center;padding:16px 0;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:24px;">Bu ürün şu an stokta bulunmuyor</div>`
+      }
+      ${similar.length?`
+        <div class="fdm-similar-title">Benzer Ürünler</div>
+        <div class="fdm-similar-scroll">
+          ${similar.map(({x,idx})=>`
+            <div class="fdm-sim-card" onclick="openFishDetail(${idx})">
+              ${x.img?`<img class="fdm-sim-img" src="${cdnImg(x.img)}" alt="${x.name}" loading="lazy">`:`<div class="fdm-sim-img" style="display:flex;align-items:center;justify-content:center;font-size:32px;">🐠</div>`}
+              <div class="fdm-sim-name">${x.name}</div>
+              <div class="fdm-sim-price">${Number(x.price).toLocaleString('tr-TR')} ₺</div>
+            </div>
+          `).join('')}
+        </div>
+      `:''}
+    </div>
+  `;
+
+  const modal=document.getElementById('fishDetailModal');
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeFishDetail(){
+  document.getElementById('fishDetailModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function fdmChangeQty(d){
+  fdmQty=Math.max(1,fdmQty+d);
+  const el=document.getElementById('fdmQtyNum');
+  if(el)el.textContent=fdmQty;
+}
+
+function fdmAddToCart(){
+  if(fdmIdx===null)return;
+  const f=fishList[fdmIdx];
+  if(!f)return;
+  for(let q=0;q<fdmQty;q++) addToCart(fdmIdx,f.name,f.price);
+  const btn=document.getElementById('fdmAddBtn');
+  if(btn){
+    btn.textContent='✓ Sepete Eklendi!';
+    btn.classList.add('added');
+    setTimeout(()=>{
+      btn.textContent=`🛒 Sepete Ekle — ${Number(f.price*fdmQty).toLocaleString('tr-TR')} ₺`;
+      btn.classList.remove('added');
+    },2000);
+  }
+}
+
 function addToCart(i,name,price){
   cart[i]=(cart[i]||0)+1;
   updateCartControls(i);
