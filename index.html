@@ -323,7 +323,7 @@ a{text-decoration:none;color:inherit;}
 .snav-mega-wrap:hover .snav-mega-btn svg{transform:rotate(180deg);}
 
 .snav-mega{
-  position:fixed;top:calc(36px + 62px);left:0;right:0;
+  position:fixed;top:var(--mega-top,98px);left:0;right:0;
   background:#fff;
   border-top:2px solid var(--teal);
   box-shadow:0 16px 64px rgba(0,89,179,0.14);
@@ -2086,7 +2086,7 @@ a{text-decoration:none;color:inherit;}
     <span class="anno-item"><span class="anno-dot"></span>Eyüpsultan'a Özel <span class="anno-highlight">Eve Teslimat</span></span>
     <span class="anno-item"><span class="anno-dot"></span>Profesyonel Aquascape Tasarımı</span>
   </div>
-  <button id="annoClose" onclick="document.getElementById('annoBar').style.display='none';document.getElementById('stickyNav').classList.add('anno-hidden');">✕</button>
+  <button id="annoClose" onclick="document.getElementById('annoBar').style.display='none';document.getElementById('stickyNav').classList.add('anno-hidden');setTimeout(updateMegaTop,320);">✕</button>
 </div>
 
 <!-- SCROLL BAR -->
@@ -3105,6 +3105,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(e.key==='Escape')closeSearch();
   });
 });
+
+function updateMegaTop(){
+  const nav=document.getElementById('stickyNav');
+  if(!nav)return;
+  const bottom=nav.getBoundingClientRect().bottom;
+  document.documentElement.style.setProperty('--mega-top',Math.round(bottom)+'px');
+}
+// Sayfa yüklenince ve resize'da güncelle
+window.addEventListener('resize',updateMegaTop,{passive:true});
+document.addEventListener('DOMContentLoaded',updateMegaTop);
+setTimeout(updateMegaTop,100);
 
 function toggleAcc(btn){
   btn.classList.toggle('open');
