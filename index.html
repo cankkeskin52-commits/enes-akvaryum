@@ -460,67 +460,136 @@ a{text-decoration:none;color:inherit;}
   transition:all .2s;align-items:center;justify-content:center;
 }
 .snav-burger:hover{border-color:var(--blue);color:var(--blue);}
-/* Mobile drawer */
-/* ── Bottom Sheet Drawer ── */
+/* ── Left Sidebar Drawer ── */
 #mobileDrawer{
-  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  position:fixed;top:0;left:0;bottom:0;z-index:300;
   background:#fff;
-  border-radius:24px 24px 0 0;
-  box-shadow:0 -8px 48px rgba(18,70,181,0.18);
-  transform:translateY(100%);
-  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  width:min(320px, 88vw);
+  box-shadow:4px 0 48px rgba(2,12,30,0.22);
+  transform:translateX(-100%);
+  transition:transform .38s cubic-bezier(.16,1,.3,1);
   display:flex;flex-direction:column;
-  max-height:88svh;
   overflow:hidden;
 }
-#mobileDrawer.open{transform:translateY(0);}
+#mobileDrawer.open{transform:translateX(0);}
 #drawerOverlay{
   position:fixed;inset:0;z-index:290;
-  background:rgba(15,23,41,0.55);backdrop-filter:blur(6px);
+  background:rgba(2,12,30,0.6);backdrop-filter:blur(4px);
   opacity:0;pointer-events:none;transition:opacity .35s;
 }
 #drawerOverlay.open{opacity:1;pointer-events:all;}
+
+/* Drawer üst header */
 .drawer-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:18px 20px;border-bottom:1px solid var(--stroke);
+  padding:0 16px;height:56px;
+  border-bottom:1px solid var(--stroke);
+  background:var(--dark);flex-shrink:0;
+}
+.drawer-header-logo{
+  font-family:'Sora',sans-serif;font-size:14px;font-weight:800;
+  color:#fff;display:flex;align-items:center;gap:8px;
+}
+.drawer-header-logo-icon{
+  width:28px;height:28px;background:linear-gradient(135deg,var(--teal),var(--blue));
+  border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;
 }
 .drawer-close{
-  background:none;border:1px solid var(--stroke);border-radius:8px;
-  padding:6px;cursor:pointer;color:var(--text-mid);
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;padding:6px;cursor:pointer;color:rgba(255,255,255,0.7);
   display:flex;align-items:center;transition:all .2s;
 }
-.drawer-close:hover{border-color:var(--blue);color:var(--blue);}
-.drawer-body{padding:12px;display:flex;flex-direction:column;gap:2px;flex:1;}
-.drawer-link{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 14px;border-radius:10px;font-size:14px;font-weight:500;
-  color:var(--text);transition:background .15s,color .15s;
+.drawer-close:hover{background:rgba(255,255,255,0.15);color:#fff;}
+
+/* Drawer scrollable body */
+.drawer-body{
+  overflow-y:auto;flex:1;
+  -webkit-overflow-scrolling:touch;
 }
-.drawer-link:hover{background:var(--blue-pale);color:var(--blue);}
-.drawer-link-icon{font-size:18px;width:26px;text-align:center;}
+
+/* Bölüm başlığı */
 .drawer-section-label{
-  font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--text-dim);padding:12px 14px 4px;
+  font-size:10px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--text-dim);padding:20px 16px 8px;
+  background:var(--bg);border-bottom:1px solid var(--stroke);
 }
+
+/* Akordeon kategori satırı */
 .drawer-acc-trigger{
   display:flex;align-items:center;justify-content:space-between;
-  padding:12px 14px;border-radius:10px;font-size:14px;font-weight:600;
-  color:var(--text);cursor:pointer;transition:background .15s;
+  padding:14px 16px;font-size:14px;font-weight:600;
+  color:var(--dark);cursor:pointer;transition:background .15s;
   background:none;border:none;width:100%;text-align:left;
+  border-bottom:1px solid var(--stroke);
+  font-family:'DM Sans',sans-serif;
 }
-.drawer-acc-trigger:hover{background:var(--blue-pale);color:var(--blue);}
-.drawer-acc-trigger svg{transition:transform .25s;flex-shrink:0;}
-.drawer-acc-trigger.open svg{transform:rotate(180deg);}
-.drawer-acc-content{overflow:hidden;max-height:0;transition:max-height .3s ease;}
-.drawer-acc-content.open{max-height:500px;}
+.drawer-acc-trigger:active{background:var(--blue-pale);}
+.drawer-acc-icon{
+  width:32px;height:32px;border-radius:8px;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
+}
+.drawer-acc-label{display:flex;align-items:center;gap:10px;flex:1;}
+.drawer-acc-chev{
+  width:28px;height:28px;border-radius:7px;background:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-dim);flex-shrink:0;transition:transform .25s,background .2s;
+}
+.drawer-acc-trigger.open .drawer-acc-chev{transform:rotate(180deg);background:var(--teal-pale);color:var(--teal-dark);}
+.drawer-acc-trigger.open{background:var(--blue-pale);color:var(--blue);}
+.drawer-acc-trigger.open .drawer-acc-icon{background:var(--teal-pale);}
+
+/* Akordeon içerik */
+.drawer-acc-content{
+  overflow:hidden;max-height:0;
+  transition:max-height .32s cubic-bezier(.16,1,.3,1);
+  background:var(--bg);
+}
+.drawer-acc-content.open{max-height:600px;}
+
+/* Alt bağlantı */
 .drawer-sub-link{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px 12px 58px;
+  font-size:13px;color:var(--text-mid);font-weight:500;
+  border-bottom:1px solid var(--stroke);
+  text-decoration:none;transition:background .15s,color .15s;
+}
+.drawer-sub-link:hover,.drawer-sub-link:active{background:var(--teal-pale);color:var(--teal-dark);}
+.drawer-sub-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+
+/* Direkt link (accordion yok) */
+.drawer-link{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px;font-size:14px;font-weight:600;
+  color:var(--dark);border-bottom:1px solid var(--stroke);
+  text-decoration:none;transition:background .15s;
+}
+.drawer-link:active{background:var(--blue-pale);}
+.drawer-link-icon{font-size:18px;width:26px;text-align:center;}
+/* (legacy — overridden above) */
+.drawer-sub-link-old{
   display:flex;align-items:center;gap:10px;
   padding:10px 14px 10px 26px;border-radius:10px;font-size:13px;
   color:var(--text-mid);transition:background .15s,color .15s;
 }
 .drawer-sub-link:hover{background:var(--blue-pale);color:var(--blue);}
 .drawer-sub-icon{font-size:16px;width:22px;text-align:center;}
-.drawer-footer{padding:16px;border-top:1px solid var(--stroke);}
+.drawer-footer{
+  padding:16px;border-top:1px solid var(--stroke);
+  background:#fff;flex-shrink:0;
+}
+/* Drawer WA butonu */
+.drawer-wa-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  color:#fff;font-size:14px;font-weight:700;
+  padding:13px;border-radius:12px;text-decoration:none;
+  margin-bottom:8px;
+}
+.drawer-phone-row{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:13px;color:var(--text-mid);
+}
 
 
 /* ══ SEARCH — Expanding Dock ══ */
@@ -1987,84 +2056,121 @@ a{text-decoration:none;color:inherit;}
 <!-- MOBILE DRAWER OVERLAY -->
 <div id="drawerOverlay" onclick="closeDrawer()"></div>
 
-<!-- MOBILE BOTTOM SHEET DRAWER -->
+<!-- MOBILE LEFT SIDEBAR DRAWER -->
 <div id="mobileDrawer">
-  <!-- Tutamaç çizgisi -->
-  <div style="width:40px;height:4px;background:var(--stroke);border-radius:99px;margin:12px auto 0;flex-shrink:0;"></div>
 
-  <!-- Arama kutusu -->
-  <div style="padding:14px 16px 0;">
-    <div id="drawerSearch" style="display:flex;align-items:center;gap:10px;background:var(--blue-pale);border-radius:14px;padding:0 14px;height:46px;border:1.5px solid transparent;transition:border-color .2s;">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--text-dim);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <!-- Header -->
+  <div class="drawer-header">
+    <div class="drawer-header-logo">
+      <div class="drawer-header-logo-icon">🐠</div>
+      Enes <span style="color:var(--teal);">Akvaryum</span>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- Arama -->
+  <div style="padding:12px 14px;background:#fff;border-bottom:1px solid var(--stroke);">
+    <div style="display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:10px;padding:0 12px;height:42px;border:1.5px solid var(--stroke);transition:border-color .2s;" onfocusin="this.style.borderColor='var(--teal)'" onfocusout="this.style.borderColor='var(--stroke)'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--text-dim);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input id="drawerSearchInput" type="search" placeholder="Balık, bitki, akvaryum ara..." autocomplete="off" style="flex:1;border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);"/>
     </div>
-    <!-- Arama sonuçları -->
-    <div id="drawerSearchResults" style="margin-top:8px;border-radius:14px;overflow:hidden;border:1px solid var(--stroke);display:none;background:#fff;max-height:40vh;overflow-y:auto;"></div>
+    <div id="drawerSearchResults" style="margin-top:6px;border-radius:10px;overflow:hidden;border:1px solid var(--stroke);display:none;background:#fff;max-height:35vh;overflow-y:auto;"></div>
   </div>
 
-  <!-- Kategori kartları -->
-  <div style="padding:16px 16px 8px;">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;">Kategoriler</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+  <!-- Body: scrollable -->
+  <div class="drawer-body">
 
-      <!-- Balıklar -->
-      <a href="baliklar.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#020c1e,#003f80,#0059b3);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);overflow:hidden;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🐠</span>
-        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Balıklar</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.65);margin-top:1px;">Tatlı & tuzlu su</div>
-      </a>
-
-      <!-- Bitkiler -->
-      <a href="bitkiler.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#052e16,#065f46,#047857);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);overflow:hidden;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🌿</span>
-        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Bitkiler</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.65);margin-top:1px;">Canlı aquascape</div>
-      </a>
-
-      <!-- Akvaryumlar -->
-      <a href="akvaryumlar.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#020c1e,#008ea3,#00b4cc);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);overflow:hidden;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🔲</span>
-        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Akvaryumlar</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.65);margin-top:1px;">Hazır & özel tasarım</div>
-      </a>
-
-      <!-- Taşlar -->
-      <a href="taslar.html" onclick="closeDrawer()" style="height:110px;border-radius:16px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;background:linear-gradient(135deg,#1c1007,#78350f,#b45309);position:relative;transition:transform .18s cubic-bezier(.34,1.36,.64,1);overflow:hidden;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">
-        <span style="font-size:28px;position:absolute;top:12px;left:12px;">🪨</span>
-        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;">Taşlar & Dekor</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.65);margin-top:1px;">Doğal & aksesuar</div>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Hızlı linkler -->
-  <div style="padding:0 16px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;">
-    <a href="index.html" onclick="closeDrawer()" style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;color:var(--text);text-decoration:none;transition:background .15s;" onmousedown="this.style.background='var(--blue-pale)'" onmouseup="this.style.background=''">
-      <span style="font-size:17px;width:26px;text-align:center;">🏠</span> Ana Sayfa
+    <!-- Ana Sayfa -->
+    <a href="index.html" onclick="closeDrawer()" class="drawer-link">
+      <div class="drawer-acc-icon">🏠</div>
+      Ana Sayfa
     </a>
-    <div onclick="closeDrawer();setTimeout(()=>{const el=document.getElementById('secRenew');if(el)el.closest('.dark-section')?.scrollIntoView({behavior:'smooth'});},300)" style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;color:var(--text);cursor:pointer;transition:background .15s;" onmousedown="this.style.background='var(--blue-pale)'" onmouseup="this.style.background=''">
-      <span style="font-size:17px;width:26px;text-align:center;">🔧</span> Hizmetler
-    </div>
-    <div onclick="closeDrawer();setTimeout(()=>document.querySelector('.site-footer')?.scrollIntoView({behavior:'smooth',block:'start'}),300)" style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;color:var(--text);cursor:pointer;transition:background .15s;" onmousedown="this.style.background='var(--blue-pale)'" onmouseup="this.style.background=''">
-      <span style="font-size:17px;width:26px;text-align:center;">📍</span> İletişim
-    </div>
-  </div>
 
-  <!-- Üyelik butonu -->
-  <div style="padding:0 16px 8px;flex-shrink:0;">
-    <a id="drawerLoginBtn" href="uye.html" onclick="closeDrawer()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:14px;background:var(--blue-pale);border:1.5px solid var(--stroke-blue);color:var(--blue);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span id="drawerLoginText">Giriş Yap / Üye Ol</span>
+    <!-- KATEGORİLER başlık -->
+    <div class="drawer-section-label">Ürün Kategorileri</div>
+
+    <!-- Balıklar -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🐠</div> Balıklar</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tatlı Su Balıkları</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tuzlu Su Balıkları</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tropik Balıklar</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Soğuk Su Balıkları</a>
+    </div>
+
+    <!-- Bitkiler -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🌿</div> Canlı Bitkiler</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aquascape Bitkileri</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yüzen Bitkiler</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Zemin Bitkileri</a>
+    </div>
+
+    <!-- Akvaryumlar -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🔲</div> Akvaryumlar</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Hazır Akvaryumlar</a>
+      <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Nano Akvaryum</a>
+      <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Deniz Akvaryumu</a>
+      <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aquascape Set</a>
+    </div>
+
+    <!-- Taşlar & Dekor -->
+    <a href="taslar.html" onclick="closeDrawer()" class="drawer-link">
+      <div class="drawer-acc-icon">🪨</div>
+      Taşlar &amp; Dekor
     </a>
-  </div>
-  <!-- WA butonu -->
-  <div style="padding:12px 16px 20px;flex-shrink:0;">
-    <a class="snav-wa-btn" href="https://wa.me/905383279980?text=Merhaba!%20Bilgi%20almak%20istiyorum." target="_blank" style="width:100%;justify-content:center;font-size:14px;padding:13px;">
+
+    <!-- Ekipman & Bakım -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">⚙️</div> Ekipman &amp; Bakım</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Filtreler</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aydınlatma</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Isıtıcı &amp; Soğutucu</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yemler</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Akvaryum Kumları</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Su Düzenleyiciler</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Sağlık &amp; Bakım</a>
+      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Test Kitleri</a>
+    </div>
+
+    <!-- Diğer bağlantılar -->
+    <div class="drawer-section-label">Diğer</div>
+    <div class="drawer-link" onclick="closeDrawer();setTimeout(()=>{document.getElementById('secRenew')?.closest('.dark-section')?.scrollIntoView({behavior:'smooth'})},300)" style="cursor:pointer;">
+      <div class="drawer-acc-icon">🔧</div>Hizmetler
+    </div>
+    <div class="drawer-link" onclick="closeDrawer();setTimeout(()=>document.querySelector('.site-footer')?.scrollIntoView({behavior:'smooth',block:'start'}),300)" style="cursor:pointer;">
+      <div class="drawer-acc-icon">📍</div>İletişim
+    </div>
+
+  </div><!-- /drawer-body -->
+
+  <!-- Footer -->
+  <div class="drawer-footer">
+    <a class="drawer-wa-btn" href="https://wa.me/905383279980?text=Merhaba!%20Bilgi%20almak%20istiyorum." target="_blank">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.99 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.878-1.42A9.955 9.955 0 0011.99 22C17.523 22 22 17.523 22 12S17.523 2 11.99 2z"/></svg>
-      WhatsApp'tan Yaz
+      WhatsApp'tan Ulaşın
     </a>
+    <div class="drawer-phone-row">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6z"/></svg>
+      0538 327 99 80
+    </div>
   </div>
+
 </div>
 
 <!-- ══ HERO ══ -->
