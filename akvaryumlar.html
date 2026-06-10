@@ -170,6 +170,114 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
 #soundBtn{position:fixed;top:1.2rem;left:1.2rem;z-index:60;background:rgba(255,255,255,0.9);border:1px solid var(--stroke);border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow);}
 #bgCanvas{display:none;}#ambientOrbs{display:none;}.hero-bubs{display:none;}#beams{display:none;}
 #stickyNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);height:64px;background:rgba(255,255,255,0.95);border-bottom:1px solid var(--stroke);backdrop-filter:blur(12px);box-shadow:0 1px 20px rgba(18,70,181,0.06);}
+/* ══ MEGA MENU ══ */
+.snav-drop-wrap{position:relative;}
+.snav-drop-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 13px;border-radius:9px;
+  background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--text-mid);transition:color .2s,background .2s;
+  white-space:nowrap;
+}
+.snav-drop-btn:hover,.snav-drop-wrap:hover .snav-drop-btn{color:var(--blue);background:var(--blue-pale);}
+.snav-drop-btn svg{transition:transform .2s;flex-shrink:0;}
+.snav-drop-wrap:hover .snav-drop-btn svg{transform:rotate(180deg);}
+
+/* Küçük dropdown (Balıklar gibi) */
+.snav-drop{
+  position:absolute;top:calc(100% + 6px);left:0;
+  background:#fff;border-radius:14px;
+  box-shadow:0 8px 40px rgba(0,10,30,0.14),0 2px 8px rgba(0,0,0,0.06);
+  border:1px solid rgba(0,89,179,0.08);min-width:230px;
+  opacity:0;pointer-events:none;transform:translateY(-6px);
+  transition:opacity .15s ease,transform .15s ease;z-index:200;padding:8px;
+}
+.snav-drop-wrap:hover .snav-drop,
+.snav-drop-wrap:focus-within .snav-drop{opacity:1;pointer-events:all;transform:translateY(0);}
+.drop-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--text);transition:background .15s;}
+.drop-item:hover{background:var(--blue-pale);}
+.drop-item.drop-item-active{background:rgba(0,180,204,0.07);}
+.drop-item-icon{width:36px;height:36px;border-radius:9px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:background .15s;}
+.drop-item:hover .drop-item-icon,.drop-item.drop-item-active .drop-item-icon{background:var(--teal-pale);}
+.drop-item-label{font-weight:700;font-size:13px;color:var(--dark);line-height:1.2;}
+.drop-item-sub{font-size:11px;color:var(--text-dim);margin-top:1px;}
+.drop-divider{height:1px;background:rgba(0,89,179,0.07);margin:4px 2px;}
+
+/* ── BÜYÜK MEGA MENÜ (Ürünler) ── */
+.mega-wrap{position:relative;}
+.mega-wrap:hover .mega-btn,
+.mega-wrap:focus-within .mega-btn{color:var(--blue);background:var(--blue-pale);}
+.mega-wrap:hover .mega-btn svg,
+.mega-wrap:focus-within .mega-btn svg{transform:rotate(180deg);}
+.mega-btn{
+  display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:9px;
+  background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--text-mid);transition:color .2s,background .2s;white-space:nowrap;
+}
+.mega-btn svg{transition:transform .2s;flex-shrink:0;}
+
+.mega-panel{
+  position:absolute;top:100%;left:-20px;
+  padding-top:8px; /* buton ile panel arasında köprü — hover kopmaz */
+  background:transparent;
+  opacity:0;pointer-events:none;transform:translateY(-4px);
+  transition:opacity .18s ease,transform .18s ease;z-index:200;
+}
+.mega-panel-inner{
+  background:#fff;border-radius:14px;
+  box-shadow:0 8px 40px rgba(0,10,30,0.14),0 2px 8px rgba(0,0,0,0.06);
+  border:1px solid rgba(0,89,179,0.08);
+  display:flex;min-width:580px;overflow:hidden;
+}
+.mega-wrap:hover .mega-panel,
+.mega-wrap:focus-within .mega-panel{opacity:1;pointer-events:all;transform:translateY(0);}
+
+.mega-left{
+  width:220px;flex-shrink:0;
+  padding:8px;background:#f8faff;
+  border-right:1px solid rgba(0,89,179,0.07);
+}
+.mega-right{flex:1;padding:8px;min-width:280px;}
+
+.mega-cat{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px;border-radius:9px;
+  font-size:12.5px;font-weight:600;color:var(--dark);
+  cursor:pointer;transition:background .15s,color .15s;
+  text-decoration:none;white-space:nowrap;
+  background:none;border:none;width:100%;text-align:left;
+  font-family:'DM Sans',sans-serif;
+}
+.mega-cat:hover,.mega-cat.active{background:var(--blue-pale);color:var(--blue);}
+.mega-cat-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--coral);
+  flex-shrink:0;opacity:0;transition:opacity .15s;
+}
+.mega-cat.active .mega-cat-dot{opacity:1;}
+.mega-cat-chev{color:var(--text-dim);flex-shrink:0;font-size:10px;margin-left:4px;}
+
+.mega-sub-title{
+  font-size:10px;font-weight:700;letter-spacing:0.08em;
+  color:var(--text-dim);text-transform:uppercase;
+  padding:6px 8px 4px;
+}
+.mega-sub-item{
+  display:block;padding:7px 10px;border-radius:8px;
+  font-size:12.5px;font-weight:500;color:var(--dark);
+  text-decoration:none;transition:background .15s,color .15s;
+  white-space:nowrap;
+}
+.mega-sub-item:hover{background:var(--blue-pale);color:var(--blue);}
+.mega-sub-panel{display:none;}
+.mega-sub-panel.active{display:block;}
+
+/* eski mega menu stilleri — gizle */
+.snav-mega-wrap,.snav-mega,.snav-mega-btn,.snav-mega-inner,
+.mega-col,.mega-col-title,.mega-item,.mega-item-icon,.mega-item-label,.mega-item-sub,
+.mega-featured,.mega-feat-tag,.mega-feat-title,.mega-feat-desc,.mega-feat-btn{display:none!important;}
+
 .snav-logo{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--blue);cursor:pointer;}
 .snav-links{display:flex;align-items:center;gap:clamp(10px,2vw,24px);}
 .snav-link{font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:color .2s;text-decoration:none;}
@@ -487,14 +595,127 @@ h1,h2,h3{font-family:'Sora',sans-serif;}
     <a class="snav-logo" href="index.html">🐠 Enes Akvaryum</a>
     <nav class="snav-links">
       <a class="snav-link" href="index.html">Ana Sayfa</a>
-      <div class="snav-dropdown">
-        <button class="snav-link" onclick="return false;">Ürünler<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="snav-drop-menu">
-          <a class="snav-drop-item" href="baliklar.html"><div class="snav-drop-icon">🐠</div><div><div class="snav-drop-title">Balıklar</div><div class="snav-drop-desc">Tatlı su & tuzlu su balıkları</div></div></a>
-          <a class="snav-drop-item" href="bitkiler.html"><div class="snav-drop-icon">🌿</div><div><div class="snav-drop-title">Bitkiler</div><div class="snav-drop-desc">Canlı akvaryum bitkileri</div></div></a>
-          <a class="snav-drop-item" href="akvaryumlar.html"><div class="snav-drop-icon">🔲</div><div><div class="snav-drop-title">Akvaryumlar</div><div class="snav-drop-desc">Hazır setler & özel tasarım</div></div></a>
-          <a class="snav-drop-item" href="taslar.html"><div class="snav-drop-icon">🪨</div><div><div class="snav-drop-title">Taşlar & Dekor</div><div class="snav-drop-desc">Doğal taşlar & aksesuar</div></div></a>
+      <!-- BÜYÜK MEGA MENÜ -->
+      <div class="mega-wrap" id="megaWrap">
+        <button class="mega-btn" id="megaBtn">
+          Ürünler
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="mega-panel" id="megaPanel">
+          <div class="mega-panel-inner">
+          <!-- SOL KOLON -->
+          <div class="mega-left">
+            <a class="mega-cat" href="baliklar.html">Canlı Balık</a>
+            <button class="mega-cat" data-sub="yemler" onmouseenter="showMegaSub('yemler')">Yemler <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="bitki-co2" onmouseenter="showMegaSub('bitki-co2')">Bitki Ve Co2 Ekipmanları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="akvaryum" onmouseenter="showMegaSub('akvaryum')">Akvaryum <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="aksesuar" onmouseenter="showMegaSub('aksesuar')">Akvaryum Aksesuarları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="kumlar" onmouseenter="showMegaSub('kumlar')">Akvaryum Kumları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="aydinlatma" onmouseenter="showMegaSub('aydinlatma')">Aydınlatmalar <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="dekor" onmouseenter="showMegaSub('dekor')">Akvaryum Dekorları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="filtreler" onmouseenter="showMegaSub('filtreler')">Filtreler <span class="mega-cat-dot"></span></button>
+          </div>
+          <!-- SAĞ KOLON -->
+          <div class="mega-right">
+            <!-- Varsayılan sağ panel -->
+            <div class="mega-sub-panel active" id="msub-default">
+              <div class="mega-sub-title">Ekipman & Aksesuar</div>
+              <a class="mega-sub-item" href="ekipman.html">Filtre Malzemeleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Hava Motorları</a>
+              <a class="mega-sub-item" href="ekipman.html">Dalga Motorları</a>
+              <a class="mega-sub-item" href="ekipman.html">Kafa ve Sump Motoru</a>
+              <a class="mega-sub-item" href="ekipman.html">Otomatik Yemlemeler</a>
+              <a class="mega-sub-item" href="ekipman.html">Su Düzenleyiciler</a>
+              <a class="mega-sub-item" href="ekipman.html">Sağlık / Bakım</a>
+              <a class="mega-sub-item" href="ekipman.html">Testler</a>
+              <a class="mega-sub-item" href="ekipman.html">Deniz Tuzları</a>
+            </div>
+            <!-- Yemler -->
+            <div class="mega-sub-panel" id="msub-yemler">
+              <div class="mega-sub-title">Yemler</div>
+              <a class="mega-sub-item" href="ekipman.html">Canlı Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Granül Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Pul Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Tablet Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Otomatik Yemlemeler</a>
+            </div>
+            <!-- Bitki & Co2 -->
+            <div class="mega-sub-panel" id="msub-bitki-co2">
+              <div class="mega-sub-title">Bitki Ve Co2 Ekipmanları</div>
+              <a class="mega-sub-item" href="bitkiler.html">Kum / Toprak</a>
+              <a class="mega-sub-item" href="bitkiler.html">Katkı / Gübre</a>
+              <a class="mega-sub-item" href="bitkiler.html">Makas / Maşa</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Komple Setler</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Tüp</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Regülatör</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Test</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Difüzör</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Aksesuarlar</a>
+            </div>
+            <!-- Akvaryum -->
+            <div class="mega-sub-panel" id="msub-akvaryum">
+              <div class="mega-sub-title">Akvaryum</div>
+              <a class="mega-sub-item" href="akvaryumlar.html">Hazır Akvaryumlar</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Nano Akvaryum</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Deniz Akvaryumu</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Aquascape Set</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Özel Tasarım</a>
+            </div>
+            <!-- Akvaryum Aksesuarları -->
+            <div class="mega-sub-panel" id="msub-aksesuar">
+              <div class="mega-sub-title">Akvaryum Aksesuarları</div>
+              <a class="mega-sub-item" href="ekipman.html">Sifonlar / Kum Temizleyiciler</a>
+              <a class="mega-sub-item" href="ekipman.html">Cam Silecekleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Dereceler</a>
+              <a class="mega-sub-item" href="ekipman.html">Kepçeler</a>
+              <a class="mega-sub-item" href="ekipman.html">Hava Taşları</a>
+              <a class="mega-sub-item" href="ekipman.html">Hava Dağıtım Kitleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Çekvalf</a>
+              <a class="mega-sub-item" href="ekipman.html">Hortum ve Bağlantı Parçaları</a>
+              <a class="mega-sub-item" href="ekipman.html">Yavruluklar / Bölmeler</a>
+              <a class="mega-sub-item" href="ekipman.html">Yuva / Yumurtlama Tüpleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Cam Aksesuarlar</a>
+              <a class="mega-sub-item" href="ekipman.html">Diğer Ekipmanlar</a>
+            </div>
+            <!-- Akvaryum Kumları -->
+            <div class="mega-sub-panel" id="msub-kumlar">
+              <div class="mega-sub-title">Akvaryum Kumları</div>
+              <a class="mega-sub-item" href="ekipman.html">Doğal Kum</a>
+              <a class="mega-sub-item" href="ekipman.html">Renkli Kum</a>
+              <a class="mega-sub-item" href="ekipman.html">Bitki Toprağı</a>
+              <a class="mega-sub-item" href="ekipman.html">Volkanik Kum</a>
+            </div>
+            <!-- Aydınlatmalar -->
+            <div class="mega-sub-panel" id="msub-aydinlatma">
+              <div class="mega-sub-title">Aydınlatmalar</div>
+              <a class="mega-sub-item" href="ekipman.html">Ledler</a>
+              <a class="mega-sub-item" href="ekipman.html">Floresan / Lamba</a>
+            </div>
+            <!-- Akvaryum Dekorları -->
+            <div class="mega-sub-panel" id="msub-dekor">
+              <div class="mega-sub-title">Akvaryum Dekorları</div>
+              <a class="mega-sub-item" href="ekipman.html">Arka Fon / Manzaralar</a>
+              <a class="mega-sub-item" href="ekipman.html">Doğal Dekorlar</a>
+              <a class="mega-sub-item" href="ekipman.html">Yapay Dekorlar</a>
+            </div>
+            <!-- Filtreler -->
+            <div class="mega-sub-panel" id="msub-filtreler">
+              <div class="mega-sub-title">Filtreler</div>
+              <a class="mega-sub-item" href="ekipman.html">Dış Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">İç Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">Askı Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">Tepe Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">UV Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">Pipo Filtreler</a>
+            </div>
+          </div>
+          </div><!-- /mega-panel-inner -->
         </div>
+      </div>
+
+      <div class="snav-link" style="cursor:pointer;" onclick="document.getElementById('secRenew').closest('.dark-section').scrollIntoView({behavior:'smooth'})">Hizmetler</div>
+      <div class="snav-link" style="cursor:pointer;" onclick="document.querySelector('.site-footer').scrollIntoView({behavior:'smooth',block:'start'})">İletişim</div>
+    
       </div>
       <a class="snav-link" href="index.html#hizmetler">Hizmetler</a>
       <a class="snav-link" href="index.html#iletisim">İletişim</a>
