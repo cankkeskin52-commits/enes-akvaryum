@@ -12,6 +12,11 @@
 <meta name="theme-color" content="#1246B5">
 <link rel="dns-prefetch" href="https://enes-api.cankkeskin-52.workers.dev">
 <link rel="preconnect" href="https://res.cloudinary.com">
+<!-- Kritik görseller preload -->
+<link rel="preload" as="image" href="/images/hero-bg.jpg">
+<link rel="preload" as="image" href="/images/hub-baliklar.jpg">
+<link rel="preload" as="image" href="/images/hub-bitkiler.jpg">
+<link rel="preload" as="image" href="/images/hub-akvaryumlar.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enes Akvaryum | İstanbul Eyüpsultan Balık & Akvaryum Mağazası</title>
 <meta name="description" content="İstanbul Eyüpsultan'ın en iyi akvaryum mağazası. Tatlı su ve tuzlu su balıkları, canlı bitkiler, akvaryum kurulum ve bakım hizmeti. Hemen arayın: 0538 327 99 80">
@@ -2738,8 +2743,9 @@ a{text-decoration:none;color:inherit;}
 <div class="hero">
   <!-- Çarpıcı su altı/balık fotoğrafı -->
   <img class="hero-img"
-    src="/images/hero-bg.png"
+    src="/images/hero-bg.jpg"
     alt="Enes Akvaryum — Su altı dünyası"
+    loading="eager" fetchpriority="high" decoding="sync"
   />
   <div class="hero-overlay"></div>
 
@@ -2817,37 +2823,37 @@ a{text-decoration:none;color:inherit;}
       <!-- SET 1 -->
       <a class="pop-cat-item" href="baliklar.html">
         <div class="pop-cat-circle">
-          <img src="/images/hub-baliklar.png" alt="Balıklar" loading="lazy">
+          <img src="/images/hub-baliklar.jpg" alt="Balıklar" loading="lazy">
         </div>
         <div class="pop-cat-label">Balıklar</div>
       </a>
       <a class="pop-cat-item" href="bitkiler.html">
         <div class="pop-cat-circle">
-          <img src="/images/hub-bitkiler.png" alt="Canlı Bitkiler" loading="lazy">
+          <img src="/images/hub-bitkiler.jpg" alt="Canlı Bitkiler" loading="lazy">
         </div>
         <div class="pop-cat-label">Canlı Bitkiler</div>
       </a>
       <a class="pop-cat-item" href="akvaryumlar.html">
         <div class="pop-cat-circle">
-          <img src="/images/hub-akvaryumlar.png" alt="Akvaryumlar" loading="lazy">
+          <img src="/images/hub-akvaryumlar.jpg" alt="Akvaryumlar" loading="lazy">
         </div>
         <div class="pop-cat-label">Akvaryumlar</div>
       </a>
       <a class="pop-cat-item" href="ekipman.html">
         <div class="pop-cat-circle">
-          <img src="/images/hub-filtreler.png" alt="Filtreler" loading="lazy">
+          <img src="/images/hub-filtreler.jpg" alt="Filtreler" loading="lazy">
         </div>
         <div class="pop-cat-label">Filtreler</div>
       </a>
       <a class="pop-cat-item" href="ekipman.html">
         <div class="pop-cat-circle">
-          <img src="/images/hub-suduz.png" alt="Su Düzenleyici" loading="lazy">
+          <img src="/images/hub-suduz.jpg" alt="Su Düzenleyici" loading="lazy">
         </div>
         <div class="pop-cat-label">Su Düzenleyici</div>
       </a>
       <a class="pop-cat-item" href="taslar.html">
         <div class="pop-cat-circle">
-          <img src="/images/hub-taslar.png" alt="Aksesuarlar" loading="lazy">
+          <img src="/images/hub-taslar.jpg" alt="Aksesuarlar" loading="lazy">
         </div>
         <div class="pop-cat-label">Aksesuarlar</div>
       </a>
@@ -2855,37 +2861,37 @@ a{text-decoration:none;color:inherit;}
       <!-- SET 2 (duplicate for infinite loop) -->
       <a class="pop-cat-item" href="baliklar.html" aria-hidden="true" tabindex="-1">
         <div class="pop-cat-circle">
-          <img src="/images/hub-baliklar.png" alt="Balıklar" loading="lazy">
+          <img src="/images/hub-baliklar.jpg" alt="Balıklar" loading="lazy">
         </div>
         <div class="pop-cat-label">Balıklar</div>
       </a>
       <a class="pop-cat-item" href="bitkiler.html" aria-hidden="true" tabindex="-1">
         <div class="pop-cat-circle">
-          <img src="/images/hub-bitkiler.png" alt="Canlı Bitkiler" loading="lazy">
+          <img src="/images/hub-bitkiler.jpg" alt="Canlı Bitkiler" loading="lazy">
         </div>
         <div class="pop-cat-label">Canlı Bitkiler</div>
       </a>
       <a class="pop-cat-item" href="akvaryumlar.html" aria-hidden="true" tabindex="-1">
         <div class="pop-cat-circle">
-          <img src="/images/hub-akvaryumlar.png" alt="Akvaryumlar" loading="lazy">
+          <img src="/images/hub-akvaryumlar.jpg" alt="Akvaryumlar" loading="lazy">
         </div>
         <div class="pop-cat-label">Akvaryumlar</div>
       </a>
       <a class="pop-cat-item" href="ekipman.html" aria-hidden="true" tabindex="-1">
         <div class="pop-cat-circle">
-          <img src="/images/hub-filtreler.png" alt="Filtreler" loading="lazy">
+          <img src="/images/hub-filtreler.jpg" alt="Filtreler" loading="lazy">
         </div>
         <div class="pop-cat-label">Filtreler</div>
       </a>
       <a class="pop-cat-item" href="ekipman.html" aria-hidden="true" tabindex="-1">
         <div class="pop-cat-circle">
-          <img src="/images/hub-suduz.png" alt="Su Düzenleyici" loading="lazy">
+          <img src="/images/hub-suduz.jpg" alt="Su Düzenleyici" loading="lazy">
         </div>
         <div class="pop-cat-label">Su Düzenleyici</div>
       </a>
       <a class="pop-cat-item" href="taslar.html" aria-hidden="true" tabindex="-1">
         <div class="pop-cat-circle">
-          <img src="/images/hub-taslar.png" alt="Aksesuarlar" loading="lazy">
+          <img src="/images/hub-taslar.jpg" alt="Aksesuarlar" loading="lazy">
         </div>
         <div class="pop-cat-label">Aksesuarlar</div>
       </a>
@@ -2905,7 +2911,7 @@ a{text-decoration:none;color:inherit;}
   </div>
   <div class="cat-hub" id="catHub">
     <a class="hub-card" href="baliklar.html">
-      <img class="hub-bg" src="/images/hub-baliklar.png" alt="Balıklar" loading="lazy">
+      <img class="hub-bg" src="/images/hub-baliklar.jpg" alt="Balıklar" loading="lazy">
       <div class="hub-overlay"></div>
       <div class="hub-icon">🐠</div>
       <div class="hub-content">
@@ -2917,7 +2923,7 @@ a{text-decoration:none;color:inherit;}
       </div>
     </a>
     <a class="hub-card" href="bitkiler.html">
-      <img class="hub-bg" src="/images/hub-bitkiler.png" alt="Bitkiler" loading="lazy">
+      <img class="hub-bg" src="/images/hub-bitkiler.jpg" alt="Bitkiler" loading="lazy">
       <div class="hub-overlay" style="background:linear-gradient(to top,rgba(5,46,22,0.88) 0%,rgba(20,83,45,0.3) 55%,transparent 100%);"></div>
       <div class="hub-icon">🌿</div>
       <div class="hub-content">
@@ -2929,7 +2935,7 @@ a{text-decoration:none;color:inherit;}
       </div>
     </a>
     <a class="hub-card" href="akvaryumlar.html">
-      <img class="hub-bg" src="/images/hub-akvaryumlar.png" alt="Akvaryumlar" loading="lazy">
+      <img class="hub-bg" src="/images/hub-akvaryumlar.jpg" alt="Akvaryumlar" loading="lazy">
       <div class="hub-overlay" style="background:linear-gradient(to top,rgba(2,20,60,0.9) 0%,rgba(10,40,100,0.3) 55%,transparent 100%);"></div>
       <div class="hub-icon">🔲</div>
       <div class="hub-content">
@@ -2941,7 +2947,7 @@ a{text-decoration:none;color:inherit;}
       </div>
     </a>
     <a class="hub-card" href="taslar.html">
-      <img class="hub-bg" src="/images/hub-taslar.png" alt="Taşlar ve Dekor" loading="lazy">
+      <img class="hub-bg" src="/images/hub-taslar.jpg" alt="Taşlar ve Dekor" loading="lazy">
       <div class="hub-overlay" style="background:linear-gradient(to top,rgba(30,15,5,0.9) 0%,rgba(80,40,10,0.3) 55%,transparent 100%);"></div>
       <div class="hub-icon">🪨</div>
       <div class="hub-content">
@@ -2997,7 +3003,7 @@ a{text-decoration:none;color:inherit;}
 <div class="about-section">
   <div class="about-img-col">
     <div class="about-img-wrap">
-      <img src="/images/hero-bg.png" alt="Enes Akvaryum mağaza içi" loading="lazy">
+      <img src="/images/hero-bg.jpg" alt="Enes Akvaryum mağaza içi" loading="lazy">
     </div>
     <div class="about-badge">
       <div class="about-badge-num">10+</div>
