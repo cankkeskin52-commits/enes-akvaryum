@@ -181,7 +181,7 @@ export default {
     if (path === '/' || path === '') {
       if (method === 'GET') {
         const raw  = await env.ENES_DATA.get(KV_KEY);
-        const data = raw || JSON.stringify({ fish: [], aquariums: [], reviews: [], plants: [], subscribers: [], visits: 0, plant_products: [], stone_products: [], equipment: [] });
+        const data = raw || JSON.stringify({ fish: [], aquariums: [], reviews: [], plants: [], subscribers: [], visits: 0, plant_products: [], stone_products: [], equipment: [], yemler: [], aksesuarlar: [] });
         return new Response(data, { status: 200, headers: corsHeaders({ 'Content-Type': 'application/json' }, origin) });
       }
       if (method === 'PUT') {
@@ -196,6 +196,8 @@ export default {
 
     // ── Kayıt ────────────────────────────────────────────────────────────────
     if (path === '/auth/register' && method === 'POST') {
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      if (await checkRateLimit(env, ip)) return json({ error: 'Çok fazla deneme. 5 dakika bekleyin.' }, 429, origin);
       const { email, password, name, phone } = await request.json();
       if (!email || !password || !name) return json({ error: 'Ad, e-posta ve şifre zorunludur' }, 400, origin);
       const em = email.toLowerCase().trim();
@@ -210,6 +212,8 @@ export default {
 
     // ── Giriş ────────────────────────────────────────────────────────────────
     if (path === '/auth/login' && method === 'POST') {
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      if (await checkRateLimit(env, ip)) return json({ error: 'Çok fazla deneme. 5 dakika bekleyin.' }, 429, origin);
       const { email, password } = await request.json();
       if (!email || !password) return json({ error: 'E-posta ve şifre zorunludur' }, 400, origin);
       const em   = email.toLowerCase().trim();
