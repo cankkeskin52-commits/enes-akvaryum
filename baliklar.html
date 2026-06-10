@@ -914,9 +914,9 @@ function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('sou
 
 <!-- ══ MOBİL FLOATING NAV ══ -->
 <style>
-#floatingNav{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:400;width:calc(100% - 24px);max-width:420px;}
+#floatingNav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:400;}
 @media(max-width:959px){#floatingNav{display:block;}}
-.fnav-inner{position:relative;display:flex;align-items:center;justify-content:space-around;background:#fff;border:1px solid rgba(0,89,179,0.1);border-radius:99px;padding:6px;box-shadow:0 8px 40px rgba(0,89,179,0.18),0 2px 8px rgba(0,0,0,0.08);}
+.fnav-inner{position:relative;display:flex;align-items:center;justify-content:space-around;background:rgba(255,255,255,0.97);border-top:1px solid rgba(0,89,179,0.08);border-radius:0;padding:4px 6px calc(4px + env(safe-area-inset-bottom,0px)) 6px;box-shadow:0 -2px 12px rgba(0,89,179,0.07);}
 .fnav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:3px;padding:8px 4px;background:none;border:none;cursor:pointer;color:#6b8fa8;font-size:9px;font-weight:600;position:relative;z-index:2;transition:color .2s;min-width:0;text-decoration:none;}
 .fnav-btn.active{color:#0059B3;}
 .fnav-btn svg{width:20px;height:20px;stroke-width:2;}
