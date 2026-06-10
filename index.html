@@ -993,58 +993,87 @@ a{text-decoration:none;color:inherit;}
   animation:heroSlideUp 1s ease 2.8s both;
 }
 
-/* ══ POPÜLER KATEGORİLER (DAİRESEL) ══ */
+/* ══ POPÜLER KATEGORİLER — SLIDER ══ */
 .pop-cats-section{
   background:var(--white);
-  padding:clamp(24px,4vw,64px) clamp(16px,4vw,60px) clamp(32px,5vw,64px);
+  padding:clamp(28px,4vw,64px) 0 clamp(32px,5vw,64px);
+  overflow:hidden;
 }
 .pop-cats-title{
-  text-align:center;margin-bottom:clamp(28px,4vw,44px);
+  text-align:center;margin-bottom:clamp(24px,3vw,40px);
+  padding:0 clamp(16px,4vw,60px);
 }
 .pop-cats-title h2{
   font-family:'Sora',sans-serif;font-size:clamp(22px,3vw,32px);
   font-weight:700;color:var(--dark);margin-bottom:6px;
 }
-.pop-cats-title p{
-  font-size:14px;color:var(--text-mid);font-weight:400;
+.pop-cats-title p{font-size:14px;color:var(--text-mid);font-weight:400;}
+
+/* Slider wrapper */
+.pop-cats-slider-wrap{
+  position:relative;
 }
-.pop-cats-grid{
-  display:flex;justify-content:center;flex-wrap:wrap;
-  gap:clamp(20px,3vw,40px);max-width:1100px;margin:0 auto;
+.pop-cats-slider-wrap::before,
+.pop-cats-slider-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;
 }
+.pop-cats-slider-wrap::before{left:0;background:linear-gradient(to right,#fff,transparent);}
+.pop-cats-slider-wrap::after{right:0;background:linear-gradient(to left,#fff,transparent);}
+
+.pop-cats-track{
+  display:flex;align-items:flex-start;gap:clamp(24px,3vw,48px);
+  width:max-content;
+  animation:popCatsScroll 22s linear infinite;
+  padding:8px clamp(24px,3vw,48px) 16px;
+  cursor:grab;
+}
+.pop-cats-track:active{cursor:grabbing;}
+.pop-cats-track:hover{animation-play-state:paused;}
+@keyframes popCatsScroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
 .pop-cat-item{
-  display:flex;flex-direction:column;align-items:center;gap:12px;
-  cursor:pointer;text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  cursor:pointer;text-decoration:none;flex-shrink:0;
   transition:transform .3s cubic-bezier(.16,1,.3,1);
+  user-select:none;
 }
-.pop-cat-item:hover{transform:translateY(-6px);}
+.pop-cat-item:hover{transform:translateY(-8px) scale(1.04);}
+
 .pop-cat-circle{
-  width:clamp(100px,11vw,140px);height:clamp(100px,11vw,140px);
+  width:clamp(96px,10vw,130px);height:clamp(96px,10vw,130px);
   border-radius:50%;overflow:hidden;position:relative;
-  border:3px solid var(--white);
-  box-shadow:0 6px 28px rgba(0,89,179,0.14);
-  transition:box-shadow .3s,border-color .3s;
+  border:3px solid #fff;
+  box-shadow:0 6px 24px rgba(0,89,179,0.16),0 2px 8px rgba(0,0,0,0.08);
+  transition:box-shadow .3s,border-color .3s,transform .3s;
 }
 .pop-cat-item:hover .pop-cat-circle{
-  box-shadow:0 12px 40px rgba(0,89,179,0.28);
+  box-shadow:0 16px 48px rgba(0,89,179,0.28);
   border-color:var(--teal);
 }
+.pop-cat-circle img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.pop-cat-item:hover .pop-cat-circle img{transform:scale(1.12);}
 .pop-cat-emoji{
-  font-size:clamp(32px,4.5vw,44px);
+  font-size:clamp(30px,4vw,42px);
   display:flex;align-items:center;justify-content:center;
   width:100%;height:100%;
   transition:transform .35s cubic-bezier(.34,1.56,.64,1);
 }
-.pop-cat-item:hover .pop-cat-emoji{transform:scale(1.18) rotate(-5deg);}
+.pop-cat-item:hover .pop-cat-emoji{transform:scale(1.2) rotate(-8deg);}
 .pop-cat-label{
-  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
-  color:var(--text);text-align:center;transition:color .2s;
+  font-family:'DM Sans',sans-serif;font-size:clamp(11px,1.2vw,13px);
+  font-weight:700;color:var(--text);text-align:center;
+  transition:color .2s;white-space:nowrap;
 }
 .pop-cat-item:hover .pop-cat-label{color:var(--blue);}
 @media(max-width:639px){
-  .pop-cats-grid{gap:16px;}
-  .pop-cat-circle{width:82px;height:82px;}
-  .pop-cat-label{font-size:11px;}
+  .pop-cats-slider-wrap::before,.pop-cats-slider-wrap::after{width:40px;}
+  .pop-cats-track{animation-duration:18s;}
 }
 
 /* ══ ÜRÜN DETAY MODAL ══ */
@@ -2527,50 +2556,86 @@ a{text-decoration:none;color:inherit;}
     <h2>Popüler Kategoriler</h2>
     <p>İhtiyacınız olan her şey tek çatı altında</p>
   </div>
-  <div class="pop-cats-grid reveal">
+  <div class="pop-cats-slider-wrap">
+    <div class="pop-cats-track" id="popCatsTrack">
 
-    <a class="pop-cat-item" href="baliklar.html">
-      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0059B3,#2B87D8);">
-        <div class="pop-cat-emoji">🐠</div>
-      </div>
-      <div class="pop-cat-label">Balıklar</div>
-    </a>
+      <!-- SET 1 -->
+      <a class="pop-cat-item" href="baliklar.html">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0059B3,#2B87D8);">
+          <div class="pop-cat-emoji">🐠</div>
+        </div>
+        <div class="pop-cat-label">Balıklar</div>
+      </a>
+      <a class="pop-cat-item" href="bitkiler.html">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#16a34a,#4ade80);">
+          <div class="pop-cat-emoji">🌿</div>
+        </div>
+        <div class="pop-cat-label">Canlı Bitkiler</div>
+      </a>
+      <a class="pop-cat-item" href="akvaryumlar.html">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0891b2,#22d3ee);">
+          <div class="pop-cat-emoji">🔲</div>
+        </div>
+        <div class="pop-cat-label">Akvaryumlar</div>
+      </a>
+      <a class="pop-cat-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Filtre')">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
+          <div class="pop-cat-emoji">⚙️</div>
+        </div>
+        <div class="pop-cat-label">Filtreler</div>
+      </a>
+      <a class="pop-cat-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Su Düzenleyici')">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0e7490,#67e8f9);">
+          <div class="pop-cat-emoji">💧</div>
+        </div>
+        <div class="pop-cat-label">Su Düzenleyici</div>
+      </a>
+      <a class="pop-cat-item" href="taslar.html">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#92400e,#fbbf24);">
+          <div class="pop-cat-emoji">🪨</div>
+        </div>
+        <div class="pop-cat-label">Aksesuarlar</div>
+      </a>
 
-    <a class="pop-cat-item" href="bitkiler.html">
-      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#16a34a,#4ade80);">
-        <div class="pop-cat-emoji">🌿</div>
-      </div>
-      <div class="pop-cat-label">Canlı Bitkiler</div>
-    </a>
+      <!-- SET 2 (duplicate for infinite loop) -->
+      <a class="pop-cat-item" href="baliklar.html" aria-hidden="true" tabindex="-1">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0059B3,#2B87D8);">
+          <div class="pop-cat-emoji">🐠</div>
+        </div>
+        <div class="pop-cat-label">Balıklar</div>
+      </a>
+      <a class="pop-cat-item" href="bitkiler.html" aria-hidden="true" tabindex="-1">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#16a34a,#4ade80);">
+          <div class="pop-cat-emoji">🌿</div>
+        </div>
+        <div class="pop-cat-label">Canlı Bitkiler</div>
+      </a>
+      <a class="pop-cat-item" href="akvaryumlar.html" aria-hidden="true" tabindex="-1">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0891b2,#22d3ee);">
+          <div class="pop-cat-emoji">🔲</div>
+        </div>
+        <div class="pop-cat-label">Akvaryumlar</div>
+      </a>
+      <a class="pop-cat-item" href="baliklar.html" aria-hidden="true" tabindex="-1" onclick="sessionStorage.setItem('fcat','Filtre')">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
+          <div class="pop-cat-emoji">⚙️</div>
+        </div>
+        <div class="pop-cat-label">Filtreler</div>
+      </a>
+      <a class="pop-cat-item" href="baliklar.html" aria-hidden="true" tabindex="-1" onclick="sessionStorage.setItem('fcat','Su Düzenleyici')">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0e7490,#67e8f9);">
+          <div class="pop-cat-emoji">💧</div>
+        </div>
+        <div class="pop-cat-label">Su Düzenleyici</div>
+      </a>
+      <a class="pop-cat-item" href="taslar.html" aria-hidden="true" tabindex="-1">
+        <div class="pop-cat-circle" style="background:linear-gradient(135deg,#92400e,#fbbf24);">
+          <div class="pop-cat-emoji">🪨</div>
+        </div>
+        <div class="pop-cat-label">Aksesuarlar</div>
+      </a>
 
-    <a class="pop-cat-item" href="akvaryumlar.html">
-      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0891b2,#22d3ee);">
-        <div class="pop-cat-emoji">🔲</div>
-      </div>
-      <div class="pop-cat-label">Akvaryumlar</div>
-    </a>
-
-    <a class="pop-cat-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Filtre')">
-      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
-        <div class="pop-cat-emoji">⚙️</div>
-      </div>
-      <div class="pop-cat-label">Filtreler</div>
-    </a>
-
-    <a class="pop-cat-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Su Düzenleyici')">
-      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#0e7490,#67e8f9);">
-        <div class="pop-cat-emoji">💧</div>
-      </div>
-      <div class="pop-cat-label">Su Düzenleyici</div>
-    </a>
-
-    <a class="pop-cat-item" href="taslar.html">
-      <div class="pop-cat-circle" style="background:linear-gradient(135deg,#92400e,#fbbf24);">
-        <div class="pop-cat-emoji">🪨</div>
-      </div>
-      <div class="pop-cat-label">Aksesuarlar</div>
-    </a>
-
+    </div>
   </div>
 </div>
 
@@ -3165,6 +3230,43 @@ function updateMegaTop(){
 window.addEventListener('resize',updateMegaTop,{passive:true});
 document.addEventListener('DOMContentLoaded',updateMegaTop);
 setTimeout(updateMegaTop,100);
+
+// ── Popüler Kategoriler Slider — touch/drag drag support ──
+(function(){
+  const track=document.getElementById('popCatsTrack');
+  if(!track)return;
+  let startX=0,scrollLeft=0,isDragging=false,moved=false;
+  track.addEventListener('mousedown',e=>{
+    isDragging=true;moved=false;
+    startX=e.pageX;scrollLeft=track.scrollLeft;
+    track.style.animationPlayState='paused';
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!isDragging)return;
+    const dx=e.pageX-startX;
+    if(Math.abs(dx)>4)moved=true;
+    track.style.transform='translateX('+(-dx*0.3)+'px)';
+  });
+  window.addEventListener('mouseup',()=>{
+    if(isDragging){isDragging=false;track.style.transform='';track.style.animationPlayState='';}
+  });
+  // touch
+  track.addEventListener('touchstart',e=>{
+    startX=e.touches[0].clientX;moved=false;
+    track.style.animationPlayState='paused';
+  },{passive:true});
+  track.addEventListener('touchmove',e=>{
+    const dx=e.touches[0].clientX-startX;
+    if(Math.abs(dx)>8){moved=true;}
+  },{passive:true});
+  track.addEventListener('touchend',()=>{
+    track.style.animationPlayState='';
+  });
+  // prevent navigation on drag
+  track.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click',e=>{if(moved)e.preventDefault();});
+  });
+})();
 
 function toggleAcc(btn){
   btn.classList.toggle('open');
