@@ -1952,7 +1952,8 @@ a{text-decoration:none;color:inherit;}
 @keyframes quizPulseRing{0%{transform:scale(1);opacity:.5;}70%{transform:scale(1.6);opacity:0;}100%{transform:scale(1.6);opacity:0;}}
 @keyframes quizWiggle{0%,100%{transform:rotate(-10deg);}50%{transform:rotate(10deg);}}
 @keyframes quizFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-.quiz-fab-wrap{position:fixed;bottom:1.8rem;left:1.5rem;z-index:50;}
+.quiz-fab-wrap{position:fixed;bottom:calc(65px + 1rem);left:1.5rem;z-index:50;}
+@media(min-width:960px){.quiz-fab-wrap{bottom:1.8rem;}}
 .quiz-fab{
   position:relative;display:flex;align-items:center;gap:9px;
   background:linear-gradient(135deg,var(--teal),var(--blue));border:none;color:#fff;
