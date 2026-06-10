@@ -313,7 +313,6 @@ a{text-decoration:none;color:inherit;}
 }
 
 /* ══ MEGA MENU ══ */
-/* ══ NAVBAR DROPDOWN (her kategori için küçük panel) ══ */
 .snav-drop-wrap{position:relative;}
 .snav-drop-btn{
   display:flex;align-items:center;gap:5px;
@@ -327,42 +326,91 @@ a{text-decoration:none;color:inherit;}
 .snav-drop-btn svg{transition:transform .2s;flex-shrink:0;}
 .snav-drop-wrap:hover .snav-drop-btn svg{transform:rotate(180deg);}
 
+/* Küçük dropdown (Balıklar gibi) */
 .snav-drop{
   position:absolute;top:calc(100% + 6px);left:0;
-  background:#fff;
-  border-radius:14px;
+  background:#fff;border-radius:14px;
   box-shadow:0 8px 40px rgba(0,10,30,0.14),0 2px 8px rgba(0,0,0,0.06);
-  border:1px solid rgba(0,89,179,0.08);
-  min-width:230px;
-  opacity:0;pointer-events:none;
-  transform:translateY(-6px);
-  transition:opacity .15s ease,transform .15s ease;
-  z-index:200;
-  padding:8px;
+  border:1px solid rgba(0,89,179,0.08);min-width:230px;
+  opacity:0;pointer-events:none;transform:translateY(-6px);
+  transition:opacity .15s ease,transform .15s ease;z-index:200;padding:8px;
 }
 .snav-drop-wrap:hover .snav-drop,
-.snav-drop-wrap:focus-within .snav-drop{
-  opacity:1;pointer-events:all;transform:translateY(0);
-}
-
-.drop-item{
-  display:flex;align-items:center;gap:12px;
-  padding:10px 12px;border-radius:10px;
-  text-decoration:none;color:var(--text);
-  transition:background .15s;
-}
+.snav-drop-wrap:focus-within .snav-drop{opacity:1;pointer-events:all;transform:translateY(0);}
+.drop-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--text);transition:background .15s;}
 .drop-item:hover{background:var(--blue-pale);}
 .drop-item.drop-item-active{background:rgba(0,180,204,0.07);}
-.drop-item-icon{
-  width:36px;height:36px;border-radius:9px;
-  background:var(--surface);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;transition:background .15s;
-}
+.drop-item-icon{width:36px;height:36px;border-radius:9px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:background .15s;}
 .drop-item:hover .drop-item-icon,.drop-item.drop-item-active .drop-item-icon{background:var(--teal-pale);}
 .drop-item-label{font-weight:700;font-size:13px;color:var(--dark);line-height:1.2;}
 .drop-item-sub{font-size:11px;color:var(--text-dim);margin-top:1px;}
 .drop-divider{height:1px;background:rgba(0,89,179,0.07);margin:4px 2px;}
+
+/* ── BÜYÜK MEGA MENÜ (Ürünler) ── */
+.mega-wrap{position:relative;}
+.mega-wrap:hover .mega-btn,
+.mega-wrap:focus-within .mega-btn{color:var(--blue);background:var(--blue-pale);}
+.mega-wrap:hover .mega-btn svg,
+.mega-wrap:focus-within .mega-btn svg{transform:rotate(180deg);}
+.mega-btn{
+  display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:9px;
+  background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  color:var(--text-mid);transition:color .2s,background .2s;white-space:nowrap;
+}
+.mega-btn svg{transition:transform .2s;flex-shrink:0;}
+
+.mega-panel{
+  position:absolute;top:calc(100% + 6px);left:-20px;
+  background:#fff;border-radius:14px;
+  box-shadow:0 8px 40px rgba(0,10,30,0.14),0 2px 8px rgba(0,0,0,0.06);
+  border:1px solid rgba(0,89,179,0.08);
+  display:flex;min-width:580px;
+  opacity:0;pointer-events:none;transform:translateY(-6px);
+  transition:opacity .15s ease,transform .15s ease;z-index:200;
+  overflow:hidden;
+}
+.mega-wrap:hover .mega-panel,
+.mega-wrap:focus-within .mega-panel{opacity:1;pointer-events:all;transform:translateY(0);}
+
+.mega-left{
+  width:220px;flex-shrink:0;
+  padding:8px;background:#f8faff;
+  border-right:1px solid rgba(0,89,179,0.07);
+}
+.mega-right{flex:1;padding:8px;min-width:280px;}
+
+.mega-cat{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px;border-radius:9px;
+  font-size:12.5px;font-weight:600;color:var(--dark);
+  cursor:pointer;transition:background .15s,color .15s;
+  text-decoration:none;white-space:nowrap;
+  background:none;border:none;width:100%;text-align:left;
+  font-family:'DM Sans',sans-serif;
+}
+.mega-cat:hover,.mega-cat.active{background:var(--blue-pale);color:var(--blue);}
+.mega-cat-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--coral);
+  flex-shrink:0;opacity:0;transition:opacity .15s;
+}
+.mega-cat.active .mega-cat-dot{opacity:1;}
+.mega-cat-chev{color:var(--text-dim);flex-shrink:0;font-size:10px;margin-left:4px;}
+
+.mega-sub-title{
+  font-size:10px;font-weight:700;letter-spacing:0.08em;
+  color:var(--text-dim);text-transform:uppercase;
+  padding:6px 8px 4px;
+}
+.mega-sub-item{
+  display:block;padding:7px 10px;border-radius:8px;
+  font-size:12.5px;font-weight:500;color:var(--dark);
+  text-decoration:none;transition:background .15s,color .15s;
+  white-space:nowrap;
+}
+.mega-sub-item:hover{background:var(--blue-pale);color:var(--blue);}
+.mega-sub-panel{display:none;}
+.mega-sub-panel.active{display:block;}
 
 /* eski mega menu stilleri — gizle */
 .snav-mega-wrap,.snav-mega,.snav-mega-btn,.snav-mega-inner,
@@ -2330,113 +2378,119 @@ a{text-decoration:none;color:inherit;}
     <nav class="snav-links">
       <a class="snav-link" href="index.html">Ana Sayfa</a>
 
-      <!-- Balıklar dropdown -->
-      <div class="snav-drop-wrap">
-        <button class="snav-drop-btn">
-          Balıklar
+      <!-- BÜYÜK MEGA MENÜ -->
+      <div class="mega-wrap" id="megaWrap">
+        <button class="mega-btn" id="megaBtn">
+          Ürünler
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="snav-drop">
-          <a class="drop-item drop-item-active" href="baliklar.html">
-            <div class="drop-item-icon">🐠</div>
-            <div><div class="drop-item-label">Tatlı Su Balıkları</div><div class="drop-item-sub">Tropik & soğuk su türleri</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html">
-            <div class="drop-item-icon">🪸</div>
-            <div><div class="drop-item-label">Tuzlu Su Balıkları</div><div class="drop-item-sub">Deniz türleri</div></div>
-          </a>
-          <div class="drop-divider"></div>
-          <a class="drop-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Canlı Doğuranlar')">
-            <div class="drop-item-icon">🐟</div>
-            <div><div class="drop-item-label">Canlı Doğuranlar</div><div class="drop-item-sub">Guppy, Molly, Platy</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Japon Türleri')">
-            <div class="drop-item-icon">🐡</div>
-            <div><div class="drop-item-label">Japon Balıkları</div><div class="drop-item-sub">Fancy & standart</div></div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Akvaryumlar dropdown -->
-      <div class="snav-drop-wrap">
-        <button class="snav-drop-btn">
-          Akvaryumlar
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="snav-drop">
-          <a class="drop-item drop-item-active" href="akvaryumlar.html">
-            <div class="drop-item-icon">🔲</div>
-            <div><div class="drop-item-label">Hazır Akvaryumlar</div><div class="drop-item-sub">Komple setler</div></div>
-          </a>
-          <a class="drop-item" href="akvaryumlar.html">
-            <div class="drop-item-icon">✨</div>
-            <div><div class="drop-item-label">Nano Akvaryum</div><div class="drop-item-sub">Küçük & dekoratif</div></div>
-          </a>
-          <a class="drop-item" href="akvaryumlar.html">
-            <div class="drop-item-icon">🌊</div>
-            <div><div class="drop-item-label">Deniz Akvaryumu</div><div class="drop-item-sub">Tuzlu su setleri</div></div>
-          </a>
-          <a class="drop-item" href="akvaryumlar.html">
-            <div class="drop-item-icon">🎨</div>
-            <div><div class="drop-item-label">Aquascape Set</div><div class="drop-item-sub">Doğa akvaryumu</div></div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Bitkiler dropdown -->
-      <div class="snav-drop-wrap">
-        <button class="snav-drop-btn">
-          Bitkiler
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="snav-drop">
-          <a class="drop-item drop-item-active" href="bitkiler.html">
-            <div class="drop-item-icon">🌿</div>
-            <div><div class="drop-item-label">Canlı Bitkiler</div><div class="drop-item-sub">Aquascape bitkileri</div></div>
-          </a>
-          <a class="drop-item" href="bitkiler.html">
-            <div class="drop-item-icon">🪴</div>
-            <div><div class="drop-item-label">Öne Çıkan Bitkiler</div><div class="drop-item-sub">Özel seçki</div></div>
-          </a>
-          <div class="drop-divider"></div>
-          <a class="drop-item" href="taslar.html">
-            <div class="drop-item-icon">🪨</div>
-            <div><div class="drop-item-label">Taşlar & Dekor</div><div class="drop-item-sub">Doğal taşlar & aksesuar</div></div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Ekipman dropdown -->
-      <div class="snav-drop-wrap">
-        <button class="snav-drop-btn">
-          Ekipman
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="snav-drop">
-          <a class="drop-item drop-item-active" href="baliklar.html">
-            <div class="drop-item-icon">⚙️</div>
-            <div><div class="drop-item-label">Filtreler</div><div class="drop-item-sub">İç & dış filtre</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html">
-            <div class="drop-item-icon">💡</div>
-            <div><div class="drop-item-label">Aydınlatma</div><div class="drop-item-sub">LED & T5</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html">
-            <div class="drop-item-icon">🌡️</div>
-            <div><div class="drop-item-label">Isıtıcı & Soğutucu</div><div class="drop-item-sub">Su sıcaklık kontrolü</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html">
-            <div class="drop-item-icon">🧪</div>
-            <div><div class="drop-item-label">Su Düzenleyiciler</div><div class="drop-item-sub">pH, nitrat, karbon</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html">
-            <div class="drop-item-icon">🍖</div>
-            <div><div class="drop-item-label">Yemler</div><div class="drop-item-sub">Canlı & yapay yem</div></div>
-          </a>
-          <a class="drop-item" href="baliklar.html">
-            <div class="drop-item-icon">💊</div>
-            <div><div class="drop-item-label">Sağlık & Bakım</div><div class="drop-item-sub">İlaç & koruyucu</div></div>
-          </a>
+        <div class="mega-panel" id="megaPanel">
+          <!-- SOL KOLON -->
+          <div class="mega-left">
+            <a class="mega-cat" href="baliklar.html">Canlı Balık</a>
+            <button class="mega-cat" data-sub="yemler" onmouseenter="showMegaSub('yemler')">Yemler <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="bitki-co2" onmouseenter="showMegaSub('bitki-co2')">Bitki Ve Co2 Ekipmanları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="akvaryum" onmouseenter="showMegaSub('akvaryum')">Akvaryum <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="aksesuar" onmouseenter="showMegaSub('aksesuar')">Akvaryum Aksesuarları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="kumlar" onmouseenter="showMegaSub('kumlar')">Akvaryum Kumları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="aydinlatma" onmouseenter="showMegaSub('aydinlatma')">Aydınlatmalar <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="dekor" onmouseenter="showMegaSub('dekor')">Akvaryum Dekorları <span class="mega-cat-dot"></span></button>
+            <button class="mega-cat" data-sub="filtreler" onmouseenter="showMegaSub('filtreler')">Filtreler <span class="mega-cat-dot"></span></button>
+          </div>
+          <!-- SAĞ KOLON -->
+          <div class="mega-right">
+            <!-- Varsayılan sağ panel -->
+            <div class="mega-sub-panel active" id="msub-default">
+              <div class="mega-sub-title">Ekipman & Aksesuar</div>
+              <a class="mega-sub-item" href="ekipman.html">Filtre Malzemeleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Hava Motorları</a>
+              <a class="mega-sub-item" href="ekipman.html">Dalga Motorları</a>
+              <a class="mega-sub-item" href="ekipman.html">Kafa ve Sump Motoru</a>
+              <a class="mega-sub-item" href="ekipman.html">Otomatik Yemlemeler</a>
+              <a class="mega-sub-item" href="ekipman.html">Su Düzenleyiciler</a>
+              <a class="mega-sub-item" href="ekipman.html">Sağlık / Bakım</a>
+              <a class="mega-sub-item" href="ekipman.html">Testler</a>
+              <a class="mega-sub-item" href="ekipman.html">Deniz Tuzları</a>
+            </div>
+            <!-- Yemler -->
+            <div class="mega-sub-panel" id="msub-yemler">
+              <div class="mega-sub-title">Yemler</div>
+              <a class="mega-sub-item" href="ekipman.html">Canlı Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Granül Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Pul Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Tablet Yemler</a>
+              <a class="mega-sub-item" href="ekipman.html">Otomatik Yemlemeler</a>
+            </div>
+            <!-- Bitki & Co2 -->
+            <div class="mega-sub-panel" id="msub-bitki-co2">
+              <div class="mega-sub-title">Bitki Ve Co2 Ekipmanları</div>
+              <a class="mega-sub-item" href="bitkiler.html">Kum / Toprak</a>
+              <a class="mega-sub-item" href="bitkiler.html">Katkı / Gübre</a>
+              <a class="mega-sub-item" href="bitkiler.html">Makas / Maşa</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Komple Setler</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Tüp</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Regülatör</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Test</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Difüzör</a>
+              <a class="mega-sub-item" href="bitkiler.html">CO2 Aksesuarlar</a>
+            </div>
+            <!-- Akvaryum -->
+            <div class="mega-sub-panel" id="msub-akvaryum">
+              <div class="mega-sub-title">Akvaryum</div>
+              <a class="mega-sub-item" href="akvaryumlar.html">Hazır Akvaryumlar</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Nano Akvaryum</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Deniz Akvaryumu</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Aquascape Set</a>
+              <a class="mega-sub-item" href="akvaryumlar.html">Özel Tasarım</a>
+            </div>
+            <!-- Akvaryum Aksesuarları -->
+            <div class="mega-sub-panel" id="msub-aksesuar">
+              <div class="mega-sub-title">Akvaryum Aksesuarları</div>
+              <a class="mega-sub-item" href="ekipman.html">Sifonlar / Kum Temizleyiciler</a>
+              <a class="mega-sub-item" href="ekipman.html">Cam Silecekleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Dereceler</a>
+              <a class="mega-sub-item" href="ekipman.html">Kepçeler</a>
+              <a class="mega-sub-item" href="ekipman.html">Hava Taşları</a>
+              <a class="mega-sub-item" href="ekipman.html">Hava Dağıtım Kitleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Çekvalf</a>
+              <a class="mega-sub-item" href="ekipman.html">Hortum ve Bağlantı Parçaları</a>
+              <a class="mega-sub-item" href="ekipman.html">Yavruluklar / Bölmeler</a>
+              <a class="mega-sub-item" href="ekipman.html">Yuva / Yumurtlama Tüpleri</a>
+              <a class="mega-sub-item" href="ekipman.html">Cam Aksesuarlar</a>
+              <a class="mega-sub-item" href="ekipman.html">Diğer Ekipmanlar</a>
+            </div>
+            <!-- Akvaryum Kumları -->
+            <div class="mega-sub-panel" id="msub-kumlar">
+              <div class="mega-sub-title">Akvaryum Kumları</div>
+              <a class="mega-sub-item" href="ekipman.html">Doğal Kum</a>
+              <a class="mega-sub-item" href="ekipman.html">Renkli Kum</a>
+              <a class="mega-sub-item" href="ekipman.html">Bitki Toprağı</a>
+              <a class="mega-sub-item" href="ekipman.html">Volkanik Kum</a>
+            </div>
+            <!-- Aydınlatmalar -->
+            <div class="mega-sub-panel" id="msub-aydinlatma">
+              <div class="mega-sub-title">Aydınlatmalar</div>
+              <a class="mega-sub-item" href="ekipman.html">Ledler</a>
+              <a class="mega-sub-item" href="ekipman.html">Floresan / Lamba</a>
+            </div>
+            <!-- Akvaryum Dekorları -->
+            <div class="mega-sub-panel" id="msub-dekor">
+              <div class="mega-sub-title">Akvaryum Dekorları</div>
+              <a class="mega-sub-item" href="ekipman.html">Arka Fon / Manzaralar</a>
+              <a class="mega-sub-item" href="ekipman.html">Doğal Dekorlar</a>
+              <a class="mega-sub-item" href="ekipman.html">Yapay Dekorlar</a>
+            </div>
+            <!-- Filtreler -->
+            <div class="mega-sub-panel" id="msub-filtreler">
+              <div class="mega-sub-title">Filtreler</div>
+              <a class="mega-sub-item" href="ekipman.html">Dış Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">İç Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">Askı Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">Tepe Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">UV Filtreler</a>
+              <a class="mega-sub-item" href="ekipman.html">Pipo Filtreler</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2516,21 +2570,44 @@ a{text-decoration:none;color:inherit;}
     <!-- KATEGORİLER başlık -->
     <div class="drawer-section-label">Ürün Kategorileri</div>
 
-    <!-- Balıklar -->
+    <!-- Canlı Balık -->
+    <a href="baliklar.html" onclick="closeDrawer()" class="drawer-link">
+      <div class="drawer-acc-icon">🐠</div>Canlı Balık
+    </a>
+
+    <!-- Yemler -->
     <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-      <div class="drawer-acc-label"><div class="drawer-acc-icon">🐠</div> Balıklar</div>
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🍖</div> Yemler</div>
       <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
     </button>
     <div class="drawer-acc-content">
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tatlı Su Balıkları</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tuzlu Su Balıkları</a>
-      <a href="baliklar.html" onclick="closeDrawer();sessionStorage.setItem('fcat','Canlı Doğuranlar')" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Canlı Doğuranlar</a>
-      <a href="baliklar.html" onclick="closeDrawer();sessionStorage.setItem('fcat','Japon Türleri')" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Japon Balıkları</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Canlı Yemler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Granül Yemler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Pul Yemler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tablet Yemler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Otomatik Yemlemeler</a>
     </div>
 
-    <!-- Akvaryumlar -->
+    <!-- Bitki & Co2 -->
     <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-      <div class="drawer-acc-label"><div class="drawer-acc-icon">🔲</div> Akvaryumlar</div>
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🌿</div> Bitki Ve Co2 Ekipmanları</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Kum / Toprak</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Katkı / Gübre</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Makas / Maşa</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>CO2 Komple Setler</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>CO2 Tüp</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>CO2 Regülatör</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>CO2 Test</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>CO2 Difüzör</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>CO2 Aksesuarlar</a>
+    </div>
+
+    <!-- Akvaryum -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🔲</div> Akvaryum</div>
       <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
     </button>
     <div class="drawer-acc-content">
@@ -2538,32 +2615,86 @@ a{text-decoration:none;color:inherit;}
       <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Nano Akvaryum</a>
       <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Deniz Akvaryumu</a>
       <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aquascape Set</a>
+      <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Özel Tasarım</a>
     </div>
 
-    <!-- Bitkiler -->
+    <!-- Akvaryum Aksesuarları -->
     <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-      <div class="drawer-acc-label"><div class="drawer-acc-icon">🌿</div> Bitkiler</div>
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🔧</div> Akvaryum Aksesuarları</div>
       <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
     </button>
     <div class="drawer-acc-content">
-      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Canlı Bitkiler</a>
-      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Öne Çıkan Bitkiler</a>
-      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Taşlar &amp; Dekor</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Sifonlar / Kum Temizleyiciler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Cam Silecekleri</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Dereceler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Kepçeler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Hava Taşları</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Hava Dağıtım Kitleri</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Çekvalf</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Hortum ve Bağlantı Parçaları</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yavruluklar / Bölmeler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yuva / Yumurtlama Tüpleri</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Cam Aksesuarlar</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Diğer Ekipmanlar</a>
     </div>
 
-    <!-- Ekipman -->
+    <!-- Akvaryum Kumları -->
     <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-      <div class="drawer-acc-label"><div class="drawer-acc-icon">⚙️</div> Ekipman</div>
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🪨</div> Akvaryum Kumları</div>
       <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
     </button>
     <div class="drawer-acc-content">
-      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Filtreler</a>
-      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aydınlatma</a>
-      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Isıtıcı &amp; Soğutucu</a>
-      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Su Düzenleyiciler</a>
-      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yemler</a>
-      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Sağlık &amp; Bakım</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Doğal Kum</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Renkli Kum</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Bitki Toprağı</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Volkanik Kum</a>
     </div>
+
+    <!-- Aydınlatmalar -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">💡</div> Aydınlatmalar</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Ledler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Floresan / Lamba</a>
+    </div>
+
+    <!-- Akvaryum Dekorları -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🎨</div> Akvaryum Dekorları</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Arka Fon / Manzaralar</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Doğal Dekorlar</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yapay Dekorlar</a>
+    </div>
+
+    <!-- Filtreler -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">⚙️</div> Filtreler</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Dış Filtreler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>İç Filtreler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Askı Filtreler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tepe Filtreler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>UV Filtreler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Pipo Filtreler</a>
+    </div>
+
+    <!-- Ekipman (genel) -->
+    <div class="drawer-section-label">Ekipman</div>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">🔩</div>Filtre Malzemeleri</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">💨</div>Hava Motorları</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">🌊</div>Dalga Motorları</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">⚡</div>Kafa ve Sump Motoru</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">🧪</div>Su Düzenleyiciler</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">💊</div>Sağlık / Bakım</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">🔬</div>Testler</a>
+    <a href="ekipman.html" onclick="closeDrawer()" class="drawer-link"><div class="drawer-acc-icon">🧂</div>Deniz Tuzları</a>
 
     <!-- Diğer bağlantılar -->
     <div class="drawer-section-label">Diğer</div>
@@ -3386,6 +3517,30 @@ function toggleAcc(btn){
   const content=btn.nextElementSibling;
   content.classList.toggle('open');
 }
+
+/* ── Mega Menü Sub Panel ── */
+function showMegaSub(id){
+  // tüm sağ panelleri gizle
+  document.querySelectorAll('.mega-sub-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mega-cat[data-sub]').forEach(b=>b.classList.remove('active'));
+  // hedef paneli göster
+  const panel=document.getElementById('msub-'+id);
+  if(panel) panel.classList.add('active');
+  // aktif butonu işaretle
+  const btn=document.querySelector('.mega-cat[data-sub="'+id+'"]');
+  if(btn) btn.classList.add('active');
+}
+// panel kapandığında default'a dön
+(function(){
+  const wrap=document.getElementById('megaWrap');
+  if(!wrap) return;
+  wrap.addEventListener('mouseleave',function(){
+    document.querySelectorAll('.mega-sub-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.mega-cat[data-sub]').forEach(b=>b.classList.remove('active'));
+    const def=document.getElementById('msub-default');
+    if(def) def.classList.add('active');
+  });
+})();
 // Close drawer on Escape
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 
