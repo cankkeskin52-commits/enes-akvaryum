@@ -324,18 +324,20 @@ a{text-decoration:none;color:inherit;}
 .snav-mega-wrap:hover .snav-mega-btn svg{transform:rotate(180deg);}
 
 .snav-mega{
-  position:fixed;top:var(--mega-top,98px);left:0;right:0;
+  position:fixed;
+  top:var(--mega-top,98px);
+  left:0;right:0;
   background:#fff;
-  border-top:2px solid var(--teal);
+  border-top:3px solid var(--teal);
   box-shadow:0 12px 40px rgba(0,10,30,0.13);
   opacity:0;pointer-events:none;
-  transform:translateY(-8px);
-  transition:opacity .18s ease,transform .18s cubic-bezier(.16,1,.3,1);
+  /* transform yok — tam navbar altından başlasın */
+  transition:opacity .15s ease;
   z-index:99;
 }
 .snav-mega-wrap:hover .snav-mega,
 .snav-mega-wrap:focus-within .snav-mega{
-  opacity:1;pointer-events:all;transform:translateY(0);
+  opacity:1;pointer-events:all;
 }
 .snav-mega-inner{
   max-width:1100px;margin:0 auto;
@@ -3398,7 +3400,7 @@ function updateMegaTop(){
   const nav=document.getElementById('stickyNav');
   if(!nav)return;
   const bottom=nav.getBoundingClientRect().bottom;
-  document.documentElement.style.setProperty('--mega-top',Math.round(bottom)+'px');
+  document.documentElement.style.setProperty('--mega-top',(Math.round(bottom)-1)+'px');
 }
 // Sayfa yüklenince ve resize'da güncelle
 window.addEventListener('resize',updateMegaTop,{passive:true});
