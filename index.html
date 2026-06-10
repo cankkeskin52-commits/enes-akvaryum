@@ -999,14 +999,13 @@ a{text-decoration:none;color:inherit;}
 .social-sidebar{
   position:fixed;top:38%;left:0;z-index:90;
   display:flex;flex-direction:column;gap:10px;
-  /* Mobilde gizle */
 }
 @media(max-width:1023px){ .social-sidebar{display:none;} }
 
 .social-sidebar-item{
   display:flex;align-items:center;justify-content:space-between;
   width:176px;height:52px;padding:0 14px;
-  margin-left:-134px;                       /* hidden: sadece ikon görünür */
+  margin-left:-134px;
   border-radius:0 14px 14px 0;
   overflow:hidden;position:relative;
   text-decoration:none;
@@ -1018,7 +1017,8 @@ a{text-decoration:none;color:inherit;}
              filter .3s ease;
   cursor:pointer;
 }
-.social-sidebar-item:hover{
+/* JS ile eklenen hover sınıfı — scroll sırasında da çalışır */
+.social-sidebar-item.ss-hovered{
   margin-left:-8px;
   box-shadow:0 8px 32px rgba(0,0,0,.28);
   filter:brightness(1.12);
@@ -1045,7 +1045,7 @@ a{text-decoration:none;color:inherit;}
   color:#fff;letter-spacing:.04em;white-space:nowrap;
   transition:letter-spacing .4s;
 }
-.social-sidebar-item:hover .ss-label{letter-spacing:.09em;}
+.social-sidebar-item.ss-hovered .ss-label{letter-spacing:.09em;}
 
 .ss-icon{
   position:relative;z-index:1;
@@ -1054,7 +1054,7 @@ a{text-decoration:none;color:inherit;}
   transition:transform .45s cubic-bezier(.34,1.56,.64,1);
   filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
 }
-.social-sidebar-item:hover .ss-icon{transform:scale(1.28);}
+.social-sidebar-item.ss-hovered .ss-icon{transform:scale(1.28);}
 
 /* — Mobil FAB dock — */
 .social-fab-wrap{
@@ -1167,6 +1167,8 @@ a{text-decoration:none;color:inherit;}
 /* Slider wrapper */
 .pop-cats-slider-wrap{
   position:relative;
+  overflow:hidden;
+  min-height:clamp(140px,16vw,180px); /* slider yüksekliğini garantile */
 }
 .pop-cats-slider-wrap::before,
 .pop-cats-slider-wrap::after{
@@ -5723,6 +5725,25 @@ window.toggleStockFilter = function toggleStockFilter() {
 </div>
 
 <script>
+/* ══ SOSYAL MEDYA SIDEBAR — scroll-safe hover ══ */
+(function(){
+  // mousemove ile her zaman çalışır, scroll sırasında da
+  document.addEventListener('mousemove', function(e){
+    const items = document.querySelectorAll('.social-sidebar-item');
+    items.forEach(function(item){
+      const r = item.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right &&
+                     e.clientY >= r.top  && e.clientY <= r.bottom;
+      item.classList.toggle('ss-hovered', inside);
+    });
+  }, {passive:true});
+  // Mouse tamamen pencere dışına çıkınca tüm hover'ları kapat
+  document.addEventListener('mouseleave', function(){
+    document.querySelectorAll('.social-sidebar-item.ss-hovered')
+      .forEach(function(el){ el.classList.remove('ss-hovered'); });
+  });
+})();
+
 /* ══ SOSYAL MEDYA FAB JS ══ */
 let socialFabOpen = false;
 
