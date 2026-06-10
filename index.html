@@ -2520,19 +2520,8 @@ a{text-decoration:none;color:inherit;}
     <div class="drawer-acc-content">
       <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tatlı Su Balıkları</a>
       <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tuzlu Su Balıkları</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Tropik Balıklar</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Soğuk Su Balıkları</a>
-    </div>
-
-    <!-- Bitkiler -->
-    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-      <div class="drawer-acc-label"><div class="drawer-acc-icon">🌿</div> Canlı Bitkiler</div>
-      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-    </button>
-    <div class="drawer-acc-content">
-      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aquascape Bitkileri</a>
-      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yüzen Bitkiler</a>
-      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Zemin Bitkileri</a>
+      <a href="baliklar.html" onclick="closeDrawer();sessionStorage.setItem('fcat','Canlı Doğuranlar')" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Canlı Doğuranlar</a>
+      <a href="baliklar.html" onclick="closeDrawer();sessionStorage.setItem('fcat','Japon Türleri')" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Japon Balıkları</a>
     </div>
 
     <!-- Akvaryumlar -->
@@ -2547,26 +2536,29 @@ a{text-decoration:none;color:inherit;}
       <a href="akvaryumlar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aquascape Set</a>
     </div>
 
-    <!-- Taşlar & Dekor -->
-    <a href="taslar.html" onclick="closeDrawer()" class="drawer-link">
-      <div class="drawer-acc-icon">🪨</div>
-      Taşlar &amp; Dekor
-    </a>
-
-    <!-- Ekipman & Bakım -->
+    <!-- Bitkiler -->
     <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
-      <div class="drawer-acc-label"><div class="drawer-acc-icon">⚙️</div> Ekipman &amp; Bakım</div>
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">🌿</div> Bitkiler</div>
       <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
     </button>
     <div class="drawer-acc-content">
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Filtreler</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aydınlatma</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Isıtıcı &amp; Soğutucu</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yemler</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Akvaryum Kumları</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Su Düzenleyiciler</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Sağlık &amp; Bakım</a>
-      <a href="baliklar.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Test Kitleri</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Canlı Bitkiler</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Öne Çıkan Bitkiler</a>
+      <a href="bitkiler.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Taşlar &amp; Dekor</a>
+    </div>
+
+    <!-- Ekipman -->
+    <button class="drawer-acc-trigger" onclick="toggleAcc(this)">
+      <div class="drawer-acc-label"><div class="drawer-acc-icon">⚙️</div> Ekipman</div>
+      <div class="drawer-acc-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="drawer-acc-content">
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Filtreler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Aydınlatma</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Isıtıcı &amp; Soğutucu</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Su Düzenleyiciler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Yemler</a>
+      <a href="ekipman.html" onclick="closeDrawer()" class="drawer-sub-link"><span class="drawer-sub-dot"></span>Sağlık &amp; Bakım</a>
     </div>
 
     <!-- Diğer bağlantılar -->
