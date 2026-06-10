@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#020810"/>
+  <!-- Fish body - elegant line art -->
+  <g transform="translate(200,130)" stroke="#2de0cc" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Fish body oval -->
+    <path d="M-70,0 C-70,-32 -20,-52 30,-40 C70,-30 85,0 70,18 C50,42 -10,42 -50,28 C-70,18 -70,0 -70,0 Z"/>
+    <!-- Tail fin - crossed lines -->
+    <path d="M-70,0 L-115,-48"/>
+    <path d="M-70,0 L-115,10"/>
+    <path d="M-115,-48 L-90,-10 L-115,10"/>
+    <!-- Eye -->
+    <circle cx="58" cy="2" r="3" fill="#2de0cc" stroke="none"/>
+  </g>
+  <!-- ENES text -->
+  <text x="200" y="225" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="400" fill="#c8d8e8" text-anchor="middle" letter-spacing="14">ENES</text>
+  <!-- Wave line -->
+  <path d="M115,245 Q130,238 145,245 Q160,252 175,245 Q190,238 205,245 Q220,252 235,245 Q250,238 265,245 Q280,252 285,245" stroke="#2de0cc" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <!-- Akvaryum text -->
+  <text x="200" y="290" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-style="italic" font-weight="400" fill="#5a7a94" text-anchor="middle" letter-spacing="2">Akvaryum</text>
+</svg>
