@@ -9,13 +9,13 @@
 function openDrawer(){
   document.getElementById('mobileDrawer').classList.add('open');
   document.getElementById('drawerOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
   setTimeout(function(){var i=document.getElementById('drawerSearchInput');if(i)i.focus();},350);
 }
 function closeDrawer(){
   document.getElementById('mobileDrawer').classList.remove('open');
   document.getElementById('drawerOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
   var inp=document.getElementById('drawerSearchInput');
   var res=document.getElementById('drawerSearchResults');
   if(inp)inp.value='';
@@ -716,12 +716,12 @@ function clearCart(){cart={};saveCart();renderPlantGrid();renderCart();}
 function openCartDrawer(){
   document.getElementById('cartDrawer').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
 }
 function closeCartDrawer(){
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
 }
 function renderCart(){
   const keys=Object.keys(cart);

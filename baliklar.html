@@ -801,11 +801,13 @@ function openCartDrawer(){
   document.getElementById('cartDrawer').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
   document.body.style.overflow='hidden';
+  const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
 }
 function closeCartDrawer(){
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow='';
+  const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
 }
 function renderCart(){
   const keys=Object.keys(cart);

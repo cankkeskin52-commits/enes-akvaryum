@@ -3180,14 +3180,14 @@ a{text-decoration:none;color:inherit;}
 function openDrawer(){
   document.getElementById('mobileDrawer').classList.add('open');
   document.getElementById('drawerOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
   // Arama inputuna odaklan (300ms sonra)
   setTimeout(()=>document.getElementById('drawerSearchInput')?.focus(),350);
 }
 function closeDrawer(){
   document.getElementById('mobileDrawer').classList.remove('open');
   document.getElementById('drawerOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
   // Arama temizle
   const inp=document.getElementById('drawerSearchInput');
   const res=document.getElementById('drawerSearchResults');
@@ -4580,12 +4580,12 @@ function openFishDetail(i){
 
   const modal=document.getElementById('fishDetailModal');
   modal.classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
 }
 
 function closeFishDetail(){
   document.getElementById('fishDetailModal').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
 }
 
 function fdmChangeQty(d){
@@ -4631,12 +4631,12 @@ function changeQty(i,d){
 function openCartDrawer(){
   document.getElementById('cartDrawer').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
 }
 function closeCartDrawer(){
   document.getElementById('cartDrawer').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
 }
 
 function renderCart(){
@@ -4942,7 +4942,7 @@ fetchFish();
   if(!loader||!pctEl) return;
 
   // Scroll kilitle
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
   document.documentElement.style.overflow='hidden';
 
   // Fanus iç alanı: y=230 (boş) → y=60 (dolu) — 170px range
@@ -5006,7 +5006,7 @@ fetchFish();
         loader.style.opacity='0';
         setTimeout(()=>{
           loader.style.display='none';
-          document.body.style.overflow='';
+          document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
           document.documentElement.style.overflow='';
           // hero direkt görünür, animasyon yok
         },1000);
@@ -5369,12 +5369,12 @@ let quizStep=0;
 function openQuiz(){
   quizAnswers={};quizStep=0;
   document.getElementById('quizOverlay').style.display='block';
-  document.body.style.overflow='hidden';
+  document.body.style.overflow='hidden';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='none';
   renderQuizStep();
 }
 function closeQuiz(){
   document.getElementById('quizOverlay').style.display='none';
-  document.body.style.overflow='';
+  document.body.style.overflow='';const fn=document.getElementById('floatingNav');if(fn)fn.style.display='';
 }
 
 function renderQuizStep(){
