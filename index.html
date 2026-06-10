@@ -270,7 +270,9 @@ a{text-decoration:none;color:inherit;}
   height:36px;display:flex;align-items:center;justify-content:center;
   gap:32px;overflow:hidden;
   margin-bottom:0!important;border-bottom:none!important;
+  transition:transform .3s ease,opacity .3s ease;
 }
+#annoBar.anno-scrolled{transform:translateY(-100%);opacity:0;pointer-events:none;}
 .anno-track{
   display:flex;align-items:center;gap:48px;
   animation:annoScroll 28s linear infinite;
@@ -5162,6 +5164,7 @@ document.addEventListener('click',e=>{
 (function(){
   const scrollBar=document.getElementById('scrollBar');
   const stickyNav=document.getElementById('stickyNav');
+  const annoBar=document.getElementById('annoBar');
   const heroEl=document.querySelector('.hero');
   const orbTeal=document.querySelector('.orb-teal');
   const orbBlue=document.querySelector('.orb-blue');
@@ -5176,6 +5179,7 @@ document.addEventListener('click',e=>{
     const heroH=heroEl?heroEl.offsetHeight:window.innerHeight;
     if(sy>heroH*0.65) stickyNav.classList.add('show');
     else stickyNav.classList.remove('show');
+    if(annoBar) annoBar.classList.toggle('anno-scrolled', sy>40);
     if(orbTeal) orbTeal.style.transform=`translateY(${sy*0.12}px) translateX(${Math.sin(sy*0.003)*20}px)`;
     if(orbBlue) orbBlue.style.transform=`translateY(${-sy*0.08}px) translateX(${Math.cos(sy*0.004)*25}px)`;
     if(orbCyan) orbCyan.style.transform=`translateY(${sy*0.05}px)`;
