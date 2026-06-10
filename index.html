@@ -993,6 +993,161 @@ a{text-decoration:none;color:inherit;}
   animation:heroSlideUp 1s ease 2.8s both;
 }
 
+/* ══ SOSYAL MEDYA SİDEBAR + MOBİL FAB ══ */
+
+/* — Desktop: sol kenar slide-in — */
+.social-sidebar{
+  position:fixed;top:38%;left:0;z-index:90;
+  display:flex;flex-direction:column;gap:10px;
+  /* Mobilde gizle */
+}
+@media(max-width:1023px){ .social-sidebar{display:none;} }
+
+.social-sidebar-item{
+  display:flex;align-items:center;justify-content:space-between;
+  width:176px;height:52px;padding:0 14px;
+  margin-left:-134px;                       /* hidden: sadece ikon görünür */
+  border-radius:0 14px 14px 0;
+  overflow:hidden;position:relative;
+  text-decoration:none;
+  border:1.5px solid rgba(255,255,255,.15);
+  border-left:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.18);
+  transition:margin-left .45s cubic-bezier(.16,1,.3,1),
+             box-shadow .3s ease,
+             filter .3s ease;
+  cursor:pointer;
+}
+.social-sidebar-item:hover{
+  margin-left:-8px;
+  box-shadow:0 8px 32px rgba(0,0,0,.28);
+  filter:brightness(1.12);
+}
+
+/* Gradient arka plan katmanı */
+.social-sidebar-item::before{
+  content:'';position:absolute;inset:0;
+  opacity:.92;transition:opacity .3s;
+}
+.social-sidebar-item:hover::before{opacity:1;}
+
+/* Platform renkleri */
+.social-sidebar-item.ss-instagram::before{background:linear-gradient(135deg,#e1306c,#833ab4,#f77737);}
+.social-sidebar-item.ss-facebook::before{background:linear-gradient(135deg,#1877f2,#0a5cc7);}
+.social-sidebar-item.ss-whatsapp::before{background:linear-gradient(135deg,#25D366,#128C7E);}
+.social-sidebar-item.ss-youtube::before{background:linear-gradient(135deg,#FF0000,#cc0000);}
+.social-sidebar-item.ss-mail::before{background:linear-gradient(135deg,#0ea5e9,#0059B3);}
+.social-sidebar-item.ss-website::before{background:linear-gradient(135deg,#00B4CC,#0059B3);}
+
+.ss-label{
+  position:relative;z-index:1;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;
+  color:#fff;letter-spacing:.04em;white-space:nowrap;
+  transition:letter-spacing .4s;
+}
+.social-sidebar-item:hover .ss-label{letter-spacing:.09em;}
+
+.ss-icon{
+  position:relative;z-index:1;
+  width:22px;height:22px;flex-shrink:0;
+  fill:#fff;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+}
+.social-sidebar-item:hover .ss-icon{transform:scale(1.28);}
+
+/* — Mobil FAB dock — */
+.social-fab-wrap{
+  position:fixed;bottom:100px;right:14px;z-index:89;
+  display:flex;flex-direction:column;align-items:flex-end;gap:0;
+}
+@media(min-width:1024px){ .social-fab-wrap{display:none;} }
+
+/* Overlay (açıkken arka plan bulanıklaştır) */
+.social-fab-overlay{
+  position:fixed;inset:0;
+  background:rgba(2,12,30,.55);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s;z-index:88;
+}
+.social-fab-overlay.open{opacity:1;pointer-events:all;}
+
+/* İkon listesi */
+.social-fab-list{
+  display:flex;flex-direction:column-reverse;gap:10px;
+  margin-bottom:14px;
+  transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1);
+  opacity:0;transform:translateY(24px);pointer-events:none;
+}
+.social-fab-list.open{opacity:1;transform:translateY(0);pointer-events:all;}
+
+.social-fab-link{
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;
+  text-decoration:none;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+}
+.social-fab-link:active{transform:scale(.93);}
+
+/* Tooltip */
+.social-fab-link .ss-tip{
+  background:#1A3050;color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:8px;white-space:nowrap;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s;
+  position:absolute;right:58px;
+  box-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+.social-fab-link:hover .ss-tip,
+.social-fab-link:focus .ss-tip{opacity:1;}
+/* Ok */
+.social-fab-link .ss-tip::after{
+  content:'';position:absolute;top:50%;right:-6px;
+  transform:translateY(-50%);
+  border:5px solid transparent;border-left-color:#1A3050;
+}
+
+/* Yuvarlak icon buton */
+.social-fab-circle{
+  width:50px;height:50px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid rgba(255,255,255,.2);
+  box-shadow:0 4px 18px rgba(0,0,0,.22);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  flex-shrink:0;
+}
+.social-fab-link:hover .social-fab-circle{transform:scale(1.12);box-shadow:0 8px 28px rgba(0,0,0,.35);}
+
+.social-fab-circle.ss-instagram{background:linear-gradient(135deg,#e1306c,#833ab4,#f77737);}
+.social-fab-circle.ss-facebook{background:linear-gradient(135deg,#1877f2,#0a5cc7);}
+.social-fab-circle.ss-whatsapp{background:linear-gradient(135deg,#25D366,#128C7E);}
+.social-fab-circle.ss-youtube{background:linear-gradient(135deg,#FF0000,#cc0000);}
+.social-fab-circle.ss-mail{background:linear-gradient(135deg,#0ea5e9,#0059B3);}
+.social-fab-circle.ss-website{background:linear-gradient(135deg,#00B4CC,#0059B3);}
+
+.social-fab-circle svg{width:22px;height:22px;fill:#fff;}
+
+/* Ana FAB butonu */
+.social-fab-btn{
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  border:2px solid rgba(255,255,255,.2);
+  box-shadow:0 6px 24px rgba(0,180,204,.35);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  position:relative;z-index:1;
+}
+.social-fab-btn:active{transform:scale(.9);}
+.social-fab-btn svg{width:24px;height:24px;fill:#fff;transition:transform .4s cubic-bezier(.34,1.56,.64,1);}
+.social-fab-btn.open svg.icon-share{transform:scale(0) rotate(90deg);}
+.social-fab-btn:not(.open) svg.icon-close{display:none;}
+.social-fab-btn.open svg.icon-close{display:block;}
+.social-fab-btn.open svg.icon-share{display:none;}
+
 /* ══ POPÜLER KATEGORİLER — SLIDER ══ */
 .pop-cats-section{
   background:var(--white);
@@ -5472,6 +5627,121 @@ window.toggleStockFilter = function toggleStockFilter() {
 </script>
 
 <!-- ══ MOBİL FLOATING NAV ══ -->
+<!-- ══════════════════════════════════════
+     SOSYAL MEDYA — DESKTOP SOL SIDEBAR
+     ══════════════════════════════════════ -->
+<aside class="social-sidebar" aria-label="Sosyal Medya">
+
+  <a class="social-sidebar-item ss-instagram"
+     href="https://instagram.com/enesakvaryum" target="_blank" rel="noreferrer">
+    <span class="ss-label">Instagram</span>
+    <svg class="ss-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+    </svg>
+  </a>
+
+  <a class="social-sidebar-item ss-facebook"
+     href="https://facebook.com/enesakvaryum" target="_blank" rel="noreferrer">
+    <span class="ss-label">Facebook</span>
+    <svg class="ss-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </a>
+
+  <a class="social-sidebar-item ss-whatsapp"
+     href="https://wa.me/905XXXXXXXXX" target="_blank" rel="noreferrer">
+    <span class="ss-label">WhatsApp</span>
+    <svg class="ss-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <a class="social-sidebar-item ss-youtube"
+     href="https://youtube.com/@enesakvaryum" target="_blank" rel="noreferrer">
+    <span class="ss-label">YouTube</span>
+    <svg class="ss-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    </svg>
+  </a>
+
+  <a class="social-sidebar-item ss-mail"
+     href="mailto:info@enesakvaryum.com.tr">
+    <span class="ss-label">E-posta</span>
+    <svg class="ss-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+  </a>
+
+</aside>
+
+<!-- ══════════════════════════════════════
+     SOSYAL MEDYA — MOBİL FAB DOCK
+     ══════════════════════════════════════ -->
+<div class="social-fab-overlay" id="socialFabOverlay" onclick="socialFabToggle()"></div>
+
+<div class="social-fab-wrap">
+
+  <div class="social-fab-list" id="socialFabList">
+
+    <a class="social-fab-link" href="https://instagram.com/enesakvaryum" target="_blank" rel="noreferrer"
+       style="transition-delay:0ms">
+      <span class="ss-tip">Instagram</span>
+      <div class="social-fab-circle ss-instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </div>
+    </a>
+
+    <a class="social-fab-link" href="https://facebook.com/enesakvaryum" target="_blank" rel="noreferrer"
+       style="transition-delay:50ms">
+      <span class="ss-tip">Facebook</span>
+      <div class="social-fab-circle ss-facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </div>
+    </a>
+
+    <a class="social-fab-link" href="https://wa.me/905XXXXXXXXX" target="_blank" rel="noreferrer"
+       style="transition-delay:100ms">
+      <span class="ss-tip">WhatsApp</span>
+      <div class="social-fab-circle ss-whatsapp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      </div>
+    </a>
+
+    <a class="social-fab-link" href="https://youtube.com/@enesakvaryum" target="_blank" rel="noreferrer"
+       style="transition-delay:150ms">
+      <span class="ss-tip">YouTube</span>
+      <div class="social-fab-circle ss-youtube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+    </a>
+
+    <a class="social-fab-link" href="mailto:info@enesakvaryum.com.tr"
+       style="transition-delay:200ms">
+      <span class="ss-tip">E-posta</span>
+      <div class="social-fab-circle ss-mail">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Ana FAB butonu -->
+  <button class="social-fab-btn" id="socialFabBtn"
+          onclick="socialFabToggle()" aria-label="Sosyal medya">
+    <!-- Share ikonu -->
+    <svg class="icon-share" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+    </svg>
+    <!-- Kapat ikonu -->
+    <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+
+</div>
+
 <div id="floatingNav">
   <div class="fnav-inner" id="fnavInner">
 
@@ -5507,6 +5777,22 @@ window.toggleStockFilter = function toggleStockFilter() {
     <div class="fnav-indicator" id="fnavIndicator"></div>
   </div>
 </div>
+
+<script>
+/* ══ SOSYAL MEDYA FAB JS ══ */
+let socialFabOpen = false;
+
+function socialFabToggle(){
+  socialFabOpen = !socialFabOpen;
+  document.getElementById('socialFabBtn').classList.toggle('open', socialFabOpen);
+  document.getElementById('socialFabList').classList.toggle('open', socialFabOpen);
+  document.getElementById('socialFabOverlay').classList.toggle('open', socialFabOpen);
+}
+/* Esc ile kapat */
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && socialFabOpen) socialFabToggle();
+});
+</script>
 
 <script>
 /* ══ FLOATING NAV JS ══ */
