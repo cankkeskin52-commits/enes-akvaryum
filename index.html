@@ -326,138 +326,69 @@ a{text-decoration:none;color:inherit;}
 .snav-mega{
   position:fixed;top:var(--mega-top,98px);left:0;right:0;
   background:#fff;
-  border-top:3px solid var(--teal);
-  box-shadow:0 24px 80px rgba(0,10,30,0.18);
+  border-top:2px solid var(--teal);
+  box-shadow:0 16px 64px rgba(0,89,179,0.14);
   opacity:0;pointer-events:none;
-  transform:translateY(-8px);
-  transition:opacity .2s ease,transform .2s cubic-bezier(.16,1,.3,1);
+  transform:translateY(-12px);
+  transition:opacity .22s ease,transform .22s cubic-bezier(.16,1,.3,1);
   z-index:99;
 }
 .snav-mega-wrap:hover .snav-mega,
 .snav-mega-wrap:focus-within .snav-mega{
   opacity:1;pointer-events:all;transform:translateY(0);
 }
-
-/* ── Ana içerik grid ── */
 .snav-mega-inner{
-  max-width:1200px;margin:0 auto;
-  padding:0 clamp(16px,4vw,48px);
-  display:grid;
-  grid-template-columns:200px 1px 1fr;
-  gap:0;
+  max-width:1440px;margin:0 auto;
+  padding:32px clamp(16px,4vw,48px) 28px;
+  display:grid;grid-template-columns:220px 1fr;gap:32px;
 }
-
-/* Sol kolon — featured panel */
+/* Sol kolon — featured */
 .mega-featured{
-  background:linear-gradient(165deg,var(--dark) 0%,#0a2040 100%);
-  padding:28px 24px 24px;
+  background:linear-gradient(160deg,var(--dark),#071a36);
+  border-radius:var(--r);padding:24px;
   display:flex;flex-direction:column;justify-content:flex-end;
-  min-height:280px;position:relative;overflow:hidden;
+  min-height:240px;position:relative;overflow:hidden;
 }
-.mega-featured::after{
-  content:'🐠';position:absolute;top:12px;right:12px;
-  font-size:80px;opacity:0.07;pointer-events:none;
-  transform:rotate(-15deg);
+.mega-featured::before{
+  content:'🐠';position:absolute;top:16px;right:16px;font-size:64px;opacity:0.12;
 }
-.mega-feat-tag{
-  font-size:8px;letter-spacing:0.22em;text-transform:uppercase;
-  color:var(--teal);margin-bottom:10px;font-weight:700;
-}
-.mega-feat-title{
-  font-family:'Sora',sans-serif;font-size:17px;font-weight:800;
-  color:#fff;margin-bottom:8px;line-height:1.25;
-}
-.mega-feat-desc{
-  font-size:11px;color:rgba(255,255,255,0.45);
-  line-height:1.6;margin-bottom:18px;
-}
+.mega-feat-tag{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;font-weight:700;}
+.mega-feat-title{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.3;}
+.mega-feat-desc{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;}
 .mega-feat-btn{
   display:inline-flex;align-items:center;gap:6px;
   background:linear-gradient(135deg,var(--teal),var(--blue));
   color:#fff;font-size:11px;font-weight:700;
-  padding:8px 16px;border-radius:99px;align-self:flex-start;
-  text-decoration:none;transition:all .25s;
-  box-shadow:0 4px 14px rgba(0,180,204,0.35);
+  padding:9px 16px;border-radius:99px;align-self:flex-start;
+  text-decoration:none;transition:all .2s;
 }
-.mega-feat-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,180,204,0.45);}
+.mega-feat-btn:hover{transform:scale(1.04);}
 
-/* Dikey ayırıcı çizgi */
-.mega-divider{
-  background:linear-gradient(to bottom,transparent,rgba(0,89,179,0.12) 20%,rgba(0,89,179,0.12) 80%,transparent);
-  margin:0 28px;
-  width:1px;
-  align-self:stretch;
-}
-
-/* Sağ kolon — 3 grup yan yana */
+/* Sağ kolon — kategori grid */
 .mega-cats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:4px;
   align-content:start;
-  padding:20px 0 16px;
-  gap:0;
 }
-.mega-group{
-  padding:0 16px;
-  border-right:1px solid rgba(0,89,179,0.06);
-}
-.mega-group:last-child{border-right:none;}
 .mega-col-title{
-  font-size:8px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--teal);padding:4px 4px 10px;
-  border-bottom:1px solid rgba(0,180,204,0.15);
-  margin-bottom:6px;
+  font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--text-dim);padding:8px 10px 4px;grid-column:1/-1;
 }
 .mega-item{
   display:flex;align-items:center;gap:10px;
-  padding:8px 6px;border-radius:8px;
-  color:var(--text);
-  transition:background .15s,transform .15s;
+  padding:10px 12px;border-radius:10px;
+  color:var(--text);font-size:13px;font-weight:500;
+  transition:background .15s,color .15s;
   text-decoration:none;
 }
-.mega-item:hover{
-  background:linear-gradient(135deg,rgba(0,180,204,0.06),rgba(0,89,179,0.06));
-  transform:translateX(3px);
-}
+.mega-item:hover{background:var(--blue-pale);color:var(--blue);}
 .mega-item-icon{
-  width:32px;height:32px;border-radius:8px;
+  width:34px;height:34px;border-radius:9px;
   background:var(--surface);display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;
-  transition:background .15s,transform .2s;
-  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  font-size:17px;flex-shrink:0;transition:background .15s;
 }
-.mega-item:hover .mega-item-icon{
-  background:var(--teal-pale);
-  transform:scale(1.12);
-}
-.mega-item-label{font-weight:600;font-size:12px;line-height:1.2;color:var(--dark);}
+.mega-item:hover .mega-item-icon{background:var(--teal-pale);}
+.mega-item-label{font-weight:600;font-size:12px;line-height:1.2;}
 .mega-item-sub{font-size:10px;color:var(--text-dim);margin-top:1px;}
-
-/* Alt hızlı erişim şeridi */
-.mega-footer{
-  background:linear-gradient(90deg,#f8fbff,#f0f7ff);
-  border-top:1px solid rgba(0,89,179,0.07);
-  padding:10px clamp(16px,4vw,48px);
-  display:flex;align-items:center;gap:8px;
-}
-.mega-footer-label{
-  font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--text-dim);margin-right:8px;flex-shrink:0;
-}
-.mega-quick-tag{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 12px;border-radius:99px;
-  background:#fff;border:1px solid rgba(0,89,179,0.12);
-  font-size:11px;font-weight:600;color:var(--text);
-  text-decoration:none;cursor:pointer;
-  transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,0.05);
-}
-.mega-quick-tag:hover{
-  background:var(--blue);color:#fff;
-  border-color:var(--blue);
-  transform:translateY(-1px);
-  box-shadow:0 4px 12px rgba(0,89,179,0.25);
-}
 .snav-logo{
   font-family:'Sora',sans-serif;font-size:15px;font-weight:800;
   color:var(--dark);letter-spacing:-0.01em;flex-shrink:0;
@@ -2420,106 +2351,88 @@ a{text-decoration:none;color:inherit;}
         </button>
         <div class="snav-mega">
           <div class="snav-mega-inner">
-
-            <!-- Sol: Featured Panel -->
+            <!-- Sol: Featured -->
             <div class="mega-featured">
               <div class="mega-feat-tag">Öne Çıkan</div>
               <div class="mega-feat-title">Canlı Aquascape<br>Bitkileri</div>
-              <div class="mega-feat-desc">Doğal görünümlü akvaryum tasarımı için özenle seçilmiş bitkiler</div>
+              <div class="mega-feat-desc">Doğal görünümlü akvaryum tasarımı için seçilmiş bitkiler</div>
               <a class="mega-feat-btn" href="bitkiler.html">
                 Keşfet
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
               </a>
             </div>
-
-            <!-- Dikey ayırıcı -->
-            <div class="mega-divider"></div>
-
-            <!-- Sağ: 3 Kolon Gruplar -->
+            <!-- Sağ: Kategoriler -->
             <div class="mega-cats">
+              <div class="mega-col-title">Canlılar</div>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🐠</div>
+                <div><div class="mega-item-label">Tatlı Su Balıkları</div><div class="mega-item-sub">Tropik, Soğuk su</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🪸</div>
+                <div><div class="mega-item-label">Tuzlu Su Balıkları</div><div class="mega-item-sub">Deniz türleri</div></div>
+              </a>
+              <a class="mega-item" href="bitkiler.html">
+                <div class="mega-item-icon">🌿</div>
+                <div><div class="mega-item-label">Canlı Bitkiler</div><div class="mega-item-sub">Aquascape</div></div>
+              </a>
+              <a class="mega-item" href="taslar.html">
+                <div class="mega-item-icon">🪨</div>
+                <div><div class="mega-item-label">Taşlar & Dekor</div><div class="mega-item-sub">Doğal taşlar</div></div>
+              </a>
 
-              <!-- Kolon 1: Canlılar -->
-              <div class="mega-group">
-                <div class="mega-col-title">🐟 Canlılar</div>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">🐠</div>
-                  <div><div class="mega-item-label">Tatlı Su Balıkları</div><div class="mega-item-sub">Tropik, Soğuk su</div></div>
-                </a>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">🪸</div>
-                  <div><div class="mega-item-label">Tuzlu Su Balıkları</div><div class="mega-item-sub">Deniz türleri</div></div>
-                </a>
-                <a class="mega-item" href="bitkiler.html">
-                  <div class="mega-item-icon">🌿</div>
-                  <div><div class="mega-item-label">Canlı Bitkiler</div><div class="mega-item-sub">Aquascape</div></div>
-                </a>
-                <a class="mega-item" href="taslar.html">
-                  <div class="mega-item-icon">🪨</div>
-                  <div><div class="mega-item-label">Taşlar & Dekor</div><div class="mega-item-sub">Doğal taşlar</div></div>
-                </a>
-              </div>
+              <div class="mega-col-title">Akvaryumlar</div>
+              <a class="mega-item" href="akvaryumlar.html">
+                <div class="mega-item-icon">🔲</div>
+                <div><div class="mega-item-label">Hazır Akvaryumlar</div><div class="mega-item-sub">Komple setler</div></div>
+              </a>
+              <a class="mega-item" href="akvaryumlar.html">
+                <div class="mega-item-icon">✨</div>
+                <div><div class="mega-item-label">Nano Akvaryum</div><div class="mega-item-sub">Küçük & dekoratif</div></div>
+              </a>
+              <a class="mega-item" href="akvaryumlar.html">
+                <div class="mega-item-icon">🌊</div>
+                <div><div class="mega-item-label">Deniz Akvaryumu</div><div class="mega-item-sub">Tuzlu su setleri</div></div>
+              </a>
+              <a class="mega-item" href="akvaryumlar.html">
+                <div class="mega-item-icon">🎨</div>
+                <div><div class="mega-item-label">Aquascape Set</div><div class="mega-item-sub">Doğa akvaryumu</div></div>
+              </a>
 
-              <!-- Kolon 2: Akvaryumlar -->
-              <div class="mega-group">
-                <div class="mega-col-title">🔲 Akvaryumlar</div>
-                <a class="mega-item" href="akvaryumlar.html">
-                  <div class="mega-item-icon">🔲</div>
-                  <div><div class="mega-item-label">Hazır Akvaryumlar</div><div class="mega-item-sub">Komple setler</div></div>
-                </a>
-                <a class="mega-item" href="akvaryumlar.html">
-                  <div class="mega-item-icon">✨</div>
-                  <div><div class="mega-item-label">Nano Akvaryum</div><div class="mega-item-sub">Küçük & dekoratif</div></div>
-                </a>
-                <a class="mega-item" href="akvaryumlar.html">
-                  <div class="mega-item-icon">🌊</div>
-                  <div><div class="mega-item-label">Deniz Akvaryumu</div><div class="mega-item-sub">Tuzlu su setleri</div></div>
-                </a>
-                <a class="mega-item" href="akvaryumlar.html">
-                  <div class="mega-item-icon">🎨</div>
-                  <div><div class="mega-item-label">Aquascape Set</div><div class="mega-item-sub">Doğa akvaryumu</div></div>
-                </a>
-              </div>
-
-              <!-- Kolon 3: Ekipman & Bakım -->
-              <div class="mega-group">
-                <div class="mega-col-title">⚙️ Ekipman & Bakım</div>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">⚙️</div>
-                  <div><div class="mega-item-label">Filtreler</div><div class="mega-item-sub">İç & dış filtre</div></div>
-                </a>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">💡</div>
-                  <div><div class="mega-item-label">Aydınlatma</div><div class="mega-item-sub">LED & T5</div></div>
-                </a>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">🌡️</div>
-                  <div><div class="mega-item-label">Isıtıcı & Soğutucu</div><div class="mega-item-sub">Su sıcaklık kontrolü</div></div>
-                </a>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">🧪</div>
-                  <div><div class="mega-item-label">Su Düzenleyiciler</div><div class="mega-item-sub">pH, nitrat, karbon</div></div>
-                </a>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">🍖</div>
-                  <div><div class="mega-item-label">Yemler</div><div class="mega-item-sub">Canlı & yapay yem</div></div>
-                </a>
-                <a class="mega-item" href="baliklar.html">
-                  <div class="mega-item-icon">💊</div>
-                  <div><div class="mega-item-label">Sağlık & Bakım</div><div class="mega-item-sub">İlaç & koruyucu</div></div>
-                </a>
-              </div>
-
+              <div class="mega-col-title">Ekipman & Bakım</div>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">⚙️</div>
+                <div><div class="mega-item-label">Filtreler</div><div class="mega-item-sub">İç & dış filtre</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">💡</div>
+                <div><div class="mega-item-label">Aydınlatma</div><div class="mega-item-sub">LED & T5</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🌡️</div>
+                <div><div class="mega-item-label">Isıtıcı & Soğutucu</div><div class="mega-item-sub">Su sıcaklık kontrolü</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🧪</div>
+                <div><div class="mega-item-label">Su Düzenleyiciler</div><div class="mega-item-sub">pH, nitrat, karbon</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🍖</div>
+                <div><div class="mega-item-label">Yemler</div><div class="mega-item-sub">Canlı & yapay yem</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🏔️</div>
+                <div><div class="mega-item-label">Akvaryum Kumları</div><div class="mega-item-sub">Doğal & renkli</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">💊</div>
+                <div><div class="mega-item-label">Sağlık & Bakım</div><div class="mega-item-sub">İlaç & koruyucu</div></div>
+              </a>
+              <a class="mega-item" href="baliklar.html">
+                <div class="mega-item-icon">🔬</div>
+                <div><div class="mega-item-label">Test Kitleri</div><div class="mega-item-sub">Su kalite testleri</div></div>
+              </a>
             </div>
-          </div>
-
-          <!-- Alt hızlı erişim şeridi -->
-          <div class="mega-footer">
-            <span class="mega-footer-label">Hızlı Erişim</span>
-            <a class="mega-quick-tag" href="baliklar.html">🐠 Tüm Balıklar</a>
-            <a class="mega-quick-tag" href="bitkiler.html">🌿 Bitkiler</a>
-            <a class="mega-quick-tag" href="akvaryumlar.html">🔲 Akvaryumlar</a>
-            <a class="mega-quick-tag" href="taslar.html">🪨 Aksesuar</a>
-            <a class="mega-quick-tag" href="baliklar.html" onclick="sessionStorage.setItem('fcat','Filtre')">⚙️ Filtreler</a>
           </div>
         </div>
       </div>
