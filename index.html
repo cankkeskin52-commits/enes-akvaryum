@@ -361,14 +361,17 @@ a{text-decoration:none;color:inherit;}
 .mega-btn svg{transition:transform .2s;flex-shrink:0;}
 
 .mega-panel{
-  position:absolute;top:calc(100% + 6px);left:-20px;
+  position:absolute;top:100%;left:-20px;
+  padding-top:8px; /* buton ile panel arasında köprü — hover kopmaz */
+  background:transparent;
+  opacity:0;pointer-events:none;transform:translateY(-4px);
+  transition:opacity .18s ease,transform .18s ease;z-index:200;
+}
+.mega-panel-inner{
   background:#fff;border-radius:14px;
   box-shadow:0 8px 40px rgba(0,10,30,0.14),0 2px 8px rgba(0,0,0,0.06);
   border:1px solid rgba(0,89,179,0.08);
-  display:flex;min-width:580px;
-  opacity:0;pointer-events:none;transform:translateY(-6px);
-  transition:opacity .15s ease,transform .15s ease;z-index:200;
-  overflow:hidden;
+  display:flex;min-width:580px;overflow:hidden;
 }
 .mega-wrap:hover .mega-panel,
 .mega-wrap:focus-within .mega-panel{opacity:1;pointer-events:all;transform:translateY(0);}
@@ -2385,6 +2388,7 @@ a{text-decoration:none;color:inherit;}
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="mega-panel" id="megaPanel">
+          <div class="mega-panel-inner">
           <!-- SOL KOLON -->
           <div class="mega-left">
             <a class="mega-cat" href="baliklar.html">Canlı Balık</a>
@@ -2491,6 +2495,7 @@ a{text-decoration:none;color:inherit;}
               <a class="mega-sub-item" href="ekipman.html">Pipo Filtreler</a>
             </div>
           </div>
+          </div><!-- /mega-panel-inner -->
         </div>
       </div>
 
