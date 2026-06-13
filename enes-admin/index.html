@@ -158,6 +158,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 .bnav-item.active::before{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:46px;height:36px;background:linear-gradient(160deg,rgba(0,82,212,.1),rgba(67,100,247,.06));border-radius:13px;pointer-events:none;}
 .bnav-badge{position:absolute;top:5px;right:calc(50% - 21px);background:var(--red);color:#fff;font-size:8px;font-weight:700;min-width:15px;height:15px;border-radius:8px;display:none;align-items:center;justify-content:center;padding:0 3px;z-index:2;}
 .bnav-badge.show{display:flex;}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;padding:10px 0 20px;}
+.cat-card{display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 8px;background:#fff;border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.cat-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08);border-color:var(--accent);}
+.cat-card:active{transform:scale(.97);}
+.cat-ico{font-size:26px;line-height:1;}
+.cat-lbl{font-size:12px;font-weight:600;color:#243b53;text-align:center;}
 
 /* PAGES */
 .page{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;padding-bottom:16px;}
@@ -437,6 +443,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     </div>
     <div class="dash-status">
       <div class="status-bar" id="dash-status-bar">⏳ Veriler yükleniyor...</div>
+    </div>
+
+    <!-- ÜRÜN KATEGORİLERİ KISAYOLLARI -->
+    <div class="sec-lbl" style="margin-top:20px;">ÜRÜN KATEGORİLERİ</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="goTab('fish')"><span class="cat-ico">🐟</span><span class="cat-lbl">Balık</span></div>
+      <div class="cat-card" onclick="goTab('yemler')"><span class="cat-ico">🐡</span><span class="cat-lbl">Yemler</span></div>
+      <div class="cat-card" onclick="goTab('plant')"><span class="cat-ico">🌿</span><span class="cat-lbl">Bitkiler</span></div>
+      <div class="cat-card" onclick="goTab('pproducts')"><span class="cat-ico">🌱</span><span class="cat-lbl">Bitki Ürün</span></div>
+      <div class="cat-card" onclick="goTab('aq')"><span class="cat-ico">🪸</span><span class="cat-lbl">Akvaryum</span></div>
+      <div class="cat-card" onclick="goTab('aksesuar')"><span class="cat-ico">🔧</span><span class="cat-lbl">Aksesuar</span></div>
+      <div class="cat-card" onclick="goSP('kum', document.querySelector('[data-tab=sp-kum]'))"><span class="cat-ico">🪨</span><span class="cat-lbl">Kumlar</span></div>
+      <div class="cat-card" onclick="goSP('dekor', document.querySelector('[data-tab=sp-dekor]'))"><span class="cat-ico">🌳</span><span class="cat-lbl">Dekorlar</span></div>
+      <div class="cat-card" onclick="goEQ('aydinlatma', document.querySelector('[data-tab=eq-ayd]'))"><span class="cat-ico">💡</span><span class="cat-lbl">Aydınlatma</span></div>
+      <div class="cat-card" onclick="goEQ('filtre', document.querySelector('[data-tab=eq-filtre]'))"><span class="cat-ico">⚙️</span><span class="cat-lbl">Filtreler</span></div>
     </div>
   </div>
 
