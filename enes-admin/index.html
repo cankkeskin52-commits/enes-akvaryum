@@ -1402,7 +1402,7 @@ function updateDash() {
   set('d-ayd', ayd);
   set('d-filtre', eqList.length - ayd);
   set('d-health', heList.length);
-  set('d-ig', igPosts.length);
+  set('d-ig', (typeof igList !== 'undefined' ? igList.length : 0));
   document.getElementById('d-members').textContent = window._memberCount !== undefined ? window._memberCount : subList.length;
   if(window._memberCount!==undefined) document.getElementById('d-members').textContent = window._memberCount;
   document.getElementById('d-rv').textContent = reviewList.length;
