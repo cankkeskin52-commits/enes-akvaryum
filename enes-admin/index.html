@@ -685,9 +685,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
   <!-- Taş & Dekor Ürünleri -->
   <div class="page" id="page-sproducts">
-    <div class="sec-lbl">YENİ TAŞ & DEKOR EKLE</div>
+    <div class="sec-lbl" id="sp-sec-lbl">YENİ KUM EKLE</div>
     <div class="add-card">
-      <div class="add-card-title">🪨 Taş & Dekor Ürünleri</div>
+      <div class="add-card-title" id="sp-card-title">🪨 Akvaryum Kumları</div>
       <img id="sp-img-preview" class="img-preview">
       <div class="photo-row">
         <label class="photo-btn" for="sp-photo">📷 Fotoğraf Seç</label>
@@ -697,18 +697,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="fg"><label>Ürün Adı *</label><input class="fi" id="f-spname" type="text" placeholder="ör. Lava Taşı" autocomplete="off"></div>
       <div class="fg"><label>Alt Kategori *</label>
         <select class="fi" id="f-spsubcat">
-          <optgroup label="── Akvaryum Dekorları ──">
+          <optgroup label="── Akvaryum Dekorları ──" id="sp-og-dekor">
             <option value="arka_fon">Arka Fon & Manzaralar</option>
             <option value="doğal_dekor">Doğal Dekorlar</option>
             <option value="yapay_dekor">Yapay Dekorlar</option>
           </optgroup>
-          <optgroup label="── Akvaryum Kumları ──">
+          <optgroup label="── Akvaryum Kumları ──" id="sp-og-kum">
             <option value="doğal_kum">Doğal Kum</option>
             <option value="renkli_kum">Renkli Kum</option>
             <option value="bitki_toprağı">Bitki Toprağı</option>
             <option value="volkanik_kum">Volkanik Kum</option>
           </optgroup>
-          <optgroup label="── Taşlar & Kökler ──">
+          <optgroup label="── Taşlar & Kökler ──" id="sp-og-tas">
             <option value="doğal_taş">Doğal Taşlar</option>
             <option value="kök_ağaç">Kökler & Ağaç</option>
           </optgroup>
@@ -723,15 +723,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <button class="btn-p" id="sp-add-btn" onclick="saveSPItem()">+ Ekle</button>
       <button class="btn-danger" id="sp-del-btn" onclick="deleteSPItem()" style="display:none">Sil</button>
     </div>
-    <div class="sec-lbl">MEVCUT TAŞ & DEKOR ÜRÜNLERİ</div>
+    <div class="sec-lbl" id="sp-list-lbl">MEVCUT KUMLAR</div>
     <div class="item-list" id="sp-list"></div>
   </div>
 
   <!-- Ekipman -->
   <div class="page" id="page-equipment">
-    <div class="sec-lbl">YENİ EKİPMAN EKLE</div>
+    <div class="sec-lbl" id="eq-sec-lbl">YENİ AYDINLATMA EKLE</div>
     <div class="add-card">
-      <div class="add-card-title">⚙️ Ekipman</div>
+      <div class="add-card-title" id="eq-card-title">💡 Aydınlatmalar</div>
       <img id="eq-img-preview" class="img-preview">
       <div class="photo-row">
         <label class="photo-btn" for="eq-photo">📷 Fotoğraf Seç</label>
@@ -741,7 +741,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="fg"><label>Ürün Adı *</label><input class="fi" id="f-eqname" type="text" placeholder="ör. Eheim Classic 250" autocomplete="off"></div>
       <div class="fg"><label>Alt Kategori *</label>
         <select class="fi" id="f-eqsubcat">
-          <optgroup label="── Filtreler ──">
+          <optgroup label="── Filtreler ──" id="eq-og-filtre">
             <option value="dis_filtre">Dış Filtre</option>
             <option value="ic_filtre">İç Filtre</option>
             <option value="aski_filtre">Askı Filtre</option>
@@ -750,16 +750,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
             <option value="pipo_filtre">Pipo Filtre</option>
             <option value="filtre_malzeme">Filtre Malzemeleri</option>
           </optgroup>
-          <optgroup label="── Motorlar ──">
+          <optgroup label="── Motorlar ──" id="eq-og-motor">
             <option value="hava_motoru">Hava Motoru</option>
             <option value="dalga_motoru">Dalga Motoru</option>
             <option value="kafa_sump_motoru">Kafa & Sump Motoru</option>
           </optgroup>
-          <optgroup label="── Aydınlatma ──">
+          <optgroup label="── Aydınlatma ──" id="eq-og-ayd">
             <option value="led">LED Aydınlatma</option>
             <option value="floresan_lamba">Floresan & Lamba</option>
           </optgroup>
-          <optgroup label="── Diğer Ekipmanlar ──">
+          <optgroup label="── Diğer Ekipmanlar ──" id="eq-og-diger">
             <option value="otomatik_yemleme">Otomatik Yemleme</option>
             <option value="su_duzenleyici">Su Düzenleyici</option>
             <option value="saglik_bakim">Sağlık & Bakım</option>
@@ -779,7 +779,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <button class="btn-p" id="eq-add-btn" onclick="saveEQItem()">+ Ekle</button>
       <button class="btn-danger" id="eq-del-btn" onclick="deleteEQItem()" style="display:none">Sil</button>
     </div>
-    <div class="sec-lbl">MEVCUT EKİPMANLAR</div>
+    <div class="sec-lbl" id="eq-list-lbl">MEVCUT AYDINLATMALAR</div>
     <div class="item-list" id="eq-list"></div>
   </div>
 
@@ -909,13 +909,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="bnav-icon">🔧</div>
       <div class="bnav-label">Aksesuar</div>
     </div>
-    <div class="bnav-item" data-tab="sproducts" onclick="goTab('sproducts')">
+    <div class="bnav-item" data-tab="sp-kum" onclick="goSP('kum', this)">
       <div class="bnav-icon">🪨</div>
-      <div class="bnav-label">Taş&Dekor</div>
+      <div class="bnav-label">Kumlar</div>
     </div>
-    <div class="bnav-item" data-tab="equipment" onclick="goTab('equipment')">
+    <div class="bnav-item" data-tab="sp-dekor" onclick="goSP('dekor', this)">
+      <div class="bnav-icon">🌳</div>
+      <div class="bnav-label">Dekorlar</div>
+    </div>
+    <div class="bnav-item" data-tab="eq-ayd" onclick="goEQ('aydinlatma', this)">
+      <div class="bnav-icon">💡</div>
+      <div class="bnav-label">Aydınlatma</div>
+    </div>
+    <div class="bnav-item" data-tab="eq-filtre" onclick="goEQ('filtre', this)">
       <div class="bnav-icon">⚙️</div>
-      <div class="bnav-label">Ekipman</div>
+      <div class="bnav-label">Filtreler</div>
     </div>
     <div class="bnav-item" data-tab="orders" onclick="goTab('orders')">
       <div class="bnav-icon">📦</div>
@@ -1172,6 +1180,8 @@ function showApp() {
   }
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
+  applySPGroup();
+  applyEQGroup();
   loadData();
   fetchMemberCount();
 }
@@ -1196,6 +1206,55 @@ function goTab(tab) {
   if (tab === 'instagram') loadIgPosts();
   if (tab === 'orders') loadRecentOrders();
   if (tab === 'subs') loadMembers();
+}
+
+/* ══ SİTE KATEGORİ FİLTRELERİ — Kum/Dekor (sproducts) & Aydınlatma/Filtre (equipment) ══ */
+let spGroup = 'kum';        // 'kum' | 'dekor'
+let eqGroup = 'aydinlatma'; // 'aydinlatma' | 'filtre'
+const SP_KUM_SUBS = ['doğal_kum','renkli_kum','bitki_toprağı','volkanik_kum'];
+const EQ_AYD_SUBS = ['led','floresan_lamba'];
+function spInGroup(sc){ const isKum = SP_KUM_SUBS.includes(sc); return spGroup === 'kum' ? isKum : !isKum; }
+function eqInGroup(sc){ const isAyd = EQ_AYD_SUBS.includes(sc); return eqGroup === 'aydinlatma' ? isAyd : !isAyd; }
+
+function applySPGroup(){
+  const kum = spGroup === 'kum';
+  document.getElementById('sp-sec-lbl').textContent  = kum ? 'YENİ KUM EKLE' : 'YENİ DEKOR EKLE';
+  document.getElementById('sp-card-title').textContent = kum ? '🪨 Akvaryum Kumları' : '🌳 Akvaryum Dekorları';
+  document.getElementById('sp-list-lbl').textContent = kum ? 'MEVCUT KUMLAR' : 'MEVCUT DEKORLAR';
+  document.getElementById('sp-og-kum').style.display   = kum ? '' : 'none';
+  document.getElementById('sp-og-dekor').style.display = kum ? 'none' : '';
+  document.getElementById('sp-og-tas').style.display   = kum ? 'none' : '';
+  selectFirstVisible('f-spsubcat');
+}
+function applyEQGroup(){
+  const ayd = eqGroup === 'aydinlatma';
+  document.getElementById('eq-sec-lbl').textContent  = ayd ? 'YENİ AYDINLATMA EKLE' : 'YENİ FİLTRE / EKİPMAN EKLE';
+  document.getElementById('eq-card-title').textContent = ayd ? '💡 Aydınlatmalar' : '⚙️ Filtreler & Ekipman';
+  document.getElementById('eq-list-lbl').textContent = ayd ? 'MEVCUT AYDINLATMALAR' : 'MEVCUT FİLTRE / EKİPMANLAR';
+  document.getElementById('eq-og-ayd').style.display    = ayd ? '' : 'none';
+  document.getElementById('eq-og-filtre').style.display = ayd ? 'none' : '';
+  document.getElementById('eq-og-motor').style.display  = ayd ? 'none' : '';
+  document.getElementById('eq-og-diger').style.display  = ayd ? 'none' : '';
+  selectFirstVisible('f-eqsubcat');
+}
+function selectFirstVisible(selId){
+  const sel = document.getElementById(selId);
+  for (const o of sel.options){ if (o.parentNode.style.display !== 'none'){ o.selected = true; return; } }
+}
+function activateSharedPage(pageId, el){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  if (el) el.classList.add('active');
+  document.getElementById(pageId).scrollTop = 0;
+}
+function goSP(group, el){
+  spGroup = group; resetSPForm(); applySPGroup(); renderSPList();
+  activateSharedPage('page-sproducts', el);
+}
+function goEQ(group, el){
+  eqGroup = group; resetEQForm(); applyEQGroup(); renderEQList();
+  activateSharedPage('page-equipment', el);
 }
 
 /* ══ DATA ══ */
@@ -2129,8 +2188,7 @@ function deleteSPItem() {
 }
 function renderSPList() {
   const el = document.getElementById('sp-list'); if (!el) return;
-  if (!spList.length) { el.innerHTML = '<div style="padding:12px;color:var(--text2);font-size:13px;">Henüz ürün yok.</div>'; return; }
-  el.innerHTML = spList.map((p, i) => `
+  const rows = spList.map((p, i) => spInGroup(p.subcategory) ? `
     <div class="item-card" onclick="editSPItem(${i})">
       ${p.img ? `<img class="item-thumb" src="${p.img}" alt="">` : '<div class="item-thumb-placeholder">🪨</div>'}
       <div class="item-info">
@@ -2138,10 +2196,13 @@ function renderSPList() {
         <div class="item-meta">${p.subcategory || ''} ${p.price ? '· ' + Number(p.price).toLocaleString('tr-TR') + ' ₺' : ''}</div>
       </div>
       <div class="item-price" style="flex-shrink:0;font-size:12px;">›</div>
-    </div>`).join('');
+    </div>` : '').join('');
+  el.innerHTML = rows.trim() ? rows : '<div style="padding:12px;color:var(--text2);font-size:13px;">Henüz ürün yok.</div>';
 }
 function editSPItem(i) {
   const p = spList[i]; editSPIdx = i;
+  spGroup = SP_KUM_SUBS.includes(p.subcategory) ? 'kum' : 'dekor';
+  applySPGroup();
   document.getElementById('f-spname').value = p.name || '';
   const sc = document.getElementById('f-spsubcat');
   for (let o of sc.options) if (o.value === p.subcategory) { o.selected = true; break; }
@@ -2151,7 +2212,6 @@ function editSPItem(i) {
   if (p.img) { spImgUrl = p.img; const prev = document.getElementById('sp-img-preview'); prev.src = p.img; prev.style.display = 'block'; document.getElementById('sp-cancel-img').style.display = 'inline-flex'; }
   document.getElementById('sp-add-btn').textContent = '✓ Güncelle';
   document.getElementById('sp-del-btn').style.display = 'block';
-  goTab('sproducts');
   document.getElementById('page-sproducts').scrollTop = 0;
 }
 
@@ -2208,19 +2268,21 @@ function deleteEQItem() {
 }
 function renderEQList() {
   const el = document.getElementById('eq-list'); if (!el) return;
-  if (!eqList.length) { el.innerHTML = '<div style="padding:12px;color:var(--text2);font-size:13px;">Henüz ürün yok.</div>'; return; }
-  el.innerHTML = eqList.map((p, i) => `
+  const rows = eqList.map((p, i) => eqInGroup(p.subcategory) ? `
     <div class="item-card" onclick="editEQItem(${i})">
-      ${p.img ? `<img class="item-thumb" src="${p.img}" alt="">` : '<div class="item-thumb-placeholder">⚙️</div>'}
+      ${p.img ? `<img class="item-thumb" src="${p.img}" alt="">` : `<div class="item-thumb-placeholder">${eqGroup === 'aydinlatma' ? '💡' : '⚙️'}</div>`}
       <div class="item-info">
         <div class="item-name">${p.name}</div>
         <div class="item-meta">${p.subcategory || ''} ${p.price ? '· ' + Number(p.price).toLocaleString('tr-TR') + ' ₺' : ''}</div>
       </div>
       <div class="item-price" style="flex-shrink:0;font-size:12px;">›</div>
-    </div>`).join('');
+    </div>` : '').join('');
+  el.innerHTML = rows.trim() ? rows : '<div style="padding:12px;color:var(--text2);font-size:13px;">Henüz ürün yok.</div>';
 }
 function editEQItem(i) {
   const p = eqList[i]; editEQIdx = i;
+  eqGroup = EQ_AYD_SUBS.includes(p.subcategory) ? 'aydinlatma' : 'filtre';
+  applyEQGroup();
   document.getElementById('f-eqname').value = p.name || '';
   const sc = document.getElementById('f-eqsubcat');
   for (let o of sc.options) if (o.value === p.subcategory) { o.selected = true; break; }
@@ -2230,7 +2292,6 @@ function editEQItem(i) {
   if (p.img) { eqImgUrl = p.img; const prev = document.getElementById('eq-img-preview'); prev.src = p.img; prev.style.display = 'block'; document.getElementById('eq-cancel-img').style.display = 'inline-flex'; }
   document.getElementById('eq-add-btn').textContent = '✓ Güncelle';
   document.getElementById('eq-del-btn').style.display = 'block';
-  goTab('equipment');
   document.getElementById('page-equipment').scrollTop = 0;
 }
 
