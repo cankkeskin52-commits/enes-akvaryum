@@ -1179,6 +1179,29 @@ function toggleSound(){_soundOn=!_soundOn;const btn=document.getElementById('sou
   window.addEventListener('resize',fnavInit,{passive:true});
   setTimeout(fnavInit,150);
 })();
+
+function showMegaSub(id){
+  // tüm sağ panelleri gizle
+  document.querySelectorAll('.mega-sub-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mega-cat[data-sub]').forEach(b=>b.classList.remove('active'));
+  // hedef paneli göster
+  const panel=document.getElementById('msub-'+id);
+  if(panel) panel.classList.add('active');
+  // aktif butonu işaretle
+  const btn=document.querySelector('.mega-cat[data-sub="'+id+'"]');
+  if(btn) btn.classList.add('active');
+}
+// panel kapandığında default'a dön
+(function(){
+  const wrap=document.getElementById('megaWrap');
+  if(!wrap) return;
+  wrap.addEventListener('mouseleave',function(){
+    document.querySelectorAll('.mega-sub-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.mega-cat[data-sub]').forEach(b=>b.classList.remove('active'));
+    const def=document.getElementById('msub-default');
+    if(def) def.classList.add('active');
+  });
+})();
 </script>
 </body>
 </html>
