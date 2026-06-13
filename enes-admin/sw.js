@@ -1,4 +1,4 @@
-const CACHE = 'ea-admin-v9';
+const CACHE = 'ea-admin-v10';
 const STATIC = ['/enes-admin/icon-192.png', '/enes-admin/icon-512.png'];
 
 self.addEventListener('install', e => {

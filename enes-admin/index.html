@@ -55,6 +55,8 @@ if('serviceWorker' in navigator){
       }
       // 5 dk'da bir güncelleme kontrolü
       setInterval(()=>r.update(), 5*60*1000);
+      // Uygulamaya geri dönülünce (PWA arka plandan açılınca) hemen kontrol et
+      document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') r.update(); });
     });
     navigator.serviceWorker.addEventListener('controllerchange', ()=>window.location.reload());
     navigator.serviceWorker.addEventListener('message', e=>{
