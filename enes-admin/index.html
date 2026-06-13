@@ -470,6 +470,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <div class="dc-val blue" id="d-filtre">—</div>
         <div class="dc-sub">ürün</div>
       </div>
+      <div class="dc c-red" onclick="goTab('health')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">💊</div>
+        <div class="dc-lbl">Balık Sağlığı</div>
+        <div class="dc-val red" id="d-health">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
     </div>
 
     <div class="sec-lbl" style="margin:16px 0 2px;">YÖNETİM</div>
@@ -945,6 +952,42 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     <div class="item-list" id="ak-list"></div>
   </div>
 
+  <!-- BALIK SAĞLIĞI / TEDAVİ -->
+  <div class="page" id="page-health">
+    <div class="sec-lbl">YENİ SAĞLIK ÜRÜNÜ EKLE</div>
+    <div class="add-card">
+      <div class="add-card-title">💊 Balık Sağlığı / Tedavi</div>
+      <img id="he-img-preview" class="img-preview">
+      <div class="photo-row">
+        <label class="photo-btn" for="he-photo">📷 Fotoğraf Seç</label>
+        <input type="file" id="he-photo" accept="image/*" style="display:none" onchange="handleHEPhoto(this)">
+        <button class="cancel-img-btn" id="he-cancel-img" onclick="cancelHEImg()">✕ İptal</button>
+      </div>
+      <div class="fg"><label>Ürün Adı *</label><input class="fi" id="f-hename" type="text" placeholder="ör. Mantar İlacı" autocomplete="off"></div>
+      <div class="fg"><label>Alt Kategori *</label>
+        <select class="fi" id="f-hesubcat">
+          <option value="mantar">Mantar İlaçları</option>
+          <option value="bakteri">Bakteriyel İlaçlar</option>
+          <option value="parazit">Parazit / Beyaz Benek</option>
+          <option value="genel_tedavi">Genel Tedavi</option>
+          <option value="vitamin">Vitamin & Bağışıklık</option>
+          <option value="stres">Stres Önleyici</option>
+          <option value="diger_saglik">Diğer Sağlık Ürünleri</option>
+        </select>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Fiyat (₺)</label><input class="fi" id="f-heprice" type="number" placeholder="0" inputmode="numeric"></div>
+        <div class="fg"><label>Stok</label><input class="fi" id="f-hestock" type="number" placeholder="—" inputmode="numeric"></div>
+      </div>
+      <div class="fg"><label>Not</label><input class="fi" id="f-henote" type="text" placeholder="Kısa açıklama" autocomplete="off"></div>
+      <div class="save-status" id="he-save-status"></div>
+      <button class="btn-p" id="he-add-btn" onclick="saveHEItem()">+ Ekle</button>
+      <button class="btn-danger" id="he-del-btn" onclick="deleteHEItem()" style="display:none">Sil</button>
+    </div>
+    <div class="sec-lbl">MEVCUT SAĞLIK ÜRÜNLERİ</div>
+    <div class="item-list" id="he-list"></div>
+  </div>
+
   <!-- INSTAGRAM -->
   <div class="page" id="page-instagram">
     <div class="sec-lbl">YENİ POST EKLE</div>
@@ -979,13 +1022,13 @@ const SESSION_KEY = 'ea_admin_logged';
 
 /* ══ STATE ══ */
 let fishList = [], plantList = [], aqList = [], reviewList = [], subList = [], stockAlerts = [];
-let ppList = [], spList = [], eqList = [], ymList = [], akList = [];
+let ppList = [], spList = [], eqList = [], ymList = [], akList = [], heList = [];
 let _visits = 0;
 let editFishIdx = -1, editPlantIdx = -1, editAqIdx = -1;
-let editPPIdx = -1, editSPIdx = -1, editEQIdx = -1, editYMIdx = -1, editAKIdx = -1;
+let editPPIdx = -1, editSPIdx = -1, editEQIdx = -1, editYMIdx = -1, editAKIdx = -1, editHEIdx = -1;
 let fishImgUrl = '', plantImgUrl = '', aqImgUrl = '';
-let ppImgUrl = '', spImgUrl = '', eqImgUrl = '', ymImgUrl = '', akImgUrl = '';
-let ymFile = null, akFile = null;
+let ppImgUrl = '', spImgUrl = '', eqImgUrl = '', ymImgUrl = '', akImgUrl = '', heImgUrl = '';
+let ymFile = null, akFile = null, heFile = null;
 let fishFile = null, plantFile = null, aqFile = null;
 let ppFile = null, spFile = null, eqFile = null;
 let selStars = 3;
@@ -1305,6 +1348,7 @@ async function loadData() {
     eqList = d.equipment || [];
     ymList = d.yemler || [];
     akList = d.aksesuarlar || [];
+    heList = d.health || [];
     _visits = d.visits || 0;
     localStorage.setItem('ea_admin_cache', JSON.stringify({ fish: fishList, plants: plantList, aquariums: aqList, reviews: reviewList, subscribers: subList }));
     setSyncDot('ok');
@@ -1328,7 +1372,7 @@ async function saveAll(statusEl) {
     const r = await fetch(WORKER, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('ea_admin_token')||''}` },
-      body: JSON.stringify({ fish: fishList, plants: plantList, aquariums: aqList, reviews: reviewList, subscribers: subList, stockAlerts, visits: _visits, plant_products: ppList, stone_products: spList, equipment: eqList, yemler: ymList, aksesuarlar: akList })
+      body: JSON.stringify({ fish: fishList, plants: plantList, aquariums: aqList, reviews: reviewList, subscribers: subList, stockAlerts, visits: _visits, plant_products: ppList, stone_products: spList, equipment: eqList, yemler: ymList, aksesuarlar: akList, health: heList })
     });
     if (r.status === 401) { toast('Oturum süresi doldu, tekrar giriş yapın.', 'err'); doLogout(); return false; }
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1357,6 +1401,7 @@ function updateDash() {
   const ayd = eqList.filter(p => EQ_AYD_SUBS.includes(p.subcategory)).length;
   set('d-ayd', ayd);
   set('d-filtre', eqList.length - ayd);
+  set('d-health', heList.length);
   set('d-ig', igPosts.length);
   document.getElementById('d-members').textContent = window._memberCount !== undefined ? window._memberCount : subList.length;
   if(window._memberCount!==undefined) document.getElementById('d-members').textContent = window._memberCount;
@@ -1381,6 +1426,7 @@ function renderAll() {
   renderEQList();
   renderYMList();
   renderAKList();
+  renderHEList();
 }
 
 /* ══ CLOUDINARY UPLOAD ══ */
@@ -2486,6 +2532,85 @@ function editAKItem(i) {
   document.getElementById('ak-del-btn').style.display = 'block';
   goTab('aksesuar');
   document.getElementById('page-aksesuar').scrollTop = 0;
+}
+
+/* ══ BALIK SAĞLIĞI / TEDAVİ (HE) ══ */
+function handleHEPhoto(inp) {
+  const f = inp.files[0]; if (!f) return;
+  heFile = f;
+  const prev = document.getElementById('he-img-preview');
+  prev.src = URL.createObjectURL(f); prev.style.display = 'block';
+  document.getElementById('he-cancel-img').style.display = 'inline-flex';
+}
+function cancelHEImg() {
+  heFile = null; heImgUrl = '';
+  const prev = document.getElementById('he-img-preview');
+  prev.src = ''; prev.style.display = 'none';
+  document.getElementById('he-photo').value = '';
+  document.getElementById('he-cancel-img').style.display = 'none';
+}
+function resetHEForm() {
+  document.getElementById('f-hename').value = '';
+  document.getElementById('f-hesubcat').selectedIndex = 0;
+  document.getElementById('f-heprice').value = '';
+  document.getElementById('f-hestock').value = '';
+  document.getElementById('f-henote').value = '';
+  cancelHEImg();
+  editHEIdx = -1;
+  document.getElementById('he-add-btn').textContent = '+ Ekle';
+  document.getElementById('he-del-btn').style.display = 'none';
+}
+async function saveHEItem() {
+  const name = document.getElementById('f-hename').value.trim();
+  if (!name) { toast('Ürün adı zorunlu', 'err'); return; }
+  const statusEl = 'he-save-status';
+  document.getElementById(statusEl).textContent = '⏳ Kaydediliyor...';
+  let imgUrl = heImgUrl;
+  if (heFile) { imgUrl = await uploadCloudinary(heFile) || ''; }
+  const item = {
+    name,
+    subcategory: document.getElementById('f-hesubcat').value,
+    price: Number(document.getElementById('f-heprice').value) || 0,
+    stock: document.getElementById('f-hestock').value !== '' ? Number(document.getElementById('f-hestock').value) : null,
+    note: document.getElementById('f-henote').value.trim(),
+    img: imgUrl,
+    outOfStock: false
+  };
+  if (editHEIdx >= 0) { heList[editHEIdx] = item; } else { heList.unshift(item); }
+  const ok = await saveAll(statusEl);
+  if (ok) { toast('✓ Kaydedildi', 'ok'); resetHEForm(); renderHEList(); }
+}
+function deleteHEItem() {
+  if (editHEIdx < 0) return;
+  heList.splice(editHEIdx, 1);
+  saveAll().then(() => { toast('Silindi', 'ok'); resetHEForm(); renderHEList(); });
+}
+function renderHEList() {
+  const el = document.getElementById('he-list'); if (!el) return;
+  if (!heList.length) { el.innerHTML = '<div style="padding:12px;color:var(--text2);font-size:13px;">Henüz ürün yok.</div>'; return; }
+  el.innerHTML = heList.map((p, i) => `
+    <div class="item-card" onclick="editHEItem(${i})">
+      ${p.img ? `<img class="item-thumb" src="${p.img}" alt="">` : '<div class="item-thumb-placeholder">💊</div>'}
+      <div class="item-info">
+        <div class="item-name">${p.name}</div>
+        <div class="item-meta">${p.subcategory || ''} ${p.price ? '· ' + Number(p.price).toLocaleString('tr-TR') + ' ₺' : ''}</div>
+      </div>
+      <div class="item-price" style="flex-shrink:0;font-size:12px;">›</div>
+    </div>`).join('');
+}
+function editHEItem(i) {
+  const p = heList[i]; editHEIdx = i;
+  document.getElementById('f-hename').value = p.name || '';
+  const sc = document.getElementById('f-hesubcat');
+  for (let o of sc.options) if (o.value === p.subcategory) { o.selected = true; break; }
+  document.getElementById('f-heprice').value = p.price || '';
+  document.getElementById('f-hestock').value = p.stock != null ? p.stock : '';
+  document.getElementById('f-henote').value = p.note || '';
+  if (p.img) { heImgUrl = p.img; const prev = document.getElementById('he-img-preview'); prev.src = p.img; prev.style.display = 'block'; document.getElementById('he-cancel-img').style.display = 'inline-flex'; }
+  document.getElementById('he-add-btn').textContent = '✓ Güncelle';
+  document.getElementById('he-del-btn').style.display = 'block';
+  goTab('health');
+  document.getElementById('page-health').scrollTop = 0;
 }
 </script>
 </body>
