@@ -380,7 +380,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 <div id="app" style="display:none;">
   <!-- Header -->
   <div class="hdr">
-    <div class="hdr-left">
+    <div class="hdr-left" onclick="goTab('dash')" style="cursor:pointer;">
       <img src="/enes-admin/icon.svg" style="width:38px;height:38px;border-radius:10px;" alt="logo">
       <div class="hdr-brand">
         <div class="hdr-title">ENES AKVARYUM</div>
@@ -388,6 +388,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       </div>
     </div>
     <div class="hdr-right">
+      <div class="logout-btn" id="home-btn" onclick="goTab('dash')" style="display:none;margin-right:8px;">🏠 Panel</div>
       <div class="sync-dot" id="sync-dot" title="Bağlantı durumu"></div>
       <div class="logout-btn" onclick="doLogout()">Çıkış</div>
     </div>
@@ -458,6 +459,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
       <div class="cat-card" onclick="goSP('dekor', document.querySelector('[data-tab=sp-dekor]'))"><span class="cat-ico">🌳</span><span class="cat-lbl">Dekorlar</span></div>
       <div class="cat-card" onclick="goEQ('aydinlatma', document.querySelector('[data-tab=eq-ayd]'))"><span class="cat-ico">💡</span><span class="cat-lbl">Aydınlatma</span></div>
       <div class="cat-card" onclick="goEQ('filtre', document.querySelector('[data-tab=eq-filtre]'))"><span class="cat-ico">⚙️</span><span class="cat-lbl">Filtreler</span></div>
+    </div>
+
+    <div class="sec-lbl" style="margin-top:14px;">YÖNETİM</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="goTab('orders')"><span class="cat-ico">📦</span><span class="cat-lbl">Siparişler</span></div>
+      <div class="cat-card" onclick="goTab('campaigns')"><span class="cat-ico">🎁</span><span class="cat-lbl">Kampanya</span></div>
+      <div class="cat-card" onclick="goTab('alerts')"><span class="cat-ico">🔔</span><span class="cat-lbl">Stok İsteği</span></div>
+      <div class="cat-card" onclick="goTab('subs')"><span class="cat-ico">👥</span><span class="cat-lbl">Üyeler</span></div>
+      <div class="cat-card" onclick="goTab('reviews')"><span class="cat-ico">💬</span><span class="cat-lbl">Yorumlar</span></div>
+      <div class="cat-card" onclick="goTab('instagram')"><span class="cat-ico">📸</span><span class="cat-lbl">Instagram</span></div>
     </div>
   </div>
 
@@ -903,74 +914,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 14px;" id="ig-list"></div>
   </div>
 
-  <!-- Bottom Nav -->
-  <div class="bnav">
-    <div class="bnav-item active" data-tab="dash" onclick="goTab('dash')">
-      <div class="bnav-icon">🏠</div>
-      <div class="bnav-label">Panel</div>
-    </div>
-    <div class="bnav-item" data-tab="fish" onclick="goTab('fish')">
-      <div class="bnav-icon">🐟</div>
-      <div class="bnav-label">Balık</div>
-    </div>
-    <div class="bnav-item" data-tab="yemler" onclick="goTab('yemler')">
-      <div class="bnav-icon">🐡</div>
-      <div class="bnav-label">Yemler</div>
-    </div>
-    <div class="bnav-item" data-tab="plant" onclick="goTab('plant')">
-      <div class="bnav-icon">🌿</div>
-      <div class="bnav-label">Bitkiler</div>
-    </div>
-    <div class="bnav-item" data-tab="pproducts" onclick="goTab('pproducts')">
-      <div class="bnav-icon">🌱</div>
-      <div class="bnav-label">Bitki Ürün</div>
-    </div>
-    <div class="bnav-item" data-tab="aq" onclick="goTab('aq')">
-      <div class="bnav-icon">🪸</div>
-      <div class="bnav-label">Akvaryum</div>
-    </div>
-    <div class="bnav-item" data-tab="aksesuar" onclick="goTab('aksesuar')">
-      <div class="bnav-icon">🔧</div>
-      <div class="bnav-label">Aksesuar</div>
-    </div>
-    <div class="bnav-item" data-tab="sp-kum" onclick="goSP('kum', this)">
-      <div class="bnav-icon">🪨</div>
-      <div class="bnav-label">Kumlar</div>
-    </div>
-    <div class="bnav-item" data-tab="sp-dekor" onclick="goSP('dekor', this)">
-      <div class="bnav-icon">🌳</div>
-      <div class="bnav-label">Dekorlar</div>
-    </div>
-    <div class="bnav-item" data-tab="eq-ayd" onclick="goEQ('aydinlatma', this)">
-      <div class="bnav-icon">💡</div>
-      <div class="bnav-label">Aydınlatma</div>
-    </div>
-    <div class="bnav-item" data-tab="eq-filtre" onclick="goEQ('filtre', this)">
-      <div class="bnav-icon">⚙️</div>
-      <div class="bnav-label">Filtreler</div>
-    </div>
-    <div class="bnav-item" data-tab="orders" onclick="goTab('orders')">
-      <div class="bnav-icon">📦</div>
-      <div class="bnav-label">Siparişler</div>
-    </div>
-    <div class="bnav-item" data-tab="campaigns" onclick="goTab('campaigns')">
-      <div class="bnav-icon">🎁</div>
-      <div class="bnav-label">Kampanya</div>
-    </div>
-    <div class="bnav-item" data-tab="alerts" onclick="goTab('alerts')" style="position:relative;">
-      <div class="bnav-icon">🔔</div>
-      <div class="bnav-badge" id="alert-badge"></div>
-      <div class="bnav-label">Stok</div>
-    </div>
-    <div class="bnav-item" data-tab="subs" onclick="goTab('subs')">
-      <div class="bnav-icon">👥</div>
-      <div class="bnav-label">Üyeler</div>
-    </div>
-    <div class="bnav-item" data-tab="instagram" onclick="goTab('instagram')">
-      <div class="bnav-icon">📸</div>
-      <div class="bnav-label">Instagram</div>
-    </div>
-  </div>
 </div>
 
 <!-- Toast -->
@@ -1226,6 +1169,8 @@ function goTab(tab) {
   document.getElementById('page-' + tab).classList.add('active');
   document.querySelector(`[data-tab="${tab}"]`)?.classList.add('active');
   document.getElementById('page-' + tab).scrollTop = 0;
+  const hb = document.getElementById('home-btn');
+  if (hb) hb.style.display = tab === 'dash' ? 'none' : 'flex';
   if (tab === 'campaigns') loadCampaigns();
   if (tab === 'instagram') loadIgPosts();
   if (tab === 'orders') loadRecentOrders();
@@ -1271,6 +1216,8 @@ function activateSharedPage(pageId, el){
   document.getElementById(pageId).classList.add('active');
   if (el) el.classList.add('active');
   document.getElementById(pageId).scrollTop = 0;
+  const hb = document.getElementById('home-btn');
+  if (hb) hb.style.display = 'flex';
 }
 function goSP(group, el){
   spGroup = group; resetSPForm(); applySPGroup(); renderSPList();
@@ -1354,8 +1301,10 @@ function updateDash() {
   document.getElementById('d-rv').textContent = reviewList.length;
   document.getElementById('d-alerts').textContent = stockAlerts.length;
   const badge = document.getElementById('alert-badge');
-  if (stockAlerts.length) { badge.textContent = stockAlerts.length; badge.classList.add('show'); }
-  else { badge.classList.remove('show'); }
+  if (badge) {
+    if (stockAlerts.length) { badge.textContent = stockAlerts.length; badge.classList.add('show'); }
+    else { badge.classList.remove('show'); }
+  }
 }
 
 function renderAll() {
