@@ -398,6 +398,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
 
   <!-- DASHBOARD -->
   <div class="page active" id="page-dash">
+    <div class="sec-lbl" style="margin:4px 0 2px;">ÜRÜN KATEGORİLERİ</div>
     <div class="dash-grid">
       <div class="dc c-teal" onclick="goTab('fish')">
         <div class="dc-stripe"></div>
@@ -406,11 +407,25 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <div class="dc-val teal" id="d-fish">—</div>
         <div class="dc-sub">ürün</div>
       </div>
+      <div class="dc c-gold" onclick="goTab('yemler')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🐡</div>
+        <div class="dc-lbl">Yemler</div>
+        <div class="dc-val gold" id="d-yemler">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
       <div class="dc c-green" onclick="goTab('plant')">
         <div class="dc-stripe"></div>
         <div class="dc-ico">🌿</div>
-        <div class="dc-lbl">Bitki</div>
+        <div class="dc-lbl">Bitkiler</div>
         <div class="dc-val green" id="d-plant">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
+      <div class="dc c-green" onclick="goTab('pproducts')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🌱</div>
+        <div class="dc-lbl">Bitki Ürün</div>
+        <div class="dc-val green" id="d-pp">—</div>
         <div class="dc-sub">ürün</div>
       </div>
       <div class="dc c-blue" onclick="goTab('aq')">
@@ -419,6 +434,66 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <div class="dc-lbl">Akvaryum</div>
         <div class="dc-val blue" id="d-aq">—</div>
         <div class="dc-sub">ürün</div>
+      </div>
+      <div class="dc c-purple" onclick="goTab('aksesuar')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🔧</div>
+        <div class="dc-lbl">Aksesuar</div>
+        <div class="dc-val purple" id="d-ak">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
+      <div class="dc c-gold" onclick="goSP('kum', document.querySelector('[data-tab=sp-kum]'))">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🪨</div>
+        <div class="dc-lbl">Kumlar</div>
+        <div class="dc-val gold" id="d-kum">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
+      <div class="dc c-green" onclick="goSP('dekor', document.querySelector('[data-tab=sp-dekor]'))">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🌳</div>
+        <div class="dc-lbl">Dekorlar</div>
+        <div class="dc-val green" id="d-dekor">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
+      <div class="dc c-gold" onclick="goEQ('aydinlatma', document.querySelector('[data-tab=eq-ayd]'))">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">💡</div>
+        <div class="dc-lbl">Aydınlatma</div>
+        <div class="dc-val gold" id="d-ayd">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
+      <div class="dc c-blue" onclick="goEQ('filtre', document.querySelector('[data-tab=eq-filtre]'))">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">⚙️</div>
+        <div class="dc-lbl">Filtreler</div>
+        <div class="dc-val blue" id="d-filtre">—</div>
+        <div class="dc-sub">ürün</div>
+      </div>
+    </div>
+
+    <div class="sec-lbl" style="margin:16px 0 2px;">YÖNETİM</div>
+    <div class="dash-grid">
+      <div class="dc c-blue" onclick="goTab('orders')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">📦</div>
+        <div class="dc-lbl">Siparişler</div>
+        <div class="dc-val blue" style="font-size:22px;">›</div>
+        <div class="dc-sub">yönet</div>
+      </div>
+      <div class="dc c-red" onclick="goTab('campaigns')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🎁</div>
+        <div class="dc-lbl">Kampanya</div>
+        <div class="dc-val red" style="font-size:22px;">›</div>
+        <div class="dc-sub">yönet</div>
+      </div>
+      <div class="dc c-red" onclick="goTab('alerts')">
+        <div class="dc-stripe"></div>
+        <div class="dc-ico">🔔</div>
+        <div class="dc-lbl">Stok İsteği</div>
+        <div class="dc-val red" id="d-alerts">—</div>
+        <div class="dc-sub">bekliyor</div>
       </div>
       <div class="dc c-gold" onclick="goTab('subs')">
         <div class="dc-stripe"></div>
@@ -434,42 +509,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-
         <div class="dc-val purple" id="d-rv">—</div>
         <div class="dc-sub">yorum</div>
       </div>
-      <div class="dc c-red" onclick="goTab('alerts')">
+      <div class="dc c-purple" onclick="goTab('instagram')">
         <div class="dc-stripe"></div>
-        <div class="dc-ico">🔔</div>
-        <div class="dc-lbl">Stok İsteği</div>
-        <div class="dc-val red" id="d-alerts">—</div>
-        <div class="dc-sub">bekliyor</div>
+        <div class="dc-ico">📸</div>
+        <div class="dc-lbl">Instagram</div>
+        <div class="dc-val purple" id="d-ig">—</div>
+        <div class="dc-sub">gönderi</div>
       </div>
     </div>
     <div class="dash-status">
       <div class="status-bar" id="dash-status-bar">⏳ Veriler yükleniyor...</div>
     </div>
 
-    <!-- ÜRÜN KATEGORİLERİ KISAYOLLARI -->
-    <div class="sec-lbl" style="margin-top:20px;">ÜRÜN KATEGORİLERİ</div>
-    <div class="cat-grid">
-      <div class="cat-card" onclick="goTab('fish')"><span class="cat-ico">🐟</span><span class="cat-lbl">Balık</span></div>
-      <div class="cat-card" onclick="goTab('yemler')"><span class="cat-ico">🐡</span><span class="cat-lbl">Yemler</span></div>
-      <div class="cat-card" onclick="goTab('plant')"><span class="cat-ico">🌿</span><span class="cat-lbl">Bitkiler</span></div>
-      <div class="cat-card" onclick="goTab('pproducts')"><span class="cat-ico">🌱</span><span class="cat-lbl">Bitki Ürün</span></div>
-      <div class="cat-card" onclick="goTab('aq')"><span class="cat-ico">🪸</span><span class="cat-lbl">Akvaryum</span></div>
-      <div class="cat-card" onclick="goTab('aksesuar')"><span class="cat-ico">🔧</span><span class="cat-lbl">Aksesuar</span></div>
-      <div class="cat-card" onclick="goSP('kum', document.querySelector('[data-tab=sp-kum]'))"><span class="cat-ico">🪨</span><span class="cat-lbl">Kumlar</span></div>
-      <div class="cat-card" onclick="goSP('dekor', document.querySelector('[data-tab=sp-dekor]'))"><span class="cat-ico">🌳</span><span class="cat-lbl">Dekorlar</span></div>
-      <div class="cat-card" onclick="goEQ('aydinlatma', document.querySelector('[data-tab=eq-ayd]'))"><span class="cat-ico">💡</span><span class="cat-lbl">Aydınlatma</span></div>
-      <div class="cat-card" onclick="goEQ('filtre', document.querySelector('[data-tab=eq-filtre]'))"><span class="cat-ico">⚙️</span><span class="cat-lbl">Filtreler</span></div>
-    </div>
-
-    <div class="sec-lbl" style="margin-top:14px;">YÖNETİM</div>
-    <div class="cat-grid">
-      <div class="cat-card" onclick="goTab('orders')"><span class="cat-ico">📦</span><span class="cat-lbl">Siparişler</span></div>
-      <div class="cat-card" onclick="goTab('campaigns')"><span class="cat-ico">🎁</span><span class="cat-lbl">Kampanya</span></div>
-      <div class="cat-card" onclick="goTab('alerts')"><span class="cat-ico">🔔</span><span class="cat-lbl">Stok İsteği</span></div>
-      <div class="cat-card" onclick="goTab('subs')"><span class="cat-ico">👥</span><span class="cat-lbl">Üyeler</span></div>
-      <div class="cat-card" onclick="goTab('reviews')"><span class="cat-ico">💬</span><span class="cat-lbl">Yorumlar</span></div>
-      <div class="cat-card" onclick="goTab('instagram')"><span class="cat-ico">📸</span><span class="cat-lbl">Instagram</span></div>
-    </div>
   </div>
 
   <!-- BALIK -->
@@ -1293,9 +1344,20 @@ async function saveAll(statusEl) {
 }
 
 function updateDash() {
-  document.getElementById('d-fish').textContent = fishList.length;
-  document.getElementById('d-plant').textContent = plantList.length;
-  document.getElementById('d-aq').textContent = aqList.length;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('d-fish', fishList.length);
+  set('d-yemler', ymList.length);
+  set('d-plant', plantList.length);
+  set('d-pp', ppList.length);
+  set('d-aq', aqList.length);
+  set('d-ak', akList.length);
+  const kum = spList.filter(p => SP_KUM_SUBS.includes(p.subcategory)).length;
+  set('d-kum', kum);
+  set('d-dekor', spList.length - kum);
+  const ayd = eqList.filter(p => EQ_AYD_SUBS.includes(p.subcategory)).length;
+  set('d-ayd', ayd);
+  set('d-filtre', eqList.length - ayd);
+  set('d-ig', igPosts.length);
   document.getElementById('d-members').textContent = window._memberCount !== undefined ? window._memberCount : subList.length;
   if(window._memberCount!==undefined) document.getElementById('d-members').textContent = window._memberCount;
   document.getElementById('d-rv').textContent = reviewList.length;
