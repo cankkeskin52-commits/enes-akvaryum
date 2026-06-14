@@ -1875,7 +1875,9 @@ async function clearAlert(i) {
 async function fetchMemberCount() {
   try {
     const res   = await fetch(WORKER + '/admin/users', { headers: { 'Authorization': `Bearer ${localStorage.getItem('ea_admin_token')||''}` } });
+    if (!res.ok) return; // 401/5xx → mevcut sayıyı KORU, sıfırlama
     const users = await res.json();
+    if (!Array.isArray(users)) return; // hata objesi geldiyse dokunma
     window._memberCount = users.length;
     const dm = document.getElementById('d-members');
     if (dm) dm.textContent = users.length;
@@ -1888,7 +1890,18 @@ async function loadMembers() {
   if (!el) return;
   try {
     const res   = await fetch(WORKER + '/admin/users', { headers: { 'Authorization': `Bearer ${localStorage.getItem('ea_admin_token')||''}` } });
+    if (!res.ok) {
+      const msg = res.status === 401
+        ? 'Üyeler yüklenemedi — admin oturumu süresi dolmuş olabilir. Çıkış yapıp tekrar giriş yapın.'
+        : `Üyeler yüklenemedi (HTTP ${res.status}). Üyeleriniz kayıtlı, sadece şu an listelenemiyor.`;
+      el.innerHTML = `<div style="padding:12px;color:var(--red);font-size:13px;">⚠️ ${msg}</div>`;
+      return; // ÜYELERİ "yok" gösterme — veri duruyor
+    }
     const users = await res.json();
+    if (!Array.isArray(users)) {
+      el.innerHTML = '<div style="padding:12px;color:var(--red);font-size:13px;">⚠️ Üyeler yüklenemedi (beklenmeyen yanıt). Üyeleriniz kayıtlı.</div>';
+      return;
+    }
     window._memberCount = users.length;
     const dm = document.getElementById('d-members');
     if (dm) dm.textContent = users.length;
@@ -1911,7 +1924,7 @@ async function loadMembers() {
           </div>
         </div>`;
       }).join('');
-  } catch { el.innerHTML = '<div style="padding:12px;color:var(--red);font-size:13px;">Yüklenemedi.</div>'; }
+  } catch { el.innerHTML = '<div style="padding:12px;color:var(--red);font-size:13px;">⚠️ Bağlantı hatası — üyeler listelenemedi. Üyeleriniz kayıtlı, internet/oturum kontrol edip tekrar deneyin.</div>'; }
 }
 
 /* ══ SİPARİŞLER ══ */
