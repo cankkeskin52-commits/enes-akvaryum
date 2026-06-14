@@ -173,7 +173,7 @@ export default {
       if (!password || password !== adminPass) {
         return json({ error: 'Hatalı şifre' }, 401, origin);
       }
-      const token = await signJWT({ role: 'admin', iat: Date.now(), exp: Math.floor(Date.now() / 1000) + 86400 }, env);
+      const token = await signJWT({ role: 'admin', iat: Date.now(), exp: Math.floor(Date.now() / 1000) + 86400 * 30 }, env);
       return json({ token }, 200, origin);
     }
 
