@@ -206,6 +206,12 @@ export default {
       const passwordHash = await hashPassword(password, salt);
       const user         = { email: em, name: name.trim(), phone: (phone || '').trim(), passwordHash, salt, createdAt: Date.now() };
       await env.ENES_USERS.put(`user:${em}`, JSON.stringify(user));
+      // Üye index'ine ekle — admin listesinin eksiksiz olması için (KV list() gecikmesine karşı)
+      try {
+        const idxRaw = await env.ENES_USERS.get('members:index');
+        const idx = idxRaw ? JSON.parse(idxRaw) : [];
+        if (!idx.includes(em)) { idx.push(em); await env.ENES_USERS.put('members:index', JSON.stringify(idx)); }
+      } catch {}
       const token = await signJWT({ email: em, exp: Math.floor(Date.now() / 1000) + 86400 * 30 }, env);
       return json({ ok: true, token, user: { email: em, name: user.name, phone: user.phone } }, 200, origin);
     }
@@ -368,16 +374,32 @@ export default {
     // ── Admin: Kayıtlı üyeler ────────────────────────────────────────────────
     if (path === '/admin/users' && method === 'GET') {
       if (!await verifyAdminJWT(request, env)) return json({ error: 'Unauthorized' }, 401, origin);
-      const list = await env.ENES_USERS.list({ prefix: 'user:' });
-      const users = await Promise.all(
-        list.keys.map(async k => {
-          const raw = await env.ENES_USERS.get(k.name);
+      const emails = new Set();
+      // 1) list() — sayfalı (1000+ anahtarda da eksiksiz)
+      let cursor;
+      do {
+        const res = await env.ENES_USERS.list({ prefix: 'user:', cursor });
+        res.keys.forEach(k => emails.add(k.name.slice(5))); // 'user:'.length === 5
+        cursor = res.list_complete ? null : res.cursor;
+      } while (cursor);
+      // 2) members:index ile birleştir — list() gecikmesine/eksikliğine karşı
+      try {
+        const idxRaw = await env.ENES_USERS.get('members:index');
+        if (idxRaw) JSON.parse(idxRaw).forEach(e => emails.add(e));
+      } catch {}
+      // 3) her e-posta için kaydı çek
+      const users = (await Promise.all(
+        [...emails].map(async em => {
+          const raw = await env.ENES_USERS.get(`user:${em}`);
           if (!raw) return null;
           const u = JSON.parse(raw);
           return { email: u.email, name: u.name, phone: u.phone, createdAt: u.createdAt };
         })
-      );
-      return json(users.filter(Boolean), 200, origin);
+      )).filter(Boolean);
+      // index'i kendi kendine onar — mevcut tüm üyeleri içersin (yalnız büyür, asla küçülmez)
+      try { await env.ENES_USERS.put('members:index', JSON.stringify(users.map(u => u.email))); } catch {}
+      users.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      return json(users, 200, origin);
     }
 
     // ── Admin: Kampanya yönetimi ──────────────────────────────────────────────
