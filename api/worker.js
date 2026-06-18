@@ -9,9 +9,10 @@ const GH_BRANCH = 'main';
 const ALLOWED_ORIGINS = ['https://enesakvaryum.com.tr', 'https://cankkeskin52-commits.github.io'];
 
 function corsHeaders(extra = {}, origin = '') {
+  const isLocalDev = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
   const allowedOrigin = ALLOWED_ORIGINS.includes(origin)
     ? origin
-    : (origin.includes('localhost') ? origin : ALLOWED_ORIGINS[0]);
+    : (isLocalDev ? origin : ALLOWED_ORIGINS[0]);
   return {
     'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -47,7 +48,8 @@ async function jwtKey(secret, usages = ['sign', 'verify']) {
 }
 
 async function signJWT(payload, env) {
-  const secret = env.JWT_SECRET || 'enes-akvaryum-jwt-secret-2024';
+  const secret = env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET tanımlı değil');
   const key = await jwtKey(secret);
   const header = b64url(new TextEncoder().encode(JSON.stringify({ alg: 'HS256', typ: 'JWT' })));
   const body   = b64url(new TextEncoder().encode(JSON.stringify(payload)));
@@ -58,7 +60,8 @@ async function signJWT(payload, env) {
 async function verifyJWT(token, env) {
   try {
     const [header, body, sig] = token.split('.');
-    const secret = env.JWT_SECRET || 'enes-akvaryum-jwt-secret-2024';
+    const secret = env.JWT_SECRET;
+    if (!secret) throw new Error('JWT_SECRET tanımlı değil');
     const key   = await jwtKey(secret);
     const valid = await crypto.subtle.verify(
       'HMAC', key,
@@ -80,7 +83,8 @@ async function verifyAdminJWT(request, env) {
     const parts = token.split('.');
     if (parts.length !== 3) return false;
     const [header, body, sig] = parts;
-    const secret = env.JWT_SECRET || 'enes-akvaryum-jwt-secret-2024';
+    const secret = env.JWT_SECRET;
+    if (!secret) throw new Error('JWT_SECRET tanımlı değil');
     const key = await jwtKey(secret, ['verify']);
     const valid = await crypto.subtle.verify(
       'HMAC', key,
@@ -169,7 +173,8 @@ export default {
       const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
       if (await checkRateLimit(env, ip)) return json({ error: 'Çok fazla deneme. 5 dakika bekleyin.' }, 429, origin);
       const { password } = await request.json().catch(() => ({}));
-      const adminPass = env.ADMIN_PASSWORD || 'enesakvaryume2024';
+      const adminPass = env.ADMIN_PASSWORD;
+      if (!adminPass) return json({ error: 'Sunucu yapılandırma hatası' }, 500, origin);
       if (!password || password !== adminPass) {
         return json({ error: 'Hatalı şifre' }, 401, origin);
       }
