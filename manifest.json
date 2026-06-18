@@ -1,0 +1,16 @@
+{
+  "name": "Enes Akvaryum",
+  "short_name": "Enes Akvaryum",
+  "description": "İstanbul Eyüpsultan'da balık, bitki, akvaryum ve ekipman mağazası.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#020C1E",
+  "theme_color": "#1246B5",
+  "lang": "tr",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

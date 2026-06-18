@@ -2,49 +2,79 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://enesakvaryum.com.tr/</loc>
-    <lastmod>2026-06-06</lastmod>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://enesakvaryum.com.tr/baliklar.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://enesakvaryum.com.tr/bitkiler.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://enesakvaryum.com.tr/akvaryumlar.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://enesakvaryum.com.tr/taslar.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://enesakvaryum.com.tr/aksesuar.html</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://enesakvaryum.com.tr/ekipman.html</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://enesakvaryum.com.tr/yemler.html</loc>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://enesakvaryum.com.tr/saglik.html</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://enesakvaryum.com.tr/uye.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://enesakvaryum.com.tr/hakkimizda.html</loc>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://enesakvaryum.com.tr/hesabim.html</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://enesakvaryum.com.tr/teslimat-iade.html</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://enesakvaryum.com.tr/mesafeli-satis-sozlesmesi.html</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://enesakvaryum.com.tr/gizlilik.html</loc>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
